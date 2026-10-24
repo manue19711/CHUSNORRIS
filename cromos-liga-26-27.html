@@ -1,0 +1,693 @@
+<title>Mis Cromos LaLiga 26-27</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Figtree:wght@400;600;800&display=swap">
+<style>
+/* Layout: marcador fijo arriba, pestañas tipo cromo, álbum por equipos como hojas de pegatinas */
+:root{
+  --bg:#f3f6f1; --card:#ffffff; --fg:#13241b; --muted:#5d6f64; --line:#d6e0d8;
+  --pitch:#0d7a4c; --pitch-2:#0a5e3a; --gold:#f4b400; --gold-ink:#3b2a00;
+  --repe:#e2493b; --empty:#e7ece8; --empty-ink:#8a9a90;
+  --display:"Bowlby One","Arial Black",Impact,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1712; --card:#16211b; --fg:#e8f1ea; --muted:#9db0a4; --line:#2a3a31;
+  --pitch:#22a86b; --pitch-2:#178a55; --gold:#ffc83a; --gold-ink:#2b1f00;
+  --repe:#ff6b5c; --empty:#1f2c25; --empty-ink:#6f8578; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1712; --card:#16211b; --fg:#e8f1ea; --muted:#9db0a4; --line:#2a3a31;
+  --pitch:#22a86b; --pitch-2:#178a55; --gold:#ffc83a; --gold-ink:#2b1f00;
+  --repe:#ff6b5c; --empty:#1f2c25; --empty-ink:#6f8578; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--pitch)}
+.wrap{max-width:960px;margin:0 auto}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* Marcador */
+.score{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 14px;
+  padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));
+  background:var(--pitch);color:#fff;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 40px,transparent 40px 80px)}
+.score-in{max-width:960px;margin:0 auto;display:flex;gap:14px;align-items:center}
+.ring{flex:none;width:68px;height:68px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:16px}
+.score h1{font-family:var(--display);font-size:clamp(18px,4.5vw,26px);line-height:1;margin:0 0 6px;letter-spacing:.5px;text-wrap:balance}
+.score h1 span{color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:rgba(255,255,255,.14);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.chip i{font-style:normal;font-weight:800}
+.save{margin-left:auto;font-size:11px;opacity:.85;text-align:right;min-width:60px}
+
+/* Pestañas */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px;margin-bottom:8px}
+.tab{flex:none;border:2px solid var(--line);background:var(--card);color:var(--fg);border-radius:12px;padding:8px 14px;font-weight:800}
+.tab[aria-selected="true"]{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);transform:rotate(-1.5deg)}
+.panel{display:flex;flex-direction:column;gap:14px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+.box h2{font-family:var(--display);font-size:18px;margin:0 0 6px;letter-spacing:.3px}
+.box p{margin:0 0 10px;color:var(--muted);max-width:65ch}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:800;background:var(--pitch);color:#fff}
+.btn:active{transform:scale(.97)}
+.btn.alt{background:var(--empty);color:var(--fg)}
+.btn.gold{background:var(--gold);color:var(--gold-ink)}
+.btn.red{background:var(--repe);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+textarea,input[type=text]{width:100%;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:10px 12px;font:inherit}
+textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
+.hint{font-size:12.5px;color:var(--muted)}
+.banner{background:var(--gold);color:var(--gold-ink);border-radius:14px;padding:12px 14px;font-weight:600;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner .btn{background:var(--gold-ink);color:var(--gold)}
+
+/* Álbum */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:flex;background:var(--empty);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;color:var(--fg);padding:7px 11px;border-radius:9px;font-weight:700;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.jump{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.jump button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:4px 10px;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.jump button.done{background:var(--pitch);border-color:var(--pitch);color:#fff}
+.jump button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.sec{scroll-margin-top:110px}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:4px 0 8px}
+.sec-h h3{font-family:var(--display);font-size:17px;margin:0;letter-spacing:.3px}
+.sec-h .meta{font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.bar{flex:1;height:6px;background:var(--empty);border-radius:99px;overflow:hidden;min-width:40px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:6px;user-select:none;-webkit-user-select:none}
+.c{position:relative;aspect-ratio:3/4;max-width:100%;border-radius:8px;border:2px dashed var(--line);background:var(--empty);color:var(--empty-ink);
+  display:grid;place-items:center;font-family:var(--display);font-size:15px;font-variant-numeric:tabular-nums;padding:0;transition:transform .12s;touch-action:manipulation}
+.c.on{border:2px solid var(--pitch-2);background:linear-gradient(160deg,var(--pitch),var(--pitch-2));color:#fff;box-shadow:0 2px 0 var(--pitch-2)}
+.c .x{position:absolute;top:-6px;right:-6px;background:var(--repe);color:#fff;font-family:var(--body);font-weight:800;font-size:11px;
+  border-radius:999px;min-width:20px;height:20px;padding:0 5px;display:grid;place-items:center;border:2px solid var(--card)}
+.c.pop{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-6deg)}100%{transform:scale(1)}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend span{display:flex;gap:6px;align-items:center}
+.sw{width:14px;height:18px;border-radius:4px;display:inline-block}
+
+/* Listas */
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:10px;background:var(--empty);padding:4px 4px 4px 10px;font-weight:800;font-variant-numeric:tabular-nums}
+.pill.r{background:color-mix(in srgb,var(--repe) 16%,var(--card))}
+.pill.g{background:color-mix(in srgb,var(--pitch) 18%,var(--card));padding-right:10px}
+.pill.plain{padding-right:10px}
+.pill button{border:0;width:26px;height:26px;border-radius:8px;background:var(--card);color:var(--fg);font-weight:800}
+.pill small{color:var(--repe);font-weight:800}
+.grp{display:grid;grid-template-columns:minmax(90px,140px) 1fr;gap:6px 10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
+.grp:first-child{border-top:0}
+.grp b{font-weight:800;padding-top:5px}
+@media (max-width:480px){.grp{grid-template-columns:1fr}.grp b{padding-top:0}}
+.out{white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-variant-numeric:tabular-nums;max-height:260px;overflow:auto}
+.specs{display:grid;grid-template-columns:minmax(110px,160px) 1fr;gap:8px 10px;align-items:center}
+.specs label{font-weight:700;font-size:13.5px}
+@media (max-width:480px){.specs{grid-template-columns:1fr}.specs label{margin-top:6px}}
+
+/* Sobre */
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+.pick button{aspect-ratio:1;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--fg);font-family:var(--display);font-size:14px;padding:0}
+.pick button.on{border-color:var(--pitch)}
+.pack{display:flex;gap:8px;flex-wrap:wrap;min-height:20px}
+.st{width:70px;aspect-ratio:3/4;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-size:18px;color:#fff;position:relative;
+  animation:flip .5s ease both;text-align:center;line-height:1.05}
+.st small{display:block;font-family:var(--body);font-weight:800;font-size:10px;opacity:.9}
+.st.new{background:linear-gradient(160deg,var(--gold),#e08e00);color:var(--gold-ink)}
+.st.rep{background:linear-gradient(160deg,var(--repe),#a8291e)}
+.st em{position:absolute;bottom:4px;left:0;right:0;font-family:var(--body);font-style:normal;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
+@keyframes flip{from{transform:rotateY(90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(140px);background:var(--fg);color:var(--bg);
+  padding:10px 18px;border-radius:999px;font-weight:800;z-index:20;transition:transform .25s;max-width:calc(100% - 32px);text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:15;width:100%;height:100%}
+.danger{border-color:color-mix(in srgb,var(--repe) 40%,var(--line))}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<canvas id="confetti"></canvas>
+<header class="score">
+  <div class="score-in">
+    <div class="ring" aria-hidden="true">
+      <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="4"/>
+      <circle id="ringBar" cx="18" cy="18" r="15.5" fill="none" stroke="var(--gold)" stroke-width="4" stroke-linecap="round" stroke-dasharray="97.4" stroke-dashoffset="97.4"/></svg>
+      <b id="pct">0%</b>
+    </div>
+    <div style="min-width:0">
+      <h1>Mis cromos <span>LaLiga 26·27</span></h1>
+      <div class="chips">
+        <span class="chip">Tengo <i id="nHave">0</i></span>
+        <span class="chip">Faltan <i id="nMiss">0</i></span>
+        <span class="chip">Repes <i id="nRep">0</i></span>
+      </div>
+    </div>
+    <div class="save" id="saveState">…</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="album" aria-selected="true">📒 Álbum</button>
+    <button class="tab" role="tab" data-tab="sobre" aria-selected="false">✨ Abrir sobre</button>
+    <button class="tab" role="tab" data-tab="repes" aria-selected="false">🔁 Repes</button>
+    <button class="tab" role="tab" data-tab="cambio" aria-selected="false">🤝 Cambiar</button>
+    <button class="tab" role="tab" data-tab="ajustes" aria-selected="false">⚙️ Listas</button>
+  </nav>
+
+  <!-- ÁLBUM -->
+  <section class="panel" id="p-album">
+    <div class="banner" id="firstBanner" hidden>
+      <span>¿Empezamos? Pega tu lista de cromos que te faltan y la app deduce los que ya tienes.</span>
+      <button class="btn" data-goto="ajustes">Pegar mi lista</button>
+    </div>
+    <div class="toolbar">
+      <div class="seg" id="filter">
+        <button data-f="all" aria-pressed="true">Todos</button>
+        <button data-f="miss" aria-pressed="false">Faltan</button>
+        <button data-f="have" aria-pressed="false">Tengo</button>
+        <button data-f="rep" aria-pressed="false">Repes</button>
+      </div>
+      <div class="seg" id="tapMode" title="Qué hace tocar un cromo">
+        <button data-m="have" aria-pressed="true">Toque: tengo / no</button>
+        <button data-m="rep" aria-pressed="false">+1 repe</button>
+        <button data-m="minus" aria-pressed="false">−1 repe</button>
+      </div>
+    </div>
+    <div class="jump" id="jump"></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--empty);border:2px dashed var(--line)"></i>Me falta</span>
+      <span><i class="sw" style="background:var(--pitch)"></i>Lo tengo</span>
+      <span><i class="sw" style="background:var(--repe)"></i>Nº de repes</span>
+      <span>Mantén pulsado un cromo para sumar un repe</span>
+    </div>
+    <div id="album" class="panel"></div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="panel" id="p-sobre" hidden>
+    <div class="box">
+      <h2>Abre un sobre</h2>
+      <p>Elige el equipo y toca los cromos que te han salido. Cuando los tengas todos, pulsa ¡Abrir! y la app te dice cuáles son nuevos y cuáles repes.</p>
+      <div class="jump" id="packTeams" style="margin-bottom:10px"></div>
+      <div class="pick" id="packPick"></div>
+      <div style="margin-top:12px" class="row"><b>En el sobre:</b><span class="pills" id="packBasket"><span class="hint">vacío</span></span></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold" id="packGo" disabled>¡Abrir! ✨</button>
+        <button class="btn alt" id="packClear">Vaciar</button>
+      </div>
+    </div>
+    <div class="box" id="packBox" hidden>
+      <h2 id="packTitle">Resultado</h2>
+      <div class="pack" id="packOut"></div>
+      <div class="row" style="margin-top:12px"><button class="btn alt" id="packUndo">Deshacer este sobre</button></div>
+    </div>
+  </section>
+
+  <!-- REPES -->
+  <section class="panel" id="p-repes" hidden>
+    <div class="box">
+      <h2>Mis repes</h2>
+      <p>Usa + y − para ajustar cuántos tienes de cada uno.</p>
+      <div class="row" style="margin-bottom:12px">
+        <input type="text" id="repAddIn" placeholder="Añadir repes: Betis 7, Celta 18B x2" style="flex:1;min-width:200px">
+        <button class="btn red" id="repAdd">Añadir</button>
+      </div>
+      <div id="repList"></div>
+    </div>
+    <div class="box">
+      <h2>Lista para compartir</h2>
+      <p>Cópiala y mándala por WhatsApp a tus amigos.</p>
+      <div class="out" id="shareText"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="copyShare">Copiar repes y faltan</button>
+        <button class="btn alt" id="copyRep">Copiar solo repes</button>
+        <button class="btn alt" id="copyMiss">Copiar solo faltan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAMBIO -->
+  <section class="panel" id="p-cambio" hidden>
+    <div class="box">
+      <h2>¿Qué me puede dar mi amigo?</h2>
+      <p>Pega la lista de repes de tu amigo, con el nombre del equipo delante de sus números, y te digo cuáles te faltan.</p>
+      <textarea id="friendRep" placeholder="Alavés 3 8&#10;Betis 5A 12&#10;Sevilla 9A 9B"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn" id="cmpRep">Buscar los que me faltan</button></div>
+      <div id="friendRepOut" hidden style="margin-top:12px">
+        <div id="gainList"></div>
+        <div class="row" style="margin-top:10px"><button class="btn gold" id="takeAll">Me los quedo todos ✅</button></div>
+      </div>
+    </div>
+    <div class="box">
+      <h2>¿Qué le puedo dar yo?</h2>
+      <p>Pega la lista de faltan de tu amigo y te digo cuáles de tus repes le sirven.</p>
+      <textarea id="friendMiss" placeholder="Bilbao 3 7&#10;Getafe 12 18"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn" id="cmpMiss">Buscar en mis repes</button></div>
+      <div id="friendMissOut" hidden style="margin-top:12px">
+        <div id="giveList"></div>
+        <div class="row" style="margin-top:10px"><button class="btn red" id="giveAll">Ya se los he dado (quitar de repes)</button></div>
+      </div>
+    </div>
+    <div class="box">
+      <h2>Me han dado / he comprado</h2>
+      <p>Apunta cromos sueltos que te consigas fuera de un sobre. Si ya lo tenías, cuenta como repe.</p>
+      <div class="row">
+        <input type="text" id="gotIn" placeholder="Ej: Racing 11, Prime 2" style="flex:1;min-width:200px">
+        <button class="btn gold" id="gotGo">Apuntar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AJUSTES / LISTAS -->
+  <section class="panel" id="p-ajustes" hidden>
+    <div class="box">
+      <h2>Mi lista de faltan</h2>
+      <p>Escribe el equipo y luego sus números, como en tu libreta. En los equipos que pongas, todo lo que no esté en la lista se marca como que ya lo tienes. Se aceptan rangos como 1-69.</p>
+      <textarea id="missIn" placeholder="Alavés 4 5 7 18A 18B&#10;Betis 2 4 5A 5B&#10;Últimos fichajes 1-21 23-29"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn" id="missGo">Cargar mi lista de faltan</button></div>
+    </div>
+    <div class="box">
+      <h2>Mi lista de repes</h2>
+      <p>Igual que arriba. Repite el número o escribe 20x5 si tienes varios. Esto sustituye todos los repes que tengas apuntados.</p>
+      <textarea id="repIn" placeholder="Alavés 1 2 12&#10;Deportivo 2 9B 20x5"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn red" id="repGo">Cargar mi lista de repes</button></div>
+    </div>
+    <div class="box">
+      <h2>Cromos de cada sección</h2>
+      <p>Si una sección tiene más o menos cromos, o un número tiene versión A y B, cámbialo aquí.</p>
+      <div class="specs" id="specs"></div>
+      <div class="row" style="margin-top:12px"><button class="btn alt" id="specsGo">Guardar secciones</button></div>
+    </div>
+    <div class="box danger">
+      <h2>Empezar de cero</h2>
+      <p>Borra todo lo apuntado. Las secciones se quedan como están.</p>
+      <div class="row">
+        <button class="btn alt" id="resetAsk">Borrar todo</button>
+        <span id="resetConfirm" hidden class="row"><b>¿Seguro?</b><button class="btn red" id="resetYes">Sí, borrar</button><button class="btn alt" id="resetNo">No</button></span>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const LS = "cromos-liga-2627-v2";
+
+  /* Secciones del álbum: id, nombre, cromos y nombres que se aceptan al escribir listas */
+  const DEFAULT_SECTIONS = [
+    ["ala","Alavés","1-17,18A,18B,19,20","alaves"],
+    ["ath","Athletic","1-16,17A,17B,18-20","athletic|bilbao|athletic club"],
+    ["atm","Atlético","1-7,8A,8B,9-13,14A,14B,15-20","atletico|at madrid|atl madrid|atletico de madrid|atm"],
+    ["bar","Barça","1-5,6A,6B,7-20","barca|barsa|barcelona"],
+    ["bet","Betis","1-4,5A,5B,6-20","betis"],
+    ["cel","Celta","1-17,18A,18B,19,20","celta"],
+    ["dep","Deportivo","1-8,9A,9B,10-20","deportivo|depor"],
+    ["elc","Elche","1-12,13A,13B,14-20","elche"],
+    ["esp","Espanyol","1-20","espanyol|espanol"],
+    ["get","Getafe","1-20","getafe"],
+    ["lev","Levante","1-20","levante"],
+    ["rma","Real Madrid","1-9,10A,10B,11-15,16A,16B,17-20","real madrid|r madrid|madrid"],
+    ["mal","Málaga","1-20","malaga"],
+    ["osa","Osasuna","1-4,5A,5B,6-20","osasuna"],
+    ["rac","Racing","1-20","racing"],
+    ["ray","Rayo","1-10,11A,11B,12-20","rayo|rayo vallecano|r vallecano|vallecano"],
+    ["rso","Real Sociedad","1-12,13A,13B,14-20","real sociedad|r sociedad|sociedad"],
+    ["sev","Sevilla","1-8,9A,9B,10-20","sevilla"],
+    ["val","Valencia","1-7,8A,8B,9-19,20A,20B","valencia"],
+    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20","villarreal|villareal|villa real"],
+    ["pri","Prime","1-15","prime"],
+    ["fan","Fantasy","1-9","fantasy"],
+    ["dra","Draft azul","1-23","draft azul|azul"],
+    ["drr","Draft rojo","1-23","draft rojo|rojo"],
+    ["fic","Últimos fichajes","1-69","ultimos fichajes|fichajes"],
+    ["com","Cromos Comunidad","1-2","cromos comunidad|comunidad"],
+  ].map(([id,name,spec,alias]) => ({id,name,spec,alias}));
+
+  let S = { sections: DEFAULT_SECTIONS, have: [], repes: {}, started: false };
+  let ref = null, saveTimer = null, lastWritten = "";
+  let filter = "all", tapMode = "have", lastPack = null, packTeam = "ala", basket = [];
+
+  /* ---------- secciones ---------- */
+  function specCodes(spec) {
+    const out = [];
+    for (const part of String(spec).split(/[,\s]+/)) {
+      const r = part.match(/^(\d+)-(\d+)$/);
+      if (r) { for (let i=+r[1]; i<=+r[2] && i-+r[1]<500; i++) out.push(String(i)); }
+      else if (/^\d+[A-Za-z]?$/.test(part)) out.push(part.toUpperCase());
+    }
+    return [...new Set(out)];
+  }
+  let SEC = [], SECMAP = {}, ALL = [], ALIAS = null;
+  function buildSections() {
+    SEC = S.sections.map(s => ({...s, codes: specCodes(s.spec)}));
+    SECMAP = Object.fromEntries(SEC.map(s => [s.id, s]));
+    ALL = SEC.flatMap(s => s.codes.map(c => s.id+":"+c));
+    const al = [];
+    SEC.forEach(s => [s.id, ...String(s.alias||"").split("|"), plain(s.name)].forEach(a => { a = plain(a).trim(); if (a) al.push([a, s.id]); }));
+    al.sort((a,b) => b[0].length - a[0].length);
+    ALIAS = { list: al, re: new RegExp("(^|[^a-z0-9])(" + al.map(a => a[0].replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")).join("|") + ")(?![a-z])", "g") };
+  }
+  const plain = t => String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[.:;]/g," ");
+  const label = id => { const [s,c] = id.split(":"); return (SECMAP[s]?.name || s) + " " + c; };
+
+  /* ---------- leer listas escritas ("Betis 5A 7 12x2 Celta 18B") ---------- */
+  // devuelve [{id, c}] y los avisos de lo que no se entendió
+  function parse(txt, {expand = true} = {}) {
+    const t = plain(txt), out = [], warn = [];
+    const marks = [...t.matchAll(ALIAS.re)].map(m => ({ at: m.index + m[1].length, end: m.index + m[0].length, sec: ALIAS.list.find(a => new RegExp("^"+a[0].replace(/ /g,"\\s+")+"$").test(m[2]))?.[1] }));
+    marks.forEach((m, i) => {
+      const s = SECMAP[m.sec]; if (!s) return;
+      const seg = t.slice(m.end, i+1 < marks.length ? marks[i+1].at : t.length);
+      const re = /(\d+)([ab](?![a-wyz]))?(?:\s*(?:[-–]|\bal?\b)\s*(\d+))?(?:\s*[x×*]\s*(\d+))?/g;
+      let r;
+      while ((r = re.exec(seg))) {
+        const a = +r[1], b = r[3] ? +r[3] : a, cnt = r[4] ? +r[4] : 1, L = (r[2]||"").toUpperCase();
+        for (let n = a; n <= b && n - a < 500; n++) {
+          const codes = resolve(s, n, n === a ? L : "", expand);
+          if (!codes.length) warn.push(s.name + " " + n + L);
+          codes.forEach(c => out.push({ id: s.id+":"+c, c: cnt }));
+        }
+      }
+    });
+    return { list: out, warn };
+  }
+  function resolve(s, n, L, expand) {
+    if (L) return s.codes.includes(n+L) ? [n+L] : [];
+    if (s.codes.includes(String(n))) return [String(n)];
+    const v = s.codes.filter(c => c === n+"A" || c === n+"B");
+    return expand ? v : v.slice(0,1);
+  }
+  const ids = l => [...new Set(l.map(o => o.id))];
+
+  /* ---------- estado ---------- */
+  const haveSet = () => new Set(S.have);
+  function norm() {
+    buildSections();
+    const valid = new Set(ALL);
+    S.have = [...new Set(S.have)].filter(id => valid.has(id));
+    const r = {};
+    for (const [k,v] of Object.entries(S.repes || {})) { const c = Math.floor(+v); if (valid.has(k) && c > 0) r[k] = c; }
+    S.repes = r;
+  }
+  function loadLocal() { try { const j = JSON.parse(localStorage.getItem(LS)); if (j && j.sections) S = j; } catch {} }
+  function save() {
+    norm();
+    try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
+    render();
+    if (!ref) { setSave("Guardado en este dispositivo"); return; }
+    setSave("Guardando…");
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      const body = JSON.stringify(S);
+      if (body === lastWritten) { setSave("Guardado ✓"); return; }
+      try { await ref.set(JSON.parse(body)); lastWritten = body; setSave("Guardado ✓"); }
+      catch (e) { setSave(e && e.code === "quota_exceeded" ? "Sin espacio" : "Guardado aquí"); }
+    }, 700);
+  }
+  const setSave = t => { $("#saveState").textContent = t; };
+
+  /* ---------- acciones ---------- */
+  function addSticker(id) {
+    if (!haveSet().has(id)) { S.have.push(id); return "new"; }
+    S.repes[id] = (S.repes[id]||0) + 1; return "rep";
+  }
+  function toggleHave(id) {
+    if (haveSet().has(id)) { S.have = S.have.filter(x => x !== id); delete S.repes[id]; toast(`Quitado: ${label(id)}`); }
+    else { S.have.push(id); celebrate(id); }
+    S.started = true; save(); popCell(id);
+  }
+  function repDelta(id, d) {
+    if (d > 0 && !haveSet().has(id)) { S.have.push(id); celebrate(id); }
+    else { const c = (S.repes[id]||0) + d; if (c > 0) S.repes[id] = c; else delete S.repes[id]; if (d > 0) toast(`+1 repe: ${label(id)}`); }
+    S.started = true; save(); popCell(id);
+  }
+
+  /* ---------- render ---------- */
+  function render() {
+    const h = haveSet(), t = ALL.length;
+    const nh = S.have.length, nr = Object.values(S.repes).reduce((a,b)=>a+b,0);
+    $("#nHave").textContent = nh; $("#nMiss").textContent = t - nh; $("#nRep").textContent = nr;
+    const p = t ? nh / t : 0;
+    $("#pct").textContent = Math.floor(p*100) + "%";
+    $("#ringBar").setAttribute("stroke-dashoffset", (97.4*(1-p)).toFixed(1));
+    $("#firstBanner").hidden = S.started;
+
+    // atajos por equipo
+    $("#jump").replaceChildren(...SEC.map(s => {
+      const got = s.codes.filter(c => h.has(s.id+":"+c)).length, b = document.createElement("button");
+      b.textContent = `${s.name} ${got}/${s.codes.length}`; b.dataset.jump = s.id;
+      if (got === s.codes.length) b.className = "done";
+      return b;
+    }));
+
+    // álbum por secciones
+    const frag = document.createDocumentFragment();
+    for (const s of SEC) {
+      const cells = [];
+      let got = 0;
+      for (const c of s.codes) {
+        const id = s.id+":"+c, on = h.has(id), r = S.repes[id]||0;
+        if (on) got++;
+        if (filter==="miss" && on) continue;
+        if (filter==="have" && !on) continue;
+        if (filter==="rep" && !r) continue;
+        const b = document.createElement("button");
+        b.className = "c" + (on ? " on" : ""); b.dataset.id = id; b.textContent = c;
+        b.setAttribute("aria-label", `${s.name} ${c}: ${on?"lo tengo":"me falta"}${r?`, ${r} repe${r>1?"s":""}`:""}`);
+        if (r) { const x = document.createElement("span"); x.className = "x"; x.textContent = "+"+r; b.append(x); }
+        cells.push(b);
+      }
+      if (!cells.length && filter !== "all") continue;
+      const sec = document.createElement("div"); sec.className = "sec box"; sec.id = "s-"+s.id;
+      sec.innerHTML = `<div class="sec-h"><h3></h3><span class="bar"><i style="width:${(got/s.codes.length*100).toFixed(1)}%"></i></span><span class="meta">${got}/${s.codes.length}${got===s.codes.length?" 🏆":""}</span></div>`;
+      sec.querySelector("h3").textContent = s.name;
+      const g = document.createElement("div"); g.className = "grid"; g.append(...cells);
+      sec.append(g); frag.append(sec);
+    }
+    $("#album").replaceChildren(frag);
+    if (!$("#album").children.length) $("#album").innerHTML = `<p class="hint">No hay cromos en este filtro.</p>`;
+
+    // repes agrupados
+    const rl = $("#repList"), groups = groupBy(Object.keys(S.repes));
+    rl.replaceChildren(...groups.map(([s, list]) => {
+      const row = document.createElement("div"); row.className = "grp";
+      row.innerHTML = `<b></b><div class="pills">${list.map(id => `<span class="pill r">${id.split(":")[1]} <small>×${S.repes[id]}</small><button data-rd="-1" data-id="${id}" aria-label="Quitar un repe">−</button><button data-rd="1" data-id="${id}" aria-label="Sumar un repe">+</button></span>`).join("")}</div>`;
+      row.querySelector("b").textContent = s.name; return row;
+    }));
+    if (!groups.length) rl.innerHTML = `<p class="hint">Aún no tienes repes apuntados.</p>`;
+    $("#shareText").textContent = shareText("both");
+
+    renderPack(); renderSpecs();
+  }
+  // agrupa ids por sección en el orden del álbum
+  function groupBy(list) {
+    const set = new Set(list);
+    return SEC.map(s => [s, s.codes.map(c => s.id+":"+c).filter(id => set.has(id))]).filter(([,l]) => l.length);
+  }
+  function compact(codes, s) {
+    const idx = codes.map(c => s.codes.indexOf(c)), out = [];
+    for (let i = 0; i < codes.length; i++) {
+      let j = i;
+      while (j+1 < codes.length && idx[j+1] === idx[j]+1 && /^\d+$/.test(codes[j+1]) && /^\d+$/.test(codes[i])) j++;
+      out.push(j - i >= 2 ? codes[i]+"-"+codes[j] : codes.slice(i, j+1).join(", "));
+      i = j;
+    }
+    return out.join(", ");
+  }
+  function shareText(kind) {
+    const h = haveSet();
+    const rep = groupBy(Object.keys(S.repes)).map(([s,l]) => `${s.name}: ${l.map(id => { const c = id.split(":")[1]; return S.repes[id] > 1 ? `${c}x${S.repes[id]}` : c; }).join(", ")}`);
+    const miss = groupBy(ALL.filter(id => !h.has(id))).map(([s,l]) => `${s.name}: ${compact(l.map(id => id.split(":")[1]), s)}`);
+    const nRep = Object.keys(S.repes).length, nMiss = ALL.length - S.have.length;
+    const R = `🔁 MIS REPES (${nRep}):\n${rep.join("\n") || "ninguno"}`;
+    const M = `❌ ME FALTAN (${nMiss}):\n${miss.join("\n") || "¡ninguno! 🏆"}`;
+    return "⚽ Cromos LaLiga 26-27\n\n" + (kind==="rep" ? R : kind==="miss" ? M : R + "\n\n" + M);
+  }
+  function popCell(id) {
+    const c = document.querySelector(`.c[data-id="${CSS.escape(id)}"]`);
+    if (c) { c.classList.remove("pop"); void c.offsetWidth; c.classList.add("pop"); }
+  }
+  function pillsBlock(list, cls, extra = () => "") {
+    return groupBy(list).map(([s,l]) => `<div class="grp"><b>${s.name}</b><div class="pills">${l.map(id => `<span class="pill ${cls}">${id.split(":")[1]}${extra(id)}</span>`).join("")}</div></div>`).join("");
+  }
+
+  /* ---------- sobre ---------- */
+  function renderPack() {
+    $("#packTeams").replaceChildren(...SEC.map(s => { const b = document.createElement("button"); b.textContent = s.name; b.dataset.team = s.id; b.setAttribute("aria-pressed", s.id === packTeam); return b; }));
+    const s = SECMAP[packTeam] || SEC[0]; if (!s) return;
+    const h = haveSet();
+    $("#packPick").replaceChildren(...s.codes.map(c => { const b = document.createElement("button"); b.textContent = c; b.dataset.pick = s.id+":"+c; if (h.has(s.id+":"+c)) b.className = "on"; b.title = h.has(s.id+":"+c) ? "Ya lo tienes" : "Te falta"; return b; }));
+    $("#packBasket").innerHTML = basket.length ? basket.map((id,i) => `<span class="pill">${label(id)}<button data-unpick="${i}" aria-label="Quitar">×</button></span>`).join("") : `<span class="hint">vacío</span>`;
+    $("#packGo").disabled = !basket.length;
+  }
+  $("#packTeams").onclick = e => { const b = e.target.closest("[data-team]"); if (b) { packTeam = b.dataset.team; renderPack(); } };
+  $("#packPick").onclick = e => { const b = e.target.closest("[data-pick]"); if (b) { basket.push(b.dataset.pick); renderPack(); } };
+  $("#packBasket").onclick = e => { const b = e.target.closest("[data-unpick]"); if (b) { basket.splice(+b.dataset.unpick, 1); renderPack(); } };
+  $("#packClear").onclick = () => { basket = []; renderPack(); };
+  $("#packGo").onclick = () => {
+    if (!basket.length) return;
+    lastPack = JSON.stringify(S);
+    const res = basket.map(id => ({ id, k: addSticker(id) }));
+    basket = []; S.started = true;
+    const nn = res.filter(r => r.k === "new").length;
+    $("#packOut").replaceChildren(...res.map((r,i) => { const d = document.createElement("div");
+      d.className = "st " + (r.k==="new" ? "new" : "rep"); d.style.animationDelay = (i*0.12)+"s";
+      const [sid, c] = r.id.split(":");
+      d.innerHTML = `<span><small></small>${c}</span><em>${r.k==="new"?"¡nuevo!":"repe"}</em>`;
+      d.querySelector("small").textContent = SECMAP[sid]?.name || sid; return d; }));
+    $("#packTitle").textContent = nn ? `¡${nn} nuevo${nn>1?"s":""} y ${res.length-nn} repe${res.length-nn===1?"":"s"}!` : `Todos repes esta vez (${res.length})`;
+    $("#packBox").hidden = false;
+    save(); if (nn) { confetti(20+nn*20); toast(`¡${nn} nuevo${nn>1?"s":""} para el álbum!`); }
+  };
+  $("#packUndo").onclick = () => { if (!lastPack) return; S = JSON.parse(lastPack); lastPack = null; $("#packBox").hidden = true; save(); toast("Sobre deshecho"); };
+
+  /* ---------- ajustes de secciones ---------- */
+  let specsDirty = false;
+  function renderSpecs() {
+    if (specsDirty) return;
+    const box = $("#specs");
+    box.replaceChildren(...SEC.flatMap(s => {
+      const l = document.createElement("label"); l.htmlFor = "spec-"+s.id; l.textContent = `${s.name} (${s.codes.length})`;
+      const i = document.createElement("input"); i.type = "text"; i.id = "spec-"+s.id; i.value = s.spec; i.dataset.sec = s.id;
+      return [l, i];
+    }));
+  }
+  $("#specs").addEventListener("input", () => specsDirty = true);
+  $("#specsGo").onclick = () => {
+    document.querySelectorAll("#specs input").forEach(i => { const s = S.sections.find(x => x.id === i.dataset.sec); if (s && specCodes(i.value).length) s.spec = i.value.trim(); });
+    specsDirty = false; save(); toast("Secciones guardadas");
+  };
+
+  /* ---------- fiesta ---------- */
+  const cv = $("#confetti"), cx = cv.getContext("2d"); let parts = [], raf = 0;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function confetti(k=60) {
+    if (reduce) return;
+    cv.width = innerWidth; cv.height = innerHeight;
+    const cols = ["#f4b400","#0d7a4c","#e2493b","#ffffff","#2f6fe0"];
+    for (let i=0;i<k;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight*.35,vx:(Math.random()-.5)*10,vy:-Math.random()*11-3,r:Math.random()*6+4,c:cols[i%5],a:Math.random()*6,l:90});
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    cx.clearRect(0,0,cv.width,cv.height);
+    parts = parts.filter(p => p.l-- > 0);
+    for (const p of parts) { p.vy += .35; p.x += p.vx; p.y += p.vy; p.a += .2;
+      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.a); cx.fillStyle=p.c; cx.globalAlpha=Math.min(1,p.l/30); cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); cx.restore(); }
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function celebrate(id) {
+    const left = ALL.length - S.have.length - 1, s = SECMAP[id.split(":")[0]];
+    const teamDone = s && s.codes.every(c => S.have.includes(s.id+":"+c) || s.id+":"+c === id);
+    const msgs = ["¡Nuevo cromo!","¡Golazo!","¡Al álbum!","¡Uno menos!","¡Qué crack!"];
+    if (teamDone) { toast(`🏆 ¡${s.name} completo!`); confetti(160); return; }
+    toast(`${msgs[Math.floor(Math.random()*msgs.length)]} ${label(id)} · faltan ${Math.max(0,left)}`);
+    confetti(left <= 0 ? 300 : 40);
+  }
+  let tt; function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2400); }
+
+  /* ---------- eventos ---------- */
+  document.querySelectorAll(".tab").forEach(b => b.onclick = () => go(b.dataset.tab));
+  document.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => go(b.dataset.goto));
+  function go(tab) {
+    document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab===tab));
+    document.querySelectorAll("main > .panel").forEach(p => p.hidden = p.id !== "p-"+tab);
+    try { localStorage.setItem(LS+"-tab", tab); } catch {}
+  }
+  $("#filter").onclick = e => { const b = e.target.closest("button"); if (!b) return; filter = b.dataset.f;
+    $("#filter").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b)); render(); };
+  $("#tapMode").onclick = e => { const b = e.target.closest("button"); if (!b) return; tapMode = b.dataset.m;
+    $("#tapMode").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b)); };
+  $("#jump").onclick = e => { const b = e.target.closest("[data-jump]"); if (!b) return; const el = document.getElementById("s-"+b.dataset.jump); if (el) el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block: "start"}); };
+
+  // toque y pulsación larga
+  let pressT = null, longFired = false;
+  const album = $("#album");
+  album.addEventListener("pointerdown", e => { const c = e.target.closest(".c"); if (!c) return; longFired = false;
+    pressT = setTimeout(() => { longFired = true; repDelta(c.dataset.id, 1); try { navigator.vibrate && navigator.vibrate(30); } catch {} }, 500); });
+  ["pointerup","pointerleave","pointercancel","pointermove"].forEach(ev => album.addEventListener(ev, e => { if (ev !== "pointermove" || Math.abs(e.movementY) > 4) clearTimeout(pressT); }));
+  album.addEventListener("contextmenu", e => { if (e.target.closest(".c")) e.preventDefault(); });
+  album.addEventListener("click", e => { const c = e.target.closest(".c"); if (!c) return; if (longFired) { longFired = false; return; }
+    if (tapMode === "have") toggleHave(c.dataset.id); else repDelta(c.dataset.id, tapMode === "rep" ? 1 : -1); });
+
+  $("#repList").onclick = e => { const b = e.target.closest("[data-rd]"); if (b) repDelta(b.dataset.id, +b.dataset.rd); };
+  function warnOf(w) { return w.length ? ` · no encontré: ${w.slice(0,4).join(", ")}${w.length>4?"…":""}` : ""; }
+  $("#repAdd").onclick = () => { const { list, warn } = parse($("#repAddIn").value, {expand:false});
+    if (!list.length) return toast("Escribe el equipo y el número, ej: Betis 7" + warnOf(warn));
+    list.forEach(({id,c}) => { if (!haveSet().has(id)) S.have.push(id); S.repes[id] = (S.repes[id]||0) + c; });
+    $("#repAddIn").value = ""; S.started = true; save(); toast(`Añadidos ${list.length} repes` + warnOf(warn)); };
+
+  // cambios
+  let gain = [], give = [];
+  $("#cmpRep").onclick = () => { const h = haveSet(), { list, warn } = parse($("#friendRep").value); gain = ids(list).filter(id => !h.has(id));
+    $("#friendRepOut").hidden = false; $("#takeAll").hidden = !gain.length;
+    $("#gainList").innerHTML = gain.length ? pillsBlock(gain, "g") + `<p class="hint" style="margin:8px 0 0">Te sirven ${gain.length} cromo${gain.length>1?"s":""}${warnOf(warn)}</p>`
+      : `<p class="hint">Ninguno de sus repes te falta${warnOf(warn)}</p>`; };
+  $("#takeAll").onclick = () => { gain.forEach(addSticker); S.started = true; save(); confetti(40+gain.length*10);
+    toast(`¡${gain.length} cromos nuevos al álbum!`); gain = []; $("#friendRepOut").hidden = true; $("#friendRep").value = ""; };
+  $("#cmpMiss").onclick = () => { const { list, warn } = parse($("#friendMiss").value); give = ids(list).filter(id => S.repes[id]);
+    $("#friendMissOut").hidden = false; $("#giveAll").hidden = !give.length;
+    $("#giveList").innerHTML = give.length ? pillsBlock(give, "r plain", id => ` <small>×${S.repes[id]}</small>`) + `<p class="hint" style="margin:8px 0 0">Le puedes dar ${give.length}${warnOf(warn)}</p>`
+      : `<p class="hint">No tienes repes que le falten${warnOf(warn)}</p>`; };
+  $("#giveAll").onclick = () => { give.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; });
+    save(); toast(`Quitados ${give.length} repes`); give = []; $("#friendMissOut").hidden = true; $("#friendMiss").value = ""; };
+  $("#gotGo").onclick = () => { const { list, warn } = parse($("#gotIn").value, {expand:false});
+    if (!list.length) return toast("Escribe el equipo y el número, ej: Racing 11" + warnOf(warn));
+    let nn = 0; list.forEach(({id}) => { if (addSticker(id) === "new") nn++; }); S.started = true; save();
+    if (nn) confetti(30+nn*15); toast(`${nn} nuevo${nn===1?"":"s"}, ${list.length-nn} repe${list.length-nn===1?"":"s"}` + warnOf(warn)); $("#gotIn").value = ""; };
+
+  // cargar listas
+  $("#missGo").onclick = () => {
+    const txt = $("#missIn").value, { list, warn } = parse(txt), miss = new Set(ids(list));
+    const t = plain(txt), secs = new Set([...t.matchAll(ALIAS.re)].map(m => ALIAS.list.find(a => new RegExp("^"+a[0].replace(/ /g,"\\s+")+"$").test(m[2]))?.[1]));
+    if (!secs.size) return toast("Pon el nombre del equipo antes de los números");
+    S.have = S.have.filter(id => !secs.has(id.split(":")[0]));
+    SEC.filter(s => secs.has(s.id)).forEach(s => s.codes.forEach(c => { const id = s.id+":"+c; if (!miss.has(id)) S.have.push(id); }));
+    Object.keys(S.repes).forEach(id => { if (miss.has(id)) S.have.push(id); });
+    S.started = true; save(); toast(`Listo: ${secs.size} secciones cargadas` + warnOf(warn)); confetti(80); go("album"); };
+  $("#repGo").onclick = () => { const { list, warn } = parse($("#repIn").value, {expand:false}); S.repes = {};
+    list.forEach(({id,c}) => { S.repes[id] = (S.repes[id]||0) + c; if (!haveSet().has(id)) S.have.push(id); });
+    S.started = true; save(); toast(`Cargados ${Object.keys(S.repes).length} repes distintos` + warnOf(warn)); go("repes"); };
+  $("#resetAsk").onclick = () => $("#resetConfirm").hidden = false;
+  $("#resetNo").onclick = () => $("#resetConfirm").hidden = true;
+  $("#resetYes").onclick = () => { S = { sections: S.sections, have: [], repes: {}, started: false }; $("#resetConfirm").hidden = true; save(); toast("Álbum vacío"); };
+
+  // copiar
+  async function copy(t) {
+    try { await navigator.clipboard.writeText(t); toast("Copiado ✓ pégalo en WhatsApp"); }
+    catch { $("#shareText").textContent = t; const r = document.createRange(); r.selectNodeContents($("#shareText")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Texto seleccionado: cópialo"); }
+  }
+  $("#copyShare").onclick = () => copy(shareText("both"));
+  $("#copyRep").onclick = () => copy(shareText("rep"));
+  $("#copyMiss").onclick = () => copy(shareText("miss"));
+
+  /* ---------- arranque ---------- */
+  loadLocal(); norm();
+  try { const t = localStorage.getItem(LS+"-tab"); if (t) go(t); } catch {}
+  render(); setSave(" ");
+  if (window.claude && claude.use) claude.use("db").then(d => {
+    if (!d) { setSave("Guardado en este dispositivo"); return; }
+    ref = d.doc("album/estado");
+    let first = true;
+    ref.onSnapshot(snap => {
+      const data = snap.exists ? snap.data() : null;
+      if (data && data.sections) {
+        const body = JSON.stringify(data);
+        if (body !== JSON.stringify(S) && !(snap.metadata && snap.metadata.hasPendingWrites)) {
+          S = data; norm(); lastWritten = body; specsDirty = false;
+          try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
+          render();
+        }
+        setSave("Guardado ✓");
+      } else if (first && S.started) save();
+      else setSave("Guardado ✓");
+      first = false;
+    }, () => setSave("Guardado en este dispositivo"));
+  }).catch(() => setSave("Guardado en este dispositivo"));
+})();
+</script>
