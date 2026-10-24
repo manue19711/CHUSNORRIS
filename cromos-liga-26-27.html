@@ -141,6 +141,12 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 .pcodes span::before{content:"";width:9px;height:9px;border:1.3px solid var(--paper-ink);border-radius:2px}
 .pcodes.norep span::before{display:none}
 .danger{border-color:color-mix(in srgb,var(--repe) 40%,var(--line))}
+@media print{
+  body{background:#fff;padding:0}
+  body *{visibility:hidden}
+  #paper,#paper *{visibility:visible}
+  #paper{position:absolute;left:0;top:0;box-shadow:none;max-width:none;padding:0}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -290,6 +296,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
           <button data-p="rep" aria-pressed="false">Solo repes</button>
         </div>
         <button class="btn gold" id="pdfGo">Descargar PDF para imprimir</button>
+        <button class="btn" id="printNow" hidden>Imprimir ahora</button>
       </div>
       <p class="hint" id="pdfNote" style="margin:8px 0 0"></p>
     </div>
@@ -316,6 +323,17 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
       <div class="specs" id="specs"></div>
       <div class="row" style="margin-top:12px"><button class="btn alt" id="specsGo">Guardar secciones</button></div>
     </div>
+    <div class="box">
+      <h2>Copia en tu ordenador</h2>
+      <p id="exportTip">Descarga la app con todos tus cromos dentro. Se abre con doble clic en cualquier navegador, sin Claude, y puedes imprimir desde ella.</p>
+      <div class="row">
+        <button class="btn gold" id="exportGo">💾 Descargar app con mis datos</button>
+        <label class="btn alt" for="importIn" style="display:inline-block">Cargar una copia</label>
+        <input type="file" id="importIn" accept=".html,.htm,.json" hidden>
+      </div>
+      <p class="hint" style="margin:8px 0 0">"Cargar una copia" pone aquí los datos de un archivo descargado, por si apuntaste cromos en el ordenador. Sustituye lo que hay ahora.</p>
+      <p class="hint" id="exportNote" style="margin:6px 0 0"></p>
+    </div>
     <div class="box danger">
       <h2>Empezar de cero</h2>
       <p>Borra todo lo apuntado. Las secciones se quedan como están.</p>
@@ -328,11 +346,13 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 </main>
 <div class="toast" id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
+<script data-app src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script data-app type="application/json" id="cromos-data"></script>
+<script data-app>
 (() => {
   const $ = s => document.querySelector(s);
   const LS = "cromos-liga-2627-v2";
+  const STANDALONE = !window.claude;
 
   /* Secciones del álbum: id, nombre, cromos y nombres que se aceptan al escribir listas */
   const DEFAULT_SECTIONS = [
@@ -432,7 +452,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
   }
   function loadLocal() { try { const j = JSON.parse(localStorage.getItem(LS)); if (j && j.sections) S = j; } catch {} }
   function save() {
-    norm();
+    norm(); S.savedAt = Date.now();
     try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
     render();
     if (!ref) { setSave("Guardado en este dispositivo"); return; }
@@ -586,14 +606,51 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     if (printWhat !== "miss") { title(`REPES (${d.nRep})`); d.rep.length ? d.rep.forEach(([n,c]) => team(n, c, false)) : team("Ninguno", [], false); }
     return doc;
   }
+  // descargar un archivo: dentro de Claude con permiso del visor; en la copia del ordenador, directo
+  async function saveFile(filename, data, type) {
+    if (STANDALONE) {
+      const url = URL.createObjectURL(data instanceof Blob ? data : new Blob([data], { type }));
+      const a = document.createElement("a"); a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000); return;
+    }
+    const dl = claude.use ? await claude.use("downloads").catch(() => null) : null;
+    if (!dl) throw { code: "unavailable" };
+    await dl.save({ filename, data });
+  }
+  const saveErr = e => e && e.code === "declined" ? "Descarga cancelada." : e && e.code === "rate_limited" ? "Espera un momento y vuelve a pulsar."
+    : e && e.code === "unavailable" ? "Aquí no se pueden descargar archivos. Abre la app en claude.ai desde el navegador." : "No se ha podido descargar.";
+  const stamp = () => new Date().toISOString().slice(0,10);
   $("#pdfGo").onclick = async () => {
     const note = $("#pdfNote");
-    if (!window.jspdf) { note.textContent = "No se ha podido preparar el PDF. Recarga la página e inténtalo otra vez."; return; }
-    const dl = window.claude && claude.use ? await claude.use("downloads").catch(() => null) : null;
-    if (!dl) { note.textContent = "Aquí no se pueden descargar archivos. Abre la app en claude.ai desde el navegador o la app de Claude."; return; }
-    const name = `cromos-laliga-${new Date().toISOString().slice(0,10)}.pdf`;
-    try { await dl.save({ filename: name, data: buildPdf().output("blob") }); note.textContent = "PDF descargado. Ábrelo e imprímelo."; toast("PDF listo para imprimir 🖨️"); }
-    catch (e) { note.textContent = e && e.code === "declined" ? "Descarga cancelada." : e && e.code === "rate_limited" ? "Espera un momento y vuelve a pulsar." : "No se ha podido descargar el PDF."; }
+    if (!window.jspdf) { note.textContent = "No se ha podido preparar el PDF. Comprueba que tienes internet y recarga la página."; return; }
+    try { await saveFile(`cromos-laliga-${stamp()}.pdf`, buildPdf().output("blob")); note.textContent = "PDF descargado. Ábrelo e imprímelo."; toast("PDF listo para imprimir 🖨️"); }
+    catch (e) { note.textContent = saveErr(e); }
+  };
+  $("#printNow").onclick = () => window.print();
+
+  /* ---------- copia con mis datos para el ordenador ---------- */
+  function exportHtml() {
+    const root = document.documentElement.cloneNode(true);
+    root.querySelectorAll("script:not([data-app]), meta[http-equiv], iframe").forEach(n => n.remove());
+    root.querySelector("#cromos-data").textContent = JSON.stringify({ ...S, savedAt: S.savedAt || Date.now() }).replace(/</g, "\\u003c");
+    ["#album", "#jump", "#repList", "#paper", "#packOut", "#gainList", "#giveList"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
+    root.querySelector("#toast").className = "toast";
+    root.querySelectorAll("input, textarea").forEach(n => { n.removeAttribute("value"); if (n.tagName === "TEXTAREA") n.textContent = ""; });
+    return "<!doctype html>\n" + root.outerHTML;
+  }
+  $("#exportGo").onclick = async () => {
+    try { await saveFile(`mis-cromos-laliga-${stamp()}.html`, exportHtml(), "text/html"); $("#exportNote").textContent = "Descargada. Ábrela con doble clic y tendrás todos tus cromos."; toast("App descargada con tus datos 💾"); }
+    catch (e) { $("#exportNote").textContent = saveErr(e); }
+  };
+  $("#importIn").onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const txt = await f.text(), m = txt.match(/<script[^>]*id="cromos-data"[^>]*>([\s\S]*?)<\/script>/);
+      const d = JSON.parse(m ? m[1] : txt);
+      if (!d || !d.sections || !Array.isArray(d.have)) throw 0;
+      S = d; S.started = true; save(); toast(`Copia cargada: tienes ${S.have.length} cromos`); go("album");
+    } catch { $("#exportNote").textContent = "Ese archivo no es una copia de esta app."; }
+    e.target.value = "";
   };
   // agrupa ids por sección en el orden del álbum
   function groupBy(list) {
@@ -777,9 +834,13 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
   $("#copyMiss").onclick = () => copy(shareText("miss"));
 
   /* ---------- arranque ---------- */
-  loadLocal(); norm();
+  loadLocal();
+  // copia descargada: trae los datos dentro; se usan si son más nuevos que lo guardado en este ordenador
+  try { const e = JSON.parse($("#cromos-data").textContent || "null"); if (e && e.sections && (e.savedAt||0) > (S.savedAt||0)) S = e; } catch {}
+  norm();
+  if (STANDALONE) { $("#printNow").hidden = false; $("#exportTip").textContent = "Esta es tu copia del ordenador. Lo que apuntes aquí se guarda en este navegador."; }
   try { const t = localStorage.getItem(LS+"-tab"); if (t) go(t); } catch {}
-  render(); setSave(" ");
+  render(); setSave(STANDALONE ? "Copia del ordenador" : " ");
   if (window.claude && claude.use) claude.use("db").then(d => {
     if (!d) { setSave("Guardado en este dispositivo"); return; }
     ref = d.doc("album/estado");
