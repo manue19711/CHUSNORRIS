@@ -20,6 +20,7 @@
   --pitch:#22a86b; --pitch-2:#178a55; --gold:#ffc83a; --gold-ink:#2b1f00;
   --repe:#ff6b5c; --empty:#1f2c25; --empty-ink:#6f8578; color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--pitch)}
@@ -125,6 +126,20 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
   padding:10px 18px;border-radius:999px;font-weight:800;z-index:20;transition:transform .25s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:15;width:100%;height:100%}
+/* Hoja para imprimir (papel blanco a propósito, igual en los dos temas) */
+:root{--paper:#ffffff;--paper-ink:#13241b;--paper-line:#c9d3cc;--paper-muted:#5d6f64}
+.paper{background:var(--paper);color:var(--paper-ink);border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.18);padding:22px 20px;max-width:760px;width:100%;margin:0 auto}
+.paper h3{font-family:var(--display);font-size:20px;margin:0;letter-spacing:.3px}
+.paper .sub{color:var(--paper-muted);font-size:12.5px;margin:2px 0 12px}
+.paper h4{font-family:var(--display);font-size:14px;margin:14px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--paper-ink);letter-spacing:.4px}
+.cols{columns:2;column-gap:22px}
+@media (max-width:560px){.cols{columns:1}}
+.pteam{break-inside:avoid;margin:0 0 9px}
+.pteam b{display:block;font-size:12.5px;margin-bottom:3px}
+.pcodes{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:12px;font-variant-numeric:tabular-nums}
+.pcodes span{display:inline-flex;align-items:center;gap:3px}
+.pcodes span::before{content:"";width:9px;height:9px;border:1.3px solid var(--paper-ink);border-radius:2px}
+.pcodes.norep span::before{display:none}
 .danger{border-color:color-mix(in srgb,var(--repe) 40%,var(--line))}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -155,6 +170,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     <button class="tab" role="tab" data-tab="sobre" aria-selected="false">✨ Abrir sobre</button>
     <button class="tab" role="tab" data-tab="repes" aria-selected="false">🔁 Repes</button>
     <button class="tab" role="tab" data-tab="cambio" aria-selected="false">🤝 Cambiar</button>
+    <button class="tab" role="tab" data-tab="imprimir" aria-selected="false">🖨️ Imprimir</button>
     <button class="tab" role="tab" data-tab="ajustes" aria-selected="false">⚙️ Listas</button>
   </nav>
 
@@ -262,6 +278,24 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     </div>
   </section>
 
+  <!-- IMPRIMIR -->
+  <section class="panel" id="p-imprimir" hidden>
+    <div class="box">
+      <h2>Hoja para imprimir</h2>
+      <p>Esta hoja se actualiza sola cada vez que apuntas un cromo, abres un sobre o haces un cambio. Descárgala en PDF y la imprimes. Cada cromo que te falta lleva una casilla para que lo taches a boli cuando lo consigas.</p>
+      <div class="row">
+        <div class="seg" id="printWhat">
+          <button data-p="both" aria-pressed="true">Faltan y repes</button>
+          <button data-p="miss" aria-pressed="false">Solo faltan</button>
+          <button data-p="rep" aria-pressed="false">Solo repes</button>
+        </div>
+        <button class="btn gold" id="pdfGo">Descargar PDF para imprimir</button>
+      </div>
+      <p class="hint" id="pdfNote" style="margin:8px 0 0"></p>
+    </div>
+    <div class="paper" id="paper"></div>
+  </section>
+
   <!-- AJUSTES / LISTAS -->
   <section class="panel" id="p-ajustes" hidden>
     <div class="box">
@@ -294,6 +328,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 </main>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 (() => {
   const $ = s => document.querySelector(s);
@@ -483,8 +518,83 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     if (!groups.length) rl.innerHTML = `<p class="hint">Aún no tienes repes apuntados.</p>`;
     $("#shareText").textContent = shareText("both");
 
-    renderPack(); renderSpecs();
+    renderPack(); renderSpecs(); renderPaper();
   }
+
+  /* ---------- hoja para imprimir ---------- */
+  let printWhat = "both";
+  const today = () => new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+  function printData() {
+    const h = haveSet();
+    const miss = groupBy(ALL.filter(id => !h.has(id))).map(([s,l]) => [s.name, l.map(id => id.split(":")[1])]);
+    const rep = groupBy(Object.keys(S.repes)).map(([s,l]) => [s.name, l.map(id => { const c = id.split(":")[1], n = S.repes[id]; return n > 1 ? `${c} (x${n})` : c; })]);
+    return { miss, rep, nMiss: ALL.length - S.have.length, nRep: Object.values(S.repes).reduce((a,b)=>a+b,0), nHave: S.have.length, total: ALL.length };
+  }
+  function renderPaper() {
+    const d = printData(), esc = t => String(t).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+    const block = (title, list, cls) => `<h4>${title}</h4>` + (list.length ? `<div class="cols">${list.map(([n,c]) => `<div class="pteam"><b>${esc(n)}</b><div class="pcodes ${cls}">${c.map(x => `<span>${esc(x)}</span>`).join("")}</div></div>`).join("")}</div>` : `<p class="sub">Ninguno</p>`);
+    $("#paper").innerHTML = `<h3>Cromos LaLiga 26·27</h3><p class="sub">${today()} · Tengo ${d.nHave} de ${d.total} · Faltan ${d.nMiss} · Repes ${d.nRep}</p>`
+      + (printWhat !== "rep" ? block(`ME FALTAN (${d.nMiss})`, d.miss, "") : "")
+      + (printWhat !== "miss" ? block(`REPES (${d.nRep})`, d.rep, "norep") : "");
+  }
+  $("#printWhat").onclick = e => { const b = e.target.closest("button"); if (!b) return; printWhat = b.dataset.p;
+    $("#printWhat").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b)); renderPaper(); };
+
+  function buildPdf() {
+    const { jsPDF } = window.jspdf, doc = new jsPDF({ unit: "mm", format: "a4" });
+    const d = printData(), M = 12, W = 210, H = 297, colW = (W - 2*M - 8) / 2;
+    let col = 0, y = 0, page = 1;
+    const x0 = () => M + col * (colW + 8);
+    function header() {
+      doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.text("Cromos LaLiga 26-27", M, M + 5);
+      doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(90);
+      doc.text(`${today()}  ·  Tengo ${d.nHave} de ${d.total}  ·  Faltan ${d.nMiss}  ·  Repes ${d.nRep}`, M, M + 10);
+      doc.text(`Hoja ${page}`, W - M, M + 5, { align: "right" }); doc.setTextColor(0);
+      y = M + 16;
+    }
+    function need(h) {
+      if (y + h <= H - M) return;
+      if (col === 0) { col = 1; y = colTop; return; }
+      doc.addPage(); page++; col = 0; header(); colTop = y;
+    }
+    function title(t) {
+      if (col === 1 || y > M + 16) { doc.addPage(); page++; col = 0; header(); }
+      doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.text(t, M, y + 4);
+      doc.setLineWidth(.6); doc.line(M, y + 6, W - M, y + 6); y += 10; colTop = y;
+    }
+    let colTop = 0;
+    function team(name, codes, boxes) {
+      doc.setFontSize(8.5);
+      const item = c => (boxes ? 4 : 0) + doc.getTextWidth(c) + 3.5;
+      // calcular filas para no partir el equipo
+      let rows = 1, w = 0;
+      codes.forEach(c => { const iw = item(c); if (w + iw > colW) { rows++; w = 0; } w += iw; });
+      need(5 + rows * 4.6 + 2.5);
+      doc.setFont("helvetica","bold"); doc.setFontSize(9.5); doc.text(name, x0(), y + 3.5); y += 5;
+      doc.setFont("helvetica","normal"); doc.setFontSize(8.5);
+      let x = x0(); y += 3.4;
+      codes.forEach(c => {
+        const iw = item(c);
+        if (x + iw > x0() + colW) { x = x0(); y += 4.6; }
+        if (boxes) { doc.setLineWidth(.25); doc.rect(x, y - 2.6, 2.8, 2.8); x += 4; }
+        doc.text(c, x, y); x += iw - (boxes ? 4 : 0);
+      });
+      y += 3.8;
+    }
+    header();
+    if (printWhat !== "rep") { title(`ME FALTAN (${d.nMiss})  -  tacha cada casilla cuando lo consigas`); d.miss.forEach(([n,c]) => team(n, c, true)); }
+    if (printWhat !== "miss") { title(`REPES (${d.nRep})`); d.rep.length ? d.rep.forEach(([n,c]) => team(n, c, false)) : team("Ninguno", [], false); }
+    return doc;
+  }
+  $("#pdfGo").onclick = async () => {
+    const note = $("#pdfNote");
+    if (!window.jspdf) { note.textContent = "No se ha podido preparar el PDF. Recarga la página e inténtalo otra vez."; return; }
+    const dl = window.claude && claude.use ? await claude.use("downloads").catch(() => null) : null;
+    if (!dl) { note.textContent = "Aquí no se pueden descargar archivos. Abre la app en claude.ai desde el navegador o la app de Claude."; return; }
+    const name = `cromos-laliga-${new Date().toISOString().slice(0,10)}.pdf`;
+    try { await dl.save({ filename: name, data: buildPdf().output("blob") }); note.textContent = "PDF descargado. Ábrelo e imprímelo."; toast("PDF listo para imprimir 🖨️"); }
+    catch (e) { note.textContent = e && e.code === "declined" ? "Descarga cancelada." : e && e.code === "rate_limited" ? "Espera un momento y vuelve a pulsar." : "No se ha podido descargar el PDF."; }
+  };
   // agrupa ids por sección en el orden del álbum
   function groupBy(list) {
     const set = new Set(list);
