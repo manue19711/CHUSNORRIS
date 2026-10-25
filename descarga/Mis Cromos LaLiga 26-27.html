@@ -199,6 +199,15 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
 .pc-b .btn{padding:10px 14px;font-size:14px;cursor:pointer}
 
 /* Comparar */
+.kind{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.kind button{border:2px solid var(--line);background:var(--card);border-radius:16px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:3px}
+.kind b{font-weight:800;font-size:15.5px}
+.kind small{color:var(--muted);font-size:12.5px;line-height:1.3}
+.kind button[aria-pressed="true"]{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--card));box-shadow:0 4px 14px color-mix(in srgb,var(--brand) 20%,transparent)}
+.trade-n{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trade-n div{display:flex;flex-direction:column;align-items:center;padding:12px;border-radius:16px;background:var(--empty)}
+.trade-n b{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;text-shadow:0 2px 0 rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.12)}
+.trade-n span{font-weight:700;color:var(--muted);font-size:14px}
 .drop{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:22px 16px;border:2px dashed color-mix(in srgb,var(--brand) 45%,var(--line));
   border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--card));cursor:pointer;transition:background .2s,transform .2s}
 .drop:hover,.drop.over{background:color-mix(in srgb,var(--brand) 14%,var(--card));transform:translateY(-1px)}
@@ -235,7 +244,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     <div style="min-width:0">
       <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
       <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
-      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-E</span></div><div class="save" id="lastCh"></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-F</span></div><div class="save" id="lastCh"></div>
     </div>
   </div>
 </header>
@@ -294,8 +303,12 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
   <!-- 6. COMPARAR UNA FOTO O DOCUMENTO -->
   <section id="v-comparar" hidden>
     <div class="box">
-      <h2>Comparar con mis repes</h2>
-      <p class="lead">Sube una foto de cromos, una foto o captura de la lista de un amigo, o un documento. Leo los números y te digo cuáles tienes repes.</p>
+      <h2>Comparar con mi amigo</h2>
+      <p class="lead">¿Qué te ha pasado tu amigo? Elige y sube la foto, captura o documento con su lista.</p>
+      <div class="kind" id="cmpKind">
+        <button data-k="falta" aria-pressed="true"><b>❌ Lo que le falta</b><small>Te digo qué repes tuyos le puedes dar</small></button>
+        <button data-k="repes" aria-pressed="false"><b>🔁 Sus repes</b><small>Te digo cuáles te faltan a ti</small></button>
+      </div>
       <label class="drop" id="cmpDrop" for="cmpPick">
         <span class="drop-i">📷</span>
         <b>Elegir foto o documento</b>
@@ -306,7 +319,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
       <label class="lead" for="cmpText" style="display:block;margin:14px 0 6px">O pega aquí la lista (por ejemplo: «Betis 4 7 12, Celta 3 18B»)</label>
       <textarea id="cmpText" rows="3" placeholder="Alavés 3 8&#10;Betis 5A 12"></textarea>
       <div class="cmp-b">
-        <button class="btn gold big" id="cmpGo" disabled>🔍 Comparar con mis repes</button>
+        <button class="btn gold big" id="cmpGo" disabled>🔍 Comparar</button>
         <button class="btn alt" id="cmpStop" hidden>Parar</button>
       </div>
       <p class="cmp-s" id="cmpStatus" hidden></p>
@@ -315,10 +328,16 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
       <div class="box cmp-res">
         <div class="cmp-big"><b id="cmpBig">0</b><span id="cmpBigT"></span></div>
         <div id="cmpRep"></div>
-        <div class="cmp-b"><button class="btn" id="cmpCopy">Copiar resultado para WhatsApp</button><button class="btn alt" id="cmpClear">Empezar otra</button></div>
+        <div class="cmp-b"><button class="btn gold" id="cmpAct"></button></div>
+        <div class="cmp-b"><button class="btn" id="cmpCopy">Copiar para WhatsApp</button><button class="btn alt" id="cmpClear">Empezar otra</button></div>
       </div>
+      <div class="box trade" id="cmpTrade" hidden>
+        <h2>🤝 El cambio</h2>
+        <div class="trade-n"><div><b id="trGive">0</b><span>le das tú</span></div><div><b id="trGet">0</b><span>te da él</span></div></div>
+        <p class="lead" id="trTip" style="margin:12px 0 0"></p>
+      </div>
+      <div class="box" id="cmpTodo" hidden><p class="lead" id="cmpTodoT" style="margin:0"></p><div class="cmp-b"><button class="btn alt" id="cmpOther"></button></div></div>
       <div class="box" id="cmpMissBox"><h2 id="cmpMissH"></h2><div id="cmpMiss"></div></div>
-      <div class="box" id="cmpHaveBox"><h2 id="cmpHaveH"></h2><div id="cmpHave"></div></div>
     </div>
   </section>
 
@@ -465,7 +484,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     if (view === "repes") { renderPick("#repPick", "#repIntro", repSec, "pl"); renderRepList(); }
     if (view === "pdfFaltan") renderPrev("miss");
     if (view === "pdfRepes") renderPrev("rep");
-    if (view === "comparar" && lastCmp) showCmpQuiet();
+    if (view === "comparar" && lastCmp && !$("#cmpOut").hidden) showCmpQuiet();
   }
   function teamHead(s, cls) {
     const got = gotOf(s), h = document.createElement("div"); h.className = cls;
@@ -863,28 +882,58 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
     });
     return wrap;
   }
-  function showCmp(found, note) {
-    const rep = found.filter(id => S.repes[id]), miss = found.filter(id => !has(id)), haveNoRep = found.filter(id => has(id) && !S.repes[id]);
-    lastCmp = { found, rep, miss };
-    cmpStatus(note ? "Nota: " + note : "");
+  // lo que me pasa mi amigo: su lista de faltan y/o su lista de repes
+  let cmpKind = "falta"; const friend = { falta: null, repes: null };
+  function setKind(k) { cmpKind = k; $("#cmpKind").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k));
+    if (friend[k]) showCmp(friend[k], "", true); else $("#cmpOut").hidden = true; }
+  $("#cmpKind").onclick = e => { const b = e.target.closest("[data-k]"); if (b) setKind(b.dataset.k); };
+  const giveIds = () => (friend.falta || []).filter(id => S.repes[id]);   // mis repes que a él le faltan
+  const getIds = () => (friend.repes || []).filter(id => !has(id));       // sus repes que me faltan a mí
+  function showCmp(found, note, quiet) {
+    friend[cmpKind] = found; lastCmp = true;
+    if (!quiet) cmpStatus(note ? "Nota: " + note : "");
     const out = $("#cmpOut"); out.hidden = false;
-    $("#cmpBig").textContent = rep.length;
-    $("#cmpBigT").textContent = found.length ? `${rep.length === 1 ? "cromo es repe tuyo" : "cromos son repes tuyos"} de los ${found.length} que he encontrado` : "No he encontrado ningún cromo. Prueba con otra foto o escribe la lista.";
-    $("#cmpRep").replaceChildren(rep.length ? chipsBlock(rep, "rep") : Object.assign(document.createElement("p"), { className: "lead", textContent: "Ninguno de esos cromos lo tienes repe." }));
-    $("#cmpMissH").textContent = `Te faltan ${miss.length} de esa lista`; $("#cmpMissBox").hidden = !miss.length; $("#cmpMiss").replaceChildren(chipsBlock(miss, "miss"));
-    $("#cmpHaveH").textContent = `Los tienes pero no repes: ${haveNoRep.length}`; $("#cmpHaveBox").hidden = !haveNoRep.length; $("#cmpHave").replaceChildren(chipsBlock(haveNoRep, "have"));
+    const falta = cmpKind === "falta", main = falta ? giveIds() : getIds(), rest = falta ? [] : found.filter(id => has(id));
+    $("#cmpBig").textContent = main.length;
+    $("#cmpBigT").textContent = !found.length ? "No he encontrado ningún cromo. Prueba con otra foto o escribe la lista."
+      : falta ? `de tus repes le faltan a tu amigo (de los ${found.length} de su lista)` : `de sus repes te faltan a ti (de los ${found.length} de su lista)`;
+    $("#cmpRep").replaceChildren(main.length ? chipsBlock(main, falta ? "rep" : "miss")
+      : Object.assign(document.createElement("p"), { className: "lead", textContent: falta ? "Ninguno de tus repes le falta." : "Ninguno de sus repes te falta." }));
+    $("#cmpAct").hidden = !main.length;
+    $("#cmpAct").textContent = falta ? `🤝 Ya se los he dado (quitar ${main.length} de mis repes)` : `✅ Me los ha dado (añadir ${main.length} a mi álbum)`;
+    $("#cmpMissH").textContent = `Ya los tienes, no te sirven: ${rest.length}`; $("#cmpMissBox").hidden = !rest.length; $("#cmpMiss").replaceChildren(chipsBlock(rest, "have"));
+    // resumen del cambio cuando tengo sus dos listas
+    const both = friend.falta && friend.repes, g = giveIds().length, r = getIds().length;
+    $("#cmpTrade").hidden = !both; $("#cmpTodo").hidden = !!both;
+    if (both) {
+      $("#trGive").textContent = g; $("#trGet").textContent = r;
+      $("#trTip").textContent = !g && !r ? "No os sirve ningún cambio." : g === r ? `Cambio justo: ${g} por ${r}.`
+        : `Para que sea justo, cambiad ${Math.min(g, r)} por ${Math.min(g, r)}${g > r ? `; te sobran ${g - r} repes que le faltan` : `; tiene ${r - g} más que te sirven`}.`;
+    } else {
+      $("#cmpTodoT").textContent = falta ? "¿Te ha pasado también sus repes? Súbelos y te digo cuáles te faltan y cómo queda el cambio."
+        : "¿Te ha pasado también lo que le falta? Súbelo y te digo qué le puedes dar y cómo queda el cambio.";
+      $("#cmpOther").textContent = falta ? "🔁 Subir sus repes" : "❌ Subir lo que le falta";
+    }
     $("#cmpCopy").hidden = !found.length;
-    out.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+    if (!quiet) out.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
   }
+  $("#cmpOther").onclick = () => { setKind(cmpKind === "falta" ? "repes" : "falta"); cmpFiles = []; $("#cmpText").value = ""; renderCmpFiles(); scrollTo({ top: 0, behavior: still ? "auto" : "smooth" }); };
+  $("#cmpAct").onclick = () => {
+    if (cmpKind === "falta") { const l = giveIds(); if (!l.length) return;
+      change(() => l.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; }), `Quitados ${l.length} repes`); }
+    else { const l = getIds(); if (!l.length) return; change(() => l.forEach(id => S.have.push(id)), `¡${l.length} cromos nuevos al álbum!`); }
+  };
   function cmpText() {
     const line = (ids, f) => SEC.map(s => { const l = s.codes.filter(c => ids.includes(s.id + ":" + c)); return l.length ? `${s.name}: ${l.map(c => f(s.id + ":" + c, c)).join(", ")}` : ""; }).filter(Boolean).join("\n");
-    return `⚽ Cromos LaLiga 26-27\n\n🔁 Tengo repes (${lastCmp.rep.length}):\n${line(lastCmp.rep, (id, c) => S.repes[id] > 1 ? `${c} x${S.repes[id]}` : c) || "ninguno"}`
-      + (lastCmp.miss.length ? `\n\n❌ Me faltan (${lastCmp.miss.length}):\n${line(lastCmp.miss, (id, c) => c)}` : "");
+    let out = "⚽ Cromos LaLiga 26-27";
+    if (friend.falta) out += `\n\n🎁 Te puedo dar (${giveIds().length}):\n${line(giveIds(), (id, c) => c) || "ninguno"}`;
+    if (friend.repes) out += `\n\n🙏 Me puedes dar (${getIds().length}):\n${line(getIds(), (id, c) => c) || "ninguno"}`;
+    return out;
   }
   // al volver a la pestaña, el resultado se recalcula con los repes de ahora
-  function showCmpQuiet() { const y = scrollY; showCmp(lastCmp.found, ""); scrollTo(0, y); }
+  function showCmpQuiet() { if (friend[cmpKind]) showCmp(friend[cmpKind], "", true); }
   $("#cmpCopy").onclick = async () => { try { await navigator.clipboard.writeText(cmpText()); toast("Copiado: pégalo en WhatsApp"); } catch { toast("No se ha podido copiar"); } };
-  $("#cmpClear").onclick = () => { cmpFiles = []; $("#cmpText").value = ""; renderCmpFiles(); $("#cmpOut").hidden = true; cmpStatus(""); };
+  $("#cmpClear").onclick = () => { cmpFiles = []; $("#cmpText").value = ""; friend.falta = friend.repes = null; lastCmp = null; renderCmpFiles(); $("#cmpOut").hidden = true; cmpStatus(""); };
 
   /* ---------- guardar en el ordenador ---------- */
   // el archivo html lleva los cromos dentro; en el ordenador se reescribe solo tras cada cambio
@@ -892,7 +941,7 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
     const root = document.documentElement.cloneNode(true);
     root.querySelectorAll("script:not([data-app]), meta[http-equiv], iframe").forEach(n => n.remove());
     root.querySelector("#cromos-data").textContent = JSON.stringify(S).replace(/</g, "\\u003c");
-    ["#tengoList", "#addPick", "#repPick", "#repList", "#prevMiss", "#prevRep", "#cmpFiles", "#cmpRep", "#cmpMiss", "#cmpHave"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
+    ["#tengoList", "#addPick", "#repPick", "#repList", "#prevMiss", "#prevRep", "#cmpFiles", "#cmpRep", "#cmpMiss"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
     root.querySelector("#toast").className = "toast";
     root.querySelector("#pcbar").hidden = true; root.querySelector("#cmpOut").hidden = true; root.querySelector("#cmpStatus").hidden = true;
     root.querySelectorAll("input").forEach(n => n.removeAttribute("value"));
