@@ -48,7 +48,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
 /* Barra de botones abajo */
 .menu{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:10;
-  width:min(560px,calc(100% - 20px));display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:6px;
+  width:min(560px,calc(100% - 20px));display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:6px;
   background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .menu button{border:0;background:transparent;border-radius:16px;padding:7px 2px 6px;font-weight:700;font-size:11.5px;line-height:1.1;color:var(--muted);
   display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .2s,color .2s}
@@ -196,6 +196,32 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
 .pc-t b{color:var(--fg);font-size:15px}
 .pc-b{display:flex;gap:8px;flex-wrap:wrap}
 .pc-b .btn{padding:10px 14px;font-size:14px;cursor:pointer}
+
+/* Comparar */
+.drop{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:22px 16px;border:2px dashed color-mix(in srgb,var(--brand) 45%,var(--line));
+  border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--card));cursor:pointer;transition:background .2s,transform .2s}
+.drop:hover,.drop.over{background:color-mix(in srgb,var(--brand) 14%,var(--card));transform:translateY(-1px)}
+.drop-i{font-size:34px;line-height:1}
+.drop b{font-family:var(--display);font-weight:800;font-size:18px}
+.drop small{color:var(--muted);font-size:13px}
+.fchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fchip{display:inline-flex;align-items:center;gap:6px;background:var(--empty);border-radius:999px;padding:4px 4px 4px 12px;font-size:13px;font-weight:700;max-width:100%;overflow-wrap:anywhere}
+.fchip button{border:0;background:var(--card);border-radius:50%;width:24px;height:24px;font-weight:800}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);font:inherit;padding:10px 12px;resize:vertical}
+.cmp-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cmp-b .big{flex:1}
+.cmp-s{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 16%,var(--card));font-weight:600;font-size:14px}
+.cmp-big{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.cmp-big b{font-family:var(--display);font-weight:900;font-size:56px;line-height:1;color:var(--repe);
+  text-shadow:0 1px 0 color-mix(in srgb,var(--repe) 70%,#000),0 2px 0 color-mix(in srgb,var(--repe) 55%,#000),0 3px 0 color-mix(in srgb,var(--repe) 40%,#000),0 6px 10px rgba(0,0,0,.2)}
+.cmp-big span{font-weight:700;font-size:16px}
+.cgrp{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 10px;padding:10px 0;border-top:1px solid var(--line)}
+.cgrp b{font-family:var(--display);font-weight:800;font-size:16px}
+.cchips{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
+.cchip{border-radius:10px;padding:4px 10px;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;background:var(--empty)}
+.cchip.rep{background:color-mix(in srgb,var(--repe) 16%,var(--card));color:var(--fg)}
+.cchip.miss{background:var(--card);box-shadow:inset 0 0 0 2px var(--c1)}
+.cchip.have{background:linear-gradient(150deg,var(--c1) 0 72%,var(--c2) 72%);color:var(--ink)}
 </style>
 
 <header class="top">
@@ -208,7 +234,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     <div style="min-width:0">
       <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
       <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
-      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-B</span></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-C</span></div>
     </div>
   </div>
 </header>
@@ -228,6 +254,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     <button data-go="repes"><i>🔁</i>Repes</button>
     <button data-go="pdfFaltan"><i>📄</i>PDF faltan</button>
     <button data-go="pdfRepes"><i>🖨️</i>PDF repes</button>
+    <button data-go="comparar"><i>📷</i>Comparar</button>
   </nav>
 
   <!-- 1. LOS QUE TENGO -->
@@ -260,6 +287,37 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
       <h2>Mis repes</h2>
       <p class="lead"><b id="repSum"></b><br>Con − quitas uno (por ejemplo, si lo has cambiado) y con + sumas otro.</p>
       <div id="repList"></div>
+    </div>
+  </section>
+
+  <!-- 6. COMPARAR UNA FOTO O DOCUMENTO -->
+  <section id="v-comparar" hidden>
+    <div class="box">
+      <h2>Comparar con mis repes</h2>
+      <p class="lead">Sube una foto de cromos, una foto o captura de la lista de un amigo, o un documento. Leo los números y te digo cuáles tienes repes.</p>
+      <label class="drop" id="cmpDrop" for="cmpPick">
+        <span class="drop-i">📷</span>
+        <b>Elegir foto o documento</b>
+        <small>Fotos, capturas, PDF o texto · también puedes arrastrarlos aquí</small>
+      </label>
+      <input type="file" id="cmpPick" accept="image/*,.heic,.heif,application/pdf,.pdf,text/plain,.txt,.csv" multiple hidden>
+      <div class="fchips" id="cmpFiles"></div>
+      <label class="lead" for="cmpText" style="display:block;margin:14px 0 6px">O pega aquí la lista (por ejemplo: «Betis 4 7 12, Celta 3 18B»)</label>
+      <textarea id="cmpText" rows="3" placeholder="Alavés 3 8&#10;Betis 5A 12"></textarea>
+      <div class="cmp-b">
+        <button class="btn gold big" id="cmpGo" disabled>🔍 Comparar con mis repes</button>
+        <button class="btn alt" id="cmpStop" hidden>Parar</button>
+      </div>
+      <p class="cmp-s" id="cmpStatus" hidden></p>
+    </div>
+    <div id="cmpOut" hidden>
+      <div class="box cmp-res">
+        <div class="cmp-big"><b id="cmpBig">0</b><span id="cmpBigT"></span></div>
+        <div id="cmpRep"></div>
+        <div class="cmp-b"><button class="btn" id="cmpCopy">Copiar resultado para WhatsApp</button><button class="btn alt" id="cmpClear">Empezar otra</button></div>
+      </div>
+      <div class="box" id="cmpMissBox"><h2 id="cmpMissH"></h2><div id="cmpMiss"></div></div>
+      <div class="box" id="cmpHaveBox"><h2 id="cmpHaveH"></h2><div id="cmpHave"></div></div>
     </div>
   </section>
 
@@ -403,6 +461,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     if (view === "repes") { renderPick("#repPick", "#repIntro", repSec, "pl"); renderRepList(); }
     if (view === "pdfFaltan") renderPrev("miss");
     if (view === "pdfRepes") renderPrev("rep");
+    if (view === "comparar" && lastCmp) showCmpQuiet();
   }
   function teamHead(s, cls) {
     const got = gotOf(s), h = document.createElement("div"); h.className = cls;
@@ -646,15 +705,192 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     n.style.setProperty("--ry", (px * 26).toFixed(1) + "deg"); n.style.setProperty("--rx", (-py * 26).toFixed(1) + "deg");
   }, { passive: true });
 
+  /* ---------- comparar una foto o un documento con mis repes ---------- */
+  // nombres con los que se reconoce cada equipo al leer texto
+  const EXTRA = { ath:"bilbao|athletic club|athletic bilbao", atm:"atletico de madrid|atletico|atleti|at madrid|atm", bar:"barcelona|barca|barsa|fcb",
+    rma:"real madrid|r madrid|madrid", rso:"real sociedad|r sociedad|sociedad", ray:"rayo vallecano|rayo|vallecano", dep:"deportivo|depor",
+    vil:"villarreal|villareal", fic:"ultimos fichajes|fichajes", dra:"draft azul|azul", drr:"draft rojo|rojo", com:"cromos comunidad|comunidad",
+    pri:"prime", fan:"fantasy", esp:"espanyol|espanol", ala:"alaves", mal:"malaga", elc:"elche", cel:"celta", sev:"sevilla", val:"valencia",
+    bet:"betis|real betis", get:"getafe", lev:"levante", osa:"osasuna", rac:"racing" };
+  const plain = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  function aliasList() {
+    const al = [];
+    SEC.forEach(s => [plain(s.name), s.id, plain(look(s).ab), ...String(EXTRA[s.id] || "").split("|")].forEach(a => { a = a.trim(); if (a.length > 1) al.push([a, s.id]); }));
+    return al.sort((a, b) => b[0].length - a[0].length);
+  }
+  // códigos del equipo que corresponden a un número leído ("18" en el Alavés son el 18A y el 18B)
+  function codesFor(s, n, L) {
+    if (L) return s.codes.includes(n + L) ? [n + L] : [];
+    if (s.codes.includes(n)) return [n];
+    return s.codes.filter(c => c === n + "A" || c === n + "B");
+  }
+  // lee "Betis 4 7 12, Celta 3-5 18B" sin ayuda de Claude
+  function parseLocal(txt) {
+    const t = plain(txt), al = aliasList(), out = [];
+    const re = new RegExp("(^|[^a-z0-9])(" + al.map(a => a[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")).join("|") + ")(?![a-z])", "g");
+    const marks = [...t.matchAll(re)].map(m => ({ at: m.index + m[1].length, end: m.index + m[0].length, sec: (al.find(a => new RegExp("^" + a[0].replace(/ /g, "\\s+") + "$").test(m[2])) || [])[1] }));
+    marks.forEach((m, i) => {
+      const s = SECMAP[m.sec]; if (!s) return;
+      const seg = t.slice(m.end, i + 1 < marks.length ? marks[i + 1].at : t.length);
+      for (const r of seg.matchAll(/(\d{1,3})\s*([ab])?(?:\s*(?:-|–|al?)\s*(\d{1,3}))?(?![0-9])/g)) {
+        const a = +r[1], b = r[3] ? +r[3] : a;
+        for (let n = a; n <= b && n - a < 100; n++) codesFor(s, String(n), n === a ? (r[2] || "").toUpperCase() : "").forEach(c => out.push(s.id + ":" + c));
+      }
+    });
+    return [...new Set(out)];
+  }
+  // la lista de equipos y números que Claude tiene que reconocer
+  const albumText = () => SEC.map(s => `${s.id} = ${s.name}: ${s.codes.join(" ")}`).join("\n");
+  const ASK = `Eres un lector de cromos de la colección de fútbol "LaLiga 26-27". Te doy uno o varios documentos o fotos.
+Puede ser: una foto de cromos (el número suele estar en la esquina y el equipo por el escudo, el nombre o los colores), una foto o captura de una lista escrita a mano o en un chat ("Betis 4 7 12"), o el texto de un documento.
+Saca TODOS los cromos que aparezcan: equipo y número. Usa solo estos equipos y números (código del equipo = nombre: números que existen):
+`;
+  const ASK_END = `
+Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"texto corto o vacío"}
+- "equipo" es el código de la lista de arriba. "numero" tal como existe en la lista (por ejemplo "5A").
+- Si un número tiene versión A y B y no sabes cuál es, pon el número sin letra.
+- Si un cromo sale repetido en la foto, ponlo tantas veces como salga.
+- Si no puedes saber el equipo de algún número, no lo inventes: cuéntalo en "dudas".`;
+
+  let cmpFiles = [], cmpCtl = null, sampleFn = null, imgLimits = null, lastCmp = null;
+  const pdfLib = () => window.pdfjsLib ? Promise.resolve(window.pdfjsLib) : new Promise((res, rej) => {
+    const add = src => new Promise((ok, ko) => { const s = document.createElement("script"); s.src = src; s.setAttribute("data-app", ""); s.onload = ok; s.onerror = ko; document.head.append(s); });
+    const base = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+    add(base + "pdf.worker.min.js").then(() => add(base + "pdf.min.js")).then(() => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = base + "pdf.worker.min.js"; res(window.pdfjsLib); }).catch(rej);
+  });
+  async function readPdf(file) {
+    const lib = await pdfLib(), doc = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false }).promise;
+    let text = ""; const pages = [];
+    for (let i = 1; i <= Math.min(doc.numPages, 10); i++) {
+      const p = await doc.getPage(i);
+      text += (await p.getTextContent()).items.map(x => x.str).join(" ") + "\n";
+      if (pages.length < 4) {   // por si el PDF es una foto escaneada
+        const v = p.getViewport({ scale: 1.6 }), cv = document.createElement("canvas"); cv.width = v.width; cv.height = v.height;
+        await p.render({ canvasContext: cv.getContext("2d"), viewport: v }).promise;
+        pages.push(await new Promise(r => cv.toBlob(r, "image/jpeg", .85)));
+      }
+    }
+    return { text, pages };
+  }
+  // fotos que el navegador sabe abrir pero Claude no acepta (HEIC del iPhone...) se pasan a JPEG
+  async function asImage(file) {
+    if (!imgLimits || imgLimits.mediaTypes.includes(file.type)) return file;
+    const bmp = await createImageBitmap(file), cv = document.createElement("canvas"); cv.width = bmp.width; cv.height = bmp.height;
+    cv.getContext("2d").drawImage(bmp, 0, 0);
+    return await new Promise(r => cv.toBlob(r, "image/jpeg", .9));
+  }
+  function cmpStatus(t, busy) { $("#cmpStatus").textContent = t; $("#cmpStatus").hidden = !t; $("#cmpStop").hidden = !busy; $("#cmpGo").disabled = !!busy; }
+  function renderCmpFiles() {
+    $("#cmpFiles").replaceChildren(...cmpFiles.map((f, i) => { const s = document.createElement("span"); s.className = "fchip";
+      s.textContent = (f.type.startsWith("image/") ? "🖼️ " : f.type === "application/pdf" ? "📄 " : "📝 ") + f.name;
+      const x = document.createElement("button"); x.textContent = "×"; x.dataset.rm = i; x.setAttribute("aria-label", "Quitar " + f.name); s.append(x); return s; }));
+    $("#cmpGo").disabled = !cmpFiles.length && !$("#cmpText").value.trim();
+  }
+  function addCmpFiles(list) { cmpFiles.push(...[...list].slice(0, 10)); renderCmpFiles(); }
+  $("#cmpPick").onchange = e => { addCmpFiles(e.target.files); e.target.value = ""; };
+  $("#cmpFiles").onclick = e => { const b = e.target.closest("[data-rm]"); if (b) { cmpFiles.splice(+b.dataset.rm, 1); renderCmpFiles(); } };
+  $("#cmpText").oninput = renderCmpFiles;
+  const drop = $("#cmpDrop");
+  ["dragover", "dragenter"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, () => drop.classList.remove("over")));
+  drop.addEventListener("drop", e => { e.preventDefault(); addCmpFiles(e.dataTransfer.files); });
+  document.addEventListener("paste", e => { if (view !== "comparar") return; const f = [...(e.clipboardData?.files || [])]; if (f.length) { e.preventDefault(); addCmpFiles(f); } });
+  $("#cmpStop").onclick = () => cmpCtl && cmpCtl.abort();
+
+  $("#cmpGo").onclick = async () => {
+    const texts = [], images = [];
+    let found = [], note = "";
+    cmpStatus("Leyendo los archivos…", true);
+    try {
+      if ($("#cmpText").value.trim()) texts.push($("#cmpText").value);
+      for (const f of cmpFiles) {
+        if (f.type === "application/pdf" || /\.pdf$/i.test(f.name)) {
+          try { const r = await readPdf(f); if (parseLocal(r.text).length) texts.push(r.text); else images.push(...r.pages); }
+          catch { note = "No he podido abrir el PDF. Mira que tengas internet."; }
+        } else if (f.type.startsWith("image/") || /\.(heic|heif)$/i.test(f.name)) images.push(f);
+        else texts.push(await f.text());
+      }
+      // el texto con equipos y números se lee aquí mismo, sin gastar nada
+      found = texts.flatMap(parseLocal);
+      const needClaude = images.length || (texts.length && !found.length);
+      if (needClaude) {
+        if (!sampleFn) {
+          cmpStatus(images.length ? "Para leer fotos abre la app en claude.ai: en esta copia del ordenador solo puedo leer texto (por ejemplo «Betis 4 7 12»)." : "No he encontrado equipos y números en el texto. Escríbelo así: «Betis 4 7 12, Celta 3».");
+          if (!found.length) return;
+        } else {
+          if (images.length && !imgLimits) { cmpStatus("Este navegador no puede mandar fotos a Claude. Prueba desde claude.ai en el navegador."); if (!found.length) return; }
+          else {
+            cmpStatus(`Claude está mirando ${images.length ? images.length + (images.length === 1 ? " imagen" : " imágenes") : "el texto"}… puede tardar un poco`, true);
+            const imgs = imgLimits ? await Promise.all(images.slice(0, imgLimits.maxCount).map(asImage)) : [];
+            cmpCtl = new AbortController();
+            const extra = texts.length && !found.length ? "\n\nTexto del documento:\n" + texts.join("\n").slice(0, 20000) : "";
+            const r = await sampleFn.json(ASK + albumText() + ASK_END + extra, { images: imgs.length ? imgs : undefined, signal: cmpCtl.signal });
+            const items = Array.isArray(r?.cromos) ? r.cromos : [];
+            items.forEach(it => { const s = SECMAP[String(it.equipo || "").toLowerCase()], m = String(it.numero || "").toUpperCase().match(/^(\d{1,3})([AB])?$/);
+              if (s && m) found.push(...codesFor(s, m[1], m[2] || "").map(c => s.id + ":" + c)); });
+            if (r?.dudas) note = String(r.dudas).slice(0, 300);
+            if (images.length > imgs.length) note = `Solo he podido mirar ${imgs.length} imágenes a la vez. ` + note;
+          }
+        }
+      }
+      showCmp([...new Set(found)], note);
+    } catch (e) {
+      const code = e && e.code;
+      cmpStatus(code === "cancelled" ? "" : code === "not_granted" || code === "sampling_disabled" ? "Para leer fotos tienes que dejar que la app use Claude. Vuelve a pulsar y acepta el aviso."
+        : code === "rate_limited" ? "Claude está ocupado o has llegado al límite de uso. Inténtalo en un rato."
+        : code === "image_rejected" ? "Esa imagen no se puede leer. Prueba con otra foto (JPG o PNG)."
+        : code === "invalid_json" || code === "empty_completion" ? "Claude no ha sabido leer los cromos. Prueba con una foto más clara o más cerca."
+        : "No se ha podido leer. Vuelve a intentarlo.");
+      return;
+    } finally { cmpCtl = null; $("#cmpStop").hidden = true; $("#cmpGo").disabled = false; }
+  };
+
+  function chipsBlock(ids, kind) {
+    const wrap = document.createElement("div");
+    SEC.forEach(s => {
+      const mine = s.codes.map(c => s.id + ":" + c).filter(id => ids.includes(id)); if (!mine.length) return;
+      const g = paint(document.createElement("div"), s); g.className = "cgrp";
+      const name = document.createElement("b"); name.textContent = s.name;
+      const chips = document.createElement("div"); chips.className = "cchips";
+      mine.forEach(id => { const c = document.createElement("span"); c.className = "cchip " + kind;
+        c.textContent = id.split(":")[1] + (kind === "rep" ? ` ×${S.repes[id]}` : ""); chips.append(c); });
+      g.append(crest(s, true), name, chips); wrap.append(g);
+    });
+    return wrap;
+  }
+  function showCmp(found, note) {
+    const rep = found.filter(id => S.repes[id]), miss = found.filter(id => !has(id)), haveNoRep = found.filter(id => has(id) && !S.repes[id]);
+    lastCmp = { found, rep, miss };
+    cmpStatus(note ? "Nota: " + note : "");
+    const out = $("#cmpOut"); out.hidden = false;
+    $("#cmpBig").textContent = rep.length;
+    $("#cmpBigT").textContent = found.length ? `${rep.length === 1 ? "cromo es repe tuyo" : "cromos son repes tuyos"} de los ${found.length} que he encontrado` : "No he encontrado ningún cromo. Prueba con otra foto o escribe la lista.";
+    $("#cmpRep").replaceChildren(rep.length ? chipsBlock(rep, "rep") : Object.assign(document.createElement("p"), { className: "lead", textContent: "Ninguno de esos cromos lo tienes repe." }));
+    $("#cmpMissH").textContent = `Te faltan ${miss.length} de esa lista`; $("#cmpMissBox").hidden = !miss.length; $("#cmpMiss").replaceChildren(chipsBlock(miss, "miss"));
+    $("#cmpHaveH").textContent = `Los tienes pero no repes: ${haveNoRep.length}`; $("#cmpHaveBox").hidden = !haveNoRep.length; $("#cmpHave").replaceChildren(chipsBlock(haveNoRep, "have"));
+    $("#cmpCopy").hidden = !found.length;
+    out.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+  }
+  function cmpText() {
+    const line = (ids, f) => SEC.map(s => { const l = s.codes.filter(c => ids.includes(s.id + ":" + c)); return l.length ? `${s.name}: ${l.map(c => f(s.id + ":" + c, c)).join(", ")}` : ""; }).filter(Boolean).join("\n");
+    return `⚽ Cromos LaLiga 26-27\n\n🔁 Tengo repes (${lastCmp.rep.length}):\n${line(lastCmp.rep, (id, c) => S.repes[id] > 1 ? `${c} x${S.repes[id]}` : c) || "ninguno"}`
+      + (lastCmp.miss.length ? `\n\n❌ Me faltan (${lastCmp.miss.length}):\n${line(lastCmp.miss, (id, c) => c)}` : "");
+  }
+  // al volver a la pestaña, el resultado se recalcula con los repes de ahora
+  function showCmpQuiet() { const y = scrollY; showCmp(lastCmp.found, ""); scrollTo(0, y); }
+  $("#cmpCopy").onclick = async () => { try { await navigator.clipboard.writeText(cmpText()); toast("Copiado: pégalo en WhatsApp"); } catch { toast("No se ha podido copiar"); } };
+  $("#cmpClear").onclick = () => { cmpFiles = []; $("#cmpText").value = ""; renderCmpFiles(); $("#cmpOut").hidden = true; cmpStatus(""); };
+
   /* ---------- guardar en el ordenador ---------- */
   // el archivo html lleva los cromos dentro; en el ordenador se reescribe solo tras cada cambio
   function exportHtml() {
     const root = document.documentElement.cloneNode(true);
     root.querySelectorAll("script:not([data-app]), meta[http-equiv], iframe").forEach(n => n.remove());
     root.querySelector("#cromos-data").textContent = JSON.stringify(S).replace(/</g, "\\u003c");
-    ["#tengoList", "#addPick", "#repPick", "#repList", "#prevMiss", "#prevRep"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
+    ["#tengoList", "#addPick", "#repPick", "#repList", "#prevMiss", "#prevRep", "#cmpFiles", "#cmpRep", "#cmpMiss", "#cmpHave"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
     root.querySelector("#toast").className = "toast";
-    root.querySelector("#pcbar").hidden = true;
+    root.querySelector("#pcbar").hidden = true; root.querySelector("#cmpOut").hidden = true; root.querySelector("#cmpStatus").hidden = true;
     root.querySelectorAll("input").forEach(n => n.removeAttribute("value"));
     return "<!doctype html>\n" + root.outerHTML;
   }
@@ -734,6 +970,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     }).catch(() => pcShow("ask"));
   } else if (window.claude && claude.use) {
     pcShow("claude");
+    claude.use("sample").then(async s => { sampleFn = s; imgLimits = s ? ((await s.limits().catch(() => null)) || {}).images || null : null; });
     claude.use("db").then(d => {
       if (!d) { setSave("Guardado en este dispositivo"); return; }
       ref = d.doc("album/estado");
