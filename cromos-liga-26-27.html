@@ -287,7 +287,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
   ].map(([id,name,spec]) => ({id,name,spec}));
 
   let S = { sections: DEFAULT_SECTIONS, have: [], repes: {}, started: false };
-  let ref = null, saveTimer = null, lastWritten = "", view = "tengo", addSec = null, repSec = null, undo = null;
+  let ref = null, saveTimer = null, lastWritten = "", saving = 0, view = "tengo", addSec = null, repSec = null, undo = null;
 
   function specCodes(spec) {
     const out = [];
@@ -320,13 +320,13 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     render();
     if (PC) { fileSaveSoon(); return; }
     if (!ref) { setSave("Guardado en este dispositivo"); return; }
-    setSave("Guardando…");
+    setSave("Guardando…"); saving++;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(async () => {
       const body = JSON.stringify(S);
-      if (body === lastWritten) { setSave("Guardado ✓"); return; }
-      try { await ref.set(JSON.parse(body)); lastWritten = body; setSave("Guardado ✓"); }
+      try { if (body !== lastWritten) { await ref.set(JSON.parse(body)); lastWritten = body; } setSave("Guardado ✓"); }
       catch (e) { setSave(e && e.code === "quota_exceeded" ? "Sin espacio" : "Guardado aquí"); }
+      finally { saving = 0; if (JSON.stringify(S) !== lastWritten && ref) save(); }
     }, 700);
   }
   const setSave = t => { $("#saveState").textContent = t; };
@@ -673,7 +673,8 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
         const data = snap.exists ? snap.data() : null;
         if (data && data.sections) {
           const body = JSON.stringify(data);
-          if (body !== JSON.stringify(S) && !(snap.metadata && snap.metadata.hasPendingWrites)) {
+          // solo se aceptan datos más nuevos (de otro móvil u ordenador), nunca el eco atrasado de lo que ya guardamos aquí
+          if (!saving && (data.savedAt||0) > (S.savedAt||0) && !(snap.metadata && snap.metadata.hasPendingWrites)) {
             S = data; norm(); lastWritten = body;
             try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
             render();
