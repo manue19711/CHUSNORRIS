@@ -235,7 +235,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     <div style="min-width:0">
       <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
       <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
-      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-C</span></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-E</span></div><div class="save" id="lastCh"></div>
     </div>
   </div>
 </header>
@@ -396,6 +396,8 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     const r = {};
     for (const [k,v] of Object.entries(S.repes || {})) { const c = Math.floor(+v); if (valid.has(k) && c > 0) r[k] = c; }
     S.repes = r;
+    // si tienes repe de un cromo, ese cromo lo tienes
+    const hv = new Set(S.have); Object.keys(r).forEach(id => { if (!hv.has(id)) { S.have.push(id); hv.add(id); } });
   }
   const has = id => S.have.includes(id);
   const label = id => { const [s,c] = id.split(":"); return (SECMAP[s]?.name || s) + " " + c; };
@@ -454,6 +456,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     const nh = S.have.length, p = ALL.length ? nh / ALL.length : 0;
     $("#nHave").textContent = nh; $("#nMiss").textContent = ALL.length - nh; $("#nRep").textContent = totalRep();
     $("#pct").textContent = Math.floor(p*100) + "%";
+    $("#lastCh").textContent = S.savedAt ? "Último cambio: " + new Date(S.savedAt).toLocaleString("es-ES", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
     $("#ringBar").setAttribute("stroke-dashoffset", (97.4*(1-p)).toFixed(1));
     document.querySelectorAll(".menu button").forEach(b => b.setAttribute("aria-current", b.dataset.go === view));
     document.querySelectorAll("main > section").forEach(sec => sec.hidden = sec.id !== "v-"+view);
@@ -905,13 +908,14 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
   const canPick = PC && "showSaveFilePicker" in window;
   function pcShow(state, name) {
     const bar = $("#pcbar"); bar.hidden = false; bar.classList.toggle("ok", state === "ok");
-    $("#pcLoadL").hidden = state !== "claude";
+    $("#pcLoadL").hidden = false;
+    $("#pcLoadL").textContent = state === "claude" ? "Cargar cambios del ordenador" : "📂 Traer mis cromos de otro archivo";
     const set = (title, text, btn) => { $("#pcTitle").textContent = title; $("#pcText").textContent = text; $("#pcMain").textContent = btn; $("#pcMain").hidden = !btn; };
     if (state === "claude") { set("¿La usas en el ordenador sin Claude?", "Descarga el archivo con tus cromos dentro y ábrelo con doble clic. Lo que cambies allí se guarda en el ordenador.", "💻 Descargar para el ordenador"); }
-    if (state === "ask") set("Guarda tus cromos en el archivo", "Elige tu archivo de cromos una vez. Después cada cambio se guarda solo en él y no se pierde nunca.", "💾 Elegir el archivo para guardar");
-    if (state === "again") set(`Guardando en ${name}`, "Pulsa el botón para que siga guardando los cambios en el archivo.", "✅ Seguir guardando aquí");
+    if (state === "ask") set("Crea tu icono en el Escritorio", "Un solo clic: se crea en el Escritorio el icono «Mis Cromos LaLiga» con la app y todos tus cromos dentro. Ábrela siempre desde ese icono y cada cambio se guarda solo.", "🖥️ Crear el icono en el Escritorio");
+    if (state === "again") set(`Tu app: ${name}`, "Pulsa el botón una vez para que siga guardando tus cambios en el icono.", "✅ Seguir guardando aquí");
     if (state === "ok") set(`Se guarda solo en ${name} ✓`, "Cada cambio se guarda en el archivo al momento.", "");
-    if (state === "old") set("Se guarda en este navegador", "Este navegador no puede escribir en el archivo. Para tener una copia, descárgala de vez en cuando y sustituye la antigua.", "💾 Descargar copia");
+    if (state === "old") set("Se guarda en este navegador", "Este navegador no puede guardar solo en el archivo. Usa Chrome o Edge, o descarga una copia y ponla en el Escritorio.", "🖥️ Descargar copia");
   }
   async function fileWrite() {
     if (!fh || !fileOk) return;
@@ -934,24 +938,29 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
       catch (e) { toast(e && e.code === "declined" ? "Descarga cancelada" : "Aquí no se puede descargar. Ábrela en claude.ai desde el navegador"); }
       return;
     }
-    if (!canPick) { plainDownload(`mis-cromos-${stamp}.html`); toast("Copia descargada 💾"); return; }
+    if (!canPick) { plainDownload("Mis Cromos LaLiga.html"); toast("Descargada: muévela al Escritorio"); return; }
     try {
       if (fh && (await fh.requestPermission({ mode: "readwrite" })) === "granted") fileOk = true;
       else {
-        fh = await showSaveFilePicker({ suggestedName: "mis-cromos.html", types: [{ description: "Mis cromos", accept: { "text/html": [".html"] } }] });
+        fh = await showSaveFilePicker({ suggestedName: "Mis Cromos LaLiga.html", startIn: "desktop", types: [{ description: "Mis cromos", accept: { "text/html": [".html"] } }] });
         fileOk = true; try { await idb("readwrite", s => s.put(fh, "file")); } catch {}
       }
-      await fileWrite(); pcShow("ok", fh.name); toast(`Guardado en ${fh.name} ✓`);
+      await fileWrite(); pcShow("ok", fh.name); toast(`Listo: abre siempre «${fh.name}» del Escritorio 🖥️`);
     } catch (e) { if (e && e.name !== "AbortError") toast("No se ha podido guardar en el archivo"); }
   };
   // en Claude: traer lo que se cambió en el ordenador
   $("#pcLoad").onchange = async e => {
     const f = e.target.files[0]; e.target.value = ""; if (!f) return;
     try {
-      const m = (await f.text()).match(/<script[^>]*id="cromos-data"[^>]*>([\s\S]*?)<\/script>/), d = JSON.parse(m[1]);
+      const txt = await f.text(), m = txt.match(/<script[^>]*id="cromos-data"[^>]*>([\s\S]*?)<\/script>/);
+      const d = JSON.parse(m ? m[1] : txt);
       if (!d || !d.sections || !Array.isArray(d.have)) throw 0;
-      change(() => { S = d; }, `Cargados ${d.have.length} cromos del ordenador`);
-    } catch { toast("Ese archivo no tiene cromos guardados"); }
+      const nr = Object.values(d.repes || {}).reduce((a,b) => a + (+b || 0), 0);
+      view = "tengo";
+      change(() => { S = d; }, `Traídos: tengo ${d.have.length} y ${nr} repes`);
+    } catch {
+      toast(PC ? "Ese archivo no lleva los cromos dentro. Ábrelo y pulsa 💾 Elegir el archivo para guardar; después vuelve a traerlo." : "Ese archivo no tiene cromos guardados");
+    }
   };
 
   /* ---------- arranque ---------- */
