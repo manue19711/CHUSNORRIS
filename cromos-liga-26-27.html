@@ -680,6 +680,8 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
             render();
           }
           setSave("Guardado ✓");
+          // si este aparato tiene cambios más nuevos que la nube, se suben
+          if (first && !saving && (S.savedAt||0) > (data.savedAt||0)) save();
         } else if (first && S.started) save();
         else setSave("Guardado ✓");
         first = false;
