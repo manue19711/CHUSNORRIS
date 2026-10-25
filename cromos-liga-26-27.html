@@ -109,10 +109,61 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 .specs label{font-weight:700;font-size:13.5px}
 @media (max-width:480px){.specs{grid-template-columns:1fr}.specs label{margin-top:6px}}
 
-/* Sobre */
-.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
-.pick button{aspect-ratio:1;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--fg);font-family:var(--display);font-size:14px;padding:0}
-.pick button.on{border-color:var(--pitch)}
+/* Apuntar: equipo → números → guardar */
+.qmode{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.qmode button{border:2px solid var(--line);background:var(--bg);color:var(--fg);border-radius:14px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px}
+.qmode b{font-weight:800;font-size:15px}
+.qmode small{font-size:12px;color:var(--muted);line-height:1.25}
+.qmode button[aria-pressed="true"]{border-color:var(--pitch);background:color-mix(in srgb,var(--pitch) 12%,var(--card))}
+.qmode button[data-q="give"][aria-pressed="true"]{border-color:var(--repe);background:color-mix(in srgb,var(--repe) 12%,var(--card))}
+.steps{display:flex;gap:6px;list-style:none;padding:0;margin:0 0 12px;counter-reset:st;font-size:12.5px;font-weight:700;color:var(--muted);flex-wrap:wrap}
+.steps li{counter-increment:st;display:flex;align-items:center;gap:5px}
+.steps li::before{content:counter(st);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--empty);font-size:11px}
+.steps li+li::after{content:none}
+.steps li.on{color:var(--fg)}
+.steps li.on::before{background:var(--gold);color:var(--gold-ink)}
+.teams{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.team{border:2px solid var(--line);background:var(--card);color:var(--fg);border-radius:14px;padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.team:active{transform:scale(.96)}
+.team .tn{font-weight:800;font-size:12.5px;line-height:1.15;text-align:center;overflow-wrap:anywhere}
+.team .tp{font-size:11.5px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.team.done{border-color:var(--pitch)}
+.team.off{opacity:.38}
+.crest{width:40px;height:40px;flex:none;border-radius:50% 50% 46% 46%/42% 42% 58% 58%;display:grid;place-items:center;font-family:var(--display);font-size:12px;letter-spacing:.3px;
+  background:linear-gradient(90deg,var(--c1) 50%,var(--c2) 50%);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),0 1px 2px rgba(0,0,0,.2)}
+.padhead{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.nav{flex:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;font-weight:800;line-height:1;padding:0}
+.padname{flex:1;min-width:0;display:flex;align-items:center;gap:10px;justify-content:center}
+.padname b{display:block;font-family:var(--display);font-size:18px;line-height:1.1;letter-spacing:.3px}
+.padname small{display:block;font-size:12px;color:var(--muted);font-weight:700}
+.recent{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px}
+.recent button{flex:none;display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 10px 3px 3px;font-weight:700;font-size:12.5px}
+.recent .crest{width:24px;height:24px;font-size:0}
+.pad{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px;user-select:none;-webkit-user-select:none}
+.pad button{position:relative;aspect-ratio:1;border-radius:12px;border:2px solid var(--gold);background:var(--card);color:var(--fg);padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:manipulation}
+.pad button b{font-family:var(--display);font-size:19px;line-height:1;font-weight:400}
+.pad button small{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-top:3px;color:var(--muted)}
+.pad button.have{border-color:color-mix(in srgb,var(--pitch) 45%,var(--line));background:color-mix(in srgb,var(--pitch) 14%,var(--card))}
+.pad button:not(.have) small{color:color-mix(in srgb,var(--gold) 60%,var(--fg))}
+.pad button:disabled{opacity:.3;cursor:default;border-style:dashed;border-color:var(--line)}
+.pad button.tap{animation:tap .25s ease}
+@keyframes tap{40%{transform:scale(.88)}}
+.pad .n{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;border-radius:999px;background:var(--fg);color:var(--bg);font-weight:800;font-size:12px;display:grid;place-items:center;padding:0 5px;border:2px solid var(--card)}
+.tray{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:4;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:12px 14px;box-shadow:0 8px 26px rgba(0,0,0,.18)}
+.tray.give{border-color:var(--repe)}
+.tray{padding:10px 12px}
+.tray-p{display:flex;gap:8px;align-items:center;overflow-x:auto;margin-bottom:8px;min-height:34px}
+.tray-p .hint{flex:none;font-weight:700}
+.tray .pills{flex-wrap:nowrap}
+.tray .pill{flex:none}
+.pill.nw{background:color-mix(in srgb,var(--gold) 30%,var(--card))}
+.pill small.k{font-size:10px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted)}
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:6;border:0;border-radius:999px;padding:14px 20px;
+  background:var(--gold);color:var(--gold-ink);font-weight:800;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+#p-album{padding-bottom:64px}
+button.pill{border:0;color:var(--fg);font:inherit;font-weight:800;cursor:pointer}
+button.pill.unsel{opacity:.4;text-decoration:line-through}
+@media (max-width:420px){.qmode small{display:none}}
 .pack{display:flex;gap:8px;flex-wrap:wrap;min-height:20px}
 .st{width:70px;aspect-ratio:3/4;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-size:18px;color:#fff;position:relative;
   animation:flip .5s ease both;text-align:center;line-height:1.05}
@@ -122,7 +173,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 .st em{position:absolute;bottom:4px;left:0;right:0;font-family:var(--body);font-style:normal;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
 @keyframes flip{from{transform:rotateY(90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
 
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(140px);background:var(--fg);color:var(--bg);
+.toast{position:fixed;left:50%;bottom:calc(140px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(300px);background:var(--fg);color:var(--bg);
   padding:10px 18px;border-radius:999px;font-weight:800;z-index:20;transition:transform .25s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:15;width:100%;height:100%}
@@ -173,7 +224,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 <main class="wrap">
   <nav class="tabs" role="tablist">
     <button class="tab" role="tab" data-tab="album" aria-selected="true">📒 Álbum</button>
-    <button class="tab" role="tab" data-tab="sobre" aria-selected="false">✨ Abrir sobre</button>
+    <button class="tab" role="tab" data-tab="sobre" aria-selected="false">➕ Apuntar</button>
     <button class="tab" role="tab" data-tab="repes" aria-selected="false">🔁 Repes</button>
     <button class="tab" role="tab" data-tab="cambio" aria-selected="false">🤝 Cambiar</button>
     <button class="tab" role="tab" data-tab="imprimir" aria-selected="false">🖨️ Imprimir</button>
@@ -207,25 +258,45 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
       <span>Mantén pulsado un cromo para sumar un repe</span>
     </div>
     <div id="album" class="panel"></div>
+    <button class="fab" data-goto="sobre">➕ Apuntar cromos</button>
   </section>
 
   <!-- SOBRE -->
   <section class="panel" id="p-sobre" hidden>
     <div class="box">
-      <h2>Abre un sobre</h2>
-      <p>Elige el equipo y toca los cromos que te han salido. Cuando los tengas todos, pulsa ¡Abrir! y la app te dice cuáles son nuevos y cuáles repes.</p>
-      <div class="jump" id="packTeams" style="margin-bottom:10px"></div>
-      <div class="pick" id="packPick"></div>
-      <div style="margin-top:12px" class="row"><b>En el sobre:</b><span class="pills" id="packBasket"><span class="hint">vacío</span></span></div>
-      <div class="row" style="margin-top:12px">
-        <button class="btn gold" id="packGo" disabled>¡Abrir! ✨</button>
-        <button class="btn alt" id="packClear">Vaciar</button>
+      <div class="qmode" id="qMode">
+        <button data-q="add" aria-pressed="true"><b>➕ Me han salido</b><small>de un sobre, me los han dado o los he comprado</small></button>
+        <button data-q="give" aria-pressed="false"><b>➖ He dado</b><small>repes que he cambiado o regalado</small></button>
+      </div>
+      <ol class="steps" id="qSteps"><li class="on">Toca el equipo</li><li>Toca los números</li><li>Guarda</li></ol>
+      <div class="teams" id="qTeams"></div>
+      <div id="qPad" hidden>
+        <div class="padhead">
+          <button class="nav" id="qBack" aria-label="Volver a los equipos">☰</button>
+          <button class="nav" id="qPrev" aria-label="Equipo anterior">‹</button>
+          <div class="padname"><span class="crest" id="qCrest"></span><span><b id="qName"></b><small id="qProg"></small></span></div>
+          <button class="nav" id="qNext" aria-label="Equipo siguiente">›</button>
+        </div>
+        <div class="recent" id="qRecent"></div>
+        <div class="pad" id="packPick"></div>
+        <form class="row" id="qTypeF" style="margin-top:10px">
+          <input type="text" id="qType" autocomplete="off" placeholder="o escribe números: 4 12 18B" style="flex:1;min-width:150px">
+          <button class="btn alt">Añadir</button>
+        </form>
+      </div>
+    </div>
+    <div class="tray" id="qTray">
+      <div class="tray-p"><span class="hint" id="qTrayT">Toca los números que te han salido</span><span class="pills" id="packBasket"></span></div>
+      <div class="row" style="flex-wrap:nowrap">
+        <button class="btn gold" id="packGo" disabled style="flex:1">Guardar</button>
+        <button class="btn alt" id="packBack" hidden aria-label="Quitar el último">↶</button>
+        <button class="btn alt" id="packClear" hidden aria-label="Vaciar">🗑</button>
       </div>
     </div>
     <div class="box" id="packBox" hidden>
       <h2 id="packTitle">Resultado</h2>
       <div class="pack" id="packOut"></div>
-      <div class="row" style="margin-top:12px"><button class="btn alt" id="packUndo">Deshacer este sobre</button></div>
+      <div class="row" style="margin-top:12px"><button class="btn alt" id="packUndo">Deshacer</button></div>
     </div>
   </section>
 
@@ -256,12 +327,12 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
   <section class="panel" id="p-cambio" hidden>
     <div class="box">
       <h2>¿Qué me puede dar mi amigo?</h2>
-      <p>Pega la lista de repes de tu amigo, con el nombre del equipo delante de sus números, y te digo cuáles te faltan.</p>
+      <p>Pega la lista de repes de tu amigo, con el nombre del equipo delante de sus números, y te digo cuáles te faltan. Para apuntar sin escribir, usa la pestaña ➕ Apuntar.</p>
       <textarea id="friendRep" placeholder="Alavés 3 8&#10;Betis 5A 12&#10;Sevilla 9A 9B"></textarea>
       <div class="row" style="margin-top:10px"><button class="btn" id="cmpRep">Buscar los que me faltan</button></div>
       <div id="friendRepOut" hidden style="margin-top:12px">
         <div id="gainList"></div>
-        <div class="row" style="margin-top:10px"><button class="btn gold" id="takeAll">Me los quedo todos ✅</button></div>
+        <div class="row" style="margin-top:10px"><button class="btn gold" id="takeAll">Me los quedo ✅</button></div>
       </div>
     </div>
     <div class="box">
@@ -271,7 +342,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
       <div class="row" style="margin-top:10px"><button class="btn" id="cmpMiss">Buscar en mis repes</button></div>
       <div id="friendMissOut" hidden style="margin-top:12px">
         <div id="giveList"></div>
-        <div class="row" style="margin-top:10px"><button class="btn red" id="giveAll">Ya se los he dado (quitar de repes)</button></div>
+        <div class="row" style="margin-top:10px"><button class="btn red" id="giveAll">Ya se los he dado</button></div>
       </div>
     </div>
     <div class="box">
@@ -386,7 +457,7 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 
   let S = { sections: DEFAULT_SECTIONS, have: [], repes: {}, started: false };
   let ref = null, saveTimer = null, lastWritten = "";
-  let filter = "all", tapMode = "have", lastPack = null, packTeam = "ala", basket = [];
+  let filter = "all", tapMode = "have", lastPack = null, packTeam = null, basket = [], qMode = "add", recent = [];
 
   /* ---------- secciones ---------- */
   function specCodes(spec) {
@@ -680,26 +751,132 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     const c = document.querySelector(`.c[data-id="${CSS.escape(id)}"]`);
     if (c) { c.classList.remove("pop"); void c.offsetWidth; c.classList.add("pop"); }
   }
-  function pillsBlock(list, cls, extra = () => "") {
-    return groupBy(list).map(([s,l]) => `<div class="grp"><b>${s.name}</b><div class="pills">${l.map(id => `<span class="pill ${cls}">${id.split(":")[1]}${extra(id)}</span>`).join("")}</div></div>`).join("");
-  }
 
-  /* ---------- sobre ---------- */
-  function renderPack() {
-    $("#packTeams").replaceChildren(...SEC.map(s => { const b = document.createElement("button"); b.textContent = s.name; b.dataset.team = s.id; b.setAttribute("aria-pressed", s.id === packTeam); return b; }));
-    const s = SECMAP[packTeam] || SEC[0]; if (!s) return;
-    const h = haveSet();
-    $("#packPick").replaceChildren(...s.codes.map(c => { const b = document.createElement("button"); b.textContent = c; b.dataset.pick = s.id+":"+c; if (h.has(s.id+":"+c)) b.className = "on"; b.title = h.has(s.id+":"+c) ? "Ya lo tienes" : "Te falta"; return b; }));
-    $("#packBasket").innerHTML = basket.length ? basket.map((id,i) => `<span class="pill">${label(id)}<button data-unpick="${i}" aria-label="Quitar">×</button></span>`).join("") : `<span class="hint">vacío</span>`;
-    $("#packGo").disabled = !basket.length;
+  /* ---------- apuntar: equipo → números → guardar ---------- */
+  // abreviatura y colores de cada sección para el escudo
+  const LOOK = { ala:["ALA","#1f4fa3","#fff"], ath:["ATH","#d71920","#fff"], atm:["ATM","#cb3524","#26306b"], bar:["FCB","#a50044","#004d98"],
+    bet:["BET","#0bb363","#fff"], cel:["CEL","#8ac3ee","#fff"], dep:["DEP","#1b4f9c","#fff"], elc:["ELC","#0d7a3e","#fff"],
+    esp:["ESP","#1f6cc1","#fff"], get:["GET","#1c4b9c","#5d8fd8"], lev:["LEV","#b4053f","#0b3d91"], rma:["RMA","#f5f5f5","#febe10"],
+    mal:["MAL","#3d8dd6","#fff"], osa:["OSA","#d1001f","#0a1f4d"], rac:["RAC","#00965e","#fff"], ray:["RAY","#fff","#e41b23"],
+    rso:["RSO","#0a4ea3","#fff"], sev:["SEV","#d4021d","#fff"], val:["VAL","#ff7f00","#111"], vil:["VIL","#ffe114","#005187"],
+    pri:["PRI","#7b3fe4","#c9a7ff"], fan:["FAN","#ff4f9a","#ffc14f"], dra:["AZU","#1d5ad6","#4f8cff"], drr:["ROJ","#d42a2a","#ff6a5c"],
+    fic:["FIC","#1c2a22","#f4b400"], com:["COM","#0d7a4c","#22a86b"] };
+  const look = s => LOOK[s.id] || [s.name.slice(0,3).toUpperCase(), "#0d7a4c", "#0a5e3a"];
+  function crest(el, s) {
+    const [ab, c1, c2] = look(s);
+    el.className = "crest"; el.textContent = ab; el.style.setProperty("--c1", c1); el.style.setProperty("--c2", c2);
+    // texto oscuro si el escudo es muy claro
+    if (/^#f/i.test(c1) && /^#f/i.test(c2)) { el.style.color = "#13241b"; el.style.textShadow = "none"; } else { el.style.color = ""; el.style.textShadow = ""; }
+    return el;
   }
-  $("#packTeams").onclick = e => { const b = e.target.closest("[data-team]"); if (b) { packTeam = b.dataset.team; renderPack(); } };
-  $("#packPick").onclick = e => { const b = e.target.closest("[data-pick]"); if (b) { basket.push(b.dataset.pick); renderPack(); } };
+  try { recent = JSON.parse(localStorage.getItem(LS+"-recent")) || []; } catch {}
+  const inBasket = id => basket.filter(x => x === id).length;
+  // en modo "he dado" solo se pueden dar los repes que tienes
+  const canGive = id => (S.repes[id]||0) - inBasket(id) > 0;
+  function teamRepes(s) { return s.codes.reduce((a,c) => a + (S.repes[s.id+":"+c]||0), 0); }
+
+  function renderPack() {
+    const h = haveSet(), give = qMode === "give";
+    $("#qMode").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.q === qMode));
+    const s = packTeam && SECMAP[packTeam];
+    $("#qSteps").querySelectorAll("li").forEach((li,i) => li.className = (i === 0 && !s) || (i === 1 && s && !basket.length) || (i === 2 && basket.length) ? "on" : "");
+    $("#qTeams").hidden = !!s; $("#qPad").hidden = !s;
+
+    if (!s) {
+      $("#qTeams").replaceChildren(...SEC.map(t => {
+        const b = document.createElement("button"); b.className = "team"; b.dataset.team = t.id;
+        const got = t.codes.filter(c => h.has(t.id+":"+c)).length, r = teamRepes(t), nb = basket.filter(id => id.startsWith(t.id+":")).length;
+        if (give && !r) b.classList.add("off");
+        if (!give && got === t.codes.length) b.classList.add("done");
+        const n = document.createElement("span"); n.className = "tn"; n.textContent = t.name;
+        const p = document.createElement("span"); p.className = "tp";
+        p.textContent = (give ? `${r} repe${r===1?"":"s"}` : `${got}/${t.codes.length}${got===t.codes.length?" 🏆":""}`) + (nb ? ` · ${nb} ✓` : "");
+        b.append(crest(document.createElement("span"), t), n, p); return b;
+      }));
+    } else {
+      crest($("#qCrest"), s); $("#qName").textContent = s.name;
+      const got = s.codes.filter(c => h.has(s.id+":"+c)).length;
+      $("#qProg").textContent = give ? `Tienes ${teamRepes(s)} repes · toca los que has dado` : `Tienes ${got} de ${s.codes.length} · amarillo = te falta`;
+      $("#qRecent").replaceChildren(...recent.filter(id => id !== s.id && SECMAP[id]).map(id => {
+        const b = document.createElement("button"); b.dataset.team = id;
+        b.append(crest(document.createElement("span"), SECMAP[id]), SECMAP[id].name); return b;
+      }));
+      $("#packPick").replaceChildren(...s.codes.map(c => {
+        const id = s.id+":"+c, on = h.has(id), r = S.repes[id]||0, n = inBasket(id), b = document.createElement("button");
+        b.dataset.pick = id; if (on) b.className = "have";
+        const big = document.createElement("b"); big.textContent = c;
+        const sm = document.createElement("small");
+        if (give) { sm.textContent = r ? `×${r - n}` : "—"; b.disabled = !canGive(id); }
+        else sm.textContent = on || n ? "repe" : "falta";
+        b.append(big, sm);
+        if (n) { const k = document.createElement("span"); k.className = "n"; k.textContent = n; b.append(k); }
+        b.setAttribute("aria-label", `${s.name} ${c}: ${on ? "lo tengo" : "me falta"}${r ? `, ${r} repes` : ""}${n ? `, ${n} apuntado` : ""}`);
+        return b;
+      }));
+    }
+
+    // bandeja: lo apuntado y si será nuevo o repe
+    const seen = new Set();
+    $("#qTray").className = "tray" + (give ? " give" : "");
+    $("#packBasket").innerHTML = basket.map((id,i) => {
+      let k = "";
+      if (!give) { const isNew = !h.has(id) && !seen.has(id); seen.add(id); k = isNew ? "nw" : "r"; }
+      return `<span class="pill ${k}">${label(id)}${k ? ` <small class="k">${k === "nw" ? "nuevo" : "repe"}</small>` : ""}<button data-unpick="${i}" aria-label="Quitar">×</button></span>`;
+    }).join("");
+    const nn = give ? 0 : basket.filter((id,i) => !h.has(id) && basket.indexOf(id) === i).length;
+    $("#qTrayT").hidden = !!basket.length;
+    $("#qTrayT").textContent = give ? "Toca los repes que has dado" : "Toca los números que te han salido";
+    $("#packGo").textContent = !basket.length ? "Guardar" : give ? `Guardar: he dado ${basket.length}` : `Guardar ${basket.length} (${nn} nuevo${nn===1?"":"s"})`;
+    $("#packGo").className = "btn " + (give ? "red" : "gold");
+    $("#packGo").disabled = !basket.length; $("#packClear").hidden = $("#packBack").hidden = !basket.length;
+  }
+  function pickTeam(id) {
+    packTeam = id;
+    if (id) { recent = [id, ...recent.filter(x => x !== id)].slice(0, 6); try { localStorage.setItem(LS+"-recent", JSON.stringify(recent)); } catch {} }
+    renderPack();
+    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  }
+  function stepTeam(d) { const i = SEC.findIndex(s => s.id === packTeam); pickTeam(SEC[(i + d + SEC.length) % SEC.length].id); }
+  function setMode(m) { if (m === qMode) return; qMode = m; basket = []; $("#packBox").hidden = true; renderPack(); }
+  $("#qMode").onclick = e => { const b = e.target.closest("[data-q]"); if (b) setMode(b.dataset.q); };
+  $("#qTeams").onclick = e => { const b = e.target.closest("[data-team]"); if (b) pickTeam(b.dataset.team); };
+  $("#qRecent").onclick = e => { const b = e.target.closest("[data-team]"); if (b) pickTeam(b.dataset.team); };
+  $("#qBack").onclick = () => pickTeam(null);
+  $("#qPrev").onclick = () => stepTeam(-1);
+  $("#qNext").onclick = () => stepTeam(1);
+  $("#packPick").onclick = e => {
+    const b = e.target.closest("[data-pick]"); if (!b || b.disabled) return;
+    const id = b.dataset.pick;
+    if (qMode === "give" && !canGive(id)) return;
+    basket.push(id); renderPack();
+    const nb = $(`#packPick [data-pick="${CSS.escape(id)}"]`); if (nb) { nb.classList.remove("tap"); void nb.offsetWidth; nb.classList.add("tap"); }
+    try { navigator.vibrate && navigator.vibrate(12); } catch {}
+  };
+  $("#qTypeF").onsubmit = e => {
+    e.preventDefault();
+    const s = SECMAP[packTeam], v = $("#qType").value; if (!s || !v.trim()) return;
+    // sin nombre de equipo se entiende que son del equipo abierto
+    const { list, warn } = parse(s.name + " " + v, { expand: false });
+    let n = 0;
+    list.forEach(({id, c}) => { for (let i = 0; i < c; i++) if (qMode === "add" || canGive(id)) { basket.push(id); n++; } });
+    $("#qType").value = ""; renderPack();
+    toast(n ? `Apuntados ${n}` + warnOf(warn) : qMode === "give" ? "No tienes repes de esos números" : "No encontré esos números" + warnOf(warn));
+  };
   $("#packBasket").onclick = e => { const b = e.target.closest("[data-unpick]"); if (b) { basket.splice(+b.dataset.unpick, 1); renderPack(); } };
+  $("#packBack").onclick = () => { basket.pop(); renderPack(); };
   $("#packClear").onclick = () => { basket = []; renderPack(); };
   $("#packGo").onclick = () => {
     if (!basket.length) return;
     lastPack = JSON.stringify(S);
+    if (qMode === "give") {
+      const n = basket.length;
+      basket.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; });
+      $("#packOut").replaceChildren(...basket.map((id,i) => { const d = document.createElement("div"); d.className = "st rep"; d.style.animationDelay = (i*0.08)+"s";
+        const [sid, c] = id.split(":"); d.innerHTML = `<span><small></small>${c}</span><em>dado</em>`; d.querySelector("small").textContent = SECMAP[sid]?.name || sid; return d; }));
+      $("#packTitle").textContent = `Has dado ${n} repe${n>1?"s":""} 🤝`;
+      basket = []; S.started = true; $("#packBox").hidden = false; save(); toast(`Quitados ${n} repes`);
+      return;
+    }
     const res = basket.map(id => ({ id, k: addSticker(id) }));
     basket = []; S.started = true;
     const nn = res.filter(r => r.k === "new").length;
@@ -710,9 +887,9 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
       d.querySelector("small").textContent = SECMAP[sid]?.name || sid; return d; }));
     $("#packTitle").textContent = nn ? `¡${nn} nuevo${nn>1?"s":""} y ${res.length-nn} repe${res.length-nn===1?"":"s"}!` : `Todos repes esta vez (${res.length})`;
     $("#packBox").hidden = false;
-    save(); if (nn) { confetti(20+nn*20); toast(`¡${nn} nuevo${nn>1?"s":""} para el álbum!`); }
+    save(); if (nn) { confetti(20+nn*20); toast(`¡${nn} nuevo${nn>1?"s":""} para el álbum!`); } else toast("Guardados como repes");
   };
-  $("#packUndo").onclick = () => { if (!lastPack) return; S = JSON.parse(lastPack); lastPack = null; $("#packBox").hidden = true; save(); toast("Sobre deshecho"); };
+  $("#packUndo").onclick = () => { if (!lastPack) return; S = JSON.parse(lastPack); lastPack = null; $("#packBox").hidden = true; save(); toast("Deshecho"); };
 
   /* ---------- ajustes de secciones ---------- */
   let specsDirty = false;
@@ -790,19 +967,35 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     $("#repAddIn").value = ""; S.started = true; save(); toast(`Añadidos ${list.length} repes` + warnOf(warn)); };
 
   // cambios
-  let gain = [], give = [];
-  $("#cmpRep").onclick = () => { const h = haveSet(), { list, warn } = parse($("#friendRep").value); gain = ids(list).filter(id => !h.has(id));
-    $("#friendRepOut").hidden = false; $("#takeAll").hidden = !gain.length;
-    $("#gainList").innerHTML = gain.length ? pillsBlock(gain, "g") + `<p class="hint" style="margin:8px 0 0">Te sirven ${gain.length} cromo${gain.length>1?"s":""}${warnOf(warn)}</p>`
-      : `<p class="hint">Ninguno de sus repes te falta${warnOf(warn)}</p>`; };
-  $("#takeAll").onclick = () => { gain.forEach(addSticker); S.started = true; save(); confetti(40+gain.length*10);
-    toast(`¡${gain.length} cromos nuevos al álbum!`); gain = []; $("#friendRepOut").hidden = true; $("#friendRep").value = ""; };
-  $("#cmpMiss").onclick = () => { const { list, warn } = parse($("#friendMiss").value); give = ids(list).filter(id => S.repes[id]);
-    $("#friendMissOut").hidden = false; $("#giveAll").hidden = !give.length;
-    $("#giveList").innerHTML = give.length ? pillsBlock(give, "r plain", id => ` <small>×${S.repes[id]}</small>`) + `<p class="hint" style="margin:8px 0 0">Le puedes dar ${give.length}${warnOf(warn)}</p>`
-      : `<p class="hint">No tienes repes que le falten${warnOf(warn)}</p>`; };
-  $("#giveAll").onclick = () => { give.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; });
-    save(); toast(`Quitados ${give.length} repes`); give = []; $("#friendMissOut").hidden = true; $("#friendMiss").value = ""; };
+  // listas de cambio: se puede tocar cada cromo para desmarcar los que al final no se cambian
+  let gain = [], give = [], gainOff = new Set(), giveOff = new Set();
+  function selBlock(list, cls, off, extra = () => "") {
+    return groupBy(list).map(([s,l]) => `<div class="grp"><b>${s.name}</b><div class="pills">${l.map(id => `<button class="pill ${cls}${off.has(id) ? " unsel" : ""}" data-sel="${id}" aria-pressed="${!off.has(id)}">${id.split(":")[1]}${extra(id)}</button>`).join("")}</div></div>`).join("");
+  }
+  function showGain(warn = []) {
+    const n = gain.length - gainOff.size;
+    $("#friendRepOut").hidden = false; $("#takeAll").hidden = !gain.length; $("#takeAll").disabled = !n;
+    $("#takeAll").textContent = `Me quedo ${n === gain.length ? "todos " : ""}${n} ✅`;
+    $("#gainList").innerHTML = gain.length ? selBlock(gain, "g", gainOff) + `<p class="hint" style="margin:8px 0 0">Te sirven ${gain.length} cromo${gain.length>1?"s":""}. Toca los que al final no te dé${warnOf(warn)}</p>`
+      : `<p class="hint">Ninguno de sus repes te falta${warnOf(warn)}</p>`;
+  }
+  function showGive(warn = []) {
+    const n = give.length - giveOff.size;
+    $("#friendMissOut").hidden = false; $("#giveAll").hidden = !give.length; $("#giveAll").disabled = !n;
+    $("#giveAll").textContent = `Ya se los he dado (${n})`;
+    $("#giveList").innerHTML = give.length ? selBlock(give, "r plain", giveOff, id => ` <small>×${S.repes[id]}</small>`) + `<p class="hint" style="margin:8px 0 0">Le puedes dar ${give.length}. Toca los que no le vayas a dar${warnOf(warn)}</p>`
+      : `<p class="hint">No tienes repes que le falten${warnOf(warn)}</p>`;
+  }
+  $("#cmpRep").onclick = () => { const h = haveSet(), { list, warn } = parse($("#friendRep").value); gain = ids(list).filter(id => !h.has(id)); gainOff = new Set(); showGain(warn); };
+  $("#gainList").onclick = e => { const b = e.target.closest("[data-sel]"); if (!b) return; const id = b.dataset.sel; gainOff.has(id) ? gainOff.delete(id) : gainOff.add(id); showGain(); };
+  $("#takeAll").onclick = () => { const take = gain.filter(id => !gainOff.has(id)); if (!take.length) return;
+    take.forEach(addSticker); S.started = true; save(); confetti(40+take.length*10);
+    toast(`¡${take.length} cromos nuevos al álbum!`); gain = []; $("#friendRepOut").hidden = true; $("#friendRep").value = ""; };
+  $("#cmpMiss").onclick = () => { const { list, warn } = parse($("#friendMiss").value); give = ids(list).filter(id => S.repes[id]); giveOff = new Set(); showGive(warn); };
+  $("#giveList").onclick = e => { const b = e.target.closest("[data-sel]"); if (!b) return; const id = b.dataset.sel; giveOff.has(id) ? giveOff.delete(id) : giveOff.add(id); showGive(); };
+  $("#giveAll").onclick = () => { const out = give.filter(id => !giveOff.has(id)); if (!out.length) return;
+    out.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; });
+    save(); toast(`Quitados ${out.length} repes`); give = []; $("#friendMissOut").hidden = true; $("#friendMiss").value = ""; };
   $("#gotGo").onclick = () => { const { list, warn } = parse($("#gotIn").value, {expand:false});
     if (!list.length) return toast("Escribe el equipo y el número, ej: Racing 11" + warnOf(warn));
     let nn = 0; list.forEach(({id}) => { if (addSticker(id) === "new") nn++; }); S.started = true; save();
