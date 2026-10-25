@@ -127,6 +127,19 @@ h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 4px;lett
 .teamrep b{font-weight:800;margin-right:4px}
 .teamrep span{background:color-mix(in srgb,var(--repe) 14%,var(--card));border-radius:999px;padding:3px 10px;font-weight:800;font-variant-numeric:tabular-nums}
 .rrow.hi{background:color-mix(in srgb,var(--gold) 18%,transparent);border-radius:10px}
+.rgrp{padding:12px 0;border-top:1px solid var(--line)}
+.rgrp .rteam{margin:0 0 8px}
+.rteam small{margin-left:auto;color:var(--muted);font-weight:700;font-size:13px}
+.rchips{display:flex;flex-wrap:wrap;gap:6px}
+.rchip{display:inline-flex;align-items:center;gap:2px;border-radius:12px;padding:3px;background:color-mix(in srgb,var(--c1) 14%,var(--card));box-shadow:inset 0 0 0 1px var(--line)}
+.rchip b{font-family:var(--display);font-weight:800;font-size:16px;padding:0 4px 0 6px;font-variant-numeric:tabular-nums}
+.rchip i{font-style:normal;font-weight:800;font-size:13px;color:var(--repe);padding-right:6px}
+.rchip button{width:30px;height:30px;border:0;border-radius:9px;background:var(--card);font-weight:800;font-size:16px}
+.rchip.hi{box-shadow:inset 0 0 0 2px var(--gold);background:color-mix(in srgb,var(--gold) 22%,var(--card))}
+.addnum{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:14px;color:var(--muted)}
+.addnum input{width:90px;padding:8px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-weight:800}
+.addnum .btn{padding:8px 12px;font-size:14px}
+.ver{font-size:10px;opacity:.6;margin-left:6px}
 .rrow button{width:38px;height:38px;border-radius:12px;border:0;background:var(--empty);font-weight:800;font-size:18px}
 
 /* Vista previa del PDF (papel blanco en los dos temas) */
@@ -195,7 +208,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     <div style="min-width:0">
       <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
       <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
-      <div class="save" id="saveState"></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-B</span></div>
     </div>
   </div>
 </header>
@@ -245,7 +258,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     </div>
     <div class="box">
       <h2>Mis repes</h2>
-      <p class="lead">Con − quitas uno (por ejemplo, si lo has cambiado).</p>
+      <p class="lead"><b id="repSum"></b><br>Con − quitas uno (por ejemplo, si lo has cambiado) y con + sumas otro.</p>
       <div id="repList"></div>
     </div>
   </section>
@@ -307,8 +320,16 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     return [...new Set(out)];
   }
   let SEC = [], SECMAP = {}, ALL = [];
+  const sortCodes = l => [...l].sort((a,b) => parseInt(a) - parseInt(b) || a.localeCompare(b));
   function norm() {
-    SEC = S.sections.map(s => ({...s, codes: specCodes(s.spec)}));
+    // un cromo guardado con un número que el equipo no tiene se añade al equipo, nunca se borra
+    S.sections = S.sections.map(s => ({...s}));
+    const known = Object.fromEntries(S.sections.map(s => [s.id, new Set(specCodes(s.spec))]));
+    [...(S.have || []), ...Object.keys(S.repes || {})].forEach(id => {
+      const [sid, c] = String(id).split(":"), sec = S.sections.find(s => s.id === sid);
+      if (sec && c && /^\d+[A-Z]?$/.test(c) && !known[sid].has(c)) { sec.spec += "," + c; known[sid].add(c); }
+    });
+    SEC = S.sections.map(s => ({...s, codes: sortCodes(specCodes(s.spec))}));
     SECMAP = Object.fromEntries(SEC.map(s => [s.id, s]));
     ALL = SEC.flatMap(s => s.codes.map(c => s.id+":"+c));
     const valid = new Set(ALL);
@@ -425,6 +446,9 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     const g = paint(document.createElement("div"), s); g.className = "grid";
     g.append(...s.codes.map(c => cell(s, c, has(s.id+":"+c) ? "on" : style)));
     const parts = [head, leg, g];
+    const an = document.createElement("form"); an.className = "addnum"; an.dataset.addnum = s.id;
+    an.innerHTML = `<label for="num-${where.slice(1)}">¿No está el número?</label><input id="num-${where.slice(1)}" placeholder="Ej: 21" maxlength="4" autocomplete="off"><button class="btn alt">Añadir número</button>`;
+    parts.push(an);
     if (style === "pl") {
       const mine = s.codes.filter(c => S.repes[s.id+":"+c]), tr = document.createElement("div"); tr.className = "teamrep";
       const b = document.createElement("b"); b.textContent = mine.length ? `Repes de ${s.name}:` : `Aún no tienes repes de ${s.name}`; tr.append(b);
@@ -448,24 +472,32 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     row.append(b, sp); return row;
   }
   function renderRepList() {
-    const out = [], fresh = recentRep.filter(id => S.repes[id]);
+    const out = [], fresh = recentRep.filter(id => S.repes[id]), ids = Object.keys(S.repes);
+    $("#repSum").textContent = ids.length ? `${totalRep()} repes en total · ${ids.length} números distintos` : "";
     if (fresh.length) {
       const h = document.createElement("div"); h.className = "rhead"; h.textContent = "🆕 Acabas de añadir"; out.push(h);
       fresh.forEach(id => out.push(repRow(id, " new", label(id))));
       const sep = document.createElement("div"); sep.className = "rsep"; out.push(sep);
     }
-    let any = false;
     SEC.forEach(s => {
       const mine = s.codes.map(c => s.id+":"+c).filter(id => S.repes[id]);
       if (!mine.length) return;
-      any = true;
+      const g = paint(document.createElement("div"), s); g.className = "rgrp";
       const h = document.createElement("div"); h.className = "rteam";
-      const name = document.createElement("b"); name.textContent = `${s.name} (${mine.reduce((a,id) => a + S.repes[id], 0)})`;
-      h.append(crest(s, true), name); out.push(h);
-      mine.forEach(id => out.push(repRow(id, fresh.includes(id) ? " hi" : "", id.split(":")[1])));
+      const name = document.createElement("b"); name.textContent = s.name;
+      const n = document.createElement("small"); const tot = mine.reduce((a,id) => a + S.repes[id], 0); n.textContent = `${tot} repe${tot === 1 ? "" : "s"}`;
+      h.append(crest(s, true), name, n);
+      const chips = document.createElement("div"); chips.className = "rchips";
+      mine.forEach(id => {
+        const c = document.createElement("span"); c.className = "rchip" + (fresh.includes(id) ? " hi" : "");
+        c.innerHTML = `<button data-rd="-1" data-id="${id}" aria-label="Quitar un repe del ${label(id)}">−</button><b></b><i>×${S.repes[id]}</i><button data-rd="1" data-id="${id}" aria-label="Sumar un repe del ${label(id)}">+</button>`;
+        c.querySelector("b").textContent = id.split(":")[1];
+        chips.append(c);
+      });
+      g.append(h, chips); out.push(g);
     });
     $("#repList").replaceChildren(...out);
-    if (!any) $("#repList").innerHTML = `<p class="lead">Todavía no tienes repes apuntados.</p>`;
+    if (!ids.length) $("#repList").innerHTML = `<p class="lead">Todavía no tienes repes apuntados.</p>`;
   }
   function markRep(id) { recentRep = [id, ...recentRep.filter(x => x !== id)].slice(0, 8); }
 
@@ -586,6 +618,16 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     markRep(id); change(() => { if (!has(id)) S.have.push(id); S.repes[id] = n; }, `${label(id)}: ${n} repe${n > 1 ? "s" : ""}`);
     flash("#repPick", id);
   };
+  // añadir a un equipo un número que no estaba en su lista
+  ["#addPick", "#repPick"].forEach(w => $(w).addEventListener("submit", e => {
+    e.preventDefault();
+    const f = e.target.closest("[data-addnum]"), sec = f && S.sections.find(s => s.id === f.dataset.addnum);
+    const c = f && f.querySelector("input").value.trim().toUpperCase();
+    if (!sec || !/^\d{1,3}[AB]?$/.test(c)) { toast("Escribe solo el número, por ejemplo 21 o 5A"); return; }
+    if (SECMAP[sec.id].codes.includes(c)) { toast(`El ${c} ya está en la lista`); flash(w, sec.id+":"+c); return; }
+    change(() => { sec.spec += "," + c; }, `Añadido el ${c} a ${sec.name}`);
+    flash(w, sec.id+":"+c);
+  }));
   $("#repList").onclick = e => {
     const b = e.target.closest("[data-rd]"); if (!b) return; const id = b.dataset.id, d = +b.dataset.rd;
     if (d > 0) markRep(id);
