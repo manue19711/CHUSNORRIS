@@ -166,6 +166,15 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
 .menu button[aria-current="true"] i{animation:bob 1.6s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-3px) scale(1.15)}}
 @media (prefers-reduced-motion:reduce){.n{transform:none}}
+
+/* Guardar en el ordenador */
+.pcbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--card);border-radius:18px;padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow);
+  border:2px solid color-mix(in srgb,var(--gold) 55%,transparent)}
+.pcbar.ok{border-color:color-mix(in srgb,var(--brand) 45%,transparent)}
+.pc-t{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;font-size:14px;color:var(--muted)}
+.pc-t b{color:var(--fg);font-size:15px}
+.pc-b{display:flex;gap:8px;flex-wrap:wrap}
+.pc-b .btn{padding:10px 14px;font-size:14px;cursor:pointer}
 </style>
 
 <header class="top">
@@ -184,6 +193,14 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
 </header>
 
 <main class="wrap">
+  <div class="pcbar" id="pcbar" hidden>
+    <div class="pc-t"><b id="pcTitle"></b><span id="pcText"></span></div>
+    <div class="pc-b">
+      <button class="btn gold" id="pcMain"></button>
+      <label class="btn alt" id="pcLoadL" for="pcLoad" hidden>Cargar cambios del ordenador</label>
+      <input type="file" id="pcLoad" accept=".html,.htm" hidden>
+    </div>
+  </div>
   <nav class="menu">
     <button data-go="tengo"><i>📒</i>Tengo</button>
     <button data-go="anadir"><i>➕</i>Añadir</button>
@@ -249,11 +266,13 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
 </main>
 <div class="toast" id="toast"><span id="toastT"></span><button id="toastUndo" hidden>Deshacer</button></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
+<script data-app src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script data-app type="application/json" id="cromos-data"></script>
+<script data-app>
 (() => {
   const $ = s => document.querySelector(s);
   const LS = "cromos-liga-2627-v2";
+  const PC = !window.claude; // abierta desde el archivo del ordenador, sin Claude
 
   /* Apartados del álbum (los mismos de antes, para no perder lo guardado) */
   const DEFAULT_SECTIONS = [
@@ -299,6 +318,7 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     norm(); S.savedAt = Date.now(); S.started = true;
     try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
     render();
+    if (PC) { fileSaveSoon(); return; }
     if (!ref) { setSave("Guardado en este dispositivo"); return; }
     setSave("Guardando…");
     clearTimeout(saveTimer);
@@ -557,11 +577,94 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
     n.style.setProperty("--ry", (px * 26).toFixed(1) + "deg"); n.style.setProperty("--rx", (-py * 26).toFixed(1) + "deg");
   }, { passive: true });
 
+  /* ---------- guardar en el ordenador ---------- */
+  // el archivo html lleva los cromos dentro; en el ordenador se reescribe solo tras cada cambio
+  function exportHtml() {
+    const root = document.documentElement.cloneNode(true);
+    root.querySelectorAll("script:not([data-app]), meta[http-equiv], iframe").forEach(n => n.remove());
+    root.querySelector("#cromos-data").textContent = JSON.stringify(S).replace(/</g, "\\u003c");
+    ["#tengoList", "#addPick", "#repPick", "#repList", "#prevMiss", "#prevRep"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
+    root.querySelector("#toast").className = "toast";
+    root.querySelector("#pcbar").hidden = true;
+    root.querySelectorAll("input").forEach(n => n.removeAttribute("value"));
+    return "<!doctype html>\n" + root.outerHTML;
+  }
+  const idb = (mode, fn) => new Promise((res, rej) => {
+    const o = indexedDB.open("cromos-archivo", 1);
+    o.onupgradeneeded = () => o.result.createObjectStore("h");
+    o.onerror = () => rej(o.error);
+    o.onsuccess = () => { try { const tx = o.result.transaction("h", mode), q = fn(tx.objectStore("h")); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); } catch (e) { rej(e); } };
+  });
+  let fh = null, fileOk = false, fileTimer = null;
+  const canPick = PC && "showSaveFilePicker" in window;
+  function pcShow(state, name) {
+    const bar = $("#pcbar"); bar.hidden = false; bar.classList.toggle("ok", state === "ok");
+    $("#pcLoadL").hidden = state !== "claude";
+    const set = (title, text, btn) => { $("#pcTitle").textContent = title; $("#pcText").textContent = text; $("#pcMain").textContent = btn; $("#pcMain").hidden = !btn; };
+    if (state === "claude") { set("¿La usas en el ordenador sin Claude?", "Descarga el archivo con tus cromos dentro y ábrelo con doble clic. Lo que cambies allí se guarda en el ordenador.", "💻 Descargar para el ordenador"); }
+    if (state === "ask") set("Guarda tus cromos en el archivo", "Elige tu archivo de cromos una vez. Después cada cambio se guarda solo en él y no se pierde nunca.", "💾 Elegir el archivo para guardar");
+    if (state === "again") set(`Guardando en ${name}`, "Pulsa el botón para que siga guardando los cambios en el archivo.", "✅ Seguir guardando aquí");
+    if (state === "ok") set(`Se guarda solo en ${name} ✓`, "Cada cambio se guarda en el archivo al momento.", "");
+    if (state === "old") set("Se guarda en este navegador", "Este navegador no puede escribir en el archivo. Para tener una copia, descárgala de vez en cuando y sustituye la antigua.", "💾 Descargar copia");
+  }
+  async function fileWrite() {
+    if (!fh || !fileOk) return;
+    try { const w = await fh.createWritable(); await w.write(exportHtml()); await w.close(); setSave(`Guardado en ${fh.name} ✓`); }
+    catch { fileOk = false; pcShow("again", fh.name); setSave("Guardado en este navegador"); }
+  }
+  function fileSaveSoon() {
+    if (!fh || !fileOk) { setSave("Guardado en este navegador"); return; }
+    setSave("Guardando…"); clearTimeout(fileTimer); fileTimer = setTimeout(fileWrite, 600);
+  }
+  function plainDownload(name) {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([exportHtml()], { type: "text/html" })); a.download = name;
+    document.body.append(a); a.click(); a.remove();
+  }
+  $("#pcMain").onclick = async () => {
+    const stamp = new Date().toISOString().slice(0,10);
+    if (!PC) {
+      try { const dl = claude.use ? await claude.use("downloads").catch(() => null) : null; if (!dl) throw { code: "unavailable" };
+        await dl.save({ filename: "mis-cromos.html", data: exportHtml() }); toast("Descargado: ábrelo con doble clic 💻"); }
+      catch (e) { toast(e && e.code === "declined" ? "Descarga cancelada" : "Aquí no se puede descargar. Ábrela en claude.ai desde el navegador"); }
+      return;
+    }
+    if (!canPick) { plainDownload(`mis-cromos-${stamp}.html`); toast("Copia descargada 💾"); return; }
+    try {
+      if (fh && (await fh.requestPermission({ mode: "readwrite" })) === "granted") fileOk = true;
+      else {
+        fh = await showSaveFilePicker({ suggestedName: "mis-cromos.html", types: [{ description: "Mis cromos", accept: { "text/html": [".html"] } }] });
+        fileOk = true; try { await idb("readwrite", s => s.put(fh, "file")); } catch {}
+      }
+      await fileWrite(); pcShow("ok", fh.name); toast(`Guardado en ${fh.name} ✓`);
+    } catch (e) { if (e && e.name !== "AbortError") toast("No se ha podido guardar en el archivo"); }
+  };
+  // en Claude: traer lo que se cambió en el ordenador
+  $("#pcLoad").onchange = async e => {
+    const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+    try {
+      const m = (await f.text()).match(/<script[^>]*id="cromos-data"[^>]*>([\s\S]*?)<\/script>/), d = JSON.parse(m[1]);
+      if (!d || !d.sections || !Array.isArray(d.have)) throw 0;
+      change(() => { S = d; }, `Cargados ${d.have.length} cromos del ordenador`);
+    } catch { toast("Ese archivo no tiene cromos guardados"); }
+  };
+
   /* ---------- arranque ---------- */
   try { const j = JSON.parse(localStorage.getItem(LS)); if (j && j.sections) S = j; } catch {}
   try { const v = localStorage.getItem(LS+"-view"); if (v && document.getElementById("v-"+v)) view = v; } catch {}
+  // el archivo trae los cromos dentro: se usan si son más nuevos que lo de este navegador
+  try { const e = JSON.parse($("#cromos-data").textContent || "null"); if (e && e.sections && (e.savedAt||0) > (S.savedAt||0)) S = e; } catch {}
   norm(); render();
-  if (window.claude && claude.use) {
+  if (PC) {
+    setSave("Guardado en este navegador");
+    if (!canPick) pcShow("old");
+    else idb("readonly", s => s.get("file")).then(async h => {
+      if (!h) return pcShow("ask");
+      fh = h;
+      if ((await fh.queryPermission({ mode: "readwrite" })) === "granted") { fileOk = true; pcShow("ok", fh.name); setSave(`Guardado en ${fh.name} ✓`); }
+      else pcShow("again", fh.name);
+    }).catch(() => pcShow("ask"));
+  } else if (window.claude && claude.use) {
+    pcShow("claude");
     claude.use("db").then(d => {
       if (!d) { setSave("Guardado en este dispositivo"); return; }
       ref = d.doc("album/estado");
@@ -581,6 +684,6 @@ h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,va
         first = false;
       }, () => setSave("Guardado en este dispositivo"));
     }).catch(() => setSave("Guardado en este dispositivo"));
-  } else setSave("Guardado en este dispositivo");
+  }
 })();
 </script>
