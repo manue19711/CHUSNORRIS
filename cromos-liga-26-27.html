@@ -1,350 +1,369 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Mis Cromos LaLiga 26-27</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Figtree:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Figtree:wght@400;600;800&display=swap">
 <style>
-/* Layout: marcador fijo arriba, pestañas tipo cromo, álbum por equipos como hojas de pegatinas */
+/* App: cabecera con progreso, tarjetas por equipo con sus colores, barra de botones abajo */
 :root{
-  --bg:#f3f6f1; --card:#ffffff; --fg:#13241b; --muted:#5d6f64; --line:#d6e0d8;
-  --pitch:#0d7a4c; --pitch-2:#0a5e3a; --gold:#f4b400; --gold-ink:#3b2a00;
-  --repe:#e2493b; --empty:#e7ece8; --empty-ink:#8a9a90;
-  --display:"Bowlby One","Arial Black",Impact,sans-serif;
+  --bg:#eef2f0; --card:#ffffff; --fg:#111a15; --muted:#64736b; --line:#dfe6e2;
+  --brand:#0b6b43; --brand-2:#063d27; --gold:#f5b70a; --gold-ink:#3b2a00;
+  --repe:#e5484d; --empty:#eef2f0; --empty-ink:#a3b0a9; --nav:rgba(255,255,255,.86);
+  --shadow:0 1px 2px rgba(16,24,20,.06),0 6px 20px rgba(16,24,20,.07);
+  --display:"Outfit","Figtree",system-ui,sans-serif;
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0f1712; --card:#16211b; --fg:#e8f1ea; --muted:#9db0a4; --line:#2a3a31;
-  --pitch:#22a86b; --pitch-2:#178a55; --gold:#ffc83a; --gold-ink:#2b1f00;
-  --repe:#ff6b5c; --empty:#1f2c25; --empty-ink:#6f8578; color-scheme:dark}}
+  --bg:#0b100d; --card:#151c18; --fg:#eaf2ed; --muted:#93a39a; --line:#25302a;
+  --brand:#1f9d63; --brand-2:#0c3b25; --gold:#ffc83a; --gold-ink:#2b1f00;
+  --repe:#ff6369; --empty:#1c2520; --empty-ink:#5c6d64; --nav:rgba(21,28,24,.86);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0f1712; --card:#16211b; --fg:#e8f1ea; --muted:#9db0a4; --line:#2a3a31;
-  --pitch:#22a86b; --pitch-2:#178a55; --gold:#ffc83a; --gold-ink:#2b1f00;
-  --repe:#ff6b5c; --empty:#1f2c25; --empty-ink:#6f8578; color-scheme:dark}
+  --bg:#0b100d; --card:#151c18; --fg:#eaf2ed; --muted:#93a39a; --line:#25302a;
+  --brand:#1f9d63; --brand-2:#0c3b25; --gold:#ffc83a; --gold-ink:#2b1f00;
+  --repe:#ff6369; --empty:#1c2520; --empty-ink:#5c6d64; --nav:rgba(21,28,24,.86);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--pitch)}
-.wrap{max-width:960px;margin:0 auto}
-button{font:inherit;cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.45;margin:0;
+  padding:0 max(16px,env(safe-area-inset-right,0px)) calc(100px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:760px;margin:0 auto}
+button{font:inherit;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
-/* Marcador */
-.score{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 14px;
-  padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));
-  background:var(--pitch);color:#fff;
-  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 40px,transparent 40px 80px)}
-.score-in{max-width:960px;margin:0 auto;display:flex;gap:14px;align-items:center}
-.ring{flex:none;width:68px;height:68px;position:relative}
+/* Cabecera */
+.top{margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 18px;color:#fff;
+  padding:calc(18px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 26px max(16px,env(safe-area-inset-left,0px));
+  background:radial-gradient(120% 140% at 100% 0%,#1fa36a 0%,transparent 55%),linear-gradient(160deg,var(--brand),var(--brand-2));
+  border-radius:0 0 28px 28px}
+.top-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:16px}
+.ring{flex:none;width:76px;height:76px;position:relative}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:16px}
-.score h1{font-family:var(--display);font-size:clamp(18px,4.5vw,26px);line-height:1;margin:0 0 6px;letter-spacing:.5px;text-wrap:balance}
-.score h1 span{color:var(--gold)}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{background:rgba(255,255,255,.14);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
-.chip i{font-style:normal;font-weight:800}
-.save{margin-left:auto;font-size:11px;opacity:.85;text-align:right;min-width:60px}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:19px}
+.top h1{font-family:var(--display);font-weight:900;font-size:24px;line-height:1.05;margin:0 0 8px;letter-spacing:-.2px}
+.top h1 span{color:var(--gold)}
+.nums{display:flex;gap:6px;flex-wrap:wrap;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.nums span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:3px 10px}
+.nums b{font-weight:900}
+.save{font-size:11px;opacity:.7;margin-top:6px}
 
-/* Pestañas */
-.tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px;margin-bottom:8px}
-.tab{flex:none;border:2px solid var(--line);background:var(--card);color:var(--fg);border-radius:12px;padding:8px 14px;font-weight:800}
-.tab[aria-selected="true"]{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);transform:rotate(-1.5deg)}
-.panel{display:flex;flex-direction:column;gap:14px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
-.box h2{font-family:var(--display);font-size:18px;margin:0 0 6px;letter-spacing:.3px}
-.box p{margin:0 0 10px;color:var(--muted);max-width:65ch}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:800;background:var(--pitch);color:#fff}
-.btn:active{transform:scale(.97)}
+/* Barra de botones abajo */
+.menu{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:10;
+  width:min(560px,calc(100% - 20px));display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:6px;
+  background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.menu button{border:0;background:transparent;border-radius:16px;padding:7px 2px 6px;font-weight:700;font-size:11.5px;line-height:1.1;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;transition:background .2s,color .2s}
+.menu button i{font-style:normal;font-size:21px;line-height:1;filter:grayscale(.6);transition:transform .2s,filter .2s}
+.menu button[aria-current="true"]{background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--fg)}
+.menu button[aria-current="true"] i{filter:none;transform:translateY(-1px) scale(1.12)}
+
+.box{background:var(--card);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+h2{font-family:var(--display);font-weight:800;font-size:22px;margin:0 0 4px;letter-spacing:-.2px}
+.lead{margin:0 0 14px;color:var(--muted);font-size:15px}
+.btn{border:0;border-radius:14px;padding:12px 18px;font-weight:800;background:var(--brand);color:#fff}
+.btn.gold{background:linear-gradient(180deg,#ffd04a,var(--gold));color:var(--gold-ink);box-shadow:0 4px 14px color-mix(in srgb,var(--gold) 40%,transparent)}
 .btn.alt{background:var(--empty);color:var(--fg)}
-.btn.gold{background:var(--gold);color:var(--gold-ink)}
-.btn.red{background:var(--repe);color:#fff}
-.btn:disabled{opacity:.45;cursor:default}
-textarea,input[type=text]{width:100%;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:10px 12px;font:inherit}
-textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
-.hint{font-size:12.5px;color:var(--muted)}
-.banner{background:var(--gold);color:var(--gold-ink);border-radius:14px;padding:12px 14px;font-weight:600;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.banner .btn{background:var(--gold-ink);color:var(--gold)}
+.btn.big{width:100%;font-size:17px;padding:16px}
+.btn:active,.tile:active,.n:active{transform:scale(.96)}
 
-/* Álbum */
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.seg{display:flex;background:var(--empty);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
-.seg button{border:0;background:transparent;color:var(--fg);padding:7px 11px;border-radius:9px;font-weight:700;font-size:13px}
-.seg button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.jump{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
-.jump button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:4px 10px;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
-.jump button.done{background:var(--pitch);border-color:var(--pitch);color:#fff}
-.jump button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
-.sec{scroll-margin-top:110px}
-.sec-h{display:flex;align-items:baseline;gap:10px;margin:4px 0 8px}
-.sec-h h3{font-family:var(--display);font-size:17px;margin:0;letter-spacing:.3px}
-.sec-h .meta{font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
-.bar{flex:1;height:6px;background:var(--empty);border-radius:99px;overflow:hidden;min-width:40px}
-.bar i{display:block;height:100%;background:var(--pitch)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:6px;user-select:none;-webkit-user-select:none}
-.c{position:relative;aspect-ratio:3/4;max-width:100%;border-radius:8px;border:2px dashed var(--line);background:var(--empty);color:var(--empty-ink);
-  display:grid;place-items:center;font-family:var(--display);font-size:15px;font-variant-numeric:tabular-nums;padding:0;transition:transform .12s;touch-action:manipulation}
-.c.on{border:2px solid var(--pitch-2);background:linear-gradient(160deg,var(--pitch),var(--pitch-2));color:#fff;box-shadow:0 2px 0 var(--pitch-2)}
-.c .x{position:absolute;top:-6px;right:-6px;background:var(--repe);color:#fff;font-family:var(--body);font-weight:800;font-size:11px;
-  border-radius:999px;min-width:20px;height:20px;padding:0 5px;display:grid;place-items:center;border:2px solid var(--card)}
-.c.pop{animation:pop .45s ease}
-@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-6deg)}100%{transform:scale(1)}}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+/* Escudo con los colores del equipo */
+.crest{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:12.5px;letter-spacing:.3px;
+  background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 55%),var(--c1);color:var(--ink);
+  box-shadow:inset 0 0 0 3.5px var(--c2),inset 0 0 0 4.5px rgba(0,0,0,.12),0 3px 8px rgba(0,0,0,.22)}
+.crest.sm{width:30px;height:30px;font-size:9.5px}
+
+/* Tarjeta de equipo */
+.team{padding:0;overflow:hidden}
+.team-h{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(120deg,color-mix(in srgb,var(--c1) 16%,var(--card)),var(--card) 70%)}
+.team-h .t{flex:1;min-width:0}
+.team-h b{display:block;font-family:var(--display);font-weight:800;font-size:18px;line-height:1.15}
+.team-h small{color:var(--muted);font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+.team-h .pct{font-family:var(--display);font-weight:900;font-size:18px;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:99px;background:var(--empty);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.team .grid{padding:4px 16px 16px}
+
+/* Números */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:7px}
+.n{position:relative;aspect-ratio:3/4;border-radius:12px;border:1.5px dashed var(--line);background:var(--empty);color:var(--empty-ink);
+  font-family:var(--display);font-weight:800;font-size:17px;display:grid;place-items:center;padding:0;font-variant-numeric:tabular-nums;transition:transform .12s}
+.n.on{border:0;color:var(--ink);background:linear-gradient(150deg,var(--c1) 0 72%,var(--c2) 72% 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.08),0 3px 8px color-mix(in srgb,var(--c1) 35%,transparent)}
+.n.on::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.28),transparent 45%);pointer-events:none}
+.n.want{border:2px solid var(--c1);border-style:solid;background:var(--card);color:var(--fg)}
+.n.pl{border:1.5px solid var(--line);background:var(--card);color:var(--fg)}
+.n .x{position:absolute;z-index:1;top:-7px;right:-7px;background:var(--repe);color:#fff;font-family:var(--body);font-weight:800;font-size:11px;
+  border-radius:999px;min-width:22px;height:22px;padding:0 5px;display:grid;place-items:center;border:2px solid var(--card)}
+.n.flash{animation:fl .5s ease}
+@keyframes fl{40%{transform:scale(1.2) rotate(-4deg)}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:14px}
 .legend span{display:flex;gap:6px;align-items:center}
 .sw{width:14px;height:18px;border-radius:4px;display:inline-block}
 
-/* Listas */
-.pills{display:flex;flex-wrap:wrap;gap:6px}
-.pill{display:inline-flex;align-items:center;gap:4px;border-radius:10px;background:var(--empty);padding:4px 4px 4px 10px;font-weight:800;font-variant-numeric:tabular-nums}
-.pill.r{background:color-mix(in srgb,var(--repe) 16%,var(--card))}
-.pill.g{background:color-mix(in srgb,var(--pitch) 18%,var(--card));padding-right:10px}
-.pill.plain{padding-right:10px}
-.pill button{border:0;width:26px;height:26px;border-radius:8px;background:var(--card);color:var(--fg);font-weight:800}
-.pill small{color:var(--repe);font-weight:800}
-.grp{display:grid;grid-template-columns:minmax(90px,140px) 1fr;gap:6px 10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
-.grp:first-child{border-top:0}
-.grp b{font-weight:800;padding-top:5px}
-@media (max-width:480px){.grp{grid-template-columns:1fr}.grp b{padding-top:0}}
-.out{white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-variant-numeric:tabular-nums;max-height:260px;overflow:auto}
-.specs{display:grid;grid-template-columns:minmax(110px,160px) 1fr;gap:8px 10px;align-items:center}
-.specs label{font-weight:700;font-size:13.5px}
-@media (max-width:480px){.specs{grid-template-columns:1fr}.specs label{margin-top:6px}}
+/* Elegir equipo */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tile{display:flex;align-items:center;gap:10px;border:0;border-radius:16px;padding:10px;text-align:left;min-width:0;
+  background:linear-gradient(120deg,color-mix(in srgb,var(--c1) 18%,var(--card)),color-mix(in srgb,var(--c2) 8%,var(--card)));box-shadow:inset 0 0 0 1px var(--line);transition:transform .12s}
+.tile .t{flex:1;min-width:0}
+.tile b{display:block;font-weight:800;font-size:14.5px;line-height:1.15;overflow-wrap:anywhere}
+.tile small{color:var(--muted);font-weight:700;font-size:12px}
+.tile .bar{height:4px;margin-top:5px}
+.pickhead{display:flex;align-items:center;gap:12px;margin:-18px -18px 16px;padding:16px 18px;border-radius:22px 22px 0 0;color:var(--ink);
+  background:linear-gradient(120deg,var(--c1),var(--c2))}
+.pickhead b{font-family:var(--display);font-weight:900;font-size:22px;flex:1;min-width:0;line-height:1.1}
+.pickhead .back{border:0;background:rgba(0,0,0,.18);color:#fff;border-radius:12px;width:42px;height:42px;font-size:22px;font-weight:800;flex:none}
 
-/* Sobre */
-.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
-.pick button{aspect-ratio:1;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--fg);font-family:var(--display);font-size:14px;padding:0}
-.pick button.on{border-color:var(--pitch)}
-.pack{display:flex;gap:8px;flex-wrap:wrap;min-height:20px}
-.st{width:70px;aspect-ratio:3/4;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-size:18px;color:#fff;position:relative;
-  animation:flip .5s ease both;text-align:center;line-height:1.05}
-.st small{display:block;font-family:var(--body);font-weight:800;font-size:10px;opacity:.9}
-.st.new{background:linear-gradient(160deg,var(--gold),#e08e00);color:var(--gold-ink)}
-.st.rep{background:linear-gradient(160deg,var(--repe),#a8291e)}
-.st em{position:absolute;bottom:4px;left:0;right:0;font-family:var(--body);font-style:normal;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
-@keyframes flip{from{transform:rotateY(90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+/* Repes */
+.rteam{display:flex;align-items:center;gap:10px;margin:14px 0 4px}
+.rteam:first-child{margin-top:0}
+.rteam b{font-family:var(--display);font-weight:800;font-size:17px}
+.rrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0 6px 40px;border-top:1px solid var(--line)}
+.rrow b{font-family:var(--display);font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+.rrow span{display:flex;align-items:center;gap:10px;font-weight:800;font-variant-numeric:tabular-nums}
+.rrow.new{padding-left:12px;border-top:0;margin-bottom:4px;border-radius:12px;background:color-mix(in srgb,var(--gold) 22%,var(--card))}
+.rrow.new b{font-size:16px}
+.rhead{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-family:var(--display);font-weight:800;font-size:16px}
+.rsep{height:1px;background:var(--line);margin:14px 0}
+.teamrep{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}
+.teamrep b{font-weight:800;margin-right:4px}
+.teamrep span{background:color-mix(in srgb,var(--repe) 14%,var(--card));border-radius:999px;padding:3px 10px;font-weight:800;font-variant-numeric:tabular-nums}
+.rrow.hi{background:color-mix(in srgb,var(--gold) 18%,transparent);border-radius:10px}
+.rgrp{padding:12px 0;border-top:1px solid var(--line)}
+.rgrp .rteam{margin:0 0 8px}
+.rteam small{margin-left:auto;color:var(--muted);font-weight:700;font-size:13px}
+.rchips{display:flex;flex-wrap:wrap;gap:6px}
+.rchip{display:inline-flex;align-items:center;gap:2px;border-radius:12px;padding:3px;background:color-mix(in srgb,var(--c1) 14%,var(--card));box-shadow:inset 0 0 0 1px var(--line)}
+.rchip b{font-family:var(--display);font-weight:800;font-size:16px;padding:0 4px 0 6px;font-variant-numeric:tabular-nums}
+.rchip i{font-style:normal;font-weight:800;font-size:13px;color:var(--repe);padding-right:6px}
+.rchip button{width:30px;height:30px;border:0;border-radius:9px;background:var(--card);font-weight:800;font-size:16px}
+.rchip.hi{box-shadow:inset 0 0 0 2px var(--gold);background:color-mix(in srgb,var(--gold) 22%,var(--card))}
+.addnum{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:14px;color:var(--muted)}
+.addnum input{width:90px;padding:8px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-weight:800}
+.addnum .btn{padding:8px 12px;font-size:14px}
+.ver{font-size:10px;opacity:.6;margin-left:6px}
+.rrow button{width:38px;height:38px;border-radius:12px;border:0;background:var(--empty);font-weight:800;font-size:18px}
 
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(140px);background:var(--fg);color:var(--bg);
-  padding:10px 18px;border-radius:999px;font-weight:800;z-index:20;transition:transform .25s;max-width:calc(100% - 32px);text-align:center}
-.toast.show{transform:translateX(-50%) translateY(0)}
-#confetti{position:fixed;inset:0;pointer-events:none;z-index:15;width:100%;height:100%}
-/* Hoja para imprimir (papel blanco a propósito, igual en los dos temas) */
-:root{--paper:#ffffff;--paper-ink:#13241b;--paper-line:#c9d3cc;--paper-muted:#5d6f64}
-.paper{background:var(--paper);color:var(--paper-ink);border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.18);padding:22px 20px;max-width:760px;width:100%;margin:0 auto}
-.paper h3{font-family:var(--display);font-size:20px;margin:0;letter-spacing:.3px}
-.paper .sub{color:var(--paper-muted);font-size:12.5px;margin:2px 0 12px}
-.paper h4{font-family:var(--display);font-size:14px;margin:14px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--paper-ink);letter-spacing:.4px}
-.cols{columns:2;column-gap:22px}
-@media (max-width:560px){.cols{columns:1}}
-.pteam{break-inside:avoid;margin:0 0 9px}
-.pteam b{display:block;font-size:12.5px;margin-bottom:3px}
-.pcodes{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:12px;font-variant-numeric:tabular-nums}
-.pcodes span{display:inline-flex;align-items:center;gap:3px}
-.pcodes span::before{content:"";width:9px;height:9px;border:1.3px solid var(--paper-ink);border-radius:2px}
-.pcodes.norep span::before{display:none}
-.danger{border-color:color-mix(in srgb,var(--repe) 40%,var(--line))}
-@media print{
-  body{background:#fff;padding:0}
-  body *{visibility:hidden}
-  #paper,#paper *{visibility:visible}
-  #paper{position:absolute;left:0;top:0;box-shadow:none;max-width:none;padding:0}
-}
+/* Vista previa del PDF (papel blanco en los dos temas) */
+.paper{background:#fff;color:#13241b;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.15);padding:18px;margin-top:16px}
+.paper h4{margin:10px 0 2px;font-size:14px;display:flex;align-items:center;gap:6px}
+.paper h4 i{width:12px;height:12px;border-radius:3px;background:linear-gradient(135deg,var(--c1) 50%,var(--c2) 50%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.paper p{margin:0;font-size:13px;font-variant-numeric:tabular-nums}
+.paper .sub{color:#5d6f64;font-size:12.5px;margin-bottom:6px}
+
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;pointer-events:none;background:var(--fg);color:var(--bg);
+  padding:10px 10px 10px 18px;border-radius:999px;font-weight:800;z-index:20;transition:transform .25s,opacity .25s;width:max-content;max-width:calc(100% - 32px);display:flex;gap:12px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.toast button{border:0;background:var(--gold);color:var(--gold-ink);border-radius:999px;padding:6px 12px;font-weight:800}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Letras en 3D y movimiento ===== */
+:root{--ext-1:#c98a00;--ext-2:#8a5d00;--ext-3:#4d3400}
+.top h1{perspective:600px}
+.top h1 .t3d{display:inline-block;transform-origin:50% 80%;animation:float 5s ease-in-out infinite}
+.top h1 .w1{color:#fff;text-shadow:0 1px 0 #d9efe3,0 2px 0 #b5dcc6,0 3px 0 #8cc2a5,0 4px 0 #0a4a2f,0 6px 10px rgba(0,0,0,.35)}
+.top h1 span.t3d:not(.w1){color:var(--gold);text-shadow:0 1px 0 var(--ext-1),0 2px 0 var(--ext-1),0 3px 0 var(--ext-2),0 4px 0 var(--ext-2),0 5px 0 var(--ext-3),0 7px 12px rgba(0,0,0,.4);animation-delay:-2.5s}
+@keyframes float{0%,100%{transform:rotateX(8deg) rotateY(-6deg) translateY(0)}50%{transform:rotateX(14deg) rotateY(6deg) translateY(-2px)}}
+.ring b{text-shadow:0 1px 0 #b5dcc6,0 2px 0 #0a4a2f,0 4px 8px rgba(0,0,0,.35)}
+h2{text-shadow:0 1px 0 var(--card),0 2px 0 color-mix(in srgb,var(--brand) 35%,var(--card)),0 3px 0 color-mix(in srgb,var(--brand) 55%,var(--card)),0 5px 8px rgba(0,0,0,.12)}
+.pickhead b,.team-h b,.team-h .pct{text-shadow:0 1px 0 rgba(0,0,0,.12),0 2px 0 rgba(0,0,0,.1),0 3px 6px rgba(0,0,0,.15)}
+.pickhead b{color:var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.18),0 2px 0 rgba(0,0,0,.16),0 3px 0 rgba(0,0,0,.14),0 5px 10px rgba(0,0,0,.3)}
+.crest{text-shadow:0 1px 0 rgba(0,0,0,.25),0 2px 3px rgba(0,0,0,.25)}
+/* cromos con relieve que se inclinan */
+.grid{perspective:700px}
+.n{transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.n.on{text-shadow:0 1px 0 rgba(0,0,0,.18),0 2px 0 rgba(0,0,0,.14),0 3px 0 rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.25)}
+.n.on::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);background-size:250% 100%;background-position:120% 0;animation:shine 6s ease-in-out infinite}
+.n.on:nth-child(3n)::before{animation-delay:-2s}.n.on:nth-child(3n+1)::before{animation-delay:-4s}
+@keyframes shine{0%,70%{background-position:120% 0}100%{background-position:-120% 0}}
+.n.want,.n.pl{text-shadow:0 1px 0 var(--line),0 2px 0 color-mix(in srgb,var(--fg) 15%,var(--line))}
+.n.flash{animation:flip .6s cubic-bezier(.3,1.4,.5,1)}
+@keyframes flip{0%{transform:rotateY(0) scale(1)}45%{transform:rotateY(180deg) scale(1.25)}100%{transform:rotateY(360deg) scale(1)}}
+/* tarjetas que entran con movimiento (siempre visibles) */
+.team,.tile{animation:rise .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i,0) * 35ms)}
+@keyframes rise{from{transform:translateY(14px) rotateX(10deg) scale(.98)}to{transform:none}}
+.tile:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--line),0 8px 18px color-mix(in srgb,var(--c1) 30%,transparent)}
+.tile .crest,.team-h .crest{transition:transform .4s}
+.tile:hover .crest,.team-h:hover .crest{transform:rotateY(180deg)}
+.menu button[aria-current="true"] i{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.n{transform:none}}
+
+/* Guardar en el ordenador */
+.pcbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--card);border-radius:18px;padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow);
+  border:2px solid color-mix(in srgb,var(--gold) 55%,transparent)}
+.pcbar.ok{border-color:color-mix(in srgb,var(--brand) 45%,transparent)}
+.pc-t{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;font-size:14px;color:var(--muted)}
+.pc-t b{color:var(--fg);font-size:15px}
+.pc-b{display:flex;gap:8px;flex-wrap:wrap}
+.pc-b .btn{padding:10px 14px;font-size:14px;cursor:pointer}
+
+/* Comparar */
+.kind{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.kind button{border:2px solid var(--line);background:var(--card);border-radius:16px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:3px}
+.kind b{font-weight:800;font-size:15.5px}
+.kind small{color:var(--muted);font-size:12.5px;line-height:1.3}
+.kind button[aria-pressed="true"]{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--card));box-shadow:0 4px 14px color-mix(in srgb,var(--brand) 20%,transparent)}
+.trade-n{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trade-n div{display:flex;flex-direction:column;align-items:center;padding:12px;border-radius:16px;background:var(--empty)}
+.trade-n b{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;text-shadow:0 2px 0 rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.12)}
+.trade-n span{font-weight:700;color:var(--muted);font-size:14px}
+.drop{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:22px 16px;border:2px dashed color-mix(in srgb,var(--brand) 45%,var(--line));
+  border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--card));cursor:pointer;transition:background .2s,transform .2s}
+.drop:hover,.drop.over{background:color-mix(in srgb,var(--brand) 14%,var(--card));transform:translateY(-1px)}
+.drop-i{font-size:34px;line-height:1}
+.drop b{font-family:var(--display);font-weight:800;font-size:18px}
+.drop small{color:var(--muted);font-size:13px}
+.fchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fchip{display:inline-flex;align-items:center;gap:6px;background:var(--empty);border-radius:999px;padding:4px 4px 4px 12px;font-size:13px;font-weight:700;max-width:100%;overflow-wrap:anywhere}
+.fchip button{border:0;background:var(--card);border-radius:50%;width:24px;height:24px;font-weight:800}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);font:inherit;padding:10px 12px;resize:vertical}
+.cmp-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cmp-b .big{flex:1}
+.cmp-s{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 16%,var(--card));font-weight:600;font-size:14px}
+.cmp-big{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.cmp-big b{font-family:var(--display);font-weight:900;font-size:56px;line-height:1;color:var(--repe);
+  text-shadow:0 1px 0 color-mix(in srgb,var(--repe) 70%,#000),0 2px 0 color-mix(in srgb,var(--repe) 55%,#000),0 3px 0 color-mix(in srgb,var(--repe) 40%,#000),0 6px 10px rgba(0,0,0,.2)}
+.cmp-big span{font-weight:700;font-size:16px}
+.cgrp{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 10px;padding:10px 0;border-top:1px solid var(--line)}
+.cgrp b{font-family:var(--display);font-weight:800;font-size:16px}
+.cchips{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
+.cchip{border-radius:10px;padding:4px 10px;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;background:var(--empty)}
+.cchip.rep{background:color-mix(in srgb,var(--repe) 16%,var(--card));color:var(--fg)}
+.cchip.miss{background:var(--card);box-shadow:inset 0 0 0 2px var(--c1)}
+.cchip.have{background:linear-gradient(150deg,var(--c1) 0 72%,var(--c2) 72%);color:var(--ink)}
 </style>
 
-<canvas id="confetti"></canvas>
-<header class="score">
-  <div class="score-in">
+<header class="top">
+  <div class="top-in">
     <div class="ring" aria-hidden="true">
-      <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="4"/>
-      <circle id="ringBar" cx="18" cy="18" r="15.5" fill="none" stroke="var(--gold)" stroke-width="4" stroke-linecap="round" stroke-dasharray="97.4" stroke-dashoffset="97.4"/></svg>
+      <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="3.5"/>
+      <circle id="ringBar" cx="18" cy="18" r="15.5" fill="none" stroke="var(--gold)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="97.4" stroke-dashoffset="97.4"/></svg>
       <b id="pct">0%</b>
     </div>
     <div style="min-width:0">
-      <h1>Mis cromos <span>LaLiga 26·27</span></h1>
-      <div class="chips">
-        <span class="chip">Tengo <i id="nHave">0</i></span>
-        <span class="chip">Faltan <i id="nMiss">0</i></span>
-        <span class="chip">Repes <i id="nRep">0</i></span>
-      </div>
+      <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
+      <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 25-oct-F</span></div><div class="save" id="lastCh"></div>
     </div>
-    <div class="save" id="saveState">…</div>
   </div>
 </header>
 
 <main class="wrap">
-  <nav class="tabs" role="tablist">
-    <button class="tab" role="tab" data-tab="album" aria-selected="true">📒 Álbum</button>
-    <button class="tab" role="tab" data-tab="sobre" aria-selected="false">✨ Abrir sobre</button>
-    <button class="tab" role="tab" data-tab="repes" aria-selected="false">🔁 Repes</button>
-    <button class="tab" role="tab" data-tab="cambio" aria-selected="false">🤝 Cambiar</button>
-    <button class="tab" role="tab" data-tab="imprimir" aria-selected="false">🖨️ Imprimir</button>
-    <button class="tab" role="tab" data-tab="ajustes" aria-selected="false">⚙️ Listas</button>
+  <div class="pcbar" id="pcbar" hidden>
+    <div class="pc-t"><b id="pcTitle"></b><span id="pcText"></span></div>
+    <div class="pc-b">
+      <button class="btn gold" id="pcMain"></button>
+      <label class="btn alt" id="pcLoadL" for="pcLoad" hidden>Cargar cambios del ordenador</label>
+      <input type="file" id="pcLoad" accept=".html,.htm" hidden>
+    </div>
+  </div>
+  <nav class="menu">
+    <button data-go="tengo"><i>📒</i>Tengo</button>
+    <button data-go="anadir"><i>➕</i>Añadir</button>
+    <button data-go="repes"><i>🔁</i>Repes</button>
+    <button data-go="pdfFaltan"><i>📄</i>PDF faltan</button>
+    <button data-go="pdfRepes"><i>🖨️</i>PDF repes</button>
+    <button data-go="comparar"><i>📷</i>Comparar</button>
   </nav>
 
-  <!-- ÁLBUM -->
-  <section class="panel" id="p-album">
-    <div class="banner" id="firstBanner" hidden>
-      <span>¿Empezamos? Pega tu lista de cromos que te faltan y la app deduce los que ya tienes.</span>
-      <button class="btn" data-goto="ajustes">Pegar mi lista</button>
-    </div>
-    <div class="toolbar">
-      <div class="seg" id="filter">
-        <button data-f="all" aria-pressed="true">Todos</button>
-        <button data-f="miss" aria-pressed="false">Faltan</button>
-        <button data-f="have" aria-pressed="false">Tengo</button>
-        <button data-f="rep" aria-pressed="false">Repes</button>
-      </div>
-      <div class="seg" id="tapMode" title="Qué hace tocar un cromo">
-        <button data-m="have" aria-pressed="true">Toque: tengo / no</button>
-        <button data-m="rep" aria-pressed="false">+1 repe</button>
-        <button data-m="minus" aria-pressed="false">−1 repe</button>
-      </div>
-    </div>
-    <div class="jump" id="jump"></div>
+  <!-- 1. LOS QUE TENGO -->
+  <section id="v-tengo" hidden>
     <div class="legend">
-      <span><i class="sw" style="background:var(--empty);border:2px dashed var(--line)"></i>Me falta</span>
-      <span><i class="sw" style="background:var(--pitch)"></i>Lo tengo</span>
-      <span><i class="sw" style="background:var(--repe)"></i>Nº de repes</span>
-      <span>Mantén pulsado un cromo para sumar un repe</span>
+      <span><i class="sw" style="background:linear-gradient(150deg,#0b6b43 55%,#fff 55%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)"></i>Lo tengo (colores del equipo)</span>
+      <span><i class="sw" style="background:var(--empty);border:1.5px dashed var(--line)"></i>Me falta</span>
+      <span>Si alguno está mal, tócalo para cambiarlo</span>
     </div>
-    <div id="album" class="panel"></div>
+    <div id="tengoList"></div>
   </section>
 
-  <!-- SOBRE -->
-  <section class="panel" id="p-sobre" hidden>
+  <!-- 2. AÑADIR -->
+  <section id="v-anadir" hidden>
     <div class="box">
-      <h2>Abre un sobre</h2>
-      <p>Elige el equipo y toca los cromos que te han salido. Cuando los tengas todos, pulsa ¡Abrir! y la app te dice cuáles son nuevos y cuáles repes.</p>
-      <div class="jump" id="packTeams" style="margin-bottom:10px"></div>
-      <div class="pick" id="packPick"></div>
-      <div style="margin-top:12px" class="row"><b>En el sobre:</b><span class="pills" id="packBasket"><span class="hint">vacío</span></span></div>
-      <div class="row" style="margin-top:12px">
-        <button class="btn gold" id="packGo" disabled>¡Abrir! ✨</button>
-        <button class="btn alt" id="packClear">Vaciar</button>
-      </div>
-    </div>
-    <div class="box" id="packBox" hidden>
-      <h2 id="packTitle">Resultado</h2>
-      <div class="pack" id="packOut"></div>
-      <div class="row" style="margin-top:12px"><button class="btn alt" id="packUndo">Deshacer este sobre</button></div>
+      <div id="addIntro"><h2>Añadir los que me salen</h2>
+      <p class="lead">Del sobre o de un cambio. Elige el equipo y toca el número: se guarda solo. Si ya lo tenías, se apunta como repe.</p></div>
+      <div id="addPick"></div>
     </div>
   </section>
 
-  <!-- REPES -->
-  <section class="panel" id="p-repes" hidden>
+  <!-- 3. REPES -->
+  <section id="v-repes" hidden>
+    <div class="box">
+      <div id="repIntro"><h2>Rellenar repes</h2>
+      <p class="lead">Elige el equipo y toca el número de cada repe que tengas. Cada toque suma uno.</p></div>
+      <div id="repPick"></div>
+    </div>
     <div class="box">
       <h2>Mis repes</h2>
-      <p>Usa + y − para ajustar cuántos tienes de cada uno.</p>
-      <div class="row" style="margin-bottom:12px">
-        <input type="text" id="repAddIn" placeholder="Añadir repes: Betis 7, Celta 18B x2" style="flex:1;min-width:200px">
-        <button class="btn red" id="repAdd">Añadir</button>
-      </div>
+      <p class="lead"><b id="repSum"></b><br>Con − quitas uno (por ejemplo, si lo has cambiado) y con + sumas otro.</p>
       <div id="repList"></div>
     </div>
+  </section>
+
+  <!-- 6. COMPARAR UNA FOTO O DOCUMENTO -->
+  <section id="v-comparar" hidden>
     <div class="box">
-      <h2>Lista para compartir</h2>
-      <p>Cópiala y mándala por WhatsApp a tus amigos.</p>
-      <div class="out" id="shareText"></div>
-      <div class="row" style="margin-top:10px">
-        <button class="btn" id="copyShare">Copiar repes y faltan</button>
-        <button class="btn alt" id="copyRep">Copiar solo repes</button>
-        <button class="btn alt" id="copyMiss">Copiar solo faltan</button>
+      <h2>Comparar con mi amigo</h2>
+      <p class="lead">¿Qué te ha pasado tu amigo? Elige y sube la foto, captura o documento con su lista.</p>
+      <div class="kind" id="cmpKind">
+        <button data-k="falta" aria-pressed="true"><b>❌ Lo que le falta</b><small>Te digo qué repes tuyos le puedes dar</small></button>
+        <button data-k="repes" aria-pressed="false"><b>🔁 Sus repes</b><small>Te digo cuáles te faltan a ti</small></button>
       </div>
+      <label class="drop" id="cmpDrop" for="cmpPick">
+        <span class="drop-i">📷</span>
+        <b>Elegir foto o documento</b>
+        <small>Fotos, capturas, PDF o texto · también puedes arrastrarlos aquí</small>
+      </label>
+      <input type="file" id="cmpPick" accept="image/*,.heic,.heif,application/pdf,.pdf,text/plain,.txt,.csv" multiple hidden>
+      <div class="fchips" id="cmpFiles"></div>
+      <label class="lead" for="cmpText" style="display:block;margin:14px 0 6px">O pega aquí la lista (por ejemplo: «Betis 4 7 12, Celta 3 18B»)</label>
+      <textarea id="cmpText" rows="3" placeholder="Alavés 3 8&#10;Betis 5A 12"></textarea>
+      <div class="cmp-b">
+        <button class="btn gold big" id="cmpGo" disabled>🔍 Comparar</button>
+        <button class="btn alt" id="cmpStop" hidden>Parar</button>
+      </div>
+      <p class="cmp-s" id="cmpStatus" hidden></p>
+    </div>
+    <div id="cmpOut" hidden>
+      <div class="box cmp-res">
+        <div class="cmp-big"><b id="cmpBig">0</b><span id="cmpBigT"></span></div>
+        <div id="cmpRep"></div>
+        <div class="cmp-b"><button class="btn gold" id="cmpAct"></button></div>
+        <div class="cmp-b"><button class="btn" id="cmpCopy">Copiar para WhatsApp</button><button class="btn alt" id="cmpClear">Empezar otra</button></div>
+      </div>
+      <div class="box trade" id="cmpTrade" hidden>
+        <h2>🤝 El cambio</h2>
+        <div class="trade-n"><div><b id="trGive">0</b><span>le das tú</span></div><div><b id="trGet">0</b><span>te da él</span></div></div>
+        <p class="lead" id="trTip" style="margin:12px 0 0"></p>
+      </div>
+      <div class="box" id="cmpTodo" hidden><p class="lead" id="cmpTodoT" style="margin:0"></p><div class="cmp-b"><button class="btn alt" id="cmpOther"></button></div></div>
+      <div class="box" id="cmpMissBox"><h2 id="cmpMissH"></h2><div id="cmpMiss"></div></div>
     </div>
   </section>
 
-  <!-- CAMBIO -->
-  <section class="panel" id="p-cambio" hidden>
+  <!-- 4. PDF FALTAN -->
+  <section id="v-pdfFaltan" hidden>
     <div class="box">
-      <h2>¿Qué me puede dar mi amigo?</h2>
-      <p>Pega la lista de repes de tu amigo, con el nombre del equipo delante de sus números, y te digo cuáles te faltan.</p>
-      <textarea id="friendRep" placeholder="Alavés 3 8&#10;Betis 5A 12&#10;Sevilla 9A 9B"></textarea>
-      <div class="row" style="margin-top:10px"><button class="btn" id="cmpRep">Buscar los que me faltan</button></div>
-      <div id="friendRepOut" hidden style="margin-top:12px">
-        <div id="gainList"></div>
-        <div class="row" style="margin-top:10px"><button class="btn gold" id="takeAll">Me los quedo todos ✅</button></div>
-      </div>
-    </div>
-    <div class="box">
-      <h2>¿Qué le puedo dar yo?</h2>
-      <p>Pega la lista de faltan de tu amigo y te digo cuáles de tus repes le sirven.</p>
-      <textarea id="friendMiss" placeholder="Bilbao 3 7&#10;Getafe 12 18"></textarea>
-      <div class="row" style="margin-top:10px"><button class="btn" id="cmpMiss">Buscar en mis repes</button></div>
-      <div id="friendMissOut" hidden style="margin-top:12px">
-        <div id="giveList"></div>
-        <div class="row" style="margin-top:10px"><button class="btn red" id="giveAll">Ya se los he dado (quitar de repes)</button></div>
-      </div>
-    </div>
-    <div class="box">
-      <h2>Me han dado / he comprado</h2>
-      <p>Apunta cromos sueltos que te consigas fuera de un sobre. Si ya lo tenías, cuenta como repe.</p>
-      <div class="row">
-        <input type="text" id="gotIn" placeholder="Ej: Racing 11, Prime 2" style="flex:1;min-width:200px">
-        <button class="btn gold" id="gotGo">Apuntar</button>
-      </div>
+      <h2>Lista de los que me faltan</h2>
+      <p class="lead">Descarga el PDF y lo imprimes. Cada número lleva una casilla para tacharlo a boli.</p>
+      <button class="btn gold big" data-pdf="miss">Descargar PDF de faltan</button>
+      <p class="lead" data-note style="margin:8px 0 0"></p>
+      <div class="paper" id="prevMiss"></div>
     </div>
   </section>
 
-  <!-- IMPRIMIR -->
-  <section class="panel" id="p-imprimir" hidden>
+  <!-- 5. PDF REPES -->
+  <section id="v-pdfRepes" hidden>
     <div class="box">
-      <h2>Hoja para imprimir</h2>
-      <p>Esta hoja se actualiza sola cada vez que apuntas un cromo, abres un sobre o haces un cambio. Descárgala en PDF y la imprimes. Cada cromo que te falta lleva una casilla para que lo taches a boli cuando lo consigas.</p>
-      <div class="row">
-        <div class="seg" id="printWhat">
-          <button data-p="both" aria-pressed="true">Faltan y repes</button>
-          <button data-p="miss" aria-pressed="false">Solo faltan</button>
-          <button data-p="rep" aria-pressed="false">Solo repes</button>
-        </div>
-        <button class="btn gold" id="pdfGo">Descargar PDF para imprimir</button>
-        <button class="btn" id="printNow" hidden>Imprimir ahora</button>
-      </div>
-      <p class="hint" id="pdfNote" style="margin:8px 0 0"></p>
-    </div>
-    <div class="paper" id="paper"></div>
-  </section>
-
-  <!-- AJUSTES / LISTAS -->
-  <section class="panel" id="p-ajustes" hidden>
-    <div class="box">
-      <h2>Mi lista de faltan</h2>
-      <p>Escribe el equipo y luego sus números, como en tu libreta. En los equipos que pongas, todo lo que no esté en la lista se marca como que ya lo tienes. Se aceptan rangos como 1-69.</p>
-      <textarea id="missIn" placeholder="Alavés 4 5 7 18A 18B&#10;Betis 2 4 5A 5B&#10;Últimos fichajes 1-21 23-29"></textarea>
-      <div class="row" style="margin-top:10px"><button class="btn" id="missGo">Cargar mi lista de faltan</button></div>
-    </div>
-    <div class="box">
-      <h2>Mi lista de repes</h2>
-      <p>Igual que arriba. Repite el número o escribe 20x5 si tienes varios. Esto sustituye todos los repes que tengas apuntados.</p>
-      <textarea id="repIn" placeholder="Alavés 1 2 12&#10;Deportivo 2 9B 20x5"></textarea>
-      <div class="row" style="margin-top:10px"><button class="btn red" id="repGo">Cargar mi lista de repes</button></div>
-    </div>
-    <div class="box">
-      <h2>Cromos de cada sección</h2>
-      <p>Si una sección tiene más o menos cromos, o un número tiene versión A y B, cámbialo aquí.</p>
-      <div class="specs" id="specs"></div>
-      <div class="row" style="margin-top:12px"><button class="btn alt" id="specsGo">Guardar secciones</button></div>
-    </div>
-    <div class="box">
-      <h2>Copia en tu ordenador</h2>
-      <p id="exportTip">Descarga la app con todos tus cromos dentro. Se abre con doble clic en cualquier navegador, sin Claude, y puedes imprimir desde ella.</p>
-      <div class="row">
-        <button class="btn gold" id="exportGo">💾 Descargar app con mis datos</button>
-        <label class="btn alt" for="importIn" style="display:inline-block">Cargar una copia</label>
-        <input type="file" id="importIn" accept=".html,.htm,.json" hidden>
-      </div>
-      <p class="hint" style="margin:8px 0 0">"Cargar una copia" pone aquí los datos de un archivo descargado, por si apuntaste cromos en el ordenador. Sustituye lo que hay ahora.</p>
-      <p class="hint" id="exportNote" style="margin:6px 0 0"></p>
-    </div>
-    <div class="box danger">
-      <h2>Empezar de cero</h2>
-      <p>Borra todo lo apuntado. Las secciones se quedan como están.</p>
-      <div class="row">
-        <button class="btn alt" id="resetAsk">Borrar todo</button>
-        <span id="resetConfirm" hidden class="row"><b>¿Seguro?</b><button class="btn red" id="resetYes">Sí, borrar</button><button class="btn alt" id="resetNo">No</button></span>
-      </div>
+      <h2>Lista de mis repes</h2>
+      <p class="lead">Descarga el PDF y lo imprimes para llevarlo a cambiar.</p>
+      <button class="btn gold big" data-pdf="rep">Descargar PDF de repes</button>
+      <p class="lead" data-note style="margin:8px 0 0"></p>
+      <div class="paper" id="prevRep"></div>
     </div>
   </section>
 </main>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast"><span id="toastT"></span><button id="toastUndo" hidden>Deshacer</button></div>
 
 <script data-app src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script data-app type="application/json" id="cromos-data"></script>
@@ -352,43 +371,23 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
 (() => {
   const $ = s => document.querySelector(s);
   const LS = "cromos-liga-2627-v2";
-  const STANDALONE = !window.claude;
+  const PC = !window.claude; // abierta desde el archivo del ordenador, sin Claude
 
-  /* Secciones del álbum: id, nombre, cromos y nombres que se aceptan al escribir listas */
+  /* Apartados del álbum (los mismos de antes, para no perder lo guardado) */
   const DEFAULT_SECTIONS = [
-    ["ala","Alavés","1-17,18A,18B,19,20","alaves"],
-    ["ath","Athletic","1-16,17A,17B,18-20","athletic|bilbao|athletic club"],
-    ["atm","Atlético","1-7,8A,8B,9-13,14A,14B,15-20","atletico|at madrid|atl madrid|atletico de madrid|atm"],
-    ["bar","Barça","1-5,6A,6B,7-20","barca|barsa|barcelona"],
-    ["bet","Betis","1-4,5A,5B,6-20","betis"],
-    ["cel","Celta","1-17,18A,18B,19,20","celta"],
-    ["dep","Deportivo","1-8,9A,9B,10-20","deportivo|depor"],
-    ["elc","Elche","1-12,13A,13B,14-20","elche"],
-    ["esp","Espanyol","1-20","espanyol|espanol"],
-    ["get","Getafe","1-20","getafe"],
-    ["lev","Levante","1-20","levante"],
-    ["rma","Real Madrid","1-9,10A,10B,11-15,16A,16B,17-20","real madrid|r madrid|madrid"],
-    ["mal","Málaga","1-20","malaga"],
-    ["osa","Osasuna","1-4,5A,5B,6-20","osasuna"],
-    ["rac","Racing","1-20","racing"],
-    ["ray","Rayo","1-10,11A,11B,12-20","rayo|rayo vallecano|r vallecano|vallecano"],
-    ["rso","Real Sociedad","1-12,13A,13B,14-20","real sociedad|r sociedad|sociedad"],
-    ["sev","Sevilla","1-8,9A,9B,10-20","sevilla"],
-    ["val","Valencia","1-7,8A,8B,9-19,20A,20B","valencia"],
-    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20","villarreal|villareal|villa real"],
-    ["pri","Prime","1-15","prime"],
-    ["fan","Fantasy","1-9","fantasy"],
-    ["dra","Draft azul","1-23","draft azul|azul"],
-    ["drr","Draft rojo","1-23","draft rojo|rojo"],
-    ["fic","Últimos fichajes","1-69","ultimos fichajes|fichajes"],
-    ["com","Cromos Comunidad","1-2","cromos comunidad|comunidad"],
-  ].map(([id,name,spec,alias]) => ({id,name,spec,alias}));
+    ["ala","Alavés","1-17,18A,18B,19,20"], ["ath","Athletic","1-16,17A,17B,18-20"], ["atm","Atlético","1-7,8A,8B,9-13,14A,14B,15-20"],
+    ["bar","Barça","1-5,6A,6B,7-20"], ["bet","Betis","1-4,5A,5B,6-20"], ["cel","Celta","1-17,18A,18B,19,20"],
+    ["dep","Deportivo","1-8,9A,9B,10-20"], ["elc","Elche","1-12,13A,13B,14-20"], ["esp","Espanyol","1-20"], ["get","Getafe","1-20"],
+    ["lev","Levante","1-20"], ["rma","Real Madrid","1-9,10A,10B,11-15,16A,16B,17-20"], ["mal","Málaga","1-20"],
+    ["osa","Osasuna","1-4,5A,5B,6-20"], ["rac","Racing","1-20"], ["ray","Rayo","1-10,11A,11B,12-20"],
+    ["rso","Real Sociedad","1-12,13A,13B,14-20"], ["sev","Sevilla","1-8,9A,9B,10-20"], ["val","Valencia","1-7,8A,8B,9-19,20A,20B"],
+    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20"], ["pri","Prime","1-15"], ["fan","Fantasy","1-9"], ["dra","Draft azul","1-23"],
+    ["drr","Draft rojo","1-23"], ["fic","Últimos fichajes","1-69"], ["com","Cromos Comunidad","1-2"],
+  ].map(([id,name,spec]) => ({id,name,spec}));
 
   let S = { sections: DEFAULT_SECTIONS, have: [], repes: {}, started: false };
-  let ref = null, saveTimer = null, lastWritten = "";
-  let filter = "all", tapMode = "have", lastPack = null, packTeam = "ala", basket = [];
+  let ref = null, saveTimer = null, lastWritten = "", saving = 0, view = "tengo", addSec = null, repSec = null, undo = null, recentRep = [];
 
-  /* ---------- secciones ---------- */
   function specCodes(spec) {
     const out = [];
     for (const part of String(spec).split(/[,\s]+/)) {
@@ -398,467 +397,663 @@ textarea{min-height:96px;resize:vertical;font-variant-numeric:tabular-nums}
     }
     return [...new Set(out)];
   }
-  let SEC = [], SECMAP = {}, ALL = [], ALIAS = null;
-  function buildSections() {
-    SEC = S.sections.map(s => ({...s, codes: specCodes(s.spec)}));
+  let SEC = [], SECMAP = {}, ALL = [];
+  const sortCodes = l => [...l].sort((a,b) => parseInt(a) - parseInt(b) || a.localeCompare(b));
+  function norm() {
+    // un cromo guardado con un número que el equipo no tiene se añade al equipo, nunca se borra
+    S.sections = S.sections.map(s => ({...s}));
+    const known = Object.fromEntries(S.sections.map(s => [s.id, new Set(specCodes(s.spec))]));
+    [...(S.have || []), ...Object.keys(S.repes || {})].forEach(id => {
+      const [sid, c] = String(id).split(":"), sec = S.sections.find(s => s.id === sid);
+      if (sec && c && /^\d+[A-Z]?$/.test(c) && !known[sid].has(c)) { sec.spec += "," + c; known[sid].add(c); }
+    });
+    SEC = S.sections.map(s => ({...s, codes: sortCodes(specCodes(s.spec))}));
     SECMAP = Object.fromEntries(SEC.map(s => [s.id, s]));
     ALL = SEC.flatMap(s => s.codes.map(c => s.id+":"+c));
-    const al = [];
-    SEC.forEach(s => [s.id, ...String(s.alias||"").split("|"), plain(s.name)].forEach(a => { a = plain(a).trim(); if (a) al.push([a, s.id]); }));
-    al.sort((a,b) => b[0].length - a[0].length);
-    ALIAS = { list: al, re: new RegExp("(^|[^a-z0-9])(" + al.map(a => a[0].replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")).join("|") + ")(?![a-z])", "g") };
-  }
-  const plain = t => String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[.:;]/g," ");
-  const label = id => { const [s,c] = id.split(":"); return (SECMAP[s]?.name || s) + " " + c; };
-
-  /* ---------- leer listas escritas ("Betis 5A 7 12x2 Celta 18B") ---------- */
-  // devuelve [{id, c}] y los avisos de lo que no se entendió
-  function parse(txt, {expand = true} = {}) {
-    const t = plain(txt), out = [], warn = [];
-    const marks = [...t.matchAll(ALIAS.re)].map(m => ({ at: m.index + m[1].length, end: m.index + m[0].length, sec: ALIAS.list.find(a => new RegExp("^"+a[0].replace(/ /g,"\\s+")+"$").test(m[2]))?.[1] }));
-    marks.forEach((m, i) => {
-      const s = SECMAP[m.sec]; if (!s) return;
-      const seg = t.slice(m.end, i+1 < marks.length ? marks[i+1].at : t.length);
-      const re = /(\d+)([ab](?![a-wyz]))?(?:\s*(?:[-–]|\bal?\b)\s*(\d+))?(?:\s*[x×*]\s*(\d+))?/g;
-      let r;
-      while ((r = re.exec(seg))) {
-        const a = +r[1], b = r[3] ? +r[3] : a, cnt = r[4] ? +r[4] : 1, L = (r[2]||"").toUpperCase();
-        for (let n = a; n <= b && n - a < 500; n++) {
-          const codes = resolve(s, n, n === a ? L : "", expand);
-          if (!codes.length) warn.push(s.name + " " + n + L);
-          codes.forEach(c => out.push({ id: s.id+":"+c, c: cnt }));
-        }
-      }
-    });
-    return { list: out, warn };
-  }
-  function resolve(s, n, L, expand) {
-    if (L) return s.codes.includes(n+L) ? [n+L] : [];
-    if (s.codes.includes(String(n))) return [String(n)];
-    const v = s.codes.filter(c => c === n+"A" || c === n+"B");
-    return expand ? v : v.slice(0,1);
-  }
-  const ids = l => [...new Set(l.map(o => o.id))];
-
-  /* ---------- estado ---------- */
-  const haveSet = () => new Set(S.have);
-  function norm() {
-    buildSections();
     const valid = new Set(ALL);
     S.have = [...new Set(S.have)].filter(id => valid.has(id));
     const r = {};
     for (const [k,v] of Object.entries(S.repes || {})) { const c = Math.floor(+v); if (valid.has(k) && c > 0) r[k] = c; }
     S.repes = r;
+    // si tienes repe de un cromo, ese cromo lo tienes
+    const hv = new Set(S.have); Object.keys(r).forEach(id => { if (!hv.has(id)) { S.have.push(id); hv.add(id); } });
   }
-  function loadLocal() { try { const j = JSON.parse(localStorage.getItem(LS)); if (j && j.sections) S = j; } catch {} }
+  const has = id => S.have.includes(id);
+  const label = id => { const [s,c] = id.split(":"); return (SECMAP[s]?.name || s) + " " + c; };
+  const totalRep = () => Object.values(S.repes).reduce((a,b) => a+b, 0);
+
+  /* ---------- guardar ---------- */
   function save() {
-    norm(); S.savedAt = Date.now();
+    norm(); S.savedAt = Date.now(); S.started = true;
     try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
     render();
+    if (PC) { fileSaveSoon(); return; }
     if (!ref) { setSave("Guardado en este dispositivo"); return; }
-    setSave("Guardando…");
+    setSave("Guardando…"); saving++;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(async () => {
       const body = JSON.stringify(S);
-      if (body === lastWritten) { setSave("Guardado ✓"); return; }
-      try { await ref.set(JSON.parse(body)); lastWritten = body; setSave("Guardado ✓"); }
+      try { if (body !== lastWritten) { await ref.set(JSON.parse(body)); lastWritten = body; } setSave("Guardado ✓"); }
       catch (e) { setSave(e && e.code === "quota_exceeded" ? "Sin espacio" : "Guardado aquí"); }
+      finally { saving = 0; if (JSON.stringify(S) !== lastWritten && ref) save(); }
     }, 700);
   }
   const setSave = t => { $("#saveState").textContent = t; };
+  // guarda el estado anterior para poder deshacer el último toque
+  function change(fn, msg) { undo = JSON.stringify(S); fn(); save(); toast(msg, true); }
 
-  /* ---------- acciones ---------- */
-  function addSticker(id) {
-    if (!haveSet().has(id)) { S.have.push(id); return "new"; }
-    S.repes[id] = (S.repes[id]||0) + 1; return "rep";
+  /* ---------- colores de cada equipo: abreviatura, color 1, color 2 ---------- */
+  const LOOK = {
+    ala:["ALA","#1f4fa3","#ffffff"], ath:["ATH","#e30613","#ffffff"], atm:["ATM","#cb3524","#272e61"], bar:["FCB","#a50044","#004d98"],
+    bet:["BET","#00954c","#ffffff"], cel:["CEL","#8ac3ee","#ffffff"], dep:["DEP","#0057b8","#ffffff"], elc:["ELC","#05642c","#ffffff"],
+    esp:["ESP","#1e6fd9","#ffffff"], get:["GET","#005999","#4b9be0"], lev:["LEV","#a8123a","#0b3d91"], rma:["RMA","#ffffff","#febe10"],
+    mal:["MAL","#4f9ce6","#ffffff"], osa:["OSA","#d1001f","#0a1f4d"], rac:["RAC","#00965e","#ffffff"], ray:["RAY","#ffffff","#e41b23"],
+    rso:["RSO","#0067b1","#ffffff"], sev:["SEV","#d4021d","#ffffff"], val:["VAL","#ff7f00","#1a1a1a"], vil:["VIL","#ffe667","#005187"],
+    pri:["PRI","#6d28d9","#c084fc"], fan:["FAN","#ec4899","#f59e0b"], dra:["AZU","#1d4ed8","#60a5fa"], drr:["ROJ","#b91c1c","#f87171"],
+    fic:["FIC","#111827","#f5b70a"], com:["COM","#0b6b43","#34d399"],
+  };
+  // texto oscuro sobre colores claros, blanco sobre oscuros
+  const lum = h => { const n = parseInt(h.slice(1), 16); return (0.299*(n>>16) + 0.587*(n>>8&255) + 0.114*(n&255)) / 255; };
+  function look(s) {
+    const [ab, c1, c2] = LOOK[s.id] || [s.name.slice(0,3).toUpperCase(), "#0b6b43", "#34d399"];
+    return { ab, c1, c2, ink: lum(c1) > 0.62 ? "#111a15" : "#ffffff" };
   }
-  function toggleHave(id) {
-    if (haveSet().has(id)) { S.have = S.have.filter(x => x !== id); delete S.repes[id]; toast(`Quitado: ${label(id)}`); }
-    else { S.have.push(id); celebrate(id); }
-    S.started = true; save(); popCell(id);
-  }
-  function repDelta(id, d) {
-    if (d > 0 && !haveSet().has(id)) { S.have.push(id); celebrate(id); }
-    else { const c = (S.repes[id]||0) + d; if (c > 0) S.repes[id] = c; else delete S.repes[id]; if (d > 0) toast(`+1 repe: ${label(id)}`); }
-    S.started = true; save(); popCell(id);
-  }
+  function paint(el, s) { const l = look(s); el.style.setProperty("--c1", l.c1); el.style.setProperty("--c2", l.c2); el.style.setProperty("--ink", l.ink); return el; }
+  function crest(s, sm) { const e = paint(document.createElement("span"), s); e.className = "crest" + (sm ? " sm" : ""); e.textContent = look(s).ab; return e; }
+  const gotOf = s => s.codes.filter(c => has(s.id+":"+c)).length;
+  function bar(got, total) { const b = document.createElement("div"); b.className = "bar"; b.innerHTML = `<i style="width:${(got/total*100).toFixed(1)}%"></i>`; return b; }
 
-  /* ---------- render ---------- */
+  /* ---------- pintar ---------- */
+  function cell(s, c, cls) {
+    const id = s.id+":"+c, r = S.repes[id]||0, b = document.createElement("button");
+    b.className = "n " + cls; b.dataset.id = id; b.textContent = c;
+    b.setAttribute("aria-label", `${s.name} ${c}: ${has(id) ? "lo tengo" : "me falta"}${r ? `, ${r} repes` : ""}`);
+    if (r) { const x = document.createElement("span"); x.className = "x"; x.textContent = "+"+r; b.append(x); }
+    return b;
+  }
   function render() {
-    const h = haveSet(), t = ALL.length;
-    const nh = S.have.length, nr = Object.values(S.repes).reduce((a,b)=>a+b,0);
-    $("#nHave").textContent = nh; $("#nMiss").textContent = t - nh; $("#nRep").textContent = nr;
-    const p = t ? nh / t : 0;
+    const nh = S.have.length, p = ALL.length ? nh / ALL.length : 0;
+    $("#nHave").textContent = nh; $("#nMiss").textContent = ALL.length - nh; $("#nRep").textContent = totalRep();
     $("#pct").textContent = Math.floor(p*100) + "%";
+    $("#lastCh").textContent = S.savedAt ? "Último cambio: " + new Date(S.savedAt).toLocaleString("es-ES", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
     $("#ringBar").setAttribute("stroke-dashoffset", (97.4*(1-p)).toFixed(1));
-    $("#firstBanner").hidden = S.started;
+    document.querySelectorAll(".menu button").forEach(b => b.setAttribute("aria-current", b.dataset.go === view));
+    document.querySelectorAll("main > section").forEach(sec => sec.hidden = sec.id !== "v-"+view);
+    if (view === "tengo") renderTengo();
+    if (view === "anadir") renderPick("#addPick", "#addIntro", addSec, "want");
+    if (view === "repes") { renderPick("#repPick", "#repIntro", repSec, "pl"); renderRepList(); }
+    if (view === "pdfFaltan") renderPrev("miss");
+    if (view === "pdfRepes") renderPrev("rep");
+    if (view === "comparar" && lastCmp && !$("#cmpOut").hidden) showCmpQuiet();
+  }
+  function teamHead(s, cls) {
+    const got = gotOf(s), h = document.createElement("div"); h.className = cls;
+    const t = document.createElement("div"); t.className = "t";
+    const name = document.createElement("b"); name.textContent = s.name;
+    const sm = document.createElement("small"); sm.textContent = got === s.codes.length ? "¡Completo! 🏆" : `Tengo ${got} de ${s.codes.length}`;
+    t.append(name, sm, bar(got, s.codes.length));
+    h.append(crest(s), t); return [h, got];
+  }
 
-    // atajos por equipo
-    $("#jump").replaceChildren(...SEC.map(s => {
-      const got = s.codes.filter(c => h.has(s.id+":"+c)).length, b = document.createElement("button");
-      b.textContent = `${s.name} ${got}/${s.codes.length}`; b.dataset.jump = s.id;
-      if (got === s.codes.length) b.className = "done";
-      return b;
+  // 1. Los que tengo, por equipo
+  function renderTengo() {
+    $("#tengoList").replaceChildren(...SEC.map(s => {
+      const box = paint(document.createElement("div"), s); box.className = "box team"; box.style.setProperty("--i", SEC.indexOf(s));
+      const [h, got] = teamHead(s, "team-h");
+      const pct = document.createElement("span"); pct.className = "pct"; pct.textContent = Math.floor(got / s.codes.length * 100) + "%"; h.append(pct);
+      const g = document.createElement("div"); g.className = "grid";
+      g.append(...s.codes.map(c => cell(s, c, has(s.id+":"+c) ? "on" : "")));
+      box.append(h, g); return box;
     }));
+  }
 
-    // álbum por secciones
-    const frag = document.createDocumentFragment();
-    for (const s of SEC) {
-      const cells = [];
-      let got = 0;
-      for (const c of s.codes) {
-        const id = s.id+":"+c, on = h.has(id), r = S.repes[id]||0;
-        if (on) got++;
-        if (filter==="miss" && on) continue;
-        if (filter==="have" && !on) continue;
-        if (filter==="rep" && !r) continue;
-        const b = document.createElement("button");
-        b.className = "c" + (on ? " on" : ""); b.dataset.id = id; b.textContent = c;
-        b.setAttribute("aria-label", `${s.name} ${c}: ${on?"lo tengo":"me falta"}${r?`, ${r} repe${r>1?"s":""}`:""}`);
-        if (r) { const x = document.createElement("span"); x.className = "x"; x.textContent = "+"+r; b.append(x); }
-        cells.push(b);
-      }
-      if (!cells.length && filter !== "all") continue;
-      const sec = document.createElement("div"); sec.className = "sec box"; sec.id = "s-"+s.id;
-      sec.innerHTML = `<div class="sec-h"><h3></h3><span class="bar"><i style="width:${(got/s.codes.length*100).toFixed(1)}%"></i></span><span class="meta">${got}/${s.codes.length}${got===s.codes.length?" 🏆":""}</span></div>`;
-      sec.querySelector("h3").textContent = s.name;
-      const g = document.createElement("div"); g.className = "grid"; g.append(...cells);
-      sec.append(g); frag.append(sec);
+  // 2 y 3. Elegir equipo y luego número
+  function renderPick(where, intro, secId, style) {
+    const el = $(where), s = secId && SECMAP[secId];
+    $(intro).hidden = !!s;
+    if (!s) {
+      const list = document.createElement("div"); list.className = "tiles";
+      list.append(...SEC.map(t => { const b = paint(document.createElement("button"), t); b.className = "tile"; b.dataset.sec = t.id; b.style.setProperty("--i", SEC.indexOf(t));
+        const [h] = teamHead(t, "x"); b.append(...h.childNodes); return b; }));
+      el.replaceChildren(list); return;
     }
-    $("#album").replaceChildren(frag);
-    if (!$("#album").children.length) $("#album").innerHTML = `<p class="hint">No hay cromos en este filtro.</p>`;
-
-    // repes agrupados
-    const rl = $("#repList"), groups = groupBy(Object.keys(S.repes));
-    rl.replaceChildren(...groups.map(([s, list]) => {
-      const row = document.createElement("div"); row.className = "grp";
-      row.innerHTML = `<b></b><div class="pills">${list.map(id => `<span class="pill r">${id.split(":")[1]} <small>×${S.repes[id]}</small><button data-rd="-1" data-id="${id}" aria-label="Quitar un repe">−</button><button data-rd="1" data-id="${id}" aria-label="Sumar un repe">+</button></span>`).join("")}</div>`;
-      row.querySelector("b").textContent = s.name; return row;
-    }));
-    if (!groups.length) rl.innerHTML = `<p class="hint">Aún no tienes repes apuntados.</p>`;
-    $("#shareText").textContent = shareText("both");
-
-    renderPack(); renderSpecs(); renderPaper();
+    const head = paint(document.createElement("div"), s); head.className = "pickhead";
+    const back = document.createElement("button"); back.className = "back"; back.dataset.back = ""; back.textContent = "‹"; back.setAttribute("aria-label", "Volver a los equipos");
+    const name = document.createElement("b"); name.textContent = s.name;
+    head.append(back, crest(s), name);
+    const leg = document.createElement("div"); leg.className = "legend";
+    leg.innerHTML = style === "want"
+      ? `<span><i class="sw" style="border:2px solid var(--c1)"></i>Me falta</span><span><i class="sw" style="background:linear-gradient(150deg,var(--c1) 55%,var(--c2) 55%)"></i>Ya lo tengo (saldrá repe)</span>`
+      : `<span><i class="sw" style="background:var(--repe)"></i>Número de repes que tienes</span>`;
+    const g = paint(document.createElement("div"), s); g.className = "grid";
+    g.append(...s.codes.map(c => cell(s, c, has(s.id+":"+c) ? "on" : style)));
+    const parts = [head, leg, g];
+    const an = document.createElement("form"); an.className = "addnum"; an.dataset.addnum = s.id;
+    an.innerHTML = `<label for="num-${where.slice(1)}">¿No está el número?</label><input id="num-${where.slice(1)}" placeholder="Ej: 21" maxlength="4" autocomplete="off"><button class="btn alt">Añadir número</button>`;
+    parts.push(an);
+    if (style === "pl") {
+      const mine = s.codes.filter(c => S.repes[s.id+":"+c]), tr = document.createElement("div"); tr.className = "teamrep";
+      const b = document.createElement("b"); b.textContent = mine.length ? `Repes de ${s.name}:` : `Aún no tienes repes de ${s.name}`; tr.append(b);
+      mine.forEach(c => { const x = document.createElement("span"); x.textContent = `${c} ×${S.repes[s.id+":"+c]}`; tr.append(x); });
+      parts.push(tr);
+    }
+    paint(el, s).replaceChildren(...parts);
+  }
+  function flash(where, id) {
+    const b = document.querySelector(`${where} [data-id="${CSS.escape(id)}"]`);
+    if (b) { b.classList.remove("flash"); void b.offsetWidth; b.classList.add("flash"); }
+    try { navigator.vibrate && navigator.vibrate(15); } catch {}
   }
 
-  /* ---------- hoja para imprimir ---------- */
-  let printWhat = "both";
+  // 3. Lista de repes con + y −; arriba los que acabas de añadir, para verlos sin buscar
+  function repRow(id, cls, text) {
+    const row = document.createElement("div"); row.className = "rrow" + cls;
+    const b = document.createElement("b"); b.textContent = text;
+    const sp = document.createElement("span");
+    sp.innerHTML = `<button data-rd="-1" data-id="${id}" aria-label="Quitar uno">−</button>×${S.repes[id]}<button data-rd="1" data-id="${id}" aria-label="Sumar uno">+</button>`;
+    row.append(b, sp); return row;
+  }
+  function renderRepList() {
+    const out = [], fresh = recentRep.filter(id => S.repes[id]), ids = Object.keys(S.repes);
+    $("#repSum").textContent = ids.length ? `${totalRep()} repes en total · ${ids.length} números distintos` : "";
+    if (fresh.length) {
+      const h = document.createElement("div"); h.className = "rhead"; h.textContent = "🆕 Acabas de añadir"; out.push(h);
+      fresh.forEach(id => out.push(repRow(id, " new", label(id))));
+      const sep = document.createElement("div"); sep.className = "rsep"; out.push(sep);
+    }
+    SEC.forEach(s => {
+      const mine = s.codes.map(c => s.id+":"+c).filter(id => S.repes[id]);
+      if (!mine.length) return;
+      const g = paint(document.createElement("div"), s); g.className = "rgrp";
+      const h = document.createElement("div"); h.className = "rteam";
+      const name = document.createElement("b"); name.textContent = s.name;
+      const n = document.createElement("small"); const tot = mine.reduce((a,id) => a + S.repes[id], 0); n.textContent = `${tot} repe${tot === 1 ? "" : "s"}`;
+      h.append(crest(s, true), name, n);
+      const chips = document.createElement("div"); chips.className = "rchips";
+      mine.forEach(id => {
+        const c = document.createElement("span"); c.className = "rchip" + (fresh.includes(id) ? " hi" : "");
+        c.innerHTML = `<button data-rd="-1" data-id="${id}" aria-label="Quitar un repe del ${label(id)}">−</button><b></b><i>×${S.repes[id]}</i><button data-rd="1" data-id="${id}" aria-label="Sumar un repe del ${label(id)}">+</button>`;
+        c.querySelector("b").textContent = id.split(":")[1];
+        chips.append(c);
+      });
+      g.append(h, chips); out.push(g);
+    });
+    $("#repList").replaceChildren(...out);
+    if (!ids.length) $("#repList").innerHTML = `<p class="lead">Todavía no tienes repes apuntados.</p>`;
+  }
+  function markRep(id) { recentRep = [id, ...recentRep.filter(x => x !== id)].slice(0, 8); }
+
+  /* ---------- listas para el PDF ---------- */
+  function lists(kind) {
+    return SEC.map(s => [s.name, s.codes.filter(c => {
+      const id = s.id+":"+c; return kind === "miss" ? !has(id) : S.repes[id];
+    }).map(c => kind === "rep" && S.repes[s.id+":"+c] > 1 ? `${c} (x${S.repes[s.id+":"+c]})` : c), s]).filter(([,l]) => l.length);
+  }
+  const count = kind => kind === "miss" ? ALL.length - S.have.length : totalRep();
   const today = () => new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
-  function printData() {
-    const h = haveSet();
-    const miss = groupBy(ALL.filter(id => !h.has(id))).map(([s,l]) => [s.name, l.map(id => id.split(":")[1])]);
-    const rep = groupBy(Object.keys(S.repes)).map(([s,l]) => [s.name, l.map(id => { const c = id.split(":")[1], n = S.repes[id]; return n > 1 ? `${c} (x${n})` : c; })]);
-    return { miss, rep, nMiss: ALL.length - S.have.length, nRep: Object.values(S.repes).reduce((a,b)=>a+b,0), nHave: S.have.length, total: ALL.length };
+  function renderPrev(kind) {
+    const l = lists(kind), el = $(kind === "miss" ? "#prevMiss" : "#prevRep");
+    el.innerHTML = `<h3 style="margin:0">${kind === "miss" ? "ME FALTAN" : "MIS REPES"} (${count(kind)})</h3><p class="sub">Cromos LaLiga 26-27 · ${today()}</p>`;
+    if (!l.length) { el.insertAdjacentHTML("beforeend", `<p>Ninguno</p>`); return; }
+    l.forEach(([name, codes, s]) => {
+      const h = paint(document.createElement("h4"), s); h.append(document.createElement("i"), name);
+      const p = document.createElement("p"); p.textContent = codes.join(" · ");
+      el.append(h, p);
+    });
   }
-  function renderPaper() {
-    const d = printData(), esc = t => String(t).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
-    const block = (title, list, cls) => `<h4>${title}</h4>` + (list.length ? `<div class="cols">${list.map(([n,c]) => `<div class="pteam"><b>${esc(n)}</b><div class="pcodes ${cls}">${c.map(x => `<span>${esc(x)}</span>`).join("")}</div></div>`).join("")}</div>` : `<p class="sub">Ninguno</p>`);
-    $("#paper").innerHTML = `<h3>Cromos LaLiga 26·27</h3><p class="sub">${today()} · Tengo ${d.nHave} de ${d.total} · Faltan ${d.nMiss} · Repes ${d.nRep}</p>`
-      + (printWhat !== "rep" ? block(`ME FALTAN (${d.nMiss})`, d.miss, "") : "")
-      + (printWhat !== "miss" ? block(`REPES (${d.nRep})`, d.rep, "norep") : "");
-  }
-  $("#printWhat").onclick = e => { const b = e.target.closest("button"); if (!b) return; printWhat = b.dataset.p;
-    $("#printWhat").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b)); renderPaper(); };
-
-  function buildPdf() {
+  function buildPdf(kind) {
     const { jsPDF } = window.jspdf, doc = new jsPDF({ unit: "mm", format: "a4" });
-    const d = printData(), M = 12, W = 210, H = 297, colW = (W - 2*M - 8) / 2;
-    let col = 0, y = 0, page = 1;
+    const l = lists(kind), M = 12, W = 210, H = 297, colW = (W - 2*M - 8) / 2, boxes = kind === "miss";
+    let col = 0, y = 0, page = 1, colTop = 0;
     const x0 = () => M + col * (colW + 8);
     function header() {
-      doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.text("Cromos LaLiga 26-27", M, M + 5);
+      doc.setFont("helvetica","bold"); doc.setFontSize(16);
+      doc.text(`${kind === "miss" ? "ME FALTAN" : "MIS REPES"} (${count(kind)})`, M, M + 5);
       doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(90);
-      doc.text(`${today()}  ·  Tengo ${d.nHave} de ${d.total}  ·  Faltan ${d.nMiss}  ·  Repes ${d.nRep}`, M, M + 10);
+      doc.text(`Cromos LaLiga 26-27  -  ${today()}${boxes ? "  -  tacha cada casilla cuando lo consigas" : ""}`, M, M + 10);
       doc.text(`Hoja ${page}`, W - M, M + 5, { align: "right" }); doc.setTextColor(0);
-      y = M + 16;
+      doc.setLineWidth(.5); doc.line(M, M + 13, W - M, M + 13);
+      y = M + 18; colTop = y;
     }
-    function need(h) {
-      if (y + h <= H - M) return;
-      if (col === 0) { col = 1; y = colTop; return; }
-      doc.addPage(); page++; col = 0; header(); colTop = y;
-    }
-    function title(t) {
-      if (col === 1 || y > M + 16) { doc.addPage(); page++; col = 0; header(); }
-      doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.text(t, M, y + 4);
-      doc.setLineWidth(.6); doc.line(M, y + 6, W - M, y + 6); y += 10; colTop = y;
-    }
-    let colTop = 0;
-    function team(name, codes, boxes) {
-      doc.setFontSize(8.5);
-      const item = c => (boxes ? 4 : 0) + doc.getTextWidth(c) + 3.5;
-      // calcular filas para no partir el equipo
+    function team(name, codes, s) {
+      doc.setFontSize(9.5);
+      const item = c => (boxes ? 4 : 0) + doc.getTextWidth(c) + 4;
+      // no partir un apartado entre dos columnas
       let rows = 1, w = 0;
       codes.forEach(c => { const iw = item(c); if (w + iw > colW) { rows++; w = 0; } w += iw; });
-      need(5 + rows * 4.6 + 2.5);
-      doc.setFont("helvetica","bold"); doc.setFontSize(9.5); doc.text(name, x0(), y + 3.5); y += 5;
-      doc.setFont("helvetica","normal"); doc.setFontSize(8.5);
-      let x = x0(); y += 3.4;
+      if (y + 6 + rows * 5.2 + 3 > H - M) {
+        if (col === 0) { col = 1; y = colTop; }
+        else { doc.addPage(); page++; col = 0; header(); }
+      }
+      let nx = x0();
+      if (s) { const l = look(s); doc.setFillColor(l.c1); doc.rect(nx, y + .6, 3.6, 3.6, "F"); doc.setFillColor(l.c2); doc.triangle(nx + 3.6, y + .6, nx + 3.6, y + 4.2, nx, y + 4.2, "F");
+        doc.setDrawColor(150); doc.setLineWidth(.15); doc.rect(nx, y + .6, 3.6, 3.6); doc.setDrawColor(0); nx += 5; }
+      doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.text(name, nx, y + 3.5); y += 5;
+      doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
+      let x = x0(); y += 3.8;
       codes.forEach(c => {
         const iw = item(c);
-        if (x + iw > x0() + colW) { x = x0(); y += 4.6; }
-        if (boxes) { doc.setLineWidth(.25); doc.rect(x, y - 2.6, 2.8, 2.8); x += 4; }
+        if (x + iw > x0() + colW) { x = x0(); y += 5.2; }
+        if (boxes) { doc.setLineWidth(.25); doc.rect(x, y - 2.9, 3, 3); x += 4; }
         doc.text(c, x, y); x += iw - (boxes ? 4 : 0);
       });
-      y += 3.8;
+      y += 4.5;
     }
     header();
-    if (printWhat !== "rep") { title(`ME FALTAN (${d.nMiss})  -  tacha cada casilla cuando lo consigas`); d.miss.forEach(([n,c]) => team(n, c, true)); }
-    if (printWhat !== "miss") { title(`REPES (${d.nRep})`); d.rep.length ? d.rep.forEach(([n,c]) => team(n, c, false)) : team("Ninguno", [], false); }
+    if (!l.length) team("Ninguno", []);
+    l.forEach(([name, codes, s]) => team(name, codes, s));
     return doc;
   }
-  // descargar un archivo: dentro de Claude con permiso del visor; en la copia del ordenador, directo
-  async function saveFile(filename, data, type) {
-    if (STANDALONE) {
-      const url = URL.createObjectURL(data instanceof Blob ? data : new Blob([data], { type }));
-      const a = document.createElement("a"); a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 5000); return;
+  async function download(kind, note) {
+    if (!window.jspdf) { note.textContent = "No se ha podido preparar el PDF. Mira que tengas internet y recarga la página."; return; }
+    const filename = `cromos-${kind === "miss" ? "faltan" : "repes"}-${new Date().toISOString().slice(0,10)}.pdf`;
+    const blob = buildPdf(kind).output("blob");
+    try {
+      if (!window.claude) {
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+      } else {
+        const dl = claude.use ? await claude.use("downloads").catch(() => null) : null;
+        if (!dl) throw { code: "unavailable" };
+        await dl.save({ filename, data: blob });
+      }
+      note.textContent = "PDF descargado. Ábrelo e imprímelo."; toast("PDF listo 🖨️");
+    } catch (e) {
+      note.textContent = e && e.code === "declined" ? "Descarga cancelada." : e && e.code === "unavailable"
+        ? "Aquí no se puede descargar. Abre la app en claude.ai desde el navegador." : "No se ha podido descargar.";
     }
-    const dl = claude.use ? await claude.use("downloads").catch(() => null) : null;
-    if (!dl) throw { code: "unavailable" };
-    await dl.save({ filename, data });
   }
-  const saveErr = e => e && e.code === "declined" ? "Descarga cancelada." : e && e.code === "rate_limited" ? "Espera un momento y vuelve a pulsar."
-    : e && e.code === "unavailable" ? "Aquí no se pueden descargar archivos. Abre la app en claude.ai desde el navegador." : "No se ha podido descargar.";
-  const stamp = () => new Date().toISOString().slice(0,10);
-  $("#pdfGo").onclick = async () => {
-    const note = $("#pdfNote");
-    if (!window.jspdf) { note.textContent = "No se ha podido preparar el PDF. Comprueba que tienes internet y recarga la página."; return; }
-    try { await saveFile(`cromos-laliga-${stamp()}.pdf`, buildPdf().output("blob")); note.textContent = "PDF descargado. Ábrelo e imprímelo."; toast("PDF listo para imprimir 🖨️"); }
-    catch (e) { note.textContent = saveErr(e); }
-  };
-  $("#printNow").onclick = () => window.print();
 
-  /* ---------- copia con mis datos para el ordenador ---------- */
+  /* ---------- aviso abajo con deshacer ---------- */
+  let tt;
+  function toast(t, canUndo) {
+    $("#toastT").textContent = t; $("#toastUndo").hidden = !canUndo;
+    $("#toast").classList.add("show"); clearTimeout(tt); tt = setTimeout(() => $("#toast").classList.remove("show"), 3500);
+  }
+  $("#toastUndo").onclick = () => { if (!undo) return; S = JSON.parse(undo); undo = null; save(); toast("Deshecho"); };
+
+  /* ---------- toques ---------- */
+  document.querySelector(".menu").onclick = e => {
+    const b = e.target.closest("[data-go]"); if (!b) return;
+    view = b.dataset.go; try { localStorage.setItem(LS+"-view", view); } catch {}
+    render(); scrollTo(0, 0);
+  };
+  // corregir en "Los que tengo": tocar cambia tengo / me falta
+  $("#tengoList").onclick = e => {
+    const b = e.target.closest("[data-id]"); if (!b) return; const id = b.dataset.id;
+    if (has(id)) change(() => { S.have = S.have.filter(x => x !== id); delete S.repes[id]; }, `${label(id)}: me falta`);
+    else change(() => S.have.push(id), `${label(id)}: lo tengo ✓`);
+  };
+  // añadir: nuevo si me faltaba, repe si ya lo tenía
+  $("#addPick").onclick = e => {
+    if (e.target.closest("[data-back]")) { addSec = null; return render(); }
+    const sb = e.target.closest("[data-sec]"); if (sb) { addSec = sb.dataset.sec; render(); return scrollTo(0, 0); }
+    const b = e.target.closest("[data-id]"); if (!b) return; const id = b.dataset.id;
+    if (has(id)) { markRep(id); change(() => S.repes[id] = (S.repes[id]||0) + 1, `${label(id)}: repe 🔁`); }
+    else change(() => S.have.push(id), `${label(id)}: ¡nuevo! ✨`);
+    flash("#addPick", id);
+  };
+  // rellenar repes: cada toque suma uno
+  $("#repPick").onclick = e => {
+    if (e.target.closest("[data-back]")) { repSec = null; return render(); }
+    const sb = e.target.closest("[data-sec]"); if (sb) { repSec = sb.dataset.sec; return render(); }
+    const b = e.target.closest("[data-id]"); if (!b) return; const id = b.dataset.id, n = (S.repes[id]||0) + 1;
+    markRep(id); change(() => { if (!has(id)) S.have.push(id); S.repes[id] = n; }, `${label(id)}: ${n} repe${n > 1 ? "s" : ""}`);
+    flash("#repPick", id);
+  };
+  // añadir a un equipo un número que no estaba en su lista
+  ["#addPick", "#repPick"].forEach(w => $(w).addEventListener("submit", e => {
+    e.preventDefault();
+    const f = e.target.closest("[data-addnum]"), sec = f && S.sections.find(s => s.id === f.dataset.addnum);
+    const c = f && f.querySelector("input").value.trim().toUpperCase();
+    if (!sec || !/^\d{1,3}[AB]?$/.test(c)) { toast("Escribe solo el número, por ejemplo 21 o 5A"); return; }
+    if (SECMAP[sec.id].codes.includes(c)) { toast(`El ${c} ya está en la lista`); flash(w, sec.id+":"+c); return; }
+    change(() => { sec.spec += "," + c; }, `Añadido el ${c} a ${sec.name}`);
+    flash(w, sec.id+":"+c);
+  }));
+  $("#repList").onclick = e => {
+    const b = e.target.closest("[data-rd]"); if (!b) return; const id = b.dataset.id, d = +b.dataset.rd;
+    if (d > 0) markRep(id);
+    change(() => { const c = (S.repes[id]||0) + d; if (c > 0) S.repes[id] = c; else delete S.repes[id]; }, `${label(id)}: ${d > 0 ? "+1" : "−1"} repe`);
+  };
+  document.querySelectorAll("[data-pdf]").forEach(b => b.onclick = () => download(b.dataset.pdf, b.parentNode.querySelector("[data-note]")));
+
+  // los cromos se inclinan hacia el dedo o el ratón
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.addEventListener("pointermove", e => {
+    if (still) return;
+    const n = e.target.closest && e.target.closest(".n");
+    document.querySelectorAll(".n[style*='--rx']").forEach(x => { if (x !== n) { x.style.removeProperty("--rx"); x.style.removeProperty("--ry"); } });
+    if (!n) return;
+    const r = n.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+    n.style.setProperty("--ry", (px * 26).toFixed(1) + "deg"); n.style.setProperty("--rx", (-py * 26).toFixed(1) + "deg");
+  }, { passive: true });
+
+  /* ---------- comparar una foto o un documento con mis repes ---------- */
+  // nombres con los que se reconoce cada equipo al leer texto
+  const EXTRA = { ath:"bilbao|athletic club|athletic bilbao", atm:"atletico de madrid|atletico|atleti|at madrid|atm", bar:"barcelona|barca|barsa|fcb",
+    rma:"real madrid|r madrid|madrid", rso:"real sociedad|r sociedad|sociedad", ray:"rayo vallecano|rayo|vallecano", dep:"deportivo|depor",
+    vil:"villarreal|villareal", fic:"ultimos fichajes|fichajes", dra:"draft azul|azul", drr:"draft rojo|rojo", com:"cromos comunidad|comunidad",
+    pri:"prime", fan:"fantasy", esp:"espanyol|espanol", ala:"alaves", mal:"malaga", elc:"elche", cel:"celta", sev:"sevilla", val:"valencia",
+    bet:"betis|real betis", get:"getafe", lev:"levante", osa:"osasuna", rac:"racing" };
+  const plain = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  function aliasList() {
+    const al = [];
+    SEC.forEach(s => [plain(s.name), s.id, plain(look(s).ab), ...String(EXTRA[s.id] || "").split("|")].forEach(a => { a = a.trim(); if (a.length > 1) al.push([a, s.id]); }));
+    return al.sort((a, b) => b[0].length - a[0].length);
+  }
+  // códigos del equipo que corresponden a un número leído ("18" en el Alavés son el 18A y el 18B)
+  function codesFor(s, n, L) {
+    if (L) return s.codes.includes(n + L) ? [n + L] : [];
+    if (s.codes.includes(n)) return [n];
+    return s.codes.filter(c => c === n + "A" || c === n + "B");
+  }
+  // lee "Betis 4 7 12, Celta 3-5 18B" sin ayuda de Claude
+  function parseLocal(txt) {
+    const t = plain(txt), al = aliasList(), out = [];
+    const re = new RegExp("(^|[^a-z0-9])(" + al.map(a => a[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")).join("|") + ")(?![a-z])", "g");
+    const marks = [...t.matchAll(re)].map(m => ({ at: m.index + m[1].length, end: m.index + m[0].length, sec: (al.find(a => new RegExp("^" + a[0].replace(/ /g, "\\s+") + "$").test(m[2])) || [])[1] }));
+    marks.forEach((m, i) => {
+      const s = SECMAP[m.sec]; if (!s) return;
+      const seg = t.slice(m.end, i + 1 < marks.length ? marks[i + 1].at : t.length);
+      for (const r of seg.matchAll(/(\d{1,3})\s*([ab])?(?:\s*(?:-|–|al?)\s*(\d{1,3}))?(?![0-9])/g)) {
+        const a = +r[1], b = r[3] ? +r[3] : a;
+        for (let n = a; n <= b && n - a < 100; n++) codesFor(s, String(n), n === a ? (r[2] || "").toUpperCase() : "").forEach(c => out.push(s.id + ":" + c));
+      }
+    });
+    return [...new Set(out)];
+  }
+  // la lista de equipos y números que Claude tiene que reconocer
+  const albumText = () => SEC.map(s => `${s.id} = ${s.name}: ${s.codes.join(" ")}`).join("\n");
+  const ASK = `Eres un lector de cromos de la colección de fútbol "LaLiga 26-27". Te doy uno o varios documentos o fotos.
+Puede ser: una foto de cromos (el número suele estar en la esquina y el equipo por el escudo, el nombre o los colores), una foto o captura de una lista escrita a mano o en un chat ("Betis 4 7 12"), o el texto de un documento.
+Saca TODOS los cromos que aparezcan: equipo y número. Usa solo estos equipos y números (código del equipo = nombre: números que existen):
+`;
+  const ASK_END = `
+Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"texto corto o vacío"}
+- "equipo" es el código de la lista de arriba. "numero" tal como existe en la lista (por ejemplo "5A").
+- Si un número tiene versión A y B y no sabes cuál es, pon el número sin letra.
+- Si un cromo sale repetido en la foto, ponlo tantas veces como salga.
+- Si no puedes saber el equipo de algún número, no lo inventes: cuéntalo en "dudas".`;
+
+  let cmpFiles = [], cmpCtl = null, sampleFn = null, imgLimits = null, lastCmp = null;
+  const pdfLib = () => window.pdfjsLib ? Promise.resolve(window.pdfjsLib) : new Promise((res, rej) => {
+    const add = src => new Promise((ok, ko) => { const s = document.createElement("script"); s.src = src; s.setAttribute("data-app", ""); s.onload = ok; s.onerror = ko; document.head.append(s); });
+    const base = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+    add(base + "pdf.worker.min.js").then(() => add(base + "pdf.min.js")).then(() => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = base + "pdf.worker.min.js"; res(window.pdfjsLib); }).catch(rej);
+  });
+  async function readPdf(file) {
+    const lib = await pdfLib(), doc = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false }).promise;
+    let text = ""; const pages = [];
+    for (let i = 1; i <= Math.min(doc.numPages, 10); i++) {
+      const p = await doc.getPage(i);
+      text += (await p.getTextContent()).items.map(x => x.str).join(" ") + "\n";
+      if (pages.length < 4) {   // por si el PDF es una foto escaneada
+        const v = p.getViewport({ scale: 1.6 }), cv = document.createElement("canvas"); cv.width = v.width; cv.height = v.height;
+        await p.render({ canvasContext: cv.getContext("2d"), viewport: v }).promise;
+        pages.push(await new Promise(r => cv.toBlob(r, "image/jpeg", .85)));
+      }
+    }
+    return { text, pages };
+  }
+  // fotos que el navegador sabe abrir pero Claude no acepta (HEIC del iPhone...) se pasan a JPEG
+  async function asImage(file) {
+    if (!imgLimits || imgLimits.mediaTypes.includes(file.type)) return file;
+    const bmp = await createImageBitmap(file), cv = document.createElement("canvas"); cv.width = bmp.width; cv.height = bmp.height;
+    cv.getContext("2d").drawImage(bmp, 0, 0);
+    return await new Promise(r => cv.toBlob(r, "image/jpeg", .9));
+  }
+  function cmpStatus(t, busy) { $("#cmpStatus").textContent = t; $("#cmpStatus").hidden = !t; $("#cmpStop").hidden = !busy; $("#cmpGo").disabled = !!busy; }
+  function renderCmpFiles() {
+    $("#cmpFiles").replaceChildren(...cmpFiles.map((f, i) => { const s = document.createElement("span"); s.className = "fchip";
+      s.textContent = (f.type.startsWith("image/") ? "🖼️ " : f.type === "application/pdf" ? "📄 " : "📝 ") + f.name;
+      const x = document.createElement("button"); x.textContent = "×"; x.dataset.rm = i; x.setAttribute("aria-label", "Quitar " + f.name); s.append(x); return s; }));
+    $("#cmpGo").disabled = !cmpFiles.length && !$("#cmpText").value.trim();
+  }
+  function addCmpFiles(list) { cmpFiles.push(...[...list].slice(0, 10)); renderCmpFiles(); }
+  $("#cmpPick").onchange = e => { addCmpFiles(e.target.files); e.target.value = ""; };
+  $("#cmpFiles").onclick = e => { const b = e.target.closest("[data-rm]"); if (b) { cmpFiles.splice(+b.dataset.rm, 1); renderCmpFiles(); } };
+  $("#cmpText").oninput = renderCmpFiles;
+  const drop = $("#cmpDrop");
+  ["dragover", "dragenter"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, () => drop.classList.remove("over")));
+  drop.addEventListener("drop", e => { e.preventDefault(); addCmpFiles(e.dataTransfer.files); });
+  document.addEventListener("paste", e => { if (view !== "comparar") return; const f = [...(e.clipboardData?.files || [])]; if (f.length) { e.preventDefault(); addCmpFiles(f); } });
+  $("#cmpStop").onclick = () => cmpCtl && cmpCtl.abort();
+
+  $("#cmpGo").onclick = async () => {
+    const texts = [], images = [];
+    let found = [], note = "";
+    cmpStatus("Leyendo los archivos…", true);
+    try {
+      if ($("#cmpText").value.trim()) texts.push($("#cmpText").value);
+      for (const f of cmpFiles) {
+        if (f.type === "application/pdf" || /\.pdf$/i.test(f.name)) {
+          try { const r = await readPdf(f); if (parseLocal(r.text).length) texts.push(r.text); else images.push(...r.pages); }
+          catch { note = "No he podido abrir el PDF. Mira que tengas internet."; }
+        } else if (f.type.startsWith("image/") || /\.(heic|heif)$/i.test(f.name)) images.push(f);
+        else texts.push(await f.text());
+      }
+      // el texto con equipos y números se lee aquí mismo, sin gastar nada
+      found = texts.flatMap(parseLocal);
+      const needClaude = images.length || (texts.length && !found.length);
+      if (needClaude) {
+        if (!sampleFn) {
+          cmpStatus(images.length ? "Para leer fotos abre la app en claude.ai: en esta copia del ordenador solo puedo leer texto (por ejemplo «Betis 4 7 12»)." : "No he encontrado equipos y números en el texto. Escríbelo así: «Betis 4 7 12, Celta 3».");
+          if (!found.length) return;
+        } else {
+          if (images.length && !imgLimits) { cmpStatus("Este navegador no puede mandar fotos a Claude. Prueba desde claude.ai en el navegador."); if (!found.length) return; }
+          else {
+            cmpStatus(`Claude está mirando ${images.length ? images.length + (images.length === 1 ? " imagen" : " imágenes") : "el texto"}… puede tardar un poco`, true);
+            const imgs = imgLimits ? await Promise.all(images.slice(0, imgLimits.maxCount).map(asImage)) : [];
+            cmpCtl = new AbortController();
+            const extra = texts.length && !found.length ? "\n\nTexto del documento:\n" + texts.join("\n").slice(0, 20000) : "";
+            const r = await sampleFn.json(ASK + albumText() + ASK_END + extra, { images: imgs.length ? imgs : undefined, signal: cmpCtl.signal });
+            const items = Array.isArray(r?.cromos) ? r.cromos : [];
+            items.forEach(it => { const s = SECMAP[String(it.equipo || "").toLowerCase()], m = String(it.numero || "").toUpperCase().match(/^(\d{1,3})([AB])?$/);
+              if (s && m) found.push(...codesFor(s, m[1], m[2] || "").map(c => s.id + ":" + c)); });
+            if (r?.dudas) note = String(r.dudas).slice(0, 300);
+            if (images.length > imgs.length) note = `Solo he podido mirar ${imgs.length} imágenes a la vez. ` + note;
+          }
+        }
+      }
+      showCmp([...new Set(found)], note);
+    } catch (e) {
+      const code = e && e.code;
+      cmpStatus(code === "cancelled" ? "" : code === "not_granted" || code === "sampling_disabled" ? "Para leer fotos tienes que dejar que la app use Claude. Vuelve a pulsar y acepta el aviso."
+        : code === "rate_limited" ? "Claude está ocupado o has llegado al límite de uso. Inténtalo en un rato."
+        : code === "image_rejected" ? "Esa imagen no se puede leer. Prueba con otra foto (JPG o PNG)."
+        : code === "invalid_json" || code === "empty_completion" ? "Claude no ha sabido leer los cromos. Prueba con una foto más clara o más cerca."
+        : "No se ha podido leer. Vuelve a intentarlo.");
+      return;
+    } finally { cmpCtl = null; $("#cmpStop").hidden = true; $("#cmpGo").disabled = false; }
+  };
+
+  function chipsBlock(ids, kind) {
+    const wrap = document.createElement("div");
+    SEC.forEach(s => {
+      const mine = s.codes.map(c => s.id + ":" + c).filter(id => ids.includes(id)); if (!mine.length) return;
+      const g = paint(document.createElement("div"), s); g.className = "cgrp";
+      const name = document.createElement("b"); name.textContent = s.name;
+      const chips = document.createElement("div"); chips.className = "cchips";
+      mine.forEach(id => { const c = document.createElement("span"); c.className = "cchip " + kind;
+        c.textContent = id.split(":")[1] + (kind === "rep" ? ` ×${S.repes[id]}` : ""); chips.append(c); });
+      g.append(crest(s, true), name, chips); wrap.append(g);
+    });
+    return wrap;
+  }
+  // lo que me pasa mi amigo: su lista de faltan y/o su lista de repes
+  let cmpKind = "falta"; const friend = { falta: null, repes: null };
+  function setKind(k) { cmpKind = k; $("#cmpKind").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k));
+    if (friend[k]) showCmp(friend[k], "", true); else $("#cmpOut").hidden = true; }
+  $("#cmpKind").onclick = e => { const b = e.target.closest("[data-k]"); if (b) setKind(b.dataset.k); };
+  const giveIds = () => (friend.falta || []).filter(id => S.repes[id]);   // mis repes que a él le faltan
+  const getIds = () => (friend.repes || []).filter(id => !has(id));       // sus repes que me faltan a mí
+  function showCmp(found, note, quiet) {
+    friend[cmpKind] = found; lastCmp = true;
+    if (!quiet) cmpStatus(note ? "Nota: " + note : "");
+    const out = $("#cmpOut"); out.hidden = false;
+    const falta = cmpKind === "falta", main = falta ? giveIds() : getIds(), rest = falta ? [] : found.filter(id => has(id));
+    $("#cmpBig").textContent = main.length;
+    $("#cmpBigT").textContent = !found.length ? "No he encontrado ningún cromo. Prueba con otra foto o escribe la lista."
+      : falta ? `de tus repes le faltan a tu amigo (de los ${found.length} de su lista)` : `de sus repes te faltan a ti (de los ${found.length} de su lista)`;
+    $("#cmpRep").replaceChildren(main.length ? chipsBlock(main, falta ? "rep" : "miss")
+      : Object.assign(document.createElement("p"), { className: "lead", textContent: falta ? "Ninguno de tus repes le falta." : "Ninguno de sus repes te falta." }));
+    $("#cmpAct").hidden = !main.length;
+    $("#cmpAct").textContent = falta ? `🤝 Ya se los he dado (quitar ${main.length} de mis repes)` : `✅ Me los ha dado (añadir ${main.length} a mi álbum)`;
+    $("#cmpMissH").textContent = `Ya los tienes, no te sirven: ${rest.length}`; $("#cmpMissBox").hidden = !rest.length; $("#cmpMiss").replaceChildren(chipsBlock(rest, "have"));
+    // resumen del cambio cuando tengo sus dos listas
+    const both = friend.falta && friend.repes, g = giveIds().length, r = getIds().length;
+    $("#cmpTrade").hidden = !both; $("#cmpTodo").hidden = !!both;
+    if (both) {
+      $("#trGive").textContent = g; $("#trGet").textContent = r;
+      $("#trTip").textContent = !g && !r ? "No os sirve ningún cambio." : g === r ? `Cambio justo: ${g} por ${r}.`
+        : `Para que sea justo, cambiad ${Math.min(g, r)} por ${Math.min(g, r)}${g > r ? `; te sobran ${g - r} repes que le faltan` : `; tiene ${r - g} más que te sirven`}.`;
+    } else {
+      $("#cmpTodoT").textContent = falta ? "¿Te ha pasado también sus repes? Súbelos y te digo cuáles te faltan y cómo queda el cambio."
+        : "¿Te ha pasado también lo que le falta? Súbelo y te digo qué le puedes dar y cómo queda el cambio.";
+      $("#cmpOther").textContent = falta ? "🔁 Subir sus repes" : "❌ Subir lo que le falta";
+    }
+    $("#cmpCopy").hidden = !found.length;
+    if (!quiet) out.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+  }
+  $("#cmpOther").onclick = () => { setKind(cmpKind === "falta" ? "repes" : "falta"); cmpFiles = []; $("#cmpText").value = ""; renderCmpFiles(); scrollTo({ top: 0, behavior: still ? "auto" : "smooth" }); };
+  $("#cmpAct").onclick = () => {
+    if (cmpKind === "falta") { const l = giveIds(); if (!l.length) return;
+      change(() => l.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; }), `Quitados ${l.length} repes`); }
+    else { const l = getIds(); if (!l.length) return; change(() => l.forEach(id => S.have.push(id)), `¡${l.length} cromos nuevos al álbum!`); }
+  };
+  function cmpText() {
+    const line = (ids, f) => SEC.map(s => { const l = s.codes.filter(c => ids.includes(s.id + ":" + c)); return l.length ? `${s.name}: ${l.map(c => f(s.id + ":" + c, c)).join(", ")}` : ""; }).filter(Boolean).join("\n");
+    let out = "⚽ Cromos LaLiga 26-27";
+    if (friend.falta) out += `\n\n🎁 Te puedo dar (${giveIds().length}):\n${line(giveIds(), (id, c) => c) || "ninguno"}`;
+    if (friend.repes) out += `\n\n🙏 Me puedes dar (${getIds().length}):\n${line(getIds(), (id, c) => c) || "ninguno"}`;
+    return out;
+  }
+  // al volver a la pestaña, el resultado se recalcula con los repes de ahora
+  function showCmpQuiet() { if (friend[cmpKind]) showCmp(friend[cmpKind], "", true); }
+  $("#cmpCopy").onclick = async () => { try { await navigator.clipboard.writeText(cmpText()); toast("Copiado: pégalo en WhatsApp"); } catch { toast("No se ha podido copiar"); } };
+  $("#cmpClear").onclick = () => { cmpFiles = []; $("#cmpText").value = ""; friend.falta = friend.repes = null; lastCmp = null; renderCmpFiles(); $("#cmpOut").hidden = true; cmpStatus(""); };
+
+  /* ---------- guardar en el ordenador ---------- */
+  // el archivo html lleva los cromos dentro; en el ordenador se reescribe solo tras cada cambio
   function exportHtml() {
     const root = document.documentElement.cloneNode(true);
     root.querySelectorAll("script:not([data-app]), meta[http-equiv], iframe").forEach(n => n.remove());
-    root.querySelector("#cromos-data").textContent = JSON.stringify({ ...S, savedAt: S.savedAt || Date.now() }).replace(/</g, "\\u003c");
-    ["#album", "#jump", "#repList", "#paper", "#packOut", "#gainList", "#giveList"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
+    root.querySelector("#cromos-data").textContent = JSON.stringify(S).replace(/</g, "\\u003c");
+    ["#tengoList", "#addPick", "#repPick", "#repList", "#prevMiss", "#prevRep", "#cmpFiles", "#cmpRep", "#cmpMiss"].forEach(s => { const n = root.querySelector(s); if (n) n.innerHTML = ""; });
     root.querySelector("#toast").className = "toast";
-    root.querySelectorAll("input, textarea").forEach(n => { n.removeAttribute("value"); if (n.tagName === "TEXTAREA") n.textContent = ""; });
+    root.querySelector("#pcbar").hidden = true; root.querySelector("#cmpOut").hidden = true; root.querySelector("#cmpStatus").hidden = true;
+    root.querySelectorAll("input").forEach(n => n.removeAttribute("value"));
     return "<!doctype html>\n" + root.outerHTML;
   }
-  $("#exportGo").onclick = async () => {
-    try { await saveFile(`mis-cromos-laliga-${stamp()}.html`, exportHtml(), "text/html"); $("#exportNote").textContent = "Descargada. Ábrela con doble clic y tendrás todos tus cromos."; toast("App descargada con tus datos 💾"); }
-    catch (e) { $("#exportNote").textContent = saveErr(e); }
+  const idb = (mode, fn) => new Promise((res, rej) => {
+    const o = indexedDB.open("cromos-archivo", 1);
+    o.onupgradeneeded = () => o.result.createObjectStore("h");
+    o.onerror = () => rej(o.error);
+    o.onsuccess = () => { try { const tx = o.result.transaction("h", mode), q = fn(tx.objectStore("h")); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); } catch (e) { rej(e); } };
+  });
+  let fh = null, fileOk = false, fileTimer = null;
+  const canPick = PC && "showSaveFilePicker" in window;
+  function pcShow(state, name) {
+    const bar = $("#pcbar"); bar.hidden = false; bar.classList.toggle("ok", state === "ok");
+    $("#pcLoadL").hidden = false;
+    $("#pcLoadL").textContent = state === "claude" ? "Cargar cambios del ordenador" : "📂 Traer mis cromos de otro archivo";
+    const set = (title, text, btn) => { $("#pcTitle").textContent = title; $("#pcText").textContent = text; $("#pcMain").textContent = btn; $("#pcMain").hidden = !btn; };
+    if (state === "claude") { set("¿La usas en el ordenador sin Claude?", "Descarga el archivo con tus cromos dentro y ábrelo con doble clic. Lo que cambies allí se guarda en el ordenador.", "💻 Descargar para el ordenador"); }
+    if (state === "ask") set("Crea tu icono en el Escritorio", "Un solo clic: se crea en el Escritorio el icono «Mis Cromos LaLiga» con la app y todos tus cromos dentro. Ábrela siempre desde ese icono y cada cambio se guarda solo.", "🖥️ Crear el icono en el Escritorio");
+    if (state === "again") set(`Tu app: ${name}`, "Pulsa el botón una vez para que siga guardando tus cambios en el icono.", "✅ Seguir guardando aquí");
+    if (state === "ok") set(`Se guarda solo en ${name} ✓`, "Cada cambio se guarda en el archivo al momento.", "");
+    if (state === "old") set("Se guarda en este navegador", "Este navegador no puede guardar solo en el archivo. Usa Chrome o Edge, o descarga una copia y ponla en el Escritorio.", "🖥️ Descargar copia");
+  }
+  async function fileWrite() {
+    if (!fh || !fileOk) return;
+    try { const w = await fh.createWritable(); await w.write(exportHtml()); await w.close(); setSave(`Guardado en ${fh.name} ✓`); }
+    catch { fileOk = false; pcShow("again", fh.name); setSave("Guardado en este navegador"); }
+  }
+  function fileSaveSoon() {
+    if (!fh || !fileOk) { setSave("Guardado en este navegador"); return; }
+    setSave("Guardando…"); clearTimeout(fileTimer); fileTimer = setTimeout(fileWrite, 600);
+  }
+  function plainDownload(name) {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([exportHtml()], { type: "text/html" })); a.download = name;
+    document.body.append(a); a.click(); a.remove();
+  }
+  $("#pcMain").onclick = async () => {
+    const stamp = new Date().toISOString().slice(0,10);
+    if (!PC) {
+      try { const dl = claude.use ? await claude.use("downloads").catch(() => null) : null; if (!dl) throw { code: "unavailable" };
+        await dl.save({ filename: "mis-cromos.html", data: exportHtml() }); toast("Descargado: ábrelo con doble clic 💻"); }
+      catch (e) { toast(e && e.code === "declined" ? "Descarga cancelada" : "Aquí no se puede descargar. Ábrela en claude.ai desde el navegador"); }
+      return;
+    }
+    if (!canPick) { plainDownload("Mis Cromos LaLiga.html"); toast("Descargada: muévela al Escritorio"); return; }
+    try {
+      if (fh && (await fh.requestPermission({ mode: "readwrite" })) === "granted") fileOk = true;
+      else {
+        fh = await showSaveFilePicker({ suggestedName: "Mis Cromos LaLiga.html", startIn: "desktop", types: [{ description: "Mis cromos", accept: { "text/html": [".html"] } }] });
+        fileOk = true; try { await idb("readwrite", s => s.put(fh, "file")); } catch {}
+      }
+      await fileWrite(); pcShow("ok", fh.name); toast(`Listo: abre siempre «${fh.name}» del Escritorio 🖥️`);
+    } catch (e) { if (e && e.name !== "AbortError") toast("No se ha podido guardar en el archivo"); }
   };
-  $("#importIn").onchange = async e => {
-    const f = e.target.files[0]; if (!f) return;
+  // en Claude: traer lo que se cambió en el ordenador
+  $("#pcLoad").onchange = async e => {
+    const f = e.target.files[0]; e.target.value = ""; if (!f) return;
     try {
       const txt = await f.text(), m = txt.match(/<script[^>]*id="cromos-data"[^>]*>([\s\S]*?)<\/script>/);
       const d = JSON.parse(m ? m[1] : txt);
       if (!d || !d.sections || !Array.isArray(d.have)) throw 0;
-      S = d; S.started = true; save(); toast(`Copia cargada: tienes ${S.have.length} cromos`); go("album");
-    } catch { $("#exportNote").textContent = "Ese archivo no es una copia de esta app."; }
-    e.target.value = "";
-  };
-  // agrupa ids por sección en el orden del álbum
-  function groupBy(list) {
-    const set = new Set(list);
-    return SEC.map(s => [s, s.codes.map(c => s.id+":"+c).filter(id => set.has(id))]).filter(([,l]) => l.length);
-  }
-  function compact(codes, s) {
-    const idx = codes.map(c => s.codes.indexOf(c)), out = [];
-    for (let i = 0; i < codes.length; i++) {
-      let j = i;
-      while (j+1 < codes.length && idx[j+1] === idx[j]+1 && /^\d+$/.test(codes[j+1]) && /^\d+$/.test(codes[i])) j++;
-      out.push(j - i >= 2 ? codes[i]+"-"+codes[j] : codes.slice(i, j+1).join(", "));
-      i = j;
+      const nr = Object.values(d.repes || {}).reduce((a,b) => a + (+b || 0), 0);
+      view = "tengo";
+      change(() => { S = d; }, `Traídos: tengo ${d.have.length} y ${nr} repes`);
+    } catch {
+      toast(PC ? "Ese archivo no lleva los cromos dentro. Ábrelo y pulsa 💾 Elegir el archivo para guardar; después vuelve a traerlo." : "Ese archivo no tiene cromos guardados");
     }
-    return out.join(", ");
-  }
-  function shareText(kind) {
-    const h = haveSet();
-    const rep = groupBy(Object.keys(S.repes)).map(([s,l]) => `${s.name}: ${l.map(id => { const c = id.split(":")[1]; return S.repes[id] > 1 ? `${c}x${S.repes[id]}` : c; }).join(", ")}`);
-    const miss = groupBy(ALL.filter(id => !h.has(id))).map(([s,l]) => `${s.name}: ${compact(l.map(id => id.split(":")[1]), s)}`);
-    const nRep = Object.keys(S.repes).length, nMiss = ALL.length - S.have.length;
-    const R = `🔁 MIS REPES (${nRep}):\n${rep.join("\n") || "ninguno"}`;
-    const M = `❌ ME FALTAN (${nMiss}):\n${miss.join("\n") || "¡ninguno! 🏆"}`;
-    return "⚽ Cromos LaLiga 26-27\n\n" + (kind==="rep" ? R : kind==="miss" ? M : R + "\n\n" + M);
-  }
-  function popCell(id) {
-    const c = document.querySelector(`.c[data-id="${CSS.escape(id)}"]`);
-    if (c) { c.classList.remove("pop"); void c.offsetWidth; c.classList.add("pop"); }
-  }
-  function pillsBlock(list, cls, extra = () => "") {
-    return groupBy(list).map(([s,l]) => `<div class="grp"><b>${s.name}</b><div class="pills">${l.map(id => `<span class="pill ${cls}">${id.split(":")[1]}${extra(id)}</span>`).join("")}</div></div>`).join("");
-  }
-
-  /* ---------- sobre ---------- */
-  function renderPack() {
-    $("#packTeams").replaceChildren(...SEC.map(s => { const b = document.createElement("button"); b.textContent = s.name; b.dataset.team = s.id; b.setAttribute("aria-pressed", s.id === packTeam); return b; }));
-    const s = SECMAP[packTeam] || SEC[0]; if (!s) return;
-    const h = haveSet();
-    $("#packPick").replaceChildren(...s.codes.map(c => { const b = document.createElement("button"); b.textContent = c; b.dataset.pick = s.id+":"+c; if (h.has(s.id+":"+c)) b.className = "on"; b.title = h.has(s.id+":"+c) ? "Ya lo tienes" : "Te falta"; return b; }));
-    $("#packBasket").innerHTML = basket.length ? basket.map((id,i) => `<span class="pill">${label(id)}<button data-unpick="${i}" aria-label="Quitar">×</button></span>`).join("") : `<span class="hint">vacío</span>`;
-    $("#packGo").disabled = !basket.length;
-  }
-  $("#packTeams").onclick = e => { const b = e.target.closest("[data-team]"); if (b) { packTeam = b.dataset.team; renderPack(); } };
-  $("#packPick").onclick = e => { const b = e.target.closest("[data-pick]"); if (b) { basket.push(b.dataset.pick); renderPack(); } };
-  $("#packBasket").onclick = e => { const b = e.target.closest("[data-unpick]"); if (b) { basket.splice(+b.dataset.unpick, 1); renderPack(); } };
-  $("#packClear").onclick = () => { basket = []; renderPack(); };
-  $("#packGo").onclick = () => {
-    if (!basket.length) return;
-    lastPack = JSON.stringify(S);
-    const res = basket.map(id => ({ id, k: addSticker(id) }));
-    basket = []; S.started = true;
-    const nn = res.filter(r => r.k === "new").length;
-    $("#packOut").replaceChildren(...res.map((r,i) => { const d = document.createElement("div");
-      d.className = "st " + (r.k==="new" ? "new" : "rep"); d.style.animationDelay = (i*0.12)+"s";
-      const [sid, c] = r.id.split(":");
-      d.innerHTML = `<span><small></small>${c}</span><em>${r.k==="new"?"¡nuevo!":"repe"}</em>`;
-      d.querySelector("small").textContent = SECMAP[sid]?.name || sid; return d; }));
-    $("#packTitle").textContent = nn ? `¡${nn} nuevo${nn>1?"s":""} y ${res.length-nn} repe${res.length-nn===1?"":"s"}!` : `Todos repes esta vez (${res.length})`;
-    $("#packBox").hidden = false;
-    save(); if (nn) { confetti(20+nn*20); toast(`¡${nn} nuevo${nn>1?"s":""} para el álbum!`); }
   };
-  $("#packUndo").onclick = () => { if (!lastPack) return; S = JSON.parse(lastPack); lastPack = null; $("#packBox").hidden = true; save(); toast("Sobre deshecho"); };
-
-  /* ---------- ajustes de secciones ---------- */
-  let specsDirty = false;
-  function renderSpecs() {
-    if (specsDirty) return;
-    const box = $("#specs");
-    box.replaceChildren(...SEC.flatMap(s => {
-      const l = document.createElement("label"); l.htmlFor = "spec-"+s.id; l.textContent = `${s.name} (${s.codes.length})`;
-      const i = document.createElement("input"); i.type = "text"; i.id = "spec-"+s.id; i.value = s.spec; i.dataset.sec = s.id;
-      return [l, i];
-    }));
-  }
-  $("#specs").addEventListener("input", () => specsDirty = true);
-  $("#specsGo").onclick = () => {
-    document.querySelectorAll("#specs input").forEach(i => { const s = S.sections.find(x => x.id === i.dataset.sec); if (s && specCodes(i.value).length) s.spec = i.value.trim(); });
-    specsDirty = false; save(); toast("Secciones guardadas");
-  };
-
-  /* ---------- fiesta ---------- */
-  const cv = $("#confetti"), cx = cv.getContext("2d"); let parts = [], raf = 0;
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function confetti(k=60) {
-    if (reduce) return;
-    cv.width = innerWidth; cv.height = innerHeight;
-    const cols = ["#f4b400","#0d7a4c","#e2493b","#ffffff","#2f6fe0"];
-    for (let i=0;i<k;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight*.35,vx:(Math.random()-.5)*10,vy:-Math.random()*11-3,r:Math.random()*6+4,c:cols[i%5],a:Math.random()*6,l:90});
-    if (!raf) raf = requestAnimationFrame(tick);
-  }
-  function tick() {
-    cx.clearRect(0,0,cv.width,cv.height);
-    parts = parts.filter(p => p.l-- > 0);
-    for (const p of parts) { p.vy += .35; p.x += p.vx; p.y += p.vy; p.a += .2;
-      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.a); cx.fillStyle=p.c; cx.globalAlpha=Math.min(1,p.l/30); cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); cx.restore(); }
-    raf = parts.length ? requestAnimationFrame(tick) : 0;
-  }
-  function celebrate(id) {
-    const left = ALL.length - S.have.length - 1, s = SECMAP[id.split(":")[0]];
-    const teamDone = s && s.codes.every(c => S.have.includes(s.id+":"+c) || s.id+":"+c === id);
-    const msgs = ["¡Nuevo cromo!","¡Golazo!","¡Al álbum!","¡Uno menos!","¡Qué crack!"];
-    if (teamDone) { toast(`🏆 ¡${s.name} completo!`); confetti(160); return; }
-    toast(`${msgs[Math.floor(Math.random()*msgs.length)]} ${label(id)} · faltan ${Math.max(0,left)}`);
-    confetti(left <= 0 ? 300 : 40);
-  }
-  let tt; function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("show"), 2400); }
-
-  /* ---------- eventos ---------- */
-  document.querySelectorAll(".tab").forEach(b => b.onclick = () => go(b.dataset.tab));
-  document.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => go(b.dataset.goto));
-  function go(tab) {
-    document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab===tab));
-    document.querySelectorAll("main > .panel").forEach(p => p.hidden = p.id !== "p-"+tab);
-    try { localStorage.setItem(LS+"-tab", tab); } catch {}
-  }
-  $("#filter").onclick = e => { const b = e.target.closest("button"); if (!b) return; filter = b.dataset.f;
-    $("#filter").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b)); render(); };
-  $("#tapMode").onclick = e => { const b = e.target.closest("button"); if (!b) return; tapMode = b.dataset.m;
-    $("#tapMode").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x===b)); };
-  $("#jump").onclick = e => { const b = e.target.closest("[data-jump]"); if (!b) return; const el = document.getElementById("s-"+b.dataset.jump); if (el) el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block: "start"}); };
-
-  // toque y pulsación larga
-  let pressT = null, longFired = false;
-  const album = $("#album");
-  album.addEventListener("pointerdown", e => { const c = e.target.closest(".c"); if (!c) return; longFired = false;
-    pressT = setTimeout(() => { longFired = true; repDelta(c.dataset.id, 1); try { navigator.vibrate && navigator.vibrate(30); } catch {} }, 500); });
-  ["pointerup","pointerleave","pointercancel","pointermove"].forEach(ev => album.addEventListener(ev, e => { if (ev !== "pointermove" || Math.abs(e.movementY) > 4) clearTimeout(pressT); }));
-  album.addEventListener("contextmenu", e => { if (e.target.closest(".c")) e.preventDefault(); });
-  album.addEventListener("click", e => { const c = e.target.closest(".c"); if (!c) return; if (longFired) { longFired = false; return; }
-    if (tapMode === "have") toggleHave(c.dataset.id); else repDelta(c.dataset.id, tapMode === "rep" ? 1 : -1); });
-
-  $("#repList").onclick = e => { const b = e.target.closest("[data-rd]"); if (b) repDelta(b.dataset.id, +b.dataset.rd); };
-  function warnOf(w) { return w.length ? ` · no encontré: ${w.slice(0,4).join(", ")}${w.length>4?"…":""}` : ""; }
-  $("#repAdd").onclick = () => { const { list, warn } = parse($("#repAddIn").value, {expand:false});
-    if (!list.length) return toast("Escribe el equipo y el número, ej: Betis 7" + warnOf(warn));
-    list.forEach(({id,c}) => { if (!haveSet().has(id)) S.have.push(id); S.repes[id] = (S.repes[id]||0) + c; });
-    $("#repAddIn").value = ""; S.started = true; save(); toast(`Añadidos ${list.length} repes` + warnOf(warn)); };
-
-  // cambios
-  let gain = [], give = [];
-  $("#cmpRep").onclick = () => { const h = haveSet(), { list, warn } = parse($("#friendRep").value); gain = ids(list).filter(id => !h.has(id));
-    $("#friendRepOut").hidden = false; $("#takeAll").hidden = !gain.length;
-    $("#gainList").innerHTML = gain.length ? pillsBlock(gain, "g") + `<p class="hint" style="margin:8px 0 0">Te sirven ${gain.length} cromo${gain.length>1?"s":""}${warnOf(warn)}</p>`
-      : `<p class="hint">Ninguno de sus repes te falta${warnOf(warn)}</p>`; };
-  $("#takeAll").onclick = () => { gain.forEach(addSticker); S.started = true; save(); confetti(40+gain.length*10);
-    toast(`¡${gain.length} cromos nuevos al álbum!`); gain = []; $("#friendRepOut").hidden = true; $("#friendRep").value = ""; };
-  $("#cmpMiss").onclick = () => { const { list, warn } = parse($("#friendMiss").value); give = ids(list).filter(id => S.repes[id]);
-    $("#friendMissOut").hidden = false; $("#giveAll").hidden = !give.length;
-    $("#giveList").innerHTML = give.length ? pillsBlock(give, "r plain", id => ` <small>×${S.repes[id]}</small>`) + `<p class="hint" style="margin:8px 0 0">Le puedes dar ${give.length}${warnOf(warn)}</p>`
-      : `<p class="hint">No tienes repes que le falten${warnOf(warn)}</p>`; };
-  $("#giveAll").onclick = () => { give.forEach(id => { const c = (S.repes[id]||0) - 1; if (c > 0) S.repes[id] = c; else delete S.repes[id]; });
-    save(); toast(`Quitados ${give.length} repes`); give = []; $("#friendMissOut").hidden = true; $("#friendMiss").value = ""; };
-  $("#gotGo").onclick = () => { const { list, warn } = parse($("#gotIn").value, {expand:false});
-    if (!list.length) return toast("Escribe el equipo y el número, ej: Racing 11" + warnOf(warn));
-    let nn = 0; list.forEach(({id}) => { if (addSticker(id) === "new") nn++; }); S.started = true; save();
-    if (nn) confetti(30+nn*15); toast(`${nn} nuevo${nn===1?"":"s"}, ${list.length-nn} repe${list.length-nn===1?"":"s"}` + warnOf(warn)); $("#gotIn").value = ""; };
-
-  // cargar listas
-  $("#missGo").onclick = () => {
-    const txt = $("#missIn").value, { list, warn } = parse(txt), miss = new Set(ids(list));
-    const t = plain(txt), secs = new Set([...t.matchAll(ALIAS.re)].map(m => ALIAS.list.find(a => new RegExp("^"+a[0].replace(/ /g,"\\s+")+"$").test(m[2]))?.[1]));
-    if (!secs.size) return toast("Pon el nombre del equipo antes de los números");
-    S.have = S.have.filter(id => !secs.has(id.split(":")[0]));
-    SEC.filter(s => secs.has(s.id)).forEach(s => s.codes.forEach(c => { const id = s.id+":"+c; if (!miss.has(id)) S.have.push(id); }));
-    Object.keys(S.repes).forEach(id => { if (miss.has(id)) S.have.push(id); });
-    S.started = true; save(); toast(`Listo: ${secs.size} secciones cargadas` + warnOf(warn)); confetti(80); go("album"); };
-  $("#repGo").onclick = () => { const { list, warn } = parse($("#repIn").value, {expand:false}); S.repes = {};
-    list.forEach(({id,c}) => { S.repes[id] = (S.repes[id]||0) + c; if (!haveSet().has(id)) S.have.push(id); });
-    S.started = true; save(); toast(`Cargados ${Object.keys(S.repes).length} repes distintos` + warnOf(warn)); go("repes"); };
-  $("#resetAsk").onclick = () => $("#resetConfirm").hidden = false;
-  $("#resetNo").onclick = () => $("#resetConfirm").hidden = true;
-  $("#resetYes").onclick = () => { S = { sections: S.sections, have: [], repes: {}, started: false }; $("#resetConfirm").hidden = true; save(); toast("Álbum vacío"); };
-
-  // copiar
-  async function copy(t) {
-    try { await navigator.clipboard.writeText(t); toast("Copiado ✓ pégalo en WhatsApp"); }
-    catch { $("#shareText").textContent = t; const r = document.createRange(); r.selectNodeContents($("#shareText")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Texto seleccionado: cópialo"); }
-  }
-  $("#copyShare").onclick = () => copy(shareText("both"));
-  $("#copyRep").onclick = () => copy(shareText("rep"));
-  $("#copyMiss").onclick = () => copy(shareText("miss"));
 
   /* ---------- arranque ---------- */
-  loadLocal();
-  // copia descargada: trae los datos dentro; se usan si son más nuevos que lo guardado en este ordenador
+  try { const j = JSON.parse(localStorage.getItem(LS)); if (j && j.sections) S = j; } catch {}
+  try { const v = localStorage.getItem(LS+"-view"); if (v && document.getElementById("v-"+v)) view = v; } catch {}
+  // el archivo trae los cromos dentro: se usan si son más nuevos que lo de este navegador
   try { const e = JSON.parse($("#cromos-data").textContent || "null"); if (e && e.sections && (e.savedAt||0) > (S.savedAt||0)) S = e; } catch {}
-  norm();
-  if (STANDALONE) { $("#printNow").hidden = false; $("#exportTip").textContent = "Esta es tu copia del ordenador. Lo que apuntes aquí se guarda en este navegador."; }
-  try { const t = localStorage.getItem(LS+"-tab"); if (t) go(t); } catch {}
-  render(); setSave(STANDALONE ? "Copia del ordenador" : " ");
-  if (window.claude && claude.use) claude.use("db").then(d => {
-    if (!d) { setSave("Guardado en este dispositivo"); return; }
-    ref = d.doc("album/estado");
-    let first = true;
-    ref.onSnapshot(snap => {
-      const data = snap.exists ? snap.data() : null;
-      if (data && data.sections) {
-        const body = JSON.stringify(data);
-        if (body !== JSON.stringify(S) && !(snap.metadata && snap.metadata.hasPendingWrites)) {
-          S = data; norm(); lastWritten = body; specsDirty = false;
-          try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
-          render();
-        }
-        setSave("Guardado ✓");
-      } else if (first && S.started) save();
-      else setSave("Guardado ✓");
-      first = false;
-    }, () => setSave("Guardado en este dispositivo"));
-  }).catch(() => setSave("Guardado en este dispositivo"));
+  norm(); render();
+  if (PC) {
+    setSave("Guardado en este navegador");
+    if (!canPick) pcShow("old");
+    else idb("readonly", s => s.get("file")).then(async h => {
+      if (!h) return pcShow("ask");
+      fh = h;
+      if ((await fh.queryPermission({ mode: "readwrite" })) === "granted") { fileOk = true; pcShow("ok", fh.name); setSave(`Guardado en ${fh.name} ✓`); }
+      else pcShow("again", fh.name);
+    }).catch(() => pcShow("ask"));
+  } else if (window.claude && claude.use) {
+    pcShow("claude");
+    claude.use("sample").then(async s => { sampleFn = s; imgLimits = s ? ((await s.limits().catch(() => null)) || {}).images || null : null; });
+    claude.use("db").then(d => {
+      if (!d) { setSave("Guardado en este dispositivo"); return; }
+      ref = d.doc("album/estado");
+      let first = true;
+      ref.onSnapshot(snap => {
+        const data = snap.exists ? snap.data() : null;
+        if (data && data.sections) {
+          const body = JSON.stringify(data);
+          // solo se aceptan datos más nuevos (de otro móvil u ordenador), nunca el eco atrasado de lo que ya guardamos aquí
+          if (!saving && (data.savedAt||0) > (S.savedAt||0) && !(snap.metadata && snap.metadata.hasPendingWrites)) {
+            S = data; norm(); lastWritten = body;
+            try { localStorage.setItem(LS, JSON.stringify(S)); } catch {}
+            render();
+          }
+          setSave("Guardado ✓");
+          // si este aparato tiene cambios más nuevos que la nube, se suben
+          if (first && !saving && (S.savedAt||0) > (data.savedAt||0)) save();
+        } else if (first && S.started) save();
+        else setSave("Guardado ✓");
+        first = false;
+      }, () => setSave("Guardado en este dispositivo"));
+    }).catch(() => setSave("Guardado en este dispositivo"));
+  }
 })();
 </script>
+
+</body></html>
