@@ -12,6 +12,8 @@ Search Unsplash for images, download them, and optionally add text overlay.
 ## Tool Location
 
 - Script: `~/.agents/tools/unsplash-search.py`
+  (the script lives in this skill's folder as `unsplash-search.py`; if `~/.agents/tools/unsplash-search.py`
+  is missing, run `mkdir -p ~/.agents/tools && ln -sf "$PWD/.claude/skills/unsplash-image/unsplash-search.py" ~/.agents/tools/`)
 - Env file: `~/.agents/tools/.env` (contains `UNSPLASH_CLIENT_ID`)
 
 ## Quick Usage
