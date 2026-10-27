@@ -88,7 +88,12 @@ h1, h2, h3 { text-wrap: balance; font-weight: 700; letter-spacing: -0.02em; line
 .nav .btn { min-height: 42px; font-size: 14px; }
 
 .hero__view { align-self: center; margin-block: clamp(12px, 3vh, 40px); }
-.hero__view svg { width: 100%; height: auto; max-height: 36svh; margin-inline: auto; }
+.hero__view { perspective: 1400px; }
+.hero__glasses { position: relative; will-change: transform; transform-style: preserve-3d; }
+.hero__glasses svg { width: 100%; height: auto; max-height: 36svh; margin-inline: auto; position: relative; }
+.sea { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.live .svg-lens { display: none; }
+.hero h1 span { will-change: transform; }
 .hero__foot { display: grid; gap: clamp(28px, 4vh, 48px); }
 .hero__lede { display: flex; justify-content: space-between; align-items: end; gap: 24px; }
 .hero__lede p { max-width: 40ch; font-size: 20px; line-height: 1.4; font-weight: 500; }
@@ -103,7 +108,9 @@ main > section { margin-top: var(--gap-section); }
 /* ---------- Showcase: the lens tester ---------- */
 .tester { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface); min-height: 88svh; }
 .tester__plate { padding: 40px; display: grid; place-items: center; }
-.tester__plate svg { width: 100%; aspect-ratio: 1; height: auto; max-width: 720px; }
+.tester__plate { position: relative; }
+.plate { position: relative; width: 100%; max-width: 720px; aspect-ratio: 1; }
+.plate svg { width: 100%; height: 100%; }
 .tester__side { padding: 40px max(40px, var(--m)) 40px 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-width: 0; }
 .tabs { display: flex; flex-wrap: wrap; gap: 6px 22px; }
 .tab {
@@ -121,6 +128,24 @@ main > section { margin-top: var(--gap-section); }
 .tester__acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .tester__acts .btn { min-height: 72px; justify-content: flex-start; padding-inline: 22px; }
 .tester__acts .btn--soft { background: var(--bg); }
+
+/* ---------- Scroll scene: the lens opens to the whole screen ---------- */
+.reveal { height: 240svh; position: relative; }
+.reveal__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.reveal__stage .sea { position: absolute; inset: 0; }
+.reveal__card { position: absolute; left: max(var(--m), env(safe-area-inset-left, 0px)); bottom: max(var(--m), 24px); background: var(--bg); color: var(--ink); padding: 24px 28px; max-width: min(520px, calc(100% - 2 * var(--m))); }
+.reveal__card h2 { font-size: var(--step-head); }
+.reveal__card p { margin-top: 16px; }
+.reveal__tint { display: block; font-weight: 700; }
+.reveal__fallback { display: none; }
+.no-canvas .reveal { height: auto; } .no-canvas .reveal__stage { position: static; height: auto; } .no-canvas .reveal__card { position: static; }
+
+/* ---------- Moving band of brands ---------- */
+.band { margin-top: var(--gap-section); background: var(--ink); color: var(--bg); overflow: hidden; padding-block: clamp(18px, 2.4vw, 34px); }
+.band__track { display: flex; width: max-content; animation: band 38s linear infinite; }
+.band__track span { font-size: clamp(3rem, 8vw, 8rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; white-space: nowrap; padding-right: .5em; }
+.band:hover .band__track { animation-play-state: paused; }
+@keyframes band { to { transform: translateX(-50%); } }
 
 /* ---------- List: services ---------- */
 .services h2 { font-size: var(--step-head); line-height: .98; text-indent: 3vw; max-width: 22ch; }
@@ -219,11 +244,15 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
 .sun { animation: breathe 9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes breathe { 50% { transform: scale(1.06); } }
 .step figure, .services__fig { overflow: hidden; }
-.step figure svg { transition: transform 1.2s var(--ease); }
+.step figure svg { transition: transform 1.2s var(--ease), filter 1.6s var(--ease); }
+.js .focus svg { filter: blur(14px); }
+.js .focus.in svg { filter: none; }
 .step figure:hover svg { transform: scale(1.04); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
   .js .rv { opacity: 1; transform: none; }
+  .js .focus svg { filter: none; }
+  .reveal { height: auto; } .reveal__stage { position: static; height: 80svh; }
   html { scroll-behavior: auto; }
 }
 
@@ -320,13 +349,15 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
   </nav>
 
   <div class="hero__view">
+   <div class="hero__glasses">
+    <canvas class="sea" id="heroSea" aria-hidden="true"></canvas>
     <svg viewBox="0 0 1600 560" role="img" aria-label="Dibujo de unas gafas de sol de montura gruesa a través de cuyos cristales se ve el mar de Benicarló y la roca de Peñíscola">
       <defs>
         <clipPath id="lensL"><path d="M110 120 H 700 Q 742 120 738 162 L 708 380 Q 696 470 600 470 H 250 Q 150 470 132 380 L 92 166 Q 86 120 110 120Z"/></clipPath>
         <clipPath id="lensR"><path d="M900 120 H 1490 Q 1514 120 1508 166 L 1468 380 Q 1450 470 1350 470 H 1000 Q 904 470 892 380 L 862 162 Q 858 120 900 120Z"/></clipPath>
       </defs>
-      <g clip-path="url(#lensL)"><use href="#vista" x="80" y="110" width="680" height="370"/><rect class="tint hero-tint" x="80" y="110" width="680" height="370" fill="#2f4a2c" opacity=".3"/></g>
-      <g clip-path="url(#lensR)"><use href="#vista" x="850" y="110" width="680" height="370"/><rect class="tint hero-tint" x="850" y="110" width="680" height="370" fill="#2f4a2c" opacity=".3"/></g>
+      <g class="svg-lens" clip-path="url(#lensL)"><use href="#vista" x="80" y="110" width="680" height="370"/><rect class="tint hero-tint" x="80" y="110" width="680" height="370" fill="#2f4a2c" opacity=".3"/></g>
+      <g class="svg-lens" clip-path="url(#lensR)"><use href="#vista" x="850" y="110" width="680" height="370"/><rect class="tint hero-tint" x="850" y="110" width="680" height="370" fill="#2f4a2c" opacity=".3"/></g>
       <!-- frame: drawn as thick filled strokes in the page ink -->
       <g fill="none" stroke="var(--ink)" stroke-width="34" stroke-linejoin="round">
         <path d="M110 120 H 700 Q 742 120 738 162 L 708 380 Q 696 470 600 470 H 250 Q 150 470 132 380 L 92 166 Q 86 120 110 120Z"/>
@@ -336,6 +367,7 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
       </g>
       <g fill="var(--ink)"><rect x="76" y="104" width="54" height="40"/><rect x="1470" y="104" width="54" height="40"/></g>
     </svg>
+   </div>
   </div>
 
   <div class="hero__foot">
@@ -348,18 +380,32 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
 </header>
 
 <main>
+  <!-- Scroll scene: the lens opens to the whole screen, then changes tint -->
+  <section class="reveal" id="mar" aria-labelledby="h-mar">
+    <div class="reveal__stage">
+      <canvas class="sea" id="revealSea" aria-hidden="true"></canvas>
+      <div class="reveal__card">
+        <h2 id="h-mar">El mar, a través del cristal</h2>
+        <p><span class="reveal__tint" id="revealTint">Verde G‑15</span><span id="revealNote">El verde clásico de las gafas de aviador.</span></p>
+      </div>
+    </div>
+  </section>
+
   <!-- Showcase: lens tint tester (the live thing) -->
-  <section id="cristales" class="tester" aria-labelledby="t-cristal">
+  <section id="cristales" class="tester" style="margin-top:0" aria-labelledby="t-cristal">
     <div class="tester__plate">
+     <div class="plate">
+      <canvas class="sea" id="plateSea" aria-hidden="true"></canvas>
       <svg viewBox="0 0 600 600" role="img" aria-label="Vista del mar de Benicarló a través de un cristal de sol con el tinte seleccionado">
         <defs><clipPath id="lensBig"><circle cx="300" cy="300" r="258"/></clipPath></defs>
-        <g clip-path="url(#lensBig)" id="plate">
+        <g class="svg-lens" clip-path="url(#lensBig)" id="plate">
           <use href="#vista" x="0" y="0" width="600" height="600"/>
           <rect class="tint" id="plateTint" width="600" height="600" fill="#2f4a2c" opacity=".55"/>
         </g>
         <circle cx="300" cy="300" r="268" fill="none" stroke="var(--ink)" stroke-width="22"/>
         <circle cx="300" cy="300" r="7" fill="var(--ink)"/>
       </svg>
+     </div>
     </div>
     <div class="tester__side">
       <div class="tabs" role="tablist" aria-label="Tipo de cristal">
@@ -389,7 +435,7 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
   <section id="servicios" class="services wrap" aria-labelledby="h-serv">
     <h2 id="h-serv">Lo que hacemos y lo que cuesta</h2>
     <div class="services__body">
-      <div class="services__fig rv" aria-hidden="true">
+      <div class="services__fig rv focus" aria-hidden="true">
         <svg viewBox="0 0 400 500"><rect width="400" height="500" fill="var(--ink)"/>
           <g fill="var(--bg)" font-family="Hanken Grotesk, Arial, sans-serif" font-weight="700" text-anchor="middle">
             <text x="200" y="130" font-size="120">E</text>
@@ -419,11 +465,15 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
     </div>
   </section>
 
+  <div class="band" aria-hidden="true"><div class="band__track">
+    <span>Ray‑Ban · Persol · Oakley · Progresivos · Lentillas · Polarizados ·</span><span>Ray‑Ban · Persol · Oakley · Progresivos · Lentillas · Polarizados ·</span>
+  </div></div>
+
   <!-- How it works: diagonal -->
   <section id="graduacion" class="steps wrap" aria-labelledby="h-steps">
     <h2 id="h-steps">Cómo graduamos tu vista</h2>
     <div class="step s1">
-      <figure class="rv" aria-hidden="true">
+      <figure class="rv focus" aria-hidden="true">
         <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><rect width="300" height="400" fill="var(--surface)"/>
           <rect x="70" y="60" width="160" height="230" fill="var(--bg)"/>
           <g fill="var(--ink)" font-family="Hanken Grotesk, Arial, sans-serif" font-weight="700" text-anchor="middle">
@@ -436,7 +486,7 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
       <p class="rv"><b>Primero, la revisión.</b> Te sentamos frente al optotipo y medimos cada ojo por separado, de lejos y de cerca. Si llevas gafas, tráelas: comparamos tu graduación de ahora con la de antes.</p>
     </div>
     <div class="step s2">
-      <figure class="rv" aria-hidden="true">
+      <figure class="rv focus" aria-hidden="true">
         <svg viewBox="0 0 300 300"><rect width="300" height="300" fill="var(--surface)"/>
           <g fill="none" stroke="var(--ink)" stroke-width="14"><circle cx="95" cy="150" r="56"/><circle cx="205" cy="150" r="56"/><path d="M151 140 h -2"/></g>
           <rect x="139" y="132" width="22" height="14" fill="var(--ink)"/>
@@ -447,7 +497,7 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
       <p class="rv"><b>Después, la prueba.</b> Con la gafa de prueba confirmamos la graduación caminando por la tienda y leyendo de cerca. Así eliges el tipo de cristal sabiendo cómo vas a ver.</p>
     </div>
     <div class="step s3">
-      <figure class="rv" aria-hidden="true">
+      <figure class="rv focus" aria-hidden="true">
         <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice"><rect width="480" height="300" fill="var(--ink)"/>
           <g fill="none" stroke="var(--bg)" stroke-width="16" stroke-linejoin="round">
             <path d="M60 110 H 220 L 212 180 Q 206 214 170 214 H 104 Q 72 214 68 180 Z"/>
@@ -547,7 +597,7 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
   function apply(key, focus) {
     var t = tints[key]; if (!t) return;
     tabs.forEach(function (b) { var on = b.dataset.t === key; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
-    plateTint.setAttribute('fill', t.fill); plateTint.setAttribute('opacity', t.op);
+    plateTint.setAttribute('fill', t.fill); plateTint.setAttribute('opacity', t.op); plateKey = key;
     document.getElementById('t-desc').textContent = t.desc;
     document.getElementById('t-vlt').textContent = t.vlt;
     document.getElementById('t-grad').textContent = t.grad;
@@ -570,8 +620,111 @@ footer { background: var(--inv-bg); color: var(--inv-ink); min-height: 72svh; di
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cycle = ['verde', 'marron', 'gris'], ci = 0, heroT = document.querySelectorAll('.hero-tint'), timer;
   function step() { if (document.hidden) return; ci = (ci + 1) % cycle.length; var t = tints[cycle[ci]];
-    [].forEach.call(heroT, function (r) { r.setAttribute('fill', t.fill); }); }
+    [].forEach.call(heroT, function (r) { r.setAttribute('fill', t.fill); }); heroTint = t; }
   if (!reduce) timer = setInterval(step, 6000);
+
+
+  // ---------- The live sea: Benicarló's Mediterranean drawn every frame ----------
+  var rnd = (function () { var x = 7; return function () { x = (x * 16807) % 2147483647; return x / 2147483647; }; })();
+  var GL = []; for (var i = 0; i < 46; i++) GL.push({ d: rnd(), o: rnd() * 2 - 1, w: .4 + rnd(), ph: rnd() * 6.28 });
+  var WV = []; for (var j = 0; j < 70; j++) WV.push({ d: rnd(), x: rnd(), l: .05 + rnd() * .16, sp: .4 + rnd() });
+  var CL = [{ x: .1, y: .14, s: 1, v: .006 }, { x: .55, y: .08, s: .7, v: .004 }, { x: .85, y: .2, s: .55, v: .008 }];
+  function seaScene(c, x, y, w, h, t, o) {
+    var hz = y + h * .54, sunX = x + w * .68, sunY = y + h * .24;
+    c.fillStyle = '#a9cbe9'; c.fillRect(x, y, w, h);
+    c.fillStyle = '#c4dcf1'; c.fillRect(x, y, w, h * .2);
+    c.fillStyle = 'rgba(255,244,214,.35)'; c.beginPath(); c.arc(sunX, sunY, h * .13 * (1 + .04 * Math.sin(t * .8)), 0, 7); c.fill();
+    c.fillStyle = '#fff4d6'; c.beginPath(); c.arc(sunX, sunY, h * .085, 0, 7); c.fill();
+    c.fillStyle = '#f4f8fc';
+    CL.forEach(function (k) { var cx = x + (((k.x + t * k.v) % 1.3) - .15) * w, cy = y + k.y * h, r = h * .05 * k.s;
+      c.beginPath(); c.arc(cx, cy, r, 0, 7); c.arc(cx + r * 1.1, cy - r * .5, r * 1.25, 0, 7); c.arc(cx + r * 2.3, cy, r * .95, 0, 7); c.fill(); c.fillRect(cx, cy, r * 2.3, r * .95); });
+    // Peñíscola on the horizon
+    var px = x + w * .06, pw = w * .3, ph = h * .11;
+    c.fillStyle = '#7390b0'; c.beginPath(); c.moveTo(px, hz);
+    [[.08,-.2],[.16,-.22],[.22,-.45],[.32,-.45],[.34,-.65],[.42,-.65],[.43,-.95],[.5,-.95],[.51,-.65],[.6,-.62],[.66,-.4],[.78,-.36],[.88,-.18],[1,0]].forEach(function (q) { c.lineTo(px + q[0] * pw, hz + q[1] * ph); });
+    c.closePath(); c.fill();
+    c.fillStyle = '#1f5fa8'; c.fillRect(x, hz, w, h - (hz - y));
+    c.fillStyle = '#4d84c2'; c.fillRect(x, hz, w, h * .035);
+    c.fillStyle = '#174f92';
+    WV.forEach(function (k) { var d = Math.pow(k.d, 1.5), yy = hz + h * .05 + d * (h * .44), th = 1 + d * h * .022;
+      var xx = x + (((k.x - t * .012 * k.sp * (1 + d * 2)) % 1 + 1) % 1) * (w * 1.2) - w * .1; c.fillRect(xx, yy, k.l * w * (.5 + d), th); });
+    // sailboat crossing slowly
+    var bx = x + (((t * .01) % 1.2) - .1) * w, by = hz + h * .02 + Math.sin(t * 1.4) * h * .004, bs = h * .07;
+    c.fillStyle = '#ffffff'; c.beginPath(); c.moveTo(bx, by - bs * .15); c.lineTo(bx + bs * .05, by - bs * 1.1); c.lineTo(bx + bs * .55, by - bs * .15); c.fill();
+    c.fillStyle = '#0d2c5c'; c.fillRect(bx - bs * .15, by - bs * .15, bs * .85, bs * .14);
+    // gulls
+    c.strokeStyle = '#2a3f66'; c.lineWidth = Math.max(1.5, h * .005); c.lineCap = 'round';
+    [[.3, .3, 0], [.36, .26, 1.7]].forEach(function (g) { var gx = x + ((g[0] + t * .015) % 1.1) * w, gy = y + g[1] * h + Math.sin(t + g[2]) * h * .01, f = Math.sin(t * 6 + g[2]) * h * .012, gs = h * .025;
+      c.beginPath(); c.moveTo(gx - gs, gy - f); c.quadraticCurveTo(gx - gs * .4, gy - gs * .4, gx, gy); c.quadraticCurveTo(gx + gs * .4, gy - gs * .4, gx + gs, gy - f); c.stroke(); });
+    // glints on the sun's path; polarised lenses remove them
+    if (!o.polar) { c.fillStyle = '#ffffff';
+      GL.forEach(function (k) { var a = .5 + .5 * Math.sin(t * 3 * k.w + k.ph); if (a < .25) return; var d = k.d, yy = hz + h * .04 + d * h * .4;
+        c.globalAlpha = a; c.fillRect(sunX + k.o * (w * .03 + d * w * .14) - w * .02 * k.w, yy, w * .04 * k.w * (.6 + d), 2 + d * h * .012); });
+      c.globalAlpha = 1; }
+    if (o.tint && o.tint.op > 0) { c.globalCompositeOperation = 'multiply'; c.globalAlpha = o.tint.op * .8; c.fillStyle = o.tint.fill; c.fillRect(x, y, w, h); c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; }
+  }
+  function sizeCanvas(cv) { var r = cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
+    if (cv.width !== Math.round(r.width * d) || cv.height !== Math.round(r.height * d)) { cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); }
+    return { w: r.width, h: r.height, d: d }; }
+  var ink = function () { return getComputedStyle(root).getPropertyValue('--ink').trim() || '#062b8a'; };
+  var bgc = function () { return getComputedStyle(root).getPropertyValue('--bg').trim() || '#e6dbc7'; };
+  var canvasOK = !!document.createElement('canvas').getContext && typeof Path2D !== 'undefined';
+  if (!canvasOK) root.classList.add('no-canvas');
+
+  var heroCv = document.getElementById('heroSea'), plateCv = document.getElementById('plateSea'), revCv = document.getElementById('revealSea');
+  var lensPaths = canvasOK ? [new Path2D('M110 120 H 700 Q 742 120 738 162 L 708 380 Q 696 470 600 470 H 250 Q 150 470 132 380 L 92 166 Q 86 120 110 120Z'),
+                               new Path2D('M900 120 H 1490 Q 1514 120 1508 166 L 1468 380 Q 1450 470 1350 470 H 1000 Q 904 470 892 380 L 862 162 Q 858 120 900 120Z')] : [];
+  var heroTint = tints.verde, plateKey = 'verde', visible = new Set();
+  function drawHero(t) { var m = sizeCanvas(heroCv), c = heroCv.getContext('2d');
+    var sc = Math.min(m.w / 1600, m.h / 560), ox = (m.w - 1600 * sc) / 2, oy = (m.h - 560 * sc) / 2;
+    c.setTransform(m.d, 0, 0, m.d, 0, 0); c.clearRect(0, 0, m.w, m.h);
+    c.setTransform(m.d * sc, 0, 0, m.d * sc, m.d * ox, m.d * oy);
+    lensPaths.forEach(function (p, i) { c.save(); c.clip(p); seaScene(c, i ? 850 : 80, 110, 680, 370, t + i * .02, { tint: heroTint }); c.restore(); }); }
+  function drawPlate(t) { var m = sizeCanvas(plateCv), c = plateCv.getContext('2d'), s = m.w / 600;
+    c.setTransform(m.d, 0, 0, m.d, 0, 0); c.clearRect(0, 0, m.w, m.h);
+    c.save(); c.beginPath(); c.arc(m.w / 2, m.h / 2, 258 * s, 0, 7); c.clip();
+    seaScene(c, 0, 0, m.w, m.h, t, { tint: tints[plateKey], polar: plateKey === 'polar' }); c.restore(); }
+  var revOrder = ['verde', 'marron', 'gris', 'polar'], revProg = 0, revKey = '';
+  function drawReveal(t) { var m = sizeCanvas(revCv), c = revCv.getContext('2d');
+    c.setTransform(m.d, 0, 0, m.d, 0, 0); c.fillStyle = bgc(); c.fillRect(0, 0, m.w, m.h);
+    var e = Math.min(1, revProg / .38); e = 1 - Math.pow(1 - e, 3);
+    var r0 = Math.min(m.w, m.h) * .24, r1 = Math.hypot(m.w, m.h) / 2 + 20, r = r0 + (r1 - r0) * e, cx = m.w / 2, cy = m.h * .45 + (m.h * .05) * e;
+    var k = revOrder[Math.min(3, Math.floor(Math.max(0, revProg - .38) / .62 * 4))];
+    if (k !== revKey) { revKey = k; var lab = tabs.filter(function (b) { return b.dataset.t === k; })[0];
+      document.getElementById('revealTint').textContent = lab ? lab.textContent : ''; document.getElementById('revealNote').textContent = tints[k].desc.split('. ')[0] + '.'; }
+    c.save(); c.beginPath(); c.arc(cx, cy, r, 0, 7); c.clip();
+    seaScene(c, 0, 0, m.w, m.h, t, { tint: tints[k], polar: k === 'polar' }); c.restore();
+    if (e < 1) { c.strokeStyle = ink(); c.lineWidth = Math.max(10, r * .07) * (1 - e * .8); c.beginPath(); c.arc(cx, cy, r, 0, 7); c.stroke(); } }
+
+  if (canvasOK) {
+    root.classList.add('live');
+    var vio = new IntersectionObserver(function (es) { es.forEach(function (e) { e.isIntersecting ? visible.add(e.target) : visible.delete(e.target); }); });
+    [heroCv, plateCv, revCv].forEach(function (cv) { vio.observe(cv); });
+    var t0 = performance.now();
+    var frame = function (now) {
+      var t = reduce ? 4 : (now - t0) / 1000;
+      if (visible.has(heroCv)) drawHero(t);
+      if (visible.has(plateCv)) drawPlate(t);
+      if (visible.has(revCv)) drawReveal(t);
+      if (!reduce) requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+    if (reduce) { window.addEventListener('scroll', function () { requestAnimationFrame(frame); }, { passive: true }); window.addEventListener('resize', function () { requestAnimationFrame(frame); }); setTimeout(function () { requestAnimationFrame(frame); }, 300); }
+  }
+
+  // ---------- Scroll and pointer: the glasses lift and tilt, the name parts ----------
+  var glasses = document.querySelector('.hero__glasses'), l1 = document.querySelector('.hero h1 span'), l2 = document.querySelector('.hero h1 .l2');
+  var rev = document.getElementById('mar'), mx = 0, my = 0;
+  window.addEventListener('pointermove', function (e) { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, { passive: true });
+  function onScroll() {
+    var p = Math.min(1, scrollY / innerHeight);
+    var rr = rev.getBoundingClientRect(); revProg = Math.min(1, Math.max(0, -rr.top / (rr.height - innerHeight)));
+    if (reduce) return;
+    glasses.style.transform = 'translateY(' + (-p * 12) + 'vh) scale(' + (1 + p * .35) + ') rotateY(' + (mx * 10) + 'deg) rotateX(' + (-my * 8) + 'deg)';
+    l1.style.transform = 'translateX(' + (-p * 10) + 'vw)'; l2.style.transform = 'translateX(' + (p * 10) + 'vw)';
+  }
+  (function loop() { onScroll(); if (!reduce) requestAnimationFrame(loop); })();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   // Section entrances: only elements below the first screen start hidden, so the page is complete at rest.
   var rv = [].slice.call(document.querySelectorAll('.rv'));
