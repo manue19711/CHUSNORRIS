@@ -244,7 +244,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     <div style="min-width:0">
       <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
       <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
-      <div class="save"><span id="saveState"></span><span class="ver">versión 26-oct-G</span></div><div class="save" id="lastCh"></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 27-oct-H</span></div><div class="save" id="lastCh"></div>
     </div>
   </div>
 </header>
@@ -381,8 +381,8 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     ["lev","Levante","1-16,16BIS,17-20"], ["rma","Real Madrid","1-7,7BIS,8,9,10A,10B,11-15,16A,16B,17-20"], ["mal","Málaga","1-20"],
     ["osa","Osasuna","1-4,5A,5B,6-16,16BIS,17-20"], ["rac","Racing","1-15,15BIS,16-20"], ["ray","Rayo","1-7,7BIS,8-10,11A,11B,12-20"],
     ["rso","Real Sociedad","1-12,13A,13B,14-20"], ["sev","Sevilla","1-8,8BIS,9A,9B,10-20"], ["val","Valencia","1-7,8A,8B,9-19,20A,20B"],
-    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20"], ["pri","Prime","1-15"], ["fan","Fantasy","1-9"], ["dra","Draft","1-23"],
-    ["drr","Kromix","1-23"], ["fic","Últimos fichajes","1-69"], ["com","Cromos Comunidad","1-2"],
+    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20"], ["pri","Prime","1-15"], ["fan","Fantasy","1-9"], ["dra","Draft azul","1-23"],
+    ["drr","Draft Kromix","1-23"], ["fic","Últimos fichajes","1-69"], ["com","Cromos Comunidad","1-2"],
   ].map(([id,name,spec]) => ({id,name,spec}));
 
   let S = { sections: DEFAULT_SECTIONS, have: [], repes: {}, started: false };
@@ -734,7 +734,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
   // nombres con los que se reconoce cada equipo al leer texto
   const EXTRA = { ath:"bilbao|athletic club|athletic bilbao", atm:"atletico de madrid|atletico|atleti|at madrid|at. madrid|a.madrid|a. madrid|a madrid|atm", bar:"barcelona|barca|barsa|fcb",
     rma:"real madrid|r madrid|madrid", rso:"real sociedad|r sociedad|sociedad", ray:"rayo vallecano|rayo|vallecano", dep:"deportivo|depor",
-    vil:"villarreal|villareal", fic:"ultimos fichajes|fichajes", dra:"draft azul|draft|azul", drr:"kromix|cromix|draft rojo|rojo", com:"cromos comunidad|comunidad",
+    vil:"villarreal|villareal", fic:"ultimos fichajes|fichajes", dra:"draft azul|draft|azul", drr:"draft kromix|draft cromix|kromix|cromix|draft rojo|rojo", com:"cromos comunidad|comunidad",
     pri:"prime", fan:"fantasy", esp:"espanyol|espanol", ala:"alaves", mal:"malaga", elc:"elche", cel:"celta", sev:"sevilla", val:"valencia",
     bet:"betis|real betis", get:"getafe", lev:"levante", osa:"osasuna", rac:"racing" };
   const plain = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -776,7 +776,7 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
 - "equipo" es el código de la lista de arriba. "numero" tal como existe en la lista (por ejemplo "5A").
 - Si un número tiene versión A y B y no sabes cuál es, pon el número sin letra.
 - Si pone "bis" (por ejemplo "8 bis" o "8BIS"), pon "8BIS" aunque no esté en la lista.
-- Los Kromix pueden venir como "K8": equipo "drr" y número "8".
+- Los Kromix pueden venir como "K8": equipo "drr" (Draft Kromix) y número "8".
 - Si un cromo sale repetido en la foto, ponlo tantas veces como salga.
 - Si no puedes saber el equipo de algún número, no lo inventes: cuéntalo en "dudas".`;
 
