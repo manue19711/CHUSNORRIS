@@ -244,7 +244,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     <div style="min-width:0">
       <h1><span class="w1 t3d">Mis cromos</span> <span class="t3d">LaLiga 26·27</span></h1>
       <div class="nums"><span>Tengo <b id="nHave">0</b></span><span>Faltan <b id="nMiss">0</b></span><span>Repes <b id="nRep">0</b></span></div>
-      <div class="save"><span id="saveState"></span><span class="ver">versión 27-oct-I</span></div><div class="save" id="lastCh"></div>
+      <div class="save"><span id="saveState"></span><span class="ver">versión 29-oct-J</span></div><div class="save" id="lastCh"></div>
     </div>
   </div>
 </header>
@@ -375,14 +375,14 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
 
   /* Apartados del álbum (los mismos de antes, para no perder lo guardado) */
   const DEFAULT_SECTIONS = [
-    ["ala","Alavés","1-8,8BIS,9-17,18A,18B,19,20,20BIS"], ["ath","Athletic","1-16,17A,17B,18-20"], ["atm","Atlético","1-7,8A,8B,9-13,14A,14B,15,16,16BIS,17-20"],
-    ["bar","Barça","1-5,6A,6B,7-20"], ["bet","Betis","1-4,5A,5B,6-11,11BIS,12-20"], ["cel","Celta","1-17,18A,18B,19,20"],
-    ["dep","Deportivo","1-8,8BIS,9A,9B,10-14,14BIS,15-20"], ["elc","Elche","1-12,13A,13B,14-20"], ["esp","Espanyol","1-9,9BIS,10-15,15BIS,16-20"], ["get","Getafe","1-19,19BIS,20"],
-    ["lev","Levante","1-16,16BIS,17-20"], ["rma","Real Madrid","1-7,7BIS,8,9,10A,10B,11-15,16A,16B,17-20"], ["mal","Málaga","1-20"],
-    ["osa","Osasuna","1-4,5A,5B,6-16,16BIS,17-20"], ["rac","Racing","1-15,15BIS,16-20"], ["ray","Rayo","1-7,7BIS,8-10,11A,11B,12-20"],
-    ["rso","Real Sociedad","1-12,13A,13B,14-20"], ["sev","Sevilla","1-8,8BIS,9A,9B,10-20"], ["val","Valencia","1-7,8A,8B,9-19,20A,20B"],
-    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20"], ["pri","Prime","1-15"], ["fan","Fantasy","1-9"], ["dra","Draft","1-23"],
-    ["drr","Draft Kromix","1-23"], ["fic","Últimos fichajes","1-69"], ["com","Cromos Comunidad","1-2"],
+    ["ala","Alavés","1-8,8BIS,9-17,18A,18B,19,20,20BIS"], ["ath","Athletic","1-16,17A,17B,18-20,5BIS,12BIS"], ["atm","Atlético","1-7,8A,8B,9-13,14A,14B,15,16,16BIS,17-20,6BIS,15BIS"],
+    ["bar","Barça","1-5,6A,6B,7-20,10BIS"], ["bet","Betis","1-4,5A,5B,6-11,11BIS,12-20,9BIS"], ["cel","Celta","1-17,18A,18B,19,20,4BIS,14BIS,15BIS"],
+    ["dep","Deportivo","1-8,8BIS,9A,9B,10-14,14BIS,15-20"], ["elc","Elche","1-12,13A,13B,14-20,5BIS,8BIS"], ["esp","Espanyol","1-9,9BIS,10-15,15BIS,16-20"], ["get","Getafe","1-19,19BIS,20,10BIS,12BIS"],
+    ["lev","Levante","1-16,16BIS,17-20,15BIS,17BIS"], ["rma","Real Madrid","1-7,7BIS,8,9,10A,10B,11-15,16A,16B,17-20,18BIS"], ["mal","Málaga","1-20,8BIS,15BIS"],
+    ["osa","Osasuna","1-4,5A,5B,6-16,16BIS,17-20,7BIS,9BIS"], ["rac","Racing","1-15,15BIS,16-20,10BIS,12BIS,14BIS,19BIS"], ["ray","Rayo","1-7,7BIS,8-10,11A,11B,12-20,4BIS,12BIS,17BIS"],
+    ["rso","Real Sociedad","1-12,13A,13B,14-20,15BIS"], ["sev","Sevilla","1-8,8BIS,9A,9B,10-20,11BIS,14BIS,16BIS"], ["val","Valencia","1-7,8A,8B,9-19,20A,20B,2BIS,4BIS,18BIS"],
+    ["vil","Villarreal","1-5,6A,6B,7A,7B,8A,8B,9-20,8BIS,16BIS"], ["pri","Prime","1-15"], ["fan","Fantasy","1-9"], ["dra","Draft","1-23"],
+    ["drr","Draft Kromix","1-23"], ["fic","Últimos fichajes","1-69"], ["com","Cromos Comunidad","1-2"], ["ext","Extra Stickers","1-6"],
   ].map(([id,name,spec]) => ({id,name,spec}));
 
   let S = { sections: DEFAULT_SECTIONS, have: [], repes: {}, started: false };
@@ -419,9 +419,12 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     const hv = new Set(S.have); Object.keys(r).forEach(id => { if (!hv.has(id)) { S.have.push(id); hv.add(id); } });
   }
   const has = id => S.have.includes(id);
+  // los Extra Stickers no tienen número en el álbum: cada número es un jugador y un color
+  const NAMES = { ext: { 1: "Rodri (Barcelona) oro", 2: "Bellingham (Madrid) oro", 3: "Rodri (Barcelona) plata", 4: "Bellingham (Madrid) plata", 5: "Rodri (Barcelona) bronce", 6: "Bellingham (Madrid) bronce" } };
+  const nameOf = (sid, c) => (NAMES[sid] || {})[c] || "";
   // "8BIS" se enseña como "8bis"
   const disp = c => String(c).replace(/BIS$/, "bis");
-  const label = id => { const [s,c] = id.split(":"); return (SECMAP[s]?.name || s) + " " + disp(c); };
+  const label = id => { const [s,c] = id.split(":"); return (SECMAP[s]?.name || s) + " " + disp(c) + (nameOf(s, c) ? " " + nameOf(s, c) : ""); };
   const totalRep = () => Object.values(S.repes).reduce((a,b) => a+b, 0);
 
   /* ---------- guardar ---------- */
@@ -452,7 +455,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     mal:["MAL","#4f9ce6","#ffffff"], osa:["OSA","#d1001f","#0a1f4d"], rac:["RAC","#00965e","#ffffff"], ray:["RAY","#ffffff","#e41b23"],
     rso:["RSO","#0067b1","#ffffff"], sev:["SEV","#d4021d","#ffffff"], val:["VAL","#ff7f00","#1a1a1a"], vil:["VIL","#ffe667","#005187"],
     pri:["PRI","#6d28d9","#c084fc"], fan:["FAN","#ec4899","#f59e0b"], dra:["DRA","#1d4ed8","#60a5fa"], drr:["KRO","#b91c1c","#f87171"],
-    fic:["FIC","#111827","#f5b70a"], com:["COM","#0b6b43","#34d399"],
+    fic:["FIC","#111827","#f5b70a"], com:["COM","#0b6b43","#34d399"], ext:["EXT","#b8860b","#c0c0c0"],
   };
   // texto oscuro sobre colores claros, blanco sobre oscuros
   const lum = h => { const n = parseInt(h.slice(1), 16); return (0.299*(n>>16) + 0.587*(n>>8&255) + 0.114*(n&255)) / 255; };
@@ -470,6 +473,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     const id = s.id+":"+c, r = S.repes[id]||0, b = document.createElement("button");
     b.className = "n " + cls; b.dataset.id = id; b.textContent = disp(c);
     b.setAttribute("aria-label", `${s.name} ${disp(c)}: ${has(id) ? "lo tengo" : "me falta"}${r ? `, ${r} repes` : ""}`);
+    if (nameOf(s.id, c)) b.title = nameOf(s.id, c);
     if (r) { const x = document.createElement("span"); x.className = "x"; x.textContent = "+"+r; b.append(x); }
     return b;
   }
@@ -494,6 +498,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     const name = document.createElement("b"); name.textContent = s.name;
     const sm = document.createElement("small"); sm.textContent = got === s.codes.length ? "¡Completo! 🏆" : `Tengo ${got} de ${s.codes.length}`;
     t.append(name, sm, bar(got, s.codes.length));
+    if (cls === "team-h" && NAMES[s.id]) { const k = document.createElement("small"); k.style.display = "block"; k.textContent = s.codes.map(c => `${c} ${nameOf(s.id, c)}`).join(" · "); t.append(k); }
     h.append(crest(s), t); return [h, got];
   }
 
@@ -530,6 +535,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     const g = paint(document.createElement("div"), s); g.className = "grid";
     g.append(...s.codes.map(c => cell(s, c, has(s.id+":"+c) ? "on" : style)));
     const parts = [head, leg, g];
+    if (NAMES[s.id]) { const k = document.createElement("p"); k.className = "lead"; k.style.margin = "12px 0 0"; k.textContent = s.codes.map(c => `${c} ${nameOf(s.id, c)}`).join(" · "); parts.push(k); }
     const an = document.createElement("form"); an.className = "addnum"; an.dataset.addnum = s.id;
     an.innerHTML = `<label for="num-${where.slice(1)}">¿No está el número?</label><input id="num-${where.slice(1)}" placeholder="Ej: 21 o 8bis" maxlength="7" autocomplete="off"><button class="btn alt">Añadir número</button>`;
     parts.push(an);
@@ -589,7 +595,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
   function lists(kind) {
     return SEC.map(s => [s.name, s.codes.filter(c => {
       const id = s.id+":"+c; return kind === "miss" ? !has(id) : S.repes[id];
-    }).map(c => kind === "rep" && S.repes[s.id+":"+c] > 1 ? `${disp(c)} (x${S.repes[s.id+":"+c]})` : disp(c)), s]).filter(([,l]) => l.length);
+    }).map(c => kind === "rep" && S.repes[s.id+":"+c] > 1 ? `${disp(c)}${nameOf(s.id, c) ? " " + nameOf(s.id, c) : ""} (x${S.repes[s.id+":"+c]})` : disp(c) + (nameOf(s.id, c) ? " " + nameOf(s.id, c) : "")), s]).filter(([,l]) => l.length);
   }
   const count = kind => kind === "miss" ? ALL.length - S.have.length : totalRep();
   const today = () => new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
@@ -734,7 +740,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
   // nombres con los que se reconoce cada equipo al leer texto
   const EXTRA = { ath:"bilbao|athletic club|athletic bilbao", atm:"atletico de madrid|atletico|atleti|at madrid|at. madrid|a.madrid|a. madrid|a madrid|atm", bar:"barcelona|barca|barsa|fcb",
     rma:"real madrid|r madrid|madrid", rso:"real sociedad|r sociedad|sociedad", ray:"rayo vallecano|rayo|vallecano", dep:"deportivo|depor",
-    vil:"villarreal|villareal", fic:"ultimos fichajes|fichajes", dra:"draft azul|draft|azul", drr:"draft kromix|draft cromix|kromix|cromix|draft rojo|rojo", com:"cromos comunidad|comunidad",
+    vil:"villarreal|villareal", fic:"ultimos fichajes|fichajes|uf", ext:"extra stickers|extra sticker|extras|extra", dra:"draft azul|draft|azul", drr:"draft kromix|draft cromix|kromix|cromix|draft rojo|rojo", com:"cromos comunidad|comunidad",
     pri:"prime", fan:"fantasy", esp:"espanyol|espanol", ala:"alaves", mal:"malaga", elc:"elche", cel:"celta", sev:"sevilla", val:"valencia",
     bet:"betis|real betis", get:"getafe", lev:"levante", osa:"osasuna", rac:"racing" };
   const plain = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -766,7 +772,7 @@ textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;background
     return [...new Set(out)];
   }
   // la lista de equipos y números que Claude tiene que reconocer
-  const albumText = () => SEC.map(s => `${s.id} = ${s.name}: ${s.codes.join(" ")}`).join("\n");
+  const albumText = () => SEC.map(s => `${s.id} = ${s.name}: ${s.codes.map(c => nameOf(s.id, c) ? `${c} (${nameOf(s.id, c)})` : c).join(" ")}`).join("\n");
   const ASK = `Eres un lector de cromos de la colección de fútbol "LaLiga 26-27". Te doy uno o varios documentos o fotos.
 Puede ser: una foto de cromos (el número suele estar en la esquina y el equipo por el escudo, el nombre o los colores), una foto o captura de una lista escrita a mano o en un chat ("Betis 4 7 12"), o el texto de un documento.
 Saca TODOS los cromos que aparezcan: equipo y número. Usa solo estos equipos y números (código del equipo = nombre: números que existen):
@@ -776,6 +782,8 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
 - "equipo" es el código de la lista de arriba. "numero" tal como existe en la lista (por ejemplo "5A").
 - Si un número tiene versión A y B y no sabes cuál es, pon el número sin letra.
 - Si pone "bis" (por ejemplo "8 bis" o "8BIS"), pon "8BIS" aunque no esté en la lista.
+- Los Extra Stickers (Rodri y Bellingham en oro, plata o bronce) son el equipo "ext" con el número de la lista.
+- Los Últimos fichajes pueden venir como "UF41": equipo "fic" y número "41".
 - Los Kromix pueden venir como "K8": equipo "drr" (Draft Kromix) y número "8".
 - Si un cromo sale repetido en la foto, ponlo tantas veces como salga.
 - Si no puedes saber el equipo de algún número, no lo inventes: cuéntalo en "dudas".`;
@@ -855,7 +863,7 @@ Responde SOLO con JSON así: {"cromos":[{"equipo":"bet","numero":"7"}],"dudas":"
             const extra = texts.length && !found.length ? "\n\nTexto del documento:\n" + texts.join("\n").slice(0, 20000) : "";
             const r = await sampleFn.json(ASK + albumText() + ASK_END + extra, { images: imgs.length ? imgs : undefined, signal: cmpCtl.signal });
             const items = Array.isArray(r?.cromos) ? r.cromos : [];
-            items.forEach(it => { const s = SECMAP[String(it.equipo || "").toLowerCase()], m = String(it.numero || "").toUpperCase().replace(/\s+/g, "").match(/^K?(\d{1,3})(BIS|[AB])?$/);
+            items.forEach(it => { const s = SECMAP[String(it.equipo || "").toLowerCase()], m = String(it.numero || "").toUpperCase().replace(/\s+/g, "").match(/^(?:K|UF)?(\d{1,3})(BIS|[AB])?$/);
               if (s && m) found.push(...codesFor(s, m[1], m[2] || "").map(c => s.id + ":" + c)); });
             if (r?.dudas) note = String(r.dudas).slice(0, 300);
             if (images.length > imgs.length) note = `Solo he podido mirar ${imgs.length} imágenes a la vez. ` + note;
