@@ -1,0 +1,304 @@
+<title>Ruta Esmorzaret desde Vinaròs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: rótulo de bar con cenefa de azulejo arriba; pódium-lista a la izquierda, ficha del bar a la derecha; en móvil se apilan. */
+:root{
+  --bg:#f2f5fa; --paper:#ffffff; --ink:#15213b; --muted:#56627a; --line:#d5dceb;
+  --cobalt:#2150a6; --cobalt-soft:#e3eaf8; --oliva:#5f6f1f; --oliva-soft:#eef1dc;
+  --warn:#9a5b00; --warn-soft:#fbefd9;
+  --display:"Alfa Slab One", Rockwell, "Roboto Slab", Georgia, serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1626; --paper:#172036; --ink:#e8edf7; --muted:#9daac3; --line:#2a3654;
+  --cobalt:#8fb0ff; --cobalt-soft:#1f2c4d; --oliva:#c3d07a; --oliva-soft:#262f17;
+  --warn:#f2c06b; --warn-soft:#3a2c12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1626; --paper:#172036; --ink:#e8edf7; --muted:#9daac3; --line:#2a3654;
+  --cobalt:#8fb0ff; --cobalt-soft:#1f2c4d; --oliva:#c3d07a; --oliva-soft:#262f17;
+  --warn:#f2c06b; --warn-soft:#3a2c12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.cenefa{height:22px;background-color:var(--cobalt);
+  background-image:radial-gradient(circle at 50% 50%, var(--bg) 0 4px, transparent 5px),
+  linear-gradient(45deg, transparent 46%, var(--bg) 47% 53%, transparent 54%),
+  linear-gradient(-45deg, transparent 46%, var(--bg) 47% 53%, transparent 54%);
+  background-size:22px 22px}
+.wrap{max-width:1120px;margin:0 auto;padding-block:28px 64px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+header h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:0;color:var(--cobalt);text-wrap:balance}
+header p{max-width:62ch;color:var(--muted);margin:.7rem 0 0}
+.trip{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.trip div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0}
+.trip b{display:block;font-size:1.05rem}
+.trip span{color:var(--muted);font-size:.85rem}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:28px;margin-top:32px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+h2{font-family:var(--display);font-weight:400;font-size:1.35rem;margin:0 0 12px}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rank button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;width:100%;
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.rank button:hover{border-color:var(--cobalt)}
+.rank button:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
+.rank button[aria-current="true"]{border-color:var(--cobalt);box-shadow:inset 4px 0 0 var(--cobalt)}
+.pos{font-family:var(--display);font-size:1.7rem;color:var(--cobalt);text-align:center;line-height:1}
+.rank strong{display:block;font-size:1rem}
+.rank small{color:var(--muted)}
+.score{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.05rem}
+.crit{font-size:.85rem;color:var(--muted);margin-top:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,30px);min-width:0}
+.card h3{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,4vw,2.2rem);margin:0;line-height:1.1;text-wrap:balance}
+.where{color:var(--muted);margin:.35rem 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+.chip{font-size:.82rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--cobalt-soft);color:var(--cobalt)}
+.chip.ok{background:var(--oliva-soft);color:var(--oliva)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.verdict{margin:18px 0 0;font-size:1.05rem;max-width:68ch}
+.tabs{display:flex;gap:4px;margin:24px 0 0;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{all:unset;cursor:pointer;padding:10px 14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--cobalt)}
+.tabs button:focus-visible{outline:3px solid var(--cobalt)}
+.panel{padding-top:18px}
+.panel p{max-width:68ch}
+.steps{margin:0;padding-left:1.2rem;display:grid;gap:6px}
+.mode{display:grid;gap:4px;margin-bottom:18px}
+.mode h4{margin:0;font-size:1rem}
+.btn{display:inline-block;margin-top:8px;padding:9px 16px;border-radius:999px;background:var(--cobalt);color:var(--paper);font-weight:600;text-decoration:none}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.82rem;color:var(--muted);font-weight:600}
+td.p{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.sub{margin:18px 0 6px;font-size:1rem}
+.list{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.list li{border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.92rem}
+.ratings{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.ratings div{border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.ratings b{font-size:1.4rem;font-variant-numeric:tabular-nums}
+.ratings span{display:block;color:var(--muted);font-size:.85rem}
+blockquote{margin:0 0 12px;padding:10px 14px;border-left:3px solid var(--oliva);background:var(--oliva-soft);border-radius:0 8px 8px 0;max-width:68ch}
+blockquote.neg{border-color:var(--warn);background:var(--warn-soft)}
+blockquote cite{display:block;font-style:normal;font-size:.82rem;color:var(--muted);margin-top:4px}
+.note{font-size:.85rem;color:var(--muted)}
+.combos{margin-top:40px}
+.combos .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.combos article{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.combos h4{margin:0 0 6px;font-size:1.05rem}
+footer{margin-top:40px;font-size:.85rem;color:var(--muted);max-width:75ch}
+@media (prefers-reduced-motion:no-preference){.card{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px)}to{transform:none}}}
+</style>
+
+<div class="cenefa" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <h1>Ruta Esmorzaret desde Vinaròs</h1>
+    <p>Cinco bares de almuerzo de l'Horta de València: cómo llegar desde Vinaròs, qué bocadillos tienen, cuánto cuestan y qué dice la gente. Datos revisados el 5 de noviembre de 2026.</p>
+    <div class="trip">
+      <div><b>AP-7, sin peaje</b><span>Vinaròs → València, unos 145 km</span></div>
+      <div><b>Tren Regional</b><span>Vinaròs → València Nord, 1 h 42 a 2 h 12, desde 12,30 €</span></div>
+      <div><b>Primer tren 06:15</b><span>Llegas a València a tiempo para almorzar</span></div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <aside>
+      <h2>Clasificación</h2>
+      <ol class="rank" id="rank"></ol>
+      <p class="crit">La nota (sobre 10) es mía y combina valoración media en Google, premios, calidad de la información disponible y relación calidad-precio. No es una puntuación oficial.</p>
+    </aside>
+    <main id="detail" aria-live="polite"></main>
+  </div>
+
+  <section class="combos">
+    <h2>Rutas en coche en Google Maps</h2>
+    <p class="note">Cada enlace abre Google Maps con la ruta desde Vinaròs y el tráfico del momento.</p>
+    <div class="tablewrap"><table><thead><tr><th>Destino</th><th>Distancia</th><th>Tiempo aprox.</th><th>Ruta</th></tr></thead><tbody id="gmaps"></tbody></table></div>
+  </section>
+
+  <section class="combos">
+    <h2>Dos rutas para aprovechar el viaje</h2>
+    <div class="row">
+      <article>
+        <h4>Ruta norte: Roca y Almàssera</h4>
+        <p>Baret de Roca y Les Tendes están a unos 5 km entre sí, en la huerta norte. Son los más cercanos a Vinaròs (salida de la V-21). Almuerza en uno y vuelve a comer un arroz al otro: Les Tendes hace 2 arroces diarios a las 14:00.</p>
+        <a class="btn" id="combo-norte" target="_blank" rel="noopener" href="#">Ruta Vinaròs → Roca → Les Tendes</a>
+      </article>
+      <article>
+        <h4>Ruta Torrent: Los Abetos y La Curra</h4>
+        <p>Los dos están en el Camí Mas del Jutge de Torrent (Los Abetos I en el n.º 64, La Curra en el 79). Puedes comparar el almuerzo creativo de Los Abetos con el tradicional a la brasa de La Curra el mismo día.</p>
+        <a class="btn" id="combo-torrent" target="_blank" rel="noopener" href="#">Ruta Vinaròs → Los Abetos → La Curra</a>
+      </article>
+      <article>
+        <h4>Casa Quitín por libre</h4>
+        <p>Burjassot queda a 10 minutos del centro en metro (L1). Ve de martes a sábado y llega antes de las 10:00 para pedir el bocadillo "España".</p>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    Fuentes: cartas y webs oficiales (Gastrokaizen de Los Abetos, lacurra.es, restaurantequitin.com), Google (vía Kitking), TripAdvisor, Verema, Esmorzar.org, Valencia Bonita, Infobae, COPE, Renfe y Adif. Los kilómetros y tiempos en coche son aproximados: compruébalos en el mapa antes de salir. Los precios de Baret de Roca y Les Tendes vienen de reseñas, no de una carta oficial.
+  </footer>
+</div>
+
+<script>
+const ORIGIN = "Vinaròs, Castellón";
+const maps = (dest, mode) => "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(ORIGIN) + "&destination=" + encodeURIComponent(dest) + (mode ? "&travelmode=" + mode : "");
+
+const BARS = [
+{
+  id:"quitin", name:"Casa Quitín", town:"Burjassot", addr:"C/ Espartero 63, Burjassot", score:9.2,
+  tagline:"El bocadillo más tradicional de España 2025",
+  chips:[["Desde 1922",""],["Premio nacional 2025","ok"],["Martes a sábado","" ]],
+  verdict:"El mejor de la lista. Tiene la mejor nota en Google, un premio nacional reciente y un bocadillo estrella a 8 € con bebida y café. Pide el \"España\". La carta completa del almuerzo no está publicada, así que el resto se elige en la barra.",
+  car:{km:"≈150 km", time:"≈1 h 35 min", steps:["AP-7 dirección València (sin peaje).","Al llegar a Puçol, sigue por la V-21 hacia València.","Ronda Nord y CV-35 dirección Llíria; salida Burjassot.","Aparcar en la zona es complicado a primera hora: ve con margen."]},
+  train:["Regional de Vinaròs a València Estació del Nord (1 h 42 a 2 h 12).","Metro en la estación de Xàtiva, al lado de la Estació del Nord: línea 1 dirección Bétera.","Baja en Burjassot o Burjassot-Godella y mira en el mapa cuál te deja más cerca de C/ Espartero."],
+  menuNote:"Precios verificados solo para los especiales. El almuerzo normal no tiene precio confirmado en 2026 (en 2023 una reseña citaba 6,50 €; el ticket medio actual ronda 10-15 €).",
+  menu:[["\"Si no te gusta no pagas\" o \"España\"","Puntas de entrecot a la brasa con salsa de pimienta, huevos fritos, patatas fritas y mollejas de ternera. 430 g.","8 € con bebida y café (medio: 7 €)"],
+        ["El Kiket","Secreto a la brasa, cebolla y jamón salteados, tomate cherry al horno, 2 huevos y torrezno.","10 €"],
+        ["Kiket 2.0","Como el Kiket, con patatas fritas. Fue el bocadillo de la ruta de Burjassot 2026 y puede que ya no esté.","10 € con bebida, gasto y café"]],
+  others:["Blancos con col frita","Embutido con col frita","Embutido con habas","Longanizas con patatas","Panceta con alcachofas","Alcachofas, tortilla y longanizas","Caballo con patatas a lo pobre y ajos tiernos","El Pacorro (pollo a la cerveza)","El Confidente"],
+  extras:"Todos los bocadillos llevan ahora un trozo de panceta a la brasa encima. Gasto: cacahuetes y aceitunas. Prueba también las patatas Quitín y el cremaet.",
+  ratings:[["4,6","Google","3.136 opiniones"],["4,5","TripAdvisor","214 opiniones"]],
+  quotes:[["Comida siempre de mercado, calidad excelente, y gran variedad.","TripAdvisor",false],
+          ["8 € con su gasto comentado y el café.","Verema, visita del 29/10/2026",false]]
+},
+{
+  id:"abetos", name:"Los Abetos", town:"Torrent", addr:"Camí Mas del Jutge 64, Torrent", score:8.8,
+  tagline:"El Cestón, mejor bocadillo de los Cacau d'Or 2025",
+  chips:[["Carta completa online","ok"],["Cacau d'Or 2025","ok"],["Dos locales",""]],
+  verdict:"El más completo para planificar: es el único con carta oficial publicada, con 23 bocadillos de 6 a 10 €. Bocadillos grandes y creativos. Ojo: la carta no dice si incluye bebida y café, y las reseñas hablan de 13-15 € con todo.",
+  car:{km:"≈170 km", time:"≈1 h 45 min", steps:["AP-7 dirección València (sin peaje).","Sigue por la A-7 (by-pass) bordeando València por el oeste.","Salida Torrent; el Camí Mas del Jutge está a las afueras.","Los Abetos II está en C/ Palmiters 2, en el casco urbano."]},
+  train:["Regional de Vinaròs a València Estació del Nord.","Metro en Xàtiva: líneas 1 o 2 hasta Torrent o Torrent Avinguda.","Desde allí, taxi hasta Mas del Jutge (Los Abetos I). Los Abetos II se puede hacer andando."],
+  menuNote:"Carta oficial Gastrokaizen, consultada el 5/11/2026. Selección: la carta completa tiene 23 bocadillos.",
+  menu:[["El Cestón","Pollo a la brasa macerado con hierbas, patatas a lo pobre, aguacate y salsa especial.","8,00 €"],
+        ["El Contrabandista","Entrecot, patatas, pimiento y tomate rallado.","10,00 €"],
+        ["El Pirata","Pechuga en panko, bacon, huevo, salsa de queso con guacamole y salsa picante.","8,00 €"],
+        ["El Bravero","Filete de potro, alcachofas, 2 huevos, patatas y salsa El Bravero.","8,00 €"],
+        ["Miki-Dkai","Calamares a la plancha con alcachofas y salsa verde.","8,00 €"],
+        ["El Torrentí","Potro, jamón serrano, ajos tiernos, patatas y tomate.","8,00 €"],
+        ["El Clásico de Potro","Potro, ajos tiernos y tomate rallado.","8,00 €"],
+        ["De Calamares","Calamares rebozados.","7,00 €"],
+        ["Ricardito Fit","Tortilla de huevos trufados, jamón ibérico, queso y tomate.","6,50 €"],
+        ["Brascada","Ternera, jamón, cebolla y tomate.","8,00 €"],
+        ["Chivito","Lomo, bacon, queso, tomate, lechuga, huevo y mayonesa.","7,50 €"],
+        ["Especial Los Abetos / Mix","Jamón serrano o york, queso y tomate.","6,00 €"],
+        ["Populares","Magro con tomate, Granjero, Pescador, lomo con queso.","6,00 €"]],
+  others:["Vitrina diaria: embutido, revueltos, sepia con huevos","Torrà los sábados","Hamburguesa Burguetos 9,90 €"],
+  extras:"Su cremaet también está premiado. Hay versión \"de grumete\" con mousse de naranja.",
+  ratings:[["4,4","Google (Los Abetos II)","1.043 opiniones"],["4,4","TripAdvisor (Los Abetos I)","70 opiniones"]],
+  quotes:[["Los almuerzos espectaculares, y el bocadillo de calamares sublime. Servicio muy bueno y buena relación calidad precio.","TripAdvisor",false],
+          ["Bocadillo entero generoso con el que sales comido. Precio 10 €. Valoración 9/10.","Grupo Almuerzos de la Terreta (Facebook)",false],
+          ["Bocadillo premiado y cremaet con crema de naranja y bebida: 13,50.","Gastroranking",true]]
+},
+{
+  id:"roca", name:"Baret de Roca", town:"Alqueria de Roca (Meliana)", addr:"C/ Sant Isidre 33, Alqueria de Roca, Meliana", score:8.3,
+  tagline:"El más cercano a Vinaròs: caballo con ajos tiernos y cremaet",
+  chips:[["El más cercano","ok"],["De vitrina",""],["Precios sin confirmar","warn"]],
+  verdict:"Bar de pueblo de los de antes, con muy buena nota en Google. Es el que antes se alcanza desde Vinaròs. No hay carta: eliges el relleno en la vitrina. La especialidad es el caballo con ajos tiernos. No se reserva y se llena pronto.",
+  car:{km:"≈140 km", time:"≈1 h 25 min", steps:["AP-7 dirección València (sin peaje).","En Puçol, V-21 hacia València.","Salida Meliana / Alqueria de Roca, hacia el mar.","Llega antes de las 9:30."]},
+  train:["Regional de Vinaròs a València Estació del Nord.","Metro línea 3 hasta Meliana y taxi hasta la Alqueria de Roca (unos minutos).","Alternativa: Cercanías C-6 hasta Roca-Cúper; confirma antes que el tren para allí."],
+  menuNote:"Sin carta publicada. Precios de reseñas de 2019 o sin fecha.",
+  menu:[["Almuerzo completo","Bocadillo entero a elegir, cacaos, aceitunas, bebida y café.","≈7 €"],
+        ["Caballo con ajos tiernos","Con bebida, gasto y cremaet (2019).","6,50 €"],
+        ["Oreja","Almuerzo con bocadillo de oreja (agregador).","≈7,50 €"]],
+  others:["Caballo con ajos tiernos y allioli","Caballo con patatas","Titaina","Sepia con cebolla","Blanc i negre con habas","Calamares","Bacalao frito","Oreja","Figatells"],
+  extras:"Para picar: sang amb ceba, oreja a la plancha, patatas con cebolla y pebrera. Cremaet de la casa: 2/3 de ron y 1/3 de café.",
+  ratings:[["4,5","Google","944 opiniones"],["3,0","TripAdvisor","solo 2 opiniones"]],
+  quotes:[["El camarero fue especialmente agradable y realizó un buen servicio. Tiene buena comida, se puede volver.","Grupo Almuerzos de la Terreta (Facebook)",false],
+          ["Los famosos almuerzos de Ramón y Carmen.","Vídeo de YouTube",false]]
+},
+{
+  id:"tendes", name:"Les Tendes", town:"Almàssera", addr:"Av. del Mar 59, Almàssera", score:8.0,
+  tagline:"Alquería en plena huerta, barata y siempre llena",
+  chips:[["Almuerzo 7 €","ok"],["En la huerta",""],["Horario cambiante","warn"]],
+  verdict:"El sitio con más encanto: una alquería con azulejos en medio de la huerta. Almuerzo popular por unos 7 € y arroces a mediodía. Las opiniones son buenas pero desiguales, sobre todo cuando está lleno. Llama antes de ir, porque hay fichas que lo dan por cerrado temporalmente.",
+  car:{km:"≈140 km", time:"≈1 h 25 min", steps:["AP-7 dirección València (sin peaje).","En Puçol, V-21 hacia València.","Salida Almàssera / Alboraia; busca la Av. del Mar hacia la huerta.","Tel. 961 85 18 02. No se reserva."]},
+  train:["Regional de Vinaròs a València Estació del Nord.","Metro línea 3 hasta Almàssera.","El bar está en la huerta, a las afueras: taxi o un paseo largo. Compruébalo en el mapa."],
+  menuNote:"Sin carta online. Precio del almuerzo popular según Zampi News (2025).",
+  menu:[["Almuerzo popular","Bocadillo, bebida, gasto y café.","7 €"],
+        ["Ración de arroz","Mediodía; arroz al horno, negro o fideuà.","≈5 €"]],
+  others:["Chivito (el más pedido)","Brascada con bacon y alioli","Almussafes","Blanc i negre con habitas","Sepia","Chipirones","Anchoas, queso y tomate","Embutido con pisto"],
+  extras:"Tapas: esgarraet, puntilla, caracoles, bravas, tellinas, clóchinas, ajoarriero y tortillas. Según su Facebook abre todos los días menos domingo y lunes, con cenas de jueves a sábado.",
+  ratings:[["4,4","Google","2.265 opiniones"],["3,9","TripAdvisor","222 opiniones"]],
+  quotes:[["Buenas tapas en un lugar con encanto en medio de la huerta de Valencia, tapas bien preparadas y generosas, buen precio. Hay días que está abarrotado.","TripAdvisor",false],
+          ["Muy buena calidad precio. A destacar el arroz al horno, que me pareció muy bueno.","TripAdvisor",false]]
+},
+{
+  id:"curra", name:"La Curra", town:"Torrent", addr:"Camí Mas del Jutge 79, Torrent", score:7.6,
+  tagline:"Más de 150 años de almuerzo a la brasa de leña",
+  chips:[["El más barato: 6 €","ok"],["Desde 1870",""],["Opiniones mixtas","warn"]],
+  verdict:"El más barato y con más historia: 6 € con bocadillo, cacaos, olivas, bebida y café, a la brasa de leña y con pan de su propio horno. Es un local grande y las opiniones sobre el servicio son irregulares. Ideal si buscas tradición sin florituras.",
+  car:{km:"≈170 km", time:"≈1 h 45 min", steps:["AP-7 dirección València (sin peaje).","Sigue por la A-7 (by-pass) bordeando València por el oeste.","Salida Torrent, hacia Mas del Jutge.","Abre de martes a domingo de 6:30 a 17:00. Lunes cerrado."]},
+  train:["Regional de Vinaròs a València Estació del Nord.","Metro en Xàtiva: líneas 1 o 2 hasta Torrent.","Taxi hasta el Camí Mas del Jutge."],
+  menuNote:"Precio oficial de su web (2026). No hay bocadillos con nombre: eliges el relleno en la brasa.",
+  menu:[["Almuerzo popular","Bocadillo de LaCURRA, cacaos, olivas, bebida y café.","6,00 €"],
+        ["Bocadillo de la casa","Pisto, patatas fritas caseras, longanizas y morcilla de cebolla.","incluido"],
+        ["Menú del día (para llevar)","Paella valenciana, chuletas de cordero, postre, bebida y café.","11,00 €"]],
+  others:["Longaniza a la brasa","Morcilla de cebolla","Tortilla de patatas con cebolla","Pisto con huevo","Habitas","Patatas a la lumbre","Tomate frito a la brasa"],
+  extras:"Los viernes y sábados hay albóndigas caseras y rabo de toro, según el grupo Almuerzos de la Terreta. Premio Especial Cacau d'Or 2025 por su trayectoria.",
+  ratings:[["3,6","TripAdvisor","57 opiniones"],["—","Google","sin dato verificado"]],
+  quotes:[["Sencillez, buen cocinar, voluntad y tradición. Quien quiera refinación, no es su lugar.","TripAdvisor",false],
+          ["Espectacular todo: el trato, la rapidez y sus albóndigas caseras.","Grupo Almuerzos de la Terreta (Facebook)",false],
+          ["Es un lugar grande pero muy mal regentado; los camareros son inexpertos.","TripAdvisor, 2022",true]]
+}];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let tab = "llegar";
+
+function renderRank(cur){
+  $("#rank").innerHTML = BARS.map((b,i)=>`<li><button type="button" data-id="${b.id}" aria-current="${b.id===cur}">
+    <span class="pos">${i+1}</span><span><strong>${esc(b.name)}</strong><small>${esc(b.town)}</small></span>
+    <span class="score">${b.score.toFixed(1).replace(".",",")}</span></button></li>`).join("");
+  $("#rank").querySelectorAll("button").forEach(btn=>btn.onclick=()=>{location.hash=btn.dataset.id});
+}
+
+function panel(b){
+  if(tab==="llegar") return `
+    <div class="mode"><h4>En coche · ${b.car.km} · ${b.car.time}</h4>
+      <ol class="steps">${b.car.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+      <div><a class="btn" href="${maps(b.addr,"driving")}" target="_blank" rel="noopener">Abrir ruta en coche</a></div></div>
+    <div class="mode"><h4>En tren y metro · unas 2 h 30 min en total</h4>
+      <ol class="steps">${b.train.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+      <div><a class="btn" href="${maps(b.addr,"transit")}" target="_blank" rel="noopener">Ver en transporte público</a></div></div>
+    <p class="note">Dirección: ${esc(b.addr)}. Tiempos aproximados sin tráfico.</p>`;
+  if(tab==="carta") return `
+    <p class="note">${esc(b.menuNote)}</p>
+    <div class="tablewrap"><table><thead><tr><th>Bocadillo / menú</th><th>Qué lleva</th><th>Precio</th></tr></thead>
+    <tbody>${b.menu.map(r=>`<tr><td><strong>${esc(r[0])}</strong></td><td>${esc(r[1])}</td><td class="p">${esc(r[2])}</td></tr>`).join("")}</tbody></table></div>
+    <h4 class="sub">Otros rellenos que cita la gente</h4>
+    <ul class="list">${b.others.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
+    <p>${esc(b.extras)}</p>`;
+  return `
+    <div class="ratings">${b.ratings.map(r=>`<div><b>${esc(r[0])}</b><span>${esc(r[1])} · ${esc(r[2])}</span></div>`).join("")}</div>
+    ${b.quotes.map(q=>`<blockquote class="${q[2]?"neg":""}">${esc(q[0])}<cite>${esc(q[1])}</cite></blockquote>`).join("")}
+    <p class="note">Las notas son de noviembre de 2026. Las citas están resumidas a partir de reseñas públicas.</p>`;
+}
+
+function renderDetail(id){
+  const b = BARS.find(x=>x.id===id) || BARS[0];
+  renderRank(b.id);
+  const pos = BARS.indexOf(b)+1;
+  $("#detail").innerHTML = `<article class="card">
+    <h3>${pos}. ${esc(b.name)}</h3>
+    <p class="where">${esc(b.tagline)} · ${esc(b.town)}</p>
+    <div class="chips">${b.chips.map(c=>`<span class="chip ${c[1]}">${esc(c[0])}</span>`).join("")}</div>
+    <p class="verdict">${esc(b.verdict)}</p>
+    <div class="tabs" role="tablist">
+      ${[["llegar","Cómo llegar"],["carta","Bocadillos y precios"],["opiniones","Opiniones"]].map(t=>`<button type="button" role="tab" id="tab-${t[0]}" aria-selected="${tab===t[0]}" data-t="${t[0]}">${t[1]}</button>`).join("")}
+    </div>
+    <div class="panel" role="tabpanel">${panel(b)}</div></article>`;
+  $("#detail").querySelectorAll(".tabs button").forEach(btn=>btn.onclick=()=>{tab=btn.dataset.t;renderDetail(b.id)});
+}
+
+$("#gmaps").innerHTML = BARS.map(b=>`<tr><td><strong>${esc(b.name)}</strong><br><span class="note">${esc(b.addr)}</span></td><td class="p">${b.car.km}</td><td class="p">${b.car.time}</td><td><a class="btn" href="${maps(b.addr,"driving")}" target="_blank" rel="noopener">Abrir en Google Maps</a></td></tr>`).join("");
+const combo = (stops) => maps(stops[stops.length-1],"driving") + "&waypoints=" + encodeURIComponent(stops.slice(0,-1).join("|"));
+$("#combo-norte").href = combo([BARS[2].addr, BARS[3].addr]);
+$("#combo-torrent").href = combo([BARS[1].addr, BARS[4].addr]);
+const route = () => renderDetail(location.hash.slice(1));
+window.addEventListener("hashchange", route);
+route();
+</script>
