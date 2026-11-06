@@ -154,6 +154,41 @@ td .pill{display:inline-block;padding:2px 12px;border-radius:999px;background:va
 .prog-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
 .prog-list li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:2px solid var(--line)}
 .danger{color:var(--bad);border-color:var(--bad)}
+/* Simulacre d'examen */
+.exam{display:flex;flex-direction:column;gap:16px}
+.ex-sec{background:var(--surface);border:2px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.ex-h{display:flex;align-items:center;gap:12px}
+.ex-h .n{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--surface);font-family:var(--display);font-weight:700;font-size:1.3rem}
+.ex-h .pts{margin-left:auto;font-family:var(--display);font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ex-rows{display:flex;flex-direction:column;gap:10px}
+.ex-item{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ex-item .em{font-size:34px;width:48px;text-align:center;flex:none}
+.ex-item input,.ex-item select{font:inherit;font-family:var(--display);font-weight:600;font-size:1.15rem;color:var(--ink);background:var(--surface-2);border:3px solid var(--line);border-radius:12px;padding:8px 12px;min-width:0;flex:1 1 140px}
+.ex-item input:focus,.ex-item select:focus{outline:none;border-color:var(--accent)}
+.ex-item.ok input,.ex-item.ok select{border-color:var(--ok);background:var(--ok-soft)}
+.ex-item.bad input,.ex-item.bad select{border-color:var(--bad);background:var(--bad-soft)}
+.fix{flex-basis:100%;font-size:.98rem;padding-left:58px}
+.ok .fix{color:var(--ok)} .bad .fix{color:var(--bad)}
+.ex-item .pill{flex:none;min-width:104px;text-align:center;padding:6px 12px;border-radius:999px;background:var(--c);color:var(--on-color);font-family:var(--display);font-weight:600}
+.pics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.pic-card{border:3px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--surface-2)}
+.pic-card.ok{border-color:var(--ok);background:var(--ok-soft)} .pic-card.bad{border-color:var(--bad);background:var(--bad-soft)}
+.pic-card .p{font-size:52px;line-height:1}
+.mini{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.mini button{width:38px;height:38px;border-radius:50%;font-size:20px;border:3px solid transparent;background:var(--surface)}
+.mini button[aria-pressed="true"]{border-color:var(--accent);background:var(--vista-soft)}
+.pic-card .fix{padding:0;text-align:center}
+.organ-sent{font-size:1.15rem}
+.tfrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:2px solid var(--line)}
+.tfrow .fix{padding:0;grid-column:1/-1}
+.tfrow.ok .fix{color:var(--ok)} .tfrow.bad .fix{color:var(--bad)}
+.tfbtns{display:flex;gap:6px}
+.tfbtns button{padding:8px 14px;border-radius:10px;border:3px solid var(--line);background:var(--surface-2);font-family:var(--display);font-weight:600}
+.tfbtns button[aria-pressed="true"]{border-color:var(--accent);background:var(--vista-soft)}
+.result{background:var(--surface);border:3px solid var(--star);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.result .nota{font-family:var(--display);font-weight:700;font-size:3.2rem;line-height:1;font-variant-numeric:tabular-nums}
+#result{scroll-margin-top:90px}
+.act.examen{grid-column:1/-1;border-color:var(--accent);border-width:3px}
 </style>
 
 <div class="wrap">
@@ -302,6 +337,7 @@ function renderLearn(){
 
 // ---------- PRACTICA ----------
 const ACTS = [
+  {k:'examen', n:'📝', t:"Simulacre d'examen", d:"La fitxa de l'examen igual que en paper: escriu, marca i corregeix. Nota sobre 10.", examen:true, run:()=>runExam()},
   {k:'nom', n:'1', t:'Escriu el nom', d:'Ordena les lletres del nom de cada sentit.', s:'vista', run:()=>runSpell()},
   {k:'uneix', n:'2', t:'Uneix', d:'Uneix cada sentit amb el que ens permet fer.', s:'oida', run:()=>runMatch()},
   {k:'quin', n:'3', t:'Quin sentit utilitzes?', d:'Mira el dibuix i tria el sentit.', s:'olfacte', run:()=>runQuiz('quin','Quin sentit utilitzes?',qQuin(8))},
@@ -314,7 +350,7 @@ function renderPractice(){
   const d=load();
   $('#view').innerHTML = `<section style="display:flex;flex-direction:column;gap:16px">
     <h2>Tria un joc</h2>
-    <div class="acts">${ACTS.map(a=>`<button class="act${a.final?' final':''}" data-k="${a.k}" style="${a.s?style(byId[a.s]):''}">
+    <div class="acts">${ACTS.map(a=>`<button class="act${a.final?' final':''}${a.examen?' examen':''}" data-k="${a.k}" style="${a.s?style(byId[a.s]):''}">
       <span class="n">${a.n}</span><span style="display:flex;flex-direction:column;gap:2px;min-width:0">
       <span class="t">${a.t}</span><span class="d">${a.d}</span><span class="stars" aria-label="${d[a.k]||0} de 3 estreles">${starStr(d[a.k]||0)}</span></span></button>`).join('')}</div>
   </section>`;
@@ -447,6 +483,94 @@ function runMatch(){
     } else { errors++; tone(false); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),400);
       $('#fb').innerHTML=`<div class="feedback bad">Eixe no és. Pensa: què fem amb ${byId[sel].organ}?</div>`; }
   });
+}
+
+// ---------- SIMULACRE D'EXAMEN (la fitxa en blanc) ----------
+const EX_FUNCS=['Percebre olors','Reconéixer sabors','Notar textures i temperatura','Veure el que ens envolta','Escoltar sons'];
+const EX_PICS=[['🍰','El pastís','gust',['vista','olfacte']],['📻','La ràdio','oida',['vista']],['🧴','El perfum','olfacte',['vista']],['📖','El llibre','vista',['tacte']],['❄️','La neu','tacte',['vista']]];
+const EX_ORDER=['vista','oida','olfacte','gust','tacte'];
+const EX_COMP=['vista','gust','oida','olfacte','tacte'];
+const plain=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const clean=t=>t.toLowerCase().replace(/[’`]/g,"'").replace(/[.,!]/g,'').trim().replace(/\s+/g,' ').replace(/^(els|les|el|la|l')\s*/,'');
+// Retorna [correcte, missatge]
+function checkWord(ans,right,alt=[]){
+  const a=clean(ans);
+  if(!a) return [false,`Ho has deixat en blanc. És: <b>${right.toUpperCase()}</b>`];
+  if(a===right) return [true,'Correcte!'];
+  if(alt.includes(a)) return [true,`Val! Però la resposta més completa és <b>${right}</b>.`];
+  if(plain(a)===plain(right)) return [false,`Quasi! Compte amb l'accent o la dièresi: s'escriu <b>${right.toUpperCase()}</b>.`];
+  return [false,`No. La resposta és <b>${right.toUpperCase()}</b>.`];
+}
+function runExam(){
+  $('#view').innerHTML=`<section class="exam">
+    <div class="stage-top"><button class="back" id="back">← Jocs</button><h2 style="flex:1 1 auto">Simulacre d'examen</h2></div>
+    <p class="sub">És la mateixa fitxa de l'examen. Escriu i marca les respostes tu sol. Quan acabes, prem <b>Corregir</b>.</p>
+    <div id="result"></div>
+
+    <div class="ex-sec"><div class="ex-h"><span class="n">1</span><h3>Escriu el nom de cada sentit</h3><span class="pts" id="p1"></span></div>
+      <div class="ex-rows">${EX_ORDER.map(id=>`<div class="ex-item" id="e1-${id}"><span class="em">${byId[id].em}</span>
+        <input id="i1-${id}" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Nom del sentit ${byId[id].em}"></div>`).join('')}</div></div>
+
+    <div class="ex-sec"><div class="ex-h"><span class="n">2</span><h3>Uneix cada sentit amb el que ens permet fer</h3><span class="pts" id="p2"></span></div>
+      <div class="ex-rows">${EX_ORDER.map(id=>`<div class="ex-item" id="e2-${id}" style="${style(byId[id])}"><span class="pill">${byId[id].nom.toUpperCase()}</span>
+        <select id="i2-${id}" aria-label="Què ens permet fer ${byId[id].nom}"><option value="">Tria…</option>${EX_FUNCS.map(f=>`<option>${f}</option>`).join('')}</select></div>`).join('')}</div></div>
+
+    <div class="ex-sec"><div class="ex-h"><span class="n">3</span><h3>Quin sentit utilitzes?</h3><span class="pts" id="p3"></span></div>
+      <p>Mira les imatges i marca el sentit que utilitzes en cada cas.</p>
+      <div class="pics">${EX_PICS.map(([em,nom],k)=>`<div class="pic-card" id="e3-${k}"><span class="p" aria-hidden="true">${em}</span><b>${nom}</b>
+        <div class="mini">${EX_ORDER.map(id=>`<button aria-pressed="false" data-pic="${k}" data-s="${id}" aria-label="${byId[id].nom}">${byId[id].em}</button>`).join('')}</div></div>`).join('')}</div></div>
+
+    <div class="ex-sec"><div class="ex-h"><span class="n">4</span><h3>Els òrgans dels sentits</h3><span class="pts" id="p4"></span></div>
+      <p>Completa amb l'òrgan de cada sentit.</p>
+      <div class="ex-rows">${EX_ORDER.map(id=>{const s=byId[id];return `<div class="ex-item organ-sent" id="e4-${id}"><span class="em">${s.em}</span>
+        <span>${art(s)}${art(s).endsWith("'")?'':' '}${s.nom.toLowerCase()} utilitza ${s.organ.split(' ')[0]}</span>
+        <input id="i4-${id}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Òrgan de ${s.nom}"></div>`;}).join('')}</div></div>
+
+    <div class="ex-sec"><div class="ex-h"><span class="n">5</span><h3>Cert o fals?</h3><span class="pts" id="p5"></span></div>
+      <p>Llig les frases i marca.</p>
+      <div>${CF.slice(0,4).map(([t],k)=>`<div class="tfrow" id="e5-${k}"><span>⭐ ${t}</span>
+        <span class="tfbtns"><button aria-pressed="false" data-tf="${k}" data-v="1">✅ Cert</button><button aria-pressed="false" data-tf="${k}" data-v="0">❌ Fals</button></span></div>`).join('')}</div></div>
+
+    <div class="ex-sec"><div class="ex-h"><span class="n">6</span><h3>Completa</h3><span class="pts" id="p6"></span></div>
+      <p>Completa les frases amb el sentit adequat.</p>
+      <div class="ex-rows">${EX_COMP.map(id=>{const s=byId[id];return `<div class="ex-item organ-sent" id="e6-${id}"><span class="em">${s.em}</span>
+        <span>${s.amb}</span><input id="i6-${id}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Sentit que ${s.verb}" style="flex:1 1 120px"><span>${s.verb}.</span></div>`;}).join('')}</div></div>
+
+    <div class="row"><button class="next" id="corregir">✅ Corregir l'examen</button></div>
+  </section>`;
+  window.scrollTo({top:0});
+  $('#back').onclick=()=>go('practicar');
+  document.querySelectorAll('[data-pic]').forEach(b=>b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'));
+  document.querySelectorAll('[data-tf]').forEach(b=>b.onclick=()=>{document.querySelectorAll(`[data-tf="${b.dataset.tf}"]`).forEach(x=>x.setAttribute('aria-pressed',x===b));});
+  $('#corregir').onclick=gradeExam;
+}
+function gradeExam(){
+  const mark=(el,ok,msg)=>{el.classList.add(ok?'ok':'bad');el.insertAdjacentHTML('beforeend',`<span class="fix">${ok?'✔':'✘'} ${msg}</span>`);return ok?1:0;};
+  const pts={};
+  pts[1]=EX_ORDER.reduce((n,id)=>{const [ok,m]=checkWord($(`#i1-${id}`).value,byId[id].nom.toLowerCase());return n+mark($(`#e1-${id}`),ok,m);},0);
+  pts[2]=EX_ORDER.reduce((n,id)=>{const v=$(`#i2-${id}`).value, r=byId[id].func;const ok=v===r;
+    return n+mark($(`#e2-${id}`),ok,ok?'Correcte!':(v?`No. ${byId[id].nom}: <b>${r}</b>.`:`En blanc. ${byId[id].nom}: <b>${r}</b>.`));},0);
+  pts[3]=EX_PICS.reduce((n,[em,nom,main,allow],k)=>{const sel=[...document.querySelectorAll(`[data-pic="${k}"][aria-pressed="true"]`)].map(b=>b.dataset.s);
+    const ok=sel.includes(main)&&sel.every(s=>s===main||allow.includes(s));
+    const msg=ok?(sel.length>1?'Correcte! Utilitzes més d\'un sentit.':'Correcte!'):`${nom}: sobretot <b>${byId[main].nom.toLowerCase()}</b> ${byId[main].em}.`;
+    return n+mark($(`#e3-${k}`),ok,msg);},0);
+  pts[4]=EX_ORDER.reduce((n,id)=>{const s=byId[id];let [ok,m]=checkWord($(`#i4-${id}`).value,s.org,id==='tacte'?['mà','ma','mans']:[]);
+    if(id==='gust'&&clean($(`#i4-${id}`).value)==='boca') m="La boca no! L'òrgan del gust és la <b>LLENGUA</b>.";
+    return n+mark($(`#e4-${id}`),ok,m);},0);
+  pts[5]=CF.slice(0,4).reduce((n,[t,v,why],k)=>{const b=document.querySelector(`[data-tf="${k}"][aria-pressed="true"]`);
+    const ok=!!b&&(b.dataset.v==='1')===v;return n+mark($(`#e5-${k}`),ok,ok?'Correcte!':(b?why:`En blanc. És <b>${v?'CERT':'FALS'}</b>. ${why}`));},0);
+  pts[6]=EX_COMP.reduce((n,id)=>{const [ok,m]=checkWord($(`#i6-${id}`).value,byId[id].nom.toLowerCase());return n+mark($(`#e6-${id}`),ok,m);},0);
+  const max={1:5,2:5,3:5,4:5,5:4,6:5}; let tot=0,mx=0;
+  for(const k in max){$(`#p${k}`).textContent=`${pts[k]} / ${max[k]}`;tot+=pts[k];mx+=max[k];}
+  document.querySelectorAll('.exam input,.exam select,.mini button,.tfbtns button').forEach(x=>x.disabled=true);
+  const nota=Math.round(tot/mx*100)/10, st=nota>=9?3:nota>=6?2:nota>0?1:0; save('examen',st);
+  const msg=nota>=9?'Excel·lent! Estàs preparat per a l\'examen!':nota>=7?'Molt bé! Repassa les respostes en roig.':nota>=5?'Aprovat! Mira els errors i torna-ho a provar.':'Encara cal practicar. Mira les correccions i torna-ho a fer!';
+  $('#result').innerHTML=`<div class="result"><p class="label">La teua nota</p><p class="nota">${String(nota).replace('.',',')}<span style="font-size:1.4rem;color:var(--muted)"> / 10</span></p>
+    <p class="stars" style="font-size:2rem">${starStr(st)}</p><p>${msg}</p><p class="sub">Has encertat ${tot} de ${mx}. Les correccions estan baix de cada pregunta.</p>
+    <div class="row"><button class="next" id="redo">🔁 Tornar a fer l'examen</button></div></div>`;
+  $('#corregir').textContent='🔁 Tornar a fer l\'examen'; $('#corregir').onclick=runExam; $('#redo').onclick=runExam;
+  tone(nota>=5); if(nota>=7) burst($('.result .nota')); speak(msg);
+  $('#result').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 // ---------- PROGRÉS ----------

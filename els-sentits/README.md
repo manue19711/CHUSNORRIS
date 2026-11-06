@@ -3,6 +3,7 @@
 App en valencià per a repassar la fitxa «Els sentits» (Primària).
 
 - **Aprén**: els cinc sentits, el seu òrgan, què ens permeten fer, curiositats i lectura en veu alta.
+- **Simulacre d'examen**: la fitxa de l'examen completa (escriure, unir, marcar, cert o fals), amb correcció i nota sobre 10.
 - **Practica**: els sis exercicis de la fitxa (escriu el nom, uneix, quin sentit utilitzes, òrgans, cert o fals, completa) i un repte final. Les preguntes es barregen cada vegada.
 - **Progrés**: estreles guanyades a cada joc (es guarden en el navegador).
 
