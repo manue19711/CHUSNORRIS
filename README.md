@@ -9,3 +9,7 @@
   <a href="https://aistudio.google.com/apps">Start building</a>
 
 </div>
+
+## Comptem en valencià
+
+`numeros-valencia/index.html`: interactive page for practising numbers from 10 to 100 in Valencian (2n de primària). Open it in any browser; it needs no installation.
