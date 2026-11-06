@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matemàtiques 2n d'ESO – Activitats en línia | MathLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <button class="burger" aria-label="Obrir menú" aria-expanded="false" data-toggle-nav>
+      <span></span><span></span><span></span>
+    </button>
+    <a href="#" class="logo" aria-label="MathLab, inici">
+      <svg viewBox="0 0 120 32" width="104" height="28" aria-hidden="true">
+        <text x="0" y="22" font-family="Nunito Sans, sans-serif" font-weight="700" font-size="22" fill="#0d5fab">math<tspan fill="#ff6e00">lab</tspan></text>
+        <path d="M2 27 Q40 33 82 26" stroke="#ff6e00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </a>
+    <span class="lang" title="Idioma">CA</span>
+    <nav class="nav" id="nav">
+      <a href="#">Qui som</a>
+      <a href="#">Docents</a>
+      <a href="#">Famílies</a>
+      <a href="#">Escoles</a>
+      <a href="#">Contacte</a>
+    </nav>
+    <div class="header__actions">
+      <a href="#" class="btn btn--ghost">Inicia sessió</a>
+      <a href="#trial" class="btn btn--primary">Prova-ho gratis</a>
+    </div>
+  </div>
+</header>
+
+<main class="catalog">
+  <aside class="filters" id="filters" aria-label="Filtres">
+    <div class="filters__head">
+      <strong>Filtres</strong>
+      <button class="filters__close" data-toggle-filters aria-label="Tancar filtres">×</button>
+    </div>
+    <details class="acc" open>
+      <summary>Per curs</summary>
+      <ul class="acc__list">
+        <li><a href="#" class="back">‹ 2n d'ESO</a></li>
+      </ul>
+    </details>
+    <details class="acc" open>
+      <summary>Per tema</summary>
+      <ul class="acc__list" id="topicList"></ul>
+    </details>
+    <details class="acc">
+      <summary>Per programa</summary>
+      <ul class="acc__list"><li><label><input type="checkbox" disabled> Currículum LOMLOE</label></li></ul>
+    </details>
+    <details class="acc">
+      <summary>Per llibre de text</summary>
+      <ul class="acc__list"><li><label><input type="checkbox" disabled> Properament</label></li></ul>
+    </details>
+    <details class="acc">
+      <summary>Tipus d'activitat</summary>
+      <ul class="acc__list" id="typeList"></ul>
+    </details>
+  </aside>
+
+  <section class="results">
+    <h1>Activitats de matemàtiques en línia per a 2n d'ESO, alineades amb el currículum i pensades per divertir</h1>
+    <div class="results__bar">
+      <p class="count" id="count"></p>
+      <button class="btn btn--ghost filters__open" data-toggle-filters>Filtres</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <nav class="pager" id="pager" aria-label="Paginació"></nav>
+  </section>
+</main>
+
+<section class="trial" id="trial">
+  <h2><span>Comença</span> una prova gratuïta a MathLab</h2>
+  <div class="roles">
+    <a href="#" class="role"><svg viewBox="0 0 64 64"><rect x="10" y="26" width="44" height="30" rx="3" fill="#ffd27a"/><rect x="22" y="14" width="20" height="14" fill="#f2a65a"/><path d="M32 4v10" stroke="#555" stroke-width="2"/><path d="M32 4h10l-3 3 3 3H32" fill="#e64a3b"/><rect x="28" y="42" width="8" height="14" fill="#4a90e2"/><rect x="15" y="32" width="8" height="7" fill="#9fd3ff"/><rect x="41" y="32" width="8" height="7" fill="#9fd3ff"/></svg><span>Docent</span></a>
+    <a href="#" class="role"><svg viewBox="0 0 64 64"><rect x="6" y="38" width="52" height="5" rx="2" fill="#8b5a2b"/><rect x="10" y="43" width="4" height="14" fill="#8b5a2b"/><rect x="50" y="43" width="4" height="14" fill="#8b5a2b"/><rect x="30" y="20" width="22" height="16" rx="2" fill="#4a90e2"/><circle cx="20" cy="22" r="7" fill="#f2c094"/><rect x="13" y="29" width="14" height="10" rx="3" fill="#555"/></svg><span>Direcció</span></a>
+    <a href="#" class="role"><svg viewBox="0 0 64 64"><path d="M8 30 32 10l24 20" fill="none" stroke="#e64a3b" stroke-width="5" stroke-linejoin="round"/><rect x="14" y="28" width="36" height="28" fill="#fff3e0" stroke="#f2a65a" stroke-width="2"/><rect x="28" y="40" width="9" height="16" fill="#4a90e2"/><rect x="18" y="34" width="7" height="7" fill="#9fd3ff"/><rect x="40" y="34" width="7" height="7" fill="#9fd3ff"/></svg><span>Família</span></a>
+    <a href="#" class="role"><svg viewBox="0 0 64 64"><path d="M24 12a8 8 0 0 1 16 0" fill="none" stroke="#2b6cb0" stroke-width="3"/><rect x="16" y="12" width="32" height="46" rx="10" fill="#4aa3f0"/><rect x="22" y="30" width="20" height="20" rx="4" fill="#2b6cb0"/><path d="M27 34v12M32 34v12M37 34v12" stroke="#9fd3ff" stroke-width="2"/></svg><span>Alumne</span></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__cols">
+    <div><h4>Què oferim</h4><a href="#">Per a docents</a><a href="#">Per a famílies</a><a href="#">Aprendre a casa</a></div>
+    <div><h4>Activitats</h4><a href="#">Cerca d'activitats</a><a href="#">Infantil</a><a href="#">Primària</a><a href="#">1r d'ESO</a><a href="#">2n d'ESO</a><a href="#">3r d'ESO</a></div>
+    <div><h4>Sobre MathLab</h4><a href="#">Requisits tècnics</a><a href="#">Pedagogia</a><a href="#">Idiomes</a></div>
+    <div><h4>Recursos</h4><a href="#">Recerca</a><a href="#">Blog</a><a href="#">Formació docent</a></div>
+    <div><h4>Empresa</h4><a href="#">Qui som</a><a href="#">Contacte</a><a href="#">Ajuda</a><a href="#">Demostració</a><a href="#">Feina</a></div>
+    <div class="footer__brand">
+      <span class="footer__logo">math<b>lab</b></span>
+      <div class="social">
+        <a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 MathLab (projecte de demostració).</span>
+    <a href="#">Privacitat</a><a href="#">Termes</a><a href="#">Galetes</a>
+  </div>
+</footer>
+
+<div class="scrim" data-scrim></div>
+<script src="app.js"></script>
+</body>
+</html>
