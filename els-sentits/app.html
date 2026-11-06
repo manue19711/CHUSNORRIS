@@ -1,0 +1,460 @@
+<title>Els Sentits</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+/* Layout: una columna central tipus app amb tres pestanyes; cada sentit té el seu color, com a la fitxa */
+:root{
+  --bg:#eaf3f6; --surface:#ffffff; --surface-2:#f4f9fb; --ink:#18293a; --muted:#56697a; --line:#d2e1e8;
+  --accent:#2a56c6; --on-color:#13212f;
+  --vista:#5aa9ff; --vista-soft:#dcedff;
+  --oida:#f4bb37; --oida-soft:#fdf0cd;
+  --olfacte:#45c077; --olfacte-soft:#daf4e4;
+  --gust:#f07aab; --gust-soft:#fde0ec;
+  --tacte:#9a7bf3; --tacte-soft:#ebe3fe;
+  --ok:#1c9150; --ok-soft:#d9f4e4; --bad:#cf3f3f; --bad-soft:#fbe1e1; --star:#f2a900;
+  --display:"Fredoka","Baloo 2",ui-rounded,system-ui,sans-serif;
+  --body:"Andika","Trebuchet MS",system-ui,sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1a24; --surface:#172633; --surface-2:#1c2e3d; --ink:#e7f0f6; --muted:#9db0bf; --line:#2a3f51;
+  --accent:#8eaaff; --on-color:#13212f;
+  --vista-soft:#173450; --oida-soft:#3b3015; --olfacte-soft:#153824; --gust-soft:#3e1b2c; --tacte-soft:#2a2150;
+  --ok:#4fd28a; --ok-soft:#133523; --bad:#ff7b7b; --bad-soft:#3d1a1a; --star:#ffc53d;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0e1a24; --surface:#172633; --surface-2:#1c2e3d; --ink:#e7f0f6; --muted:#9db0bf; --line:#2a3f51;
+  --accent:#8eaaff; --on-color:#13212f;
+  --vista-soft:#173450; --oida-soft:#3b3015; --olfacte-soft:#153824; --gust-soft:#3e1b2c; --tacte-soft:#2a2150;
+  --ok:#4fd28a; --ok-soft:#133523; --bad:#ff7b7b; --bad-soft:#3d1a1a; --star:#ffc53d;
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(2rem,7vw,3rem);font-weight:700;letter-spacing:.01em}
+h2{font-size:1.6rem;font-weight:600}
+h3{font-size:1.25rem;font-weight:600}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* Capçalera */
+.top{display:flex;flex-direction:column;gap:6px}
+.dots{display:flex;gap:8px}
+.dots span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:24px}
+.sub{color:var(--muted);font-size:1.05rem}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:5px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.tabs button{font-family:var(--display);font-weight:600;font-size:1.05rem;padding:10px 6px;border-radius:999px;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--surface)}
+
+/* Aprén */
+.sense-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:560px){.sense-grid{grid-template-columns:repeat(3,1fr)}}
+.sense-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 6px;border-radius:var(--r);background:var(--soft);border:3px solid transparent;font-family:var(--display);font-weight:600;font-size:1.05rem;transition:transform .15s}
+.sense-btn .em{font-size:40px;line-height:1}
+.sense-btn[aria-pressed="true"]{border-color:var(--c);transform:translateY(-3px)}
+.detail{background:var(--surface);border:3px solid var(--c);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px}
+.detail-head{display:flex;align-items:center;gap:14px}
+.detail-head .big{font-size:56px;width:84px;height:84px;border-radius:50%;background:var(--soft);display:grid;place-items:center;flex:none}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.facts{grid-template-columns:1fr}}
+.fact{background:var(--surface-2);border-radius:12px;padding:12px 14px;min-width:0}
+.label{font-family:var(--display);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.fact .v{font-size:1.15rem;font-weight:700}
+.examples{display:flex;gap:10px;font-size:40px}
+.speak{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:8px 16px;border-radius:999px;background:var(--surface-2);border:2px solid var(--line);font-family:var(--display);font-weight:600;font-size:1rem}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:460px}
+th,td{text-align:left;padding:10px 8px;border-bottom:2px solid var(--line)}
+th{font-family:var(--display);font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+td .pill{display:inline-block;padding:2px 12px;border-radius:999px;background:var(--c);color:var(--on-color);font-family:var(--display);font-weight:600}
+.watch{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.watch li{display:flex;gap:10px;align-items:flex-start}
+.watch b{color:var(--bad)}
+.watch .ok{color:var(--ok)}
+
+/* Practica */
+.acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.acts{grid-template-columns:1fr}}
+.act{display:flex;gap:14px;align-items:center;text-align:left;padding:14px;border-radius:var(--r);background:var(--surface);border:2px solid var(--line);transition:transform .15s,border-color .15s}
+.act:hover{border-color:var(--accent);transform:translateY(-2px)}
+.act .n{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.5rem;background:var(--soft,var(--surface-2));color:var(--ink)}
+.act .t{font-family:var(--display);font-weight:600;font-size:1.15rem;line-height:1.2}
+.act .d{color:var(--muted);font-size:.95rem;line-height:1.3}
+.stars{color:var(--star);letter-spacing:2px;font-size:1.05rem}
+.stars .off{color:var(--line)}
+.act.final{grid-column:1/-1;border-color:var(--star)}
+
+/* Escenari d'exercici */
+.stage{display:flex;flex-direction:column;gap:16px}
+.stage-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back{padding:8px 14px;border-radius:999px;background:var(--surface);border:2px solid var(--line);font-family:var(--display);font-weight:600}
+.bar{flex:1;min-width:120px;height:14px;border-radius:999px;background:var(--surface);border:2px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.q{background:var(--surface);border:2px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center}
+.q .pic{font-size:72px;line-height:1}
+.q .prompt{font-family:var(--display);font-size:clamp(1.3rem,4.5vw,1.7rem);font-weight:600;line-height:1.3}
+.q .blank{display:inline-block;min-width:4ch;border-bottom:3px solid var(--accent);color:var(--accent)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;width:100%}
+.opt{padding:14px 10px;border-radius:14px;background:var(--surface-2);border:3px solid var(--line);font-family:var(--display);font-weight:600;font-size:1.15rem;display:flex;flex-direction:column;align-items:center;gap:4px}
+.opt .em{font-size:34px;line-height:1}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.tf{grid-template-columns:1fr 1fr}
+.feedback{width:100%;border-radius:14px;padding:12px 16px;text-align:left;font-size:1.05rem}
+.feedback.good{background:var(--ok-soft);border:2px solid var(--ok)}
+.feedback.bad{background:var(--bad-soft);border:2px solid var(--bad)}
+.next{padding:14px 28px;border-radius:999px;background:var(--accent);color:var(--surface);font-family:var(--display);font-weight:600;font-size:1.15rem}
+
+/* Ordena les lletres */
+.slots,.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.slot{width:48px;height:56px;border-radius:12px;border:3px dashed var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.7rem}
+.slot.fill{border-style:solid;border-color:var(--c);background:var(--soft)}
+.tile{width:52px;height:56px;border-radius:12px;background:var(--surface-2);border:3px solid var(--line);font-family:var(--display);font-weight:700;font-size:1.7rem}
+.tile:disabled{opacity:.25}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.ghost{padding:10px 18px;border-radius:999px;border:2px solid var(--line);background:var(--surface-2);font-family:var(--display);font-weight:600}
+
+/* Uneix */
+.match{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);column-gap:clamp(40px,12vw,110px);row-gap:12px;width:100%}
+.match svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.m{padding:12px;border-radius:14px;border:3px solid var(--line);background:var(--surface-2);font-family:var(--display);font-weight:600;font-size:1.05rem;display:flex;align-items:center;gap:8px;text-align:left;min-height:62px;position:relative;z-index:1}
+.m .em{font-size:28px}
+.m.sel{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent)}
+.m.done{background:var(--soft);border-color:var(--c)}
+
+.end{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.end .big-stars{font-size:56px;letter-spacing:6px;color:var(--star)}
+.end .big-stars .off{color:var(--line)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pop{animation:pop .4s}
+@keyframes pop{50%{transform:scale(1.08)}}
+.burst{position:fixed;pointer-events:none;font-size:30px;z-index:20;animation:fly 1.2s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.total{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.total .num{font-family:var(--display);font-weight:700;font-size:3rem;color:var(--star);font-variant-numeric:tabular-nums}
+.prog-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.prog-list li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:2px solid var(--line)}
+.danger{color:var(--bad);border-color:var(--bad)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <h1>Els Sentits</h1>
+    <p class="sub">Aprén els cinc sentits i practica amb jocs. Tot en valencià!</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-aprendre" aria-selected="true" data-view="aprendre">📚 Aprén</button>
+    <button role="tab" id="tab-practicar" aria-selected="false" data-view="practicar">✏️ Practica</button>
+    <button role="tab" id="tab-progres" aria-selected="false" data-view="progres">⭐ Progrés</button>
+  </nav>
+
+  <main id="view"></main>
+</div>
+
+<script>
+// ---------- Dades ----------
+const S = [
+  {id:'vista', nom:'Vista', em:'👁️', organ:'els ulls', org:'ulls', amb:'Amb la', verb:'veiem', func:'Veure el que ens envolta', funcEm:'🏞️',
+   desc:'Amb la vista veiem les formes, els colors, la grandària i el moviment de les coses.', ex:['🌈','📖','🚦'],
+   cur:'Parpellegem unes 15 vegades cada minut per a mantindre els ulls nets i humits.', cuida:'No mires mai directament al sol i llig amb bona llum.'},
+  {id:'oida', nom:'Oïda', em:'👂', organ:'les orelles', org:'orelles', amb:"Amb l'", verb:'escoltem', func:'Escoltar sons', funcEm:'🔔',
+   desc:"Amb l'oïda escoltem sons: la música, les veus, els sorolls forts i els fluixets.", ex:['🎵','🐶','📻'],
+   cur:"Dins de l'orella tenim l'os més xicotet de tot el cos: l'estrep.", cuida:'No escoltes la música massa forta.'},
+  {id:'olfacte', nom:'Olfacte', em:'👃', organ:'el nas', org:'nas', amb:"Amb l'", verb:'olorem', func:'Percebre olors', funcEm:'🌸',
+   desc:"Amb l'olfacte notem les olors: les bones, com una flor, i les dolentes, com el fem.", ex:['🌸','🥖','🧀'],
+   cur:"Quan estem constipats el menjar ens sap a poc, perquè l'olfacte ajuda el gust.", cuida:'Mocar-se bé i no ficar res dins del nas.'},
+  {id:'gust', nom:'Gust', em:'👅', organ:'la llengua', org:'llengua', amb:'Amb el', verb:'tastem', func:'Reconéixer sabors', funcEm:'🍋',
+   desc:'Amb el gust reconeixem els sabors: dolç, salat, àcid i amarg.', ex:['🍦','🍋','🥨'],
+   cur:'La llengua té milers de papil·les gustatives: uns botonets xicotets que noten els sabors.', cuida:'Rentar-se les dents i no menjar coses massa calentes.'},
+  {id:'tacte', nom:'Tacte', em:'✋', organ:'la pell', org:'pell', amb:'Amb el', verb:'toquem', func:'Notar textures i temperatura', funcEm:'🪶',
+   desc:'Amb el tacte notem si una cosa és suau o aspra, dura o tova, freda o calenta. Les mans són la part de la pell que més sent!', ex:['🧊','🐱','🌵'],
+   cur:"La pell és l'òrgan més gran del cos: ens cobreix de cap a peus.", cuida:'Posar-se crema solar i rentar-se les mans.'},
+];
+const byId = Object.fromEntries(S.map(s=>[s.id,s]));
+const cap = t => t[0].toUpperCase()+t.slice(1);
+const art = s => s.amb.replace('Amb ','').replace("l'","L'").replace(/^la$/,'La').replace(/^el$/,'El');
+
+const ACCIONS = [
+  ['📻','Escoltar la ràdio','oida'],['🌸','Olorar una flor','olfacte'],['📖','Llegir un conte','vista'],
+  ['❄️','Notar que la neu està freda','tacte'],['🍋','Notar que la llima és àcida','gust'],['🌈',"Mirar l'arc de Sant Martí",'vista'],
+  ['🐶','Sentir un gos que lladra','oida'],['🐱','Acariciar un gat suau','tacte'],['🍲','Saber si la sopa és salada','gust'],
+  ['✨','Veure les estreles','vista'],['🔔',"Sentir el timbre de l'escola",'oida'],['🥖','Notar l\'olor del pa acabat de fer','olfacte'],
+  ['🪨','Notar que la pedra és dura','tacte'],['🧀','Saber si el formatge fa pudor','olfacte'],['🎵','Escoltar una cançó','oida'],
+  ['🎨',"Veure els colors d'un dibuix",'vista'],['🍦','Tastar un gelat de xocolate','gust'],['🌵','Notar que el cactus punxa','tacte'],
+  ['🍰','Tastar un pastís','gust'],['🧴','Olorar un perfum','olfacte'],['🚿',"Notar l'aigua calenta de la dutxa",'tacte'],['🚦','Veure el semàfor en roig','vista'],
+];
+const CF = [
+  ['Amb la vista podem veure formes i colors.',true,'Sí! Els ulls veuen formes i colors.'],
+  ["Amb l'oïda podem escoltar música.",true,"Sí! Les orelles escolten la música."],
+  ["Amb l'olfacte podem reconéixer sabors.",false,"Fals: els sabors els reconeixem amb el gust (la llengua). Amb l'olfacte notem olors."],
+  ['Amb el tacte podem notar si una cosa és freda.',true,'Sí! La pell nota el fred i la calor.'],
+  ['Amb el gust podem veure colors.',false,'Fals: els colors els veiem amb la vista.'],
+  ["Els ulls són l'òrgan de la vista.",true,'Sí! Veiem amb els ulls.'],
+  ["El nas és l'òrgan de l'oïda.",false,"Fals: el nas és de l'olfacte. L'oïda utilitza les orelles."],
+  ['La llengua ens ajuda a saber si el menjar és dolç.',true,'Sí! La llengua nota els sabors.'],
+  ['Tenim quatre sentits.',false,'Fals: en tenim cinc! Vista, oïda, olfacte, gust i tacte.'],
+  ["La pell és l'òrgan del tacte.",true,'Sí! I la pell de les mans és la que més sent.'],
+  ["Amb l'olfacte notem l'olor de les flors.",true,'Sí! El nas nota les olors.'],
+  ['Amb la vista podem escoltar un ocell.',false,"Fals: per a escoltar l'ocell utilitzem l'oïda."],
+  ['Amb el tacte notem si una pedra és dura.',true,'Sí! Ho notem tocant-la.'],
+  ['La boca és l\'òrgan del gust.',false,"Compte! L'òrgan del gust és la llengua, que està dins de la boca."],
+];
+
+// ---------- Utilitats ----------
+const $ = s => document.querySelector(s);
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const style = s => `--c:var(--${s.id});--soft:var(--${s.id}-soft)`;
+const esc = t => String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function speak(t){ try{ const ss=window.speechSynthesis; ss.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ca-ES'; u.rate=.9;
+  const v=ss.getVoices().find(v=>/^ca/i.test(v.lang)); if(v)u.voice=v; ss.speak(u);}catch(e){} }
+let actx;
+function tone(ok){ try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); const notes=ok?[660,880]:[220,180];
+  notes.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;o.type=ok?'triangle':'square';
+  g.gain.setValueAtTime(.0001,actx.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(ok?.18:.06,actx.currentTime+i*.12+.02);
+  g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+i*.12+.18);o.connect(g).connect(actx.destination);o.start(actx.currentTime+i*.12);o.stop(actx.currentTime+i*.12+.2);});}catch(e){} }
+function burst(el){ const r=el.getBoundingClientRect(); const em=['⭐','🎉','✨','🌟'];
+  for(let i=0;i<12;i++){const b=document.createElement('span');b.className='burst';b.textContent=em[i%em.length];
+  b.style.left=(r.left+r.width/2)+'px';b.style.top=(r.top+r.height/2)+'px';
+  b.style.setProperty('--dx',(Math.random()*260-130)+'px');b.style.setProperty('--dy',(Math.random()*-220-40)+'px');b.style.setProperty('--rot',(Math.random()*360)+'deg');
+  document.body.appendChild(b);setTimeout(()=>b.remove(),1300);} }
+
+const STORE='els-sentits-v1';
+function load(){ try{ return JSON.parse(localStorage.getItem(STORE))||{}; }catch(e){ return {}; } }
+function save(k,stars){ const d=load(); if(!d[k]||stars>d[k]) d[k]=stars; try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){} }
+const starStr = n => '★'.repeat(n)+`<span class="off">${'★'.repeat(3-n)}</span>`;
+const toStars = (ok,tot) => ok/tot>=.9?3:ok/tot>=.6?2:ok>0?1:0;
+
+// ---------- Navegació ----------
+let view='aprendre';
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.view));
+function go(v){ view=v; document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===v));
+  try{speechSynthesis.cancel()}catch(e){}
+  ({aprendre:renderLearn,practicar:renderPractice,progres:renderProgress})[v](); window.scrollTo({top:0}); }
+$('#dots').innerHTML = S.map(s=>`<span style="background:var(--${s.id}-soft)">${s.em}</span>`).join('');
+
+// ---------- APRÉN ----------
+let current='vista';
+function renderLearn(){
+  const s=byId[current];
+  $('#view').innerHTML = `
+  <section style="display:flex;flex-direction:column;gap:16px">
+    <h2>Toca un sentit per a descobrir-lo</h2>
+    <div class="sense-grid">${S.map(x=>`<button class="sense-btn" style="${style(x)}" aria-pressed="${x.id===current}" data-s="${x.id}"><span class="em">${x.em}</span>${x.nom}</button>`).join('')}</div>
+    <article class="detail pop" style="${style(s)}">
+      <div class="detail-head"><div class="big">${s.em}</div>
+        <div><p class="label">El sentit de</p><h2>${s.nom}</h2></div></div>
+      <p style="font-size:1.15rem">${s.desc}</p>
+      <div class="facts">
+        <div class="fact"><p class="label">Òrgan</p><p class="v">${cap(s.organ)}</p></div>
+        <div class="fact"><p class="label">Ens permet</p><p class="v">${s.func}</p></div>
+        <div class="fact"><p class="label">La frase</p><p class="v">${s.amb}${s.amb.endsWith("'")?'':' '}${s.nom.toLowerCase()} ${s.verb}.</p></div>
+        <div class="fact"><p class="label">Exemples</p><div class="examples">${s.ex.map(e=>`<span>${e}</span>`).join('')}</div></div>
+        <div class="fact"><p class="label">Sabies que…?</p><p>${s.cur}</p></div>
+        <div class="fact"><p class="label">Com el cuidem</p><p>${s.cuida}</p></div>
+      </div>
+      <button class="speak" id="say">🔊 Escolta</button>
+    </article>
+
+    <div class="card">
+      <h2>Repassem la fitxa</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Sentit</th><th>Òrgan</th><th>Què fem?</th></tr></thead>
+        <tbody>${S.map(x=>`<tr style="${style(x)}"><td><span class="pill">${x.em} ${x.nom}</span></td><td>${cap(x.organ)}</td><td>${x.amb}${x.amb.endsWith("'")?'':' '}${x.nom.toLowerCase()} <b>${x.verb}</b></td></tr>`).join('')}</tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h2>Ull viu! Errors que es fan sovint</h2>
+      <ul class="watch">
+        <li>👅 <span>L'òrgan del gust és <b>la llengua</b>, no la boca. La llengua està dins de la boca.</span></li>
+        <li>👂 <span><span class="ok"><b style="color:inherit">OÏDA</b></span> porta dièresi damunt de la <b style="color:inherit">Ï</b>: O-Ï-DA.</span></li>
+        <li>👃 <span>Amb l'olfacte notem <b style="color:inherit">olors</b>. Els <b>sabors</b> són del gust.</span></li>
+        <li>✋ <span>L'òrgan del tacte és <b style="color:inherit">la pell</b>. Les mans són la part que més sent.</span></li>
+        <li>❄️ <span>De vegades fem servir dos sentits alhora: veiem la neu i també notem que està freda.</span></li>
+      </ul>
+    </div>
+  </section>`;
+  document.querySelectorAll('.sense-btn').forEach(b=>b.onclick=()=>{current=b.dataset.s;renderLearn();speak(byId[current].nom);});
+  $('#say').onclick=()=>speak(`${s.nom}. ${s.desc} L'òrgan és ${s.organ}. ${s.amb.endsWith("'")?s.amb+s.nom.toLowerCase():s.amb+' '+s.nom.toLowerCase()} ${s.verb}.`);
+}
+
+// ---------- PRACTICA ----------
+const ACTS = [
+  {k:'nom', n:'1', t:'Escriu el nom', d:'Ordena les lletres del nom de cada sentit.', s:'vista', run:()=>runSpell()},
+  {k:'uneix', n:'2', t:'Uneix', d:'Uneix cada sentit amb el que ens permet fer.', s:'oida', run:()=>runMatch()},
+  {k:'quin', n:'3', t:'Quin sentit utilitzes?', d:'Mira el dibuix i tria el sentit.', s:'olfacte', run:()=>runQuiz('quin','Quin sentit utilitzes?',qQuin(8))},
+  {k:'organs', n:'4', t:'Els òrgans', d:"Completa amb l'òrgan de cada sentit.", s:'gust', run:()=>runQuiz('organs','Els òrgans dels sentits',qOrgans())},
+  {k:'cf', n:'5', t:'Cert o fals?', d:'Llig la frase i decideix.', s:'tacte', run:()=>runQuiz('cf','Cert o fals?',qCF(8))},
+  {k:'completa', n:'6', t:'Completa', d:'Completa la frase amb el sentit adequat.', s:'vista', run:()=>runQuiz('completa','Completa',qCompleta())},
+  {k:'repte', n:'🏆', t:'Repte final', d:'10 preguntes barrejades de tots els jocs. Aconsegueix 3 estreles!', final:true, run:()=>runQuiz('repte','Repte final',shuffle([...qQuin(3),...qOrgans().slice(0,2),...qCF(3),...qCompleta().slice(0,2)]))},
+];
+function renderPractice(){
+  const d=load();
+  $('#view').innerHTML = `<section style="display:flex;flex-direction:column;gap:16px">
+    <h2>Tria un joc</h2>
+    <div class="acts">${ACTS.map(a=>`<button class="act${a.final?' final':''}" data-k="${a.k}" style="${a.s?style(byId[a.s]):''}">
+      <span class="n">${a.n}</span><span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+      <span class="t">${a.t}</span><span class="d">${a.d}</span><span class="stars" aria-label="${d[a.k]||0} de 3 estreles">${starStr(d[a.k]||0)}</span></span></button>`).join('')}</div>
+  </section>`;
+  document.querySelectorAll('.act').forEach(b=>b.onclick=()=>ACTS.find(a=>a.k===b.dataset.k).run());
+}
+function stageShell(title){
+  $('#view').innerHTML = `<section class="stage"><div class="stage-top"><button class="back" id="back">← Jocs</button><h2 style="flex:1 1 auto">${title}</h2></div>
+    <div class="bar"><i id="barfill" style="width:0%"></i></div><div id="stage"></div></section>`;
+  $('#back').onclick=()=>go('practicar'); window.scrollTo({top:0});
+}
+const setBar = p => { const b=$('#barfill'); if(b) b.style.width=(p*100)+'%'; };
+function endScreen(key,ok,tot,again){
+  const st=toStars(ok,tot); save(key,st); setBar(1);
+  const msg = st===3?'Fantàstic! Ets un expert dels sentits!':st===2?'Molt bé! Quasi perfecte.':'Bon intent! Torna-ho a provar i ho faràs millor.';
+  $('#stage').innerHTML = `<div class="q end"><div class="big-stars">${starStr(st)}</div>
+    <p class="prompt">${msg}</p><p>Has encertat <b>${ok}</b> de <b>${tot}</b>.</p>
+    <div class="row"><button class="next" id="again">Tornar a jugar</button><button class="ghost" id="other">Altres jocs</button></div></div>`;
+  $('#again').onclick=again; $('#other').onclick=()=>go('practicar');
+  if(st>=2){ tone(true); burst($('.big-stars')); }
+  speak(msg);
+}
+
+// Generadors de preguntes
+function qQuin(n){ return shuffle(ACCIONS).slice(0,n).map(([em,txt,id])=>({pic:em, prompt:`${txt}`, say:`Quin sentit utilitzes per a ${txt.toLowerCase()}?`, hint:'Quin sentit utilitzes?',
+  opts:S.map(s=>({label:s.nom, em:s.em, ok:s.id===id})), explain:`${byId[id].amb}${byId[id].amb.endsWith("'")?'':' '}${byId[id].nom.toLowerCase()} ${byId[id].verb}: utilitzem ${byId[id].organ}.`})); }
+function qOrgans(){ return shuffle(S).map(s=>{
+  const det = s.organ.split(' ')[0]; const distract = shuffle(S.filter(x=>x.id!==s.id).map(x=>x.org)).slice(0,3);
+  if(s.id==='gust') distract[1]='boca';
+  return {pic:s.em, prompt:`${art(s)}${art(s).endsWith("'")?'':' '}${s.nom.toLowerCase()} utilitza ${det} <span class="blank">___</span>`, say:`${art(s)} ${s.nom} utilitza...`,
+    opts:shuffle([s.org,...distract]).map(o=>({label:o, ok:o===s.org, why:o==='boca'?"La boca no! L'òrgan del gust és la llengua, que està dins de la boca.":null})),
+    explain:`${art(s)}${art(s).endsWith("'")?'':' '}${s.nom.toLowerCase()} utilitza ${s.organ}.`};}); }
+function qCF(n){ return shuffle(CF).slice(0,n).map(([t,v,why])=>({pic:'🤔', prompt:t, say:t, tf:true,
+  opts:[{label:'Cert', em:'✅', ok:v},{label:'Fals', em:'❌', ok:!v}], explain:why})); }
+function qCompleta(){ return shuffle(S).map(s=>({pic:s.em, prompt:`${s.amb}${s.amb.endsWith("'")?'':' '}<span class="blank">___</span> ${s.verb}.`, say:`${s.amb} ... ${s.verb}.`,
+  opts:S.map(x=>({label:x.nom.toLowerCase(), em:x.em, ok:x.id===s.id})), explain:`${s.amb}${s.amb.endsWith("'")?'':' '}${s.nom.toLowerCase()} ${s.verb}.`})); }
+
+// Motor de preguntes
+function runQuiz(key,title,qs){
+  stageShell(title); let i=0, ok=0, firstTry=true;
+  const show=()=>{
+    if(i>=qs.length) return endScreen(key,ok,qs.length,()=>ACTS.find(a=>a.k===key).run());
+    setBar(i/qs.length); firstTry=true; const q=qs[i];
+    $('#stage').innerHTML = `<div class="q">
+      <div class="pic" aria-hidden="true">${q.pic}</div>
+      ${q.hint?`<p class="label">${q.hint}</p>`:''}
+      <p class="prompt">${q.prompt}</p>
+      <button class="speak" id="say" style="align-self:center">🔊 Escolta</button>
+      <div class="opts${q.tf?' tf':''}">${q.opts.map((o,j)=>`<button class="opt" data-j="${j}">${o.em?`<span class="em">${o.em}</span>`:''}${esc(o.label)}</button>`).join('')}</div>
+      <div id="fb" style="width:100%"></div></div>`;
+    $('#say').onclick=()=>speak(q.say);
+    document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      const o=q.opts[b.dataset.j];
+      if(o.ok){
+        b.classList.add('right','pop'); tone(true); if(firstTry) ok++;
+        document.querySelectorAll('.opt').forEach(x=>x.disabled=true);
+        const blank=document.querySelector('.blank'); if(blank) blank.textContent=o.label;
+        $('#fb').innerHTML=`<div class="feedback good"><b>${firstTry?'Molt bé!':'Ara sí!'}</b> ${q.explain}</div>
+          <div class="row" style="margin-top:14px"><button class="next" id="nx">${i+1<qs.length?'Següent →':'Vore resultat'}</button></div>`;
+        $('#nx').onclick=()=>{i++;show();}; $('#nx').focus({preventScroll:true});
+      } else {
+        firstTry=false; b.classList.add('wrong','shake'); b.disabled=true; tone(false);
+        $('#fb').innerHTML=`<div class="feedback bad">${o.why||'Uf, no és eixa. Torna-ho a provar!'}</div>`;
+      }
+    });
+  };
+  show();
+}
+
+// Joc 1: ordenar lletres
+function runSpell(){
+  stageShell('Escriu el nom de cada sentit'); const list=shuffle(S); let i=0, ok=0;
+  const show=()=>{
+    if(i>=list.length) return endScreen('nom',ok,list.length,runSpell);
+    setBar(i/list.length); const s=list[i]; const word=s.nom.toUpperCase(); let typed=[], errors=0;
+    const tiles=shuffle([...word].map((c,k)=>({c,k})));
+    $('#stage').innerHTML=`<div class="q" style="${style(s)}">
+      <div class="pic" style="width:110px;height:110px;border-radius:50%;background:var(--soft);display:grid;place-items:center">${s.em}</div>
+      <p class="prompt">Com es diu este sentit?</p>
+      <div class="slots" id="slots">${[...word].map(()=>`<span class="slot"></span>`).join('')}</div>
+      <div class="tiles" id="tiles">${tiles.map(t=>`<button class="tile" data-k="${t.k}" data-c="${t.c}">${t.c}</button>`).join('')}</div>
+      <div class="row"><button class="ghost" id="del">⌫ Esborra</button><button class="ghost" id="help">💡 Pista</button></div>
+      <div id="fb" style="width:100%"></div></div>`;
+    const paint=()=>{ document.querySelectorAll('.slot').forEach((el,k)=>{el.textContent=typed[k]?typed[k].c:'';el.classList.toggle('fill',!!typed[k]);}); };
+    document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{
+      typed.push({c:b.dataset.c,btn:b}); b.disabled=true; paint();
+      if(typed.length===word.length){
+        if(typed.map(t=>t.c).join('')===word){
+          if(errors===0) ok++; tone(true); $('#slots').classList.add('pop'); speak(s.nom);
+          document.querySelectorAll('.tile,#del,#help').forEach(x=>x.disabled=true);
+          $('#fb').innerHTML=`<div class="feedback good"><b>${s.nom}!</b> ${s.id==='oida'?'Molt bé, i recorda la dièresi de la Ï.':'Ben escrit.'}</div>
+            <div class="row" style="margin-top:14px"><button class="next" id="nx">${i+1<list.length?'Següent →':'Vore resultat'}</button></div>`;
+          $('#nx').onclick=()=>{i++;show();};
+        } else {
+          errors++; tone(false); $('#slots').classList.add('shake'); setTimeout(()=>$('#slots')&&$('#slots').classList.remove('shake'),400);
+          $('#fb').innerHTML=`<div class="feedback bad">Quasi! Les lletres no estan en ordre. Torna-ho a provar.</div>`;
+          setTimeout(()=>{ typed.forEach(t=>t.btn.disabled=false); typed=[]; paint(); },700);
+        }
+      }
+    });
+    $('#del').onclick=()=>{ const t=typed.pop(); if(t){t.btn.disabled=false;paint();} };
+    $('#help').onclick=()=>{ errors++; speak(s.nom); $('#fb').innerHTML=`<div class="feedback good">Pista: comença per <b>${word[0]}</b> i té ${word.length} lletres.</div>`; };
+  };
+  show();
+}
+
+// Joc 2: unir
+function runMatch(){
+  stageShell('Uneix cada sentit amb el que ens permet fer'); setBar(0);
+  const right=shuffle(S); let sel=null, done=new Set(), errors=0;
+  $('#stage').innerHTML=`<div class="q"><p class="prompt" style="font-size:1.2rem">Toca un sentit i després el que ens permet fer.</p>
+    <div class="match" id="match"><svg id="lines"></svg>
+      ${S.map((s,k)=>`<button class="m" data-l="${s.id}" style="grid-column:1;grid-row:${k+1};${style(s)}"><span class="em">${s.em}</span>${s.nom}</button>`).join('')}
+      ${right.map((s,k)=>`<button class="m" data-r="${s.id}" style="grid-column:2;grid-row:${k+1};${style(s)}"><span class="em">${s.funcEm}</span>${s.func}</button>`).join('')}
+    </div><div id="fb" style="width:100%"></div></div>`;
+  const draw=()=>{ const box=$('#match'); if(!box) return; const br=box.getBoundingClientRect();
+    $('#lines').innerHTML=[...done].map(id=>{ const a=box.querySelector(`[data-l="${id}"]`).getBoundingClientRect(), b=box.querySelector(`[data-r="${id}"]`).getBoundingClientRect();
+      const x1=a.right-br.left, y1=a.top+a.height/2-br.top, x2=b.left-br.left, y2=b.top+b.height/2-br.top;
+      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--${id})" stroke-width="5" stroke-linecap="round"/><circle cx="${x1}" cy="${y1}" r="6" fill="var(--${id})"/><circle cx="${x2}" cy="${y2}" r="6" fill="var(--${id})"/>`; }).join(''); };
+  window.onresize=draw;
+  document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{ if(done.has(b.dataset.l))return; document.querySelectorAll('[data-l]').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); sel=b.dataset.l; speak(byId[sel].nom); });
+  document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{
+    if(done.has(b.dataset.r)) return;
+    if(!sel){ $('#fb').innerHTML=`<div class="feedback bad">Primer toca un sentit de l'esquerra.</div>`; return; }
+    if(b.dataset.r===sel){
+      done.add(sel); tone(true);
+      document.querySelectorAll(`[data-l="${sel}"],[data-r="${sel}"]`).forEach(x=>{x.classList.remove('sel');x.classList.add('done','pop');});
+      $('#fb').innerHTML=`<div class="feedback good"><b>Molt bé!</b> ${byId[sel].amb}${byId[sel].amb.endsWith("'")?'':' '}${byId[sel].nom.toLowerCase()} podem ${byId[sel].func.toLowerCase()}.</div>`;
+      sel=null; setBar(done.size/S.length); draw();
+      if(done.size===S.length) setTimeout(()=>endScreen('uneix',Math.max(0,S.length-errors),S.length,runMatch),1100);
+    } else { errors++; tone(false); b.classList.add('shake'); setTimeout(()=>b.classList.remove('shake'),400);
+      $('#fb').innerHTML=`<div class="feedback bad">Eixe no és. Pensa: què fem amb ${byId[sel].organ}?</div>`; }
+  });
+}
+
+// ---------- PROGRÉS ----------
+function renderProgress(){
+  const d=load(); const total=ACTS.reduce((a,x)=>a+(d[x.k]||0),0), max=ACTS.length*3;
+  $('#view').innerHTML=`<section style="display:flex;flex-direction:column;gap:16px">
+    <div class="card"><div class="total"><span class="num">${total}<span style="font-size:1.4rem;color:var(--muted)"> / ${max}</span></span>
+      <p style="flex:1;min-width:180px">${total===max?'Ho tens tot! Medalla d\'or dels sentits 🥇':total>=max/2?'Vas molt bé! Continua practicant.':'Juga als jocs per a guanyar estreles.'}</p></div>
+      <div class="bar"><i style="width:${total/max*100}%"></i></div></div>
+    <div class="card"><h2>Estreles per joc</h2>
+      <ul class="prog-list">${ACTS.map(a=>`<li><span>${a.n}. ${a.t}</span><span class="stars">${starStr(d[a.k]||0)}</span></li>`).join('')}</ul>
+      <div class="row" style="justify-content:flex-start"><button class="ghost danger" id="reset">Esborrar el progrés</button><span id="confirm"></span></div>
+    </div></section>`;
+  $('#reset').onclick=()=>{ $('#confirm').innerHTML=`<button class="ghost danger" id="yes">Sí, esborra-ho</button> <button class="ghost" id="no">No</button>`;
+    $('#yes').onclick=()=>{ try{localStorage.removeItem(STORE);}catch(e){} renderProgress(); }; $('#no').onclick=renderProgress; };
+}
+
+go('aprendre');
+</script>
