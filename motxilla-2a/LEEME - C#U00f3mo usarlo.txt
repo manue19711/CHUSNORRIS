@@ -1,0 +1,65 @@
+MOTXILLA 2A - Cómo usarla
+=========================
+
+QUÉ ES
+Una app web para 2.º de Primaria basada en el artículo "Metodología para una app web educativa de Primaria".
+Cada día, una sesión corta (10-15 min) en 5 pasos:
+  1. Escalfem: repaso espaciado de lo ya dominado (a 1, 3, 7, 14 y 30 días), mezclado entre áreas.
+     Se corrige AL FINAL (feedback diferido, porque la práctica intercalada funciona mejor así).
+  2. Aprenc: explicación de UNA habilidad nueva con foto y pasos.
+  3. Exemple resolt: un ejercicio ya resuelto con "cómo lo pensamos".
+  4. Practique amb ajuda / Ara tu: práctica guiada (con pista) y autónoma, con corrección explicada al momento.
+  5. Refugi: resumen y fin. La sesión se cierra: no hay "una más".
+  (Opcional) Joc de parelles: 1 minuto de memoria con fotos, solo como recompensa.
+
+DOMINIO: una habilidad queda dominada al acertar el 85 % a la primera en DOS días distintos.
+Si una sesión sale por debajo del 85 %, al día siguiente se vuelve a explicar paso a paso.
+PRUEBA DE NIVEL: opcional por área (Mapa o pantalla Avui). Lo que ya sabe se marca como dominado
+y se repasa a los 3 días para confirmarlo.
+
+CÓMO ABRIRLA
+- "index.html" = PÁGINA DE PRESENTACIÓN (para enseñarla a familias y docentes; se puede probar una pregunta real).
+- "app.html"   = LA APP para la niña o el niño. (Desde la presentación, botón "Obri la Motxilla".)
+- En la tablet u ordenador: copia la carpeta ENTERA y abre el archivo con Chrome, Edge o Safari.
+- Mejor aún, publícala gratis en GitHub Pages (o Netlify): así funciona también SIN CONEXIÓN
+  y se puede "Añadir a pantalla de inicio" como una app.
+
+PRIVACIDAD (sin base de datos, todo gratis)
+- Sin cuentas, sin correo, sin contraseñas, sin analítica, sin anuncios, sin servicios externos.
+- Se usa un alias (no el nombre real) y una foto elegida de una lista.
+- Todo se guarda solo en el navegador de ese dispositivo. Borrar los datos del navegador borra el progreso.
+- Para cambiar de dispositivo: Famílies > "Desa una còpia" y en el otro dispositivo "Recupera un progrés guardat".
+
+ZONA DE FAMÍLIAS (candado abajo a la izquierda; se entra resolviendo una multiplicación o con un PIN)
+- Minutos por día, habilidades dominadas / en camino / para repasar.
+- Tabla por área con el bloque de saberes básicos del RD 157/2022 (orientativo).
+- Prueba de nivel frente a acierto actual, errores recientes e ideas para practicar en casa.
+- Opciones: duración (10 o 15 min), juego, lectura en voz alta, práctica libre desde el mapa, PIN, copia, borrar perfil.
+
+FOTOS: Wikimedia Commons y otros archivos abiertos (licencias libres). El crédito sale bajo cada foto
+y, en la presentación, abajo del todo en "Crèdits de les fotos" (Albufera: Pepe Serrador e Iforner; camino: H. Zell).
+TIPOGRAFÍAS: Chillax (Fontshare, licencia libre) y Andika (SIL OFL), guardadas dentro de la carpeta.
+Las mismas 62 fotos y los mismos ejercicios de "La Motxilla de Segon" anterior (42 temas, 5 áreas).
+
+NOVEDADES (diseño infantil y juegos)
+- Nuevo aspecto: colores vivos, letra redonda Fredoka (SIL OFL, dentro de la carpeta), botones grandes que se hunden, confeti y sonidos, y la mascota Motxi.
+- Decenas y unidades con bloques: cada decena es una BARRA de 10 y cada unidad un CUADRADITO (tema "Nombres fins al 99").
+- Sumas y restas: la mitad salen en horizontal (38 + 25 = ?) y la mitad en vertical (en columna).
+- Pestaña "Jocs" con 4 juegos: Construeix el nombre, Explota el globus, El tren dels nombres y Parelles de blocs.
+- En Famílies > Opcions se pueden apagar los sonidos y ocultar la zona de juegos.
+- El estilo nuevo está en css/kids.css y los juegos en js/games.js. Para volver al aspecto anterior basta quitar la línea de kids.css en app.html.
+
+PORTADA NUEVA (index.html)
+- La mochila se abre y salen volando objetos 3D reales (lápiz, libreta, calculadora, tijeras, cohete, trofeo...). Rebotan, flotan, huyen del dedo y se pueden agarrar y lanzar. Tocar la mochila los vuelve a lanzar.
+- "Entra a jugar": los objetos vuelven a la mochila y una cortina roja lleva a la app.
+- Objetos 3D: "3dicons" de Vijay Verma, licencia CC0 (dominio público), descargados de Wikimedia Commons a img/obj.
+
+DIBUJOS DE CÓMIC Y FLUJO DE ENTRADA
+- Las fotos antiguas se han sustituido por viñetas de cómic (img/art): dibujos Fluent Emoji de Microsoft (licencia MIT) sobre fondos propios de seis estilos. Las fotos originales siguen en img/ por si se quieren recuperar (basta quitar js/art.js de app.html).
+- 14 avatares dibujados (gato, tortuga, pollito, zorro, unicornio, dinosaurio, robot, pulpo, cohete...).
+- La portada (index.html) tiene solo la primera pantalla. La explicación de cómo funciona sale al entrar por primera vez (5 pasos) y después viene la inscripción (alias + dibujo). Se puede volver a ver desde "Com funciona?".
+
+FICHAS EN PDF, ALUMNOS Y PERSONAJES
+- Famílies > "Fitxes en PDF": se elige tema (o toda el área), número de ejercicios, nivel y hoja de soluciones. "Guarda en PDF o imprimeix" abre la impresión del navegador: elegir "Guardar como PDF". También hay un botón "Fitxa en PDF" en el mapa, en cada tema.
+- Famílies > "Alumnes": lista de todos los alumnos del dispositivo con botón "Elimina" (pide confirmación) y "Afig un alumne".
+- Avatares: 20 personajes de ficción dibujados (superheroína, ninja, astronauta, maga, hada, genio, vampiro, extraterrestre, monstruo, fantasma, dragón, robot...). No se incluyen personajes con derechos (Stitch, Batman...), pero en la inscripción hay "Puja el teu dibuix" para que cada niño use la imagen que quiera en su dispositivo.

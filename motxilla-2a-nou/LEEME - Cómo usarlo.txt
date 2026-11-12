@@ -1,0 +1,8 @@
+
+VERSIÓN "NOU DISSENY" (pulido)
+- Es una copia de Motxilla 2A con una capa de acabado en css/nou.css. La original no se ha tocado.
+- Móvil: tarjeta "Zona de jocs" legible, el último camino ya no queda suelto, la mochila de la portada es más grande, nada se queda "levantado" al tocar y la altura se ajusta a la barra del navegador.
+- Ordenador: los seis juegos caben en dos filas, y las partes de la sesión ya no dejan puntos sueltos.
+- Cambio de pantalla más corto y sin rebote. Selección de texto, cursor, barras de desplazamiento y foco con los colores de la app.
+- Arreglado un error de la portada (saltaba al mover el dedo o el ratón).
+- Para volver al aspecto anterior basta quitar la línea de nou.css en app.html e index.html.

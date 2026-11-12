@@ -1,0 +1,74 @@
+[
+ {
+  "file": "assets/albufera-de-valencia-1.jpg",
+  "media": "image",
+  "ref": "commons:91936722",
+  "title": "Albufera de Valencia 1",
+  "creator": "Pepe Serrador",
+  "creatorUrl": null,
+  "date": "2013-01-29",
+  "license": "CC BY-SA 4.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Albufera_de_Valencia_1.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Albufera_de_Valencia_1.jpg/1920px-Albufera_de_Valencia_1.jpg",
+  "width": 1920,
+  "height": 1280,
+  "bytes": 448005,
+  "credit": "\"Albufera de Valencia 1\" by Pepe Serrador, CC BY-SA 4.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-11-10T15:27:57.926Z"
+ },
+ {
+  "file": "assets/albufera-embarcadero.jpg",
+  "media": "image",
+  "ref": "commons:79114977",
+  "title": "Albufera embarcadero",
+  "creator": "Iforner",
+  "creatorUrl": null,
+  "date": "2018-11-02",
+  "license": "CC BY-SA 4.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Albufera_embarcadero.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Albufera_embarcadero.jpg/1920px-Albufera_embarcadero.jpg",
+  "width": 1920,
+  "height": 1275,
+  "bytes": 576643,
+  "credit": "\"Albufera embarcadero\" by Iforner, CC BY-SA 4.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-11-10T15:27:58.850Z"
+ },
+ {
+  "file": "assets/seiser-alm-16.jpg",
+  "media": "image",
+  "ref": "commons:64514962",
+  "title": "Seiser Alm 16",
+  "creator": "H. Zell",
+  "creatorUrl": null,
+  "date": "2017-09-21",
+  "license": "CC BY-SA 3.0",
+  "licenseCode": "by-sa",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "creditRequired": true,
+  "page": "https://commons.wikimedia.org/wiki/File:Seiser_Alm_16.jpg",
+  "via": "Wikimedia Commons",
+  "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Seiser_Alm_16.jpg/1920px-Seiser_Alm_16.jpg",
+  "width": 1920,
+  "height": 813,
+  "bytes": 484961,
+  "credit": "\"Seiser Alm 16\" by H. Zell, CC BY-SA 3.0, via Wikimedia Commons",
+  "notes": [
+   "Share-alike: an altered version (recoloured, combined with other pictures) must be shared under the same licence."
+  ],
+  "saved": "2026-11-10T15:27:59.926Z"
+ }
+]

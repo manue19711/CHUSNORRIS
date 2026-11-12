@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Motxilla 2A · Obri la motxilla</title>
+<meta name="description" content="Una app gratuïta per a 2n de Primària: sessions curtes cada dia, blocs de desenes i unitats, sumes en línia i en columna, i jocs. Sense comptes ni dades personals.">
+<meta name="theme-color" content="#ff5a4e">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="fonts/fredoka-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/kids.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* Portada: la motxilla s'obri i tot el que porta dins ix volant.
+   Els objectes tenen física de veritat: reboten, suren, fugen del dit i es poden agafar i llançar. */
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+main{overflow-x:clip}
+.lp{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---------- escenari ---------- */
+.cover{--pk:min(23vw,300px,32vh);position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#bfe6ff;touch-action:pan-y}
+.cloud{position:absolute;height:54px;width:190px;border-radius:99px;background:#fff;opacity:.9;animation:drift 60s linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:84px;height:84px;left:28px;top:-40px}.cloud::after{width:62px;height:62px;left:96px;top:-26px}
+.cloud.c1{top:12%;left:-220px}.cloud.c2{top:34%;left:-220px;transform:scale(.7);animation-duration:85s;animation-delay:-30s}.cloud.c3{top:58%;left:-220px;transform:scale(1.25);animation-duration:110s;animation-delay:-70s}
+@keyframes drift{to{translate:calc(100vw + 460px) 0}}
+.hill{position:absolute;left:-10%;right:-10%;bottom:-22vh;height:44vh;border-radius:50%;background:#5ec26a}
+.hill.h2{left:38%;right:-30%;bottom:-27vh;background:#3fa857}
+
+.obj{position:absolute;left:0;top:0;width:var(--s);height:var(--s);z-index:2;will-change:transform;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;opacity:0}
+.obj.live{opacity:1}
+.obj:active{cursor:grabbing}
+.obj img{width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+html:not(.js) .obj{display:none}
+
+.title{position:absolute;left:0;right:0;top:5%;z-index:4;text-align:center;pointer-events:none;padding:0 16px}
+.title h1{font:700 min(12.5vw,10.5rem,20vh)/.9 var(--serif);color:#1b2559;white-space:nowrap}
+.title h1 span{display:inline-block}
+.js .title h1 span{opacity:0}
+.js .title.go h1 span{animation:letter .7s cubic-bezier(.2,1.5,.4,1) both;animation-delay:calc(var(--i)*55ms + 250ms)}
+@keyframes letter{from{opacity:0;transform:translateY(-120px) rotate(-18deg) scale(.5)}to{opacity:1;transform:none}}
+.title p{font:500 clamp(1.05rem,min(2.3vw,3.4vh),1.7rem)/1.25 var(--serif);color:#1b2559;margin:2vh auto 2.4vh;max-width:30ch}
+.title .btn{pointer-events:auto;text-decoration:none}
+.js .title p,.js .title .btn{opacity:0;transform:translateY(20px);transition:opacity .5s .9s,transform .5s .9s}
+.js .title.go p,.js .title.go .btn{opacity:1;transform:none}
+.title .btn.btn-big{min-height:clamp(60px,10vh,78px);font-size:clamp(1.3rem,min(2.6vw,3.6vh),1.9rem);padding:0 46px}
+
+.pack{position:absolute;left:50%;bottom:4%;width:var(--pk);margin-left:calc(var(--pk)/-2);z-index:3;cursor:pointer;transform-origin:50% 100%}
+.pack.shake{animation:shake2 .9s ease-in-out infinite}
+@keyframes shake2{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(7deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(4deg)}}
+.pack.pop{animation:popup .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes popup{0%{transform:scale(1,1)}18%{transform:scale(1.25,.7)}45%{transform:scale(.82,1.28) translateY(-40px)}70%{transform:scale(1.08,.94)}100%{transform:none}}
+.hint{position:absolute;left:50%;bottom:calc(4% + var(--pk) * 1.04 + 6px);transform:translateX(-50%);z-index:4;background:#fff;color:#1b2559;font:600 1.15rem var(--serif);padding:10px 18px;border-radius:99px;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+.hint::after{content:"";position:absolute;left:50%;bottom:-7px;width:16px;height:16px;margin-left:-8px;background:#fff;transform:rotate(45deg);border-radius:3px}
+.hint.off{opacity:0}
+
+.curtain{position:fixed;inset:0;z-index:99;background:#ff5a4e;clip-path:circle(0 at var(--cx,50%) var(--cy,80%));pointer-events:none}
+.curtain.on{transition:clip-path .65s cubic-bezier(.6,0,.3,1);clip-path:circle(150% at var(--cx,50%) var(--cy,80%))}
+
+/* ---------- seccions ---------- */
+.band{position:relative;padding:clamp(44px,6vw,84px) 0 0}
+.band:last-of-type{padding-bottom:clamp(44px,6vw,84px)}
+.band h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;line-height:1.05}
+.band .say{font-size:1.2rem;max-width:52ch;margin-top:12px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.field{position:relative;border-radius:40px;padding:clamp(24px,4vw,48px)}
+.f-blue{background:var(--mat);color:var(--mat-ink)}
+.f-white{background:var(--surface)}
+.f-navy{background:#1b2559;color:#fff}
+.deco{position:absolute;width:var(--s,150px);height:auto;z-index:2;pointer-events:none;will-change:transform}
+.js .rv{opacity:0;transform:translateY(34px) scale(.97);transition:opacity .6s,transform .6s cubic-bezier(.2,1.3,.4,1)}
+.js .rv.in{opacity:1;transform:none}
+
+.live{display:grid;gap:18px;justify-items:center;text-align:center}
+.live .blocks{min-height:260px;min-width:min(430px,100%)}
+.live .big{font:700 clamp(4rem,11vw,7rem)/1 var(--serif);font-variant-numeric:tabular-nums}
+.live .big .d{color:var(--val)}.live .big .u{color:var(--med)}
+.live .big.bump{animation:jump .35s}
+.live .word{font:600 1.5rem var(--serif);min-height:1.6em}
+.live .stepper{background:var(--surface-2)}
+.sums{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;flex-wrap:nowrap!important}
+.sums .eq{font:600 1.3rem var(--serif)}
+.f-blue .hsum,.f-blue .vsum{color:#1b2559}
+
+.gl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:28px}
+.gl .gtile{text-decoration:none;padding:12px 14px 18px;border-radius:26px}
+.gl .gtile .art{height:120px}
+.gl .gtile .art svg{height:96px}
+.gl .gtile b{font-size:1.3rem}
+.gl .gtile:nth-child(odd):hover{transform:translateY(-6px) rotate(-2deg)}
+.gl .gtile:nth-child(even):hover{transform:translateY(-6px) rotate(2deg)}
+
+.day{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;counter-reset:d}
+.day li{counter-increment:d;background:rgba(255,255,255,.14);border-radius:24px;padding:16px;display:grid;gap:6px;align-content:start}
+.day li::before{content:counter(d);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--cas);color:#1b2559;font:700 1.4rem var(--serif)}
+.day b{font:600 1.3rem var(--serif)}
+.day span{font-size:1rem;line-height:1.4}
+.fam ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.fam li{background:var(--surface-2);border-radius:18px;padding:12px 16px}
+.fam li b{font-family:var(--serif);font-weight:600}
+.foot2{padding:16px 24px 20px;justify-content:center;display:flex;gap:10px 24px;flex-wrap:wrap;align-items:center;font-size:.95rem}
+
+@media (max-width:860px){
+  .cover{--pk:min(44vw,30vh)}
+  .two{grid-template-columns:1fr}
+  .gl{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .day{grid-template-columns:1fr 1fr}
+  .deco{--s:96px!important}
+  .title{top:5%}
+}
+@media (max-width:520px){.day{grid-template-columns:1fr}.lp{padding:0 16px}.field{border-radius:28px}.cloud{scale:.6}}
+@media (prefers-reduced-motion:reduce){.cloud,.pack.shake{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <section class="cover" id="stage" aria-label="Portada">
+    <i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i>
+    <i class="hill"></i><i class="hill h2"></i>
+    <div class="title" id="title">
+      <h1 aria-label="Motxilla 2A"></h1>
+      <p>Obri la motxilla i aprén una mica cada dia: nombres, lletres i jocs per a 2n de Primària.</p>
+      <a class="btn btn-main btn-big" href="app.html" id="enter">Entra a jugar</a>
+    </div>
+    <span class="hint" id="hint">Toca la motxilla!</span>
+    <button class="pack shake" id="pack" aria-label="Obri la motxilla: fes eixir els objectes"></button>
+  </section>
+</main>
+<footer class="lp foot2">
+  <a href="privacitat.html">Privacitat</a>
+  <span>Lletres: Fredoka i Andika (SIL OFL). Objectes 3D: «3dicons» de Vijay Verma (CC0). Dibuixos: Fluent Emoji de Microsoft (MIT).</span>
+</footer>
+<div class="curtain" id="curtain" aria-hidden="true"></div>
+
+<script src="js/content.js"></script>
+<script src="js/curriculum.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/games.js"></script>
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+const el = id => document.getElementById(id);
+const calm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ---------- títol lletra a lletra ---------- */
+el('title').querySelector('h1').innerHTML = [...'Motxilla 2A'].map((c, i) => c === ' ' ? ' ' : `<span aria-hidden="true" style="--i:${i}">${c}</span>`).join('');
+el('pack').innerHTML = motxi('happy');
+
+/* ---------- els objectes de la motxilla, amb física ---------- */
+const stage = el('stage'), pack = el('pack');
+const small = innerWidth < 700;
+const NAMES = ['pencil', 'notebook', 'calculator', 'scissor', 'paint-kit', 'rocket', 'puzzle', 'star', 'trophy', 'clock', 'zoom', 'bulb', 'medal', 'music', 'cube', 'paint-brush'];
+/* llocs on es queden surant: [x %, y %] (deixen lliure el títol i la motxilla) */
+const SLOTS = small
+  ? [[14, 52], [86, 52], [13, 70], [87, 70], [15, 89], [85, 89], [12, 37], [88, 37]]
+  : [[8, 16], [92, 15], [5, 40], [95, 39], [10, 63], [90, 62], [6, 86], [94, 86], [21, 78], [79, 79], [31, 91], [69, 91], [24, 55], [77, 54]];
+let W = 0, H = 0, phase = 'idle', t0 = 0, last = 0, ptr = null;
+const objs = SLOTS.map((sl, i) => {
+  const d = document.createElement('div'); d.className = 'obj';
+  const s = small ? 64 + (i % 3) * 12 : 104 + ((i * 37) % 5) * 20;
+  d.style.setProperty('--s', s + 'px');
+  d.innerHTML = `<img src="img/obj/${NAMES[i]}.png" alt="" draggable="false">`;
+  stage.appendChild(d);
+  return { el: d, i, s, x: 0, y: 0, vx: 0, vy: 0, r: 0, vr: 0, sc: 0, r0: ((i * 53) % 40) - 20, slot: sl, drag: false };
+});
+function measure() { const b = stage.getBoundingClientRect(); W = b.width; H = b.height; }
+function mouth() { const r = pack.getBoundingClientRect(), s = stage.getBoundingClientRect(); return [r.left - s.left + r.width / 2, r.top - s.top + r.height * .22]; }
+function paint(o) { o.el.style.transform = `translate3d(${o.x - o.s / 2}px,${o.y - o.s / 2}px,0) rotate(${o.r}deg) scale(${o.sc})`; }
+
+function burst() {
+  measure(); const [mx, my] = mouth(); phase = 'burst'; t0 = performance.now();
+  pack.classList.remove('shake', 'pop'); void pack.offsetWidth; pack.classList.add('pop');
+  pack.innerHTML = motxi('wow'); setTimeout(() => { pack.innerHTML = motxi('happy'); }, 1600);
+  el('hint').classList.add('off'); el('title').classList.add('go');
+  objs.forEach((o, i) => {
+    o.x = mx; o.y = my; o.sc = .15; o.r = 0; o.delay = i * 55; o.el.classList.add('live');
+    o.vx = (Math.random() * 2 - 1) * W * .6; o.vy = -(H * 1.0 + Math.random() * H * .8); o.vr = (Math.random() * 2 - 1) * 620;
+  });
+  beep('pop');
+}
+function tick(now) {
+  const dt = Math.max(0, Math.min(.033, (now - last) / 1000 || .016)); last = Math.max(last, now); const t = now / 1000;
+  if (phase === 'burst' && now - t0 > 2500) { phase = 'float'; objs.forEach(o => { o.r = ((o.r % 360) + 540) % 360 - 180; }); }
+  for (const o of objs) {
+    if (phase === 'idle') continue;
+    if (o.drag) { paint(o); continue; }
+    const rad = o.s * .42;
+    if (phase === 'burst') {
+      if (now - t0 < o.delay) continue;
+      o.vy += 2300 * dt; o.sc += (1 - o.sc) * Math.min(1, dt * 7);
+      o.x += o.vx * dt; o.y += o.vy * dt; o.r += o.vr * dt;
+      if (o.x < rad) { o.x = rad; o.vx = Math.abs(o.vx) * .72; } else if (o.x > W - rad) { o.x = W - rad; o.vx = -Math.abs(o.vx) * .72; }
+      if (o.y < rad) { o.y = rad; o.vy = Math.abs(o.vy) * .6; }
+      else if (o.y > H - rad) { o.y = H - rad; o.vy = -Math.abs(o.vy) * .58; o.vx *= .86; o.vr *= .7; }
+    } else {
+      let tx, ty, k, c;
+      if (phase === 'suck') { [tx, ty] = mouth(); k = 34; c = 9; o.sc += (0 - o.sc) * Math.min(1, dt * 5); }
+      else { tx = o.slot[0] / 100 * W + Math.sin(t * .7 + o.i * 1.7) * 16; ty = o.slot[1] / 100 * H + Math.cos(t * .55 + o.i * 2.3) * 20; k = 7; c = 3.4; o.sc += (1 - o.sc) * Math.min(1, dt * 6); }
+      let ax = (tx - o.x) * k - o.vx * c, ay = (ty - o.y) * k - o.vy * c;
+      if (ptr && phase === 'float') { const dx = o.x - ptr[0], dy = o.y - ptr[1], dd = Math.hypot(dx, dy) || 1, reach = small ? 110 : 190; if (dd < reach) { const f = 5200 * (1 - dd / reach); ax += dx / dd * f; ay += dy / dd * f; o.vr += (dx > 0 ? 1 : -1) * f * dt * .12; } }
+      o.vx += ax * dt; o.vy += ay * dt; o.x += o.vx * dt; o.y += o.vy * dt;
+      const tr = o.r0 + Math.sin(t * .9 + o.i) * 7; o.vr += ((tr - o.r) * 9 - o.vr * 3) * dt; o.r += o.vr * dt;
+    }
+    paint(o);
+  }
+}
+function loop() { tick(performance.now()); requestAnimationFrame(loop); }
+
+/* agafar i llançar */
+objs.forEach(o => {
+  let px = 0, py = 0, pt = 0;
+  o.el.addEventListener('pointerdown', e => { if (phase !== 'float') return; o.drag = true; o.el.setPointerCapture(e.pointerId); px = e.clientX; py = e.clientY; pt = performance.now(); o.vx = o.vy = 0; o.el.style.zIndex = 5; beep('tap'); });
+  o.el.addEventListener('pointermove', e => { if (!o.drag) return; const now = performance.now(), dt = Math.max(.008, (now - pt) / 1000), dx = e.clientX - px, dy = e.clientY - py; o.x += dx; o.y += dy; o.vx = o.vx * .5 + dx / dt * .5; o.vy = o.vy * .5 + dy / dt * .5; o.vr = o.vx * .25; px = e.clientX; py = e.clientY; pt = now; });
+  const drop = () => { if (!o.drag) return; o.drag = false; o.el.style.zIndex = ''; o.vx = Math.max(-2600, Math.min(2600, o.vx)); o.vy = Math.max(-2600, Math.min(2600, o.vy)); };
+  o.el.addEventListener('pointerup', drop); o.el.addEventListener('pointercancel', drop);
+});
+stage.addEventListener('pointermove', e => { const s = stage.getBoundingClientRect(); ptr = [e.clientX - s.left, e.clientY - s.top]; });
+stage.addEventListener('pointerleave', () => { ptr = null; });
+addEventListener('resize', measure);
+pack.addEventListener('click', () => { if (phase === 'float' || phase === 'idle') { if (phase === 'float') { phase = 'suck'; setTimeout(burst, 520); } else burst(); } });
+
+if (calm) { measure(); phase = 'float'; el('title').classList.add('go'); el('hint').classList.add('off'); pack.classList.remove('shake'); objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.el.classList.add('live'); paint(o); }); }
+else { requestAnimationFrame(loop); setTimeout(() => { if (phase === 'idle') burst(); }, 1500); }
+
+/* ---------- entrar: tot torna a la motxilla i la motxilla ompli la pantalla ---------- */
+function enter(e) {
+  e.preventDefault(); const url = e.currentTarget.getAttribute('href');
+  try { sessionStorage.setItem('mx-enter', '1'); } catch (err) { /* sense transició */ }
+  if (calm) { location.href = url; return; }
+  const inView = stage.getBoundingClientRect().bottom > 120;
+  const c = el('curtain');
+  if (inView) { phase = 'suck'; const r = pack.getBoundingClientRect(); c.style.setProperty('--cx', r.left + r.width / 2 + 'px'); c.style.setProperty('--cy', r.top + r.height / 2 + 'px'); pack.classList.remove('pop'); void pack.offsetWidth; pack.classList.add('pop'); }
+  else { c.style.setProperty('--cx', e.clientX + 'px'); c.style.setProperty('--cy', e.clientY + 'px'); }
+  beep('win');
+  setTimeout(() => c.classList.add('on'), inView ? 420 : 0);
+  setTimeout(() => { location.href = url; }, inView ? 1120 : 700);
+}
+el('enter').addEventListener('click', enter);
+document.querySelectorAll('[data-enter]').forEach(a => a.addEventListener('click', enter));
+addEventListener('pageshow', e => { if (e.persisted) { el('curtain').classList.remove('on'); if (phase === 'suck') phase = 'float'; } });
+
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
+window.__mx = () => phase; window.__mxTick = tick;
+})();
+</script>
+</body>
+</html>

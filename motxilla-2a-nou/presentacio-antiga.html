@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Motxilla 2A · Aprén una mica cada dia</title>
+<meta name="description" content="Motxilla 2A: una app gratuïta per a 2n de Primària. Dotze minuts al dia per a repassar el que ja saps i aprendre una cosa nova. Sense comptes i sense connexió.">
+<meta name="theme-color" content="#dc1928">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="fonts/chillax-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/albufera-de-valencia-1.jpg" as="image">
+<style>
+/* Motxilla 2A · presentació
+   Direcció: «capítols de color». Cada capítol és un camp de color pla, de dalt a baix, i cada color vol dir una cosa:
+   les cinc llibretes de la motxilla (Mates pissarra, Valencià roig, Medi verd, Castellano mostassa, English granat).
+   El roig i el groc són els de la senyera. Una sola lletra (Chillax), un sol radi (12px), una sola graella de 12 columnes. */
+@font-face{font-family:"Chillax";src:url(fonts/chillax-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Chillax";src:url(fonts/chillax-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Chillax";src:url(fonts/chillax-600.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Andika";src:url(fonts/andika-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Andika";src:url(fonts/andika-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{
+  --bg:#e2dccf; --surface:#d7d0c1; --ink:#2a1110; --muted:#6b524c; --paper:#ffffff;
+  --red:#dc1928; --mustard:#e0a912; --slate:#4a6f84; --green:#2f6b3a; --maroon:#952625;
+  --mat:var(--slate); --val:var(--red); --med:var(--green); --cas:var(--mustard); --eng:var(--maroon);
+  --step-small:clamp(.875rem,.85rem + .1vw,.9375rem);
+  --step-body:clamp(1.0625rem,1rem + .25vw,1.1875rem);
+  --step-lead:clamp(1.25rem,1.1rem + .7vw,1.625rem);
+  --step-head:clamp(2rem,1.3rem + 3.2vw,4rem);
+  --step-display:clamp(3.5rem,8.6vw,8.25rem);
+  --m:clamp(16px,2.2vw,32px); --r:12px; --gap:10px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--step-body)/1.5 "Chillax",system-ui,sans-serif}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-weight:600;letter-spacing:-.03em;line-height:1;text-wrap:balance}
+a{color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.wrap{padding:0 var(--m)}
+
+/* botó: rectangular, un sol radi */
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 28px;border-radius:var(--r);font-weight:600;font-size:var(--step-body);text-decoration:none;background:var(--slate);color:#fff;transition:transform .15s var(--ease),background-color .2s}
+.btn:hover{background:#3b5b6d}
+.btn:active{transform:scale(.97)}
+.btn.paper{background:var(--paper);color:var(--ink)}
+.btn.paper:hover{background:#fff}
+.btn.ink{background:var(--ink);color:var(--paper)}
+.btn.ink:hover{background:#000}
+
+/* marca fixa: pren la tinta del capítol de davall */
+.mark{position:fixed;top:14px;right:var(--m);z-index:20;display:flex;align-items:center;gap:10px;font-weight:600;font-size:var(--step-body);text-decoration:none;color:var(--mark,var(--ink));transition:color .3s,opacity .3s,transform .3s var(--ease);opacity:0;transform:translateY(-8px);pointer-events:none}
+.mark.on{opacity:1;transform:none;pointer-events:auto}
+.mark svg{width:30px;height:30px}
+
+/* ---------- portada ---------- */
+.hero{height:100svh;min-height:600px;padding:10px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px;background:var(--bg)}
+.view{grid-column:1/11;position:relative;border-radius:var(--r);overflow:hidden;color:#fff;background:#7a2a12}
+.view img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 70%;animation:drift 30s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.14) translate(-1.5%,1%)}}
+.view::after{content:"";position:absolute;inset:0 0 auto 0;height:58%;background:linear-gradient(rgba(30,8,4,.42),rgba(30,8,4,0))} /* taste-skill-ignore: scrim neutre sota el titular */
+.view>*:not(img){position:relative;z-index:1}
+.wordmark{position:absolute!important;top:28px;left:28px;display:flex;align-items:center;gap:12px;font-weight:600;font-size:var(--step-lead);text-decoration:none}
+.wordmark svg{width:40px;height:40px}
+.view h1{position:absolute!important;left:0;right:0;top:16%;text-align:center;font-size:var(--step-display);padding:0 24px}
+.view h1 span{display:block}
+.view .sub{position:absolute!important;left:28px;bottom:36px;max-width:min(30rem,40%);font-size:var(--step-body);line-height:1.45}
+.view .go{position:absolute!important;left:50%;bottom:36px;transform:translateX(-50%)}
+.view .go:active{transform:translateX(-50%) scale(.97)}
+.swatch{grid-column:11/13;display:grid;grid-template-rows:repeat(5,1fr);border-radius:var(--r);overflow:hidden}
+.swatch a{display:block;padding:20px;font-weight:500;text-decoration:none;font-size:var(--step-body);line-height:1.2;transition:padding .25s var(--ease)}
+.swatch a:hover{padding-left:28px}
+.swatch small{display:block;font-size:var(--step-small);opacity:.85;margin-top:4px;font-weight:400}
+
+/* capítols */
+.ch{min-height:90svh;padding:clamp(72px,10vw,140px) 0;position:relative}
+.ch-red{background:var(--red);color:#fff}
+.ch-bone{background:var(--bg);color:var(--ink)}
+.ch-mustard{background:var(--mustard);color:var(--ink)}
+.ch-slate{background:var(--slate);color:#fff}
+.ch-green{background:var(--green);color:#fff}
+.ch-maroon{background:var(--maroon);color:#fff}
+.lead{font-size:var(--step-lead);line-height:1.35;max-width:34ch}
+.big{font-size:var(--step-display)}
+.head{font-size:var(--step-head)}
+
+/* com funciona: rajoles que creixen */
+.stages{align-items:end;row-gap:20px}
+.stages .h{grid-column:1/8;align-self:start;margin-bottom:28px}
+.stages .h p{margin-top:18px;max-width:30ch;font-size:var(--step-lead);line-height:1.35}
+.stage{display:flex;flex-direction:column;gap:14px}
+.stage .tile{border-radius:var(--r);display:grid;place-items:center;overflow:hidden;position:relative}
+.stage .tile img{width:62%;aspect-ratio:1;object-fit:cover;border-radius:50%;transition:transform .5s var(--ease)}
+.stage:hover .tile img{transform:scale(1.06) rotate(-3deg)}
+.stage b{font-size:var(--step-lead);font-weight:500;line-height:1.15}
+.stage p{max-width:30ch}
+.st1{grid-column:1/3}.st1 .tile{height:26vh;background:var(--mustard)}
+.st2{grid-column:3/6}.st2 .tile{height:38vh;background:var(--bg)}
+.st3{grid-column:6/9}.st3 .tile{height:50vh;background:var(--slate)}
+.st4{grid-column:9/13}.st4 .tile{height:62vh;background:var(--green)}
+.st4 .tile img{width:100%;height:100%;aspect-ratio:auto;border-radius:0}
+.stages-wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-items:end}
+.stages-top{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);margin-bottom:56px}
+.stages-top .h{grid-column:1/9}
+
+/* el camí: una imatge tallada en rajoles */
+.board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;padding:0 var(--m)}
+.board>*{aspect-ratio:1;border-radius:var(--r);overflow:hidden;position:relative}
+.piece{background-image:url(assets/seiser-alm-16.jpg);background-size:600% 400%}
+.piece::after{content:"";position:absolute;inset:0;background:inherit;background-size:inherit;background-position:inherit;transition:transform .5s var(--ease)}
+.piece:hover::after{transform:scale(1.08)}
+.ctile{padding:16px;display:flex;flex-direction:column;justify-content:space-between;font-size:var(--step-body);line-height:1.35}
+.ctile h2{font-size:clamp(1.6rem,2.6vw,2.6rem)}
+.ctile b{font-size:var(--step-lead);font-weight:600;display:block;line-height:1.1;margin-bottom:6px}
+.ctile.act{text-decoration:none;justify-content:flex-end;transition:filter .2s}
+.ctile.act:hover{filter:brightness(1.08)}
+.ctile.act span{font-size:var(--step-lead);font-weight:600;line-height:1.1}
+.c-red{background:var(--red);color:#fff}.c-mustard{background:var(--mustard);color:var(--ink)}.c-slate{background:var(--slate);color:#fff}.c-green{background:var(--green);color:#fff}.c-maroon{background:var(--maroon);color:#fff}.c-ink{background:var(--ink);color:var(--paper)}
+.caption{padding:18px var(--m) 0;color:var(--muted);font-size:var(--step-small)}
+
+/* prova-ho: paret de peces (la cosa viva) */
+.wall{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 var(--m)}
+.cell{aspect-ratio:1;border-radius:var(--r);position:relative;display:grid;place-items:center;overflow:hidden;text-align:center;transition:transform .2s var(--ease)}
+button.cell:hover{transform:translateY(-4px) rotate(-1deg)}
+button.cell:active{transform:scale(.97)}
+.cell .w{font-size:clamp(3rem,8vw,8.5rem);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.cell .w.sm{font-size:clamp(2.4rem,6vw,6.2rem)}
+.cell .cap{position:absolute;left:8px;right:8px;bottom:16px;font-size:var(--step-small);font-weight:500}
+.cell.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.cell.photo:hover img{transform:scale(1.08)}
+.cell.photo .cap{background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 8px;left:12px;right:12px}
+.cell.first{background:var(--ink);color:var(--paper);align-content:center}
+.cell.first h2{font-size:clamp(2.6rem,6.4vw,6.4rem)}
+.cell.first p{position:absolute;left:12px;right:12px;bottom:16px;font-size:var(--step-small)}
+
+/* per què funciona: noms que corren */
+.band{height:34vh;min-height:200px;background:var(--maroon);color:#fff;display:flex;align-items:center;overflow:hidden}
+.track{display:flex;white-space:nowrap;animation:run 40s linear infinite;will-change:transform}
+.track span{font-size:var(--step-display);font-weight:600;letter-spacing:-.03em;padding-right:.5em;display:flex;align-items:center;gap:.5em}
+.track span::after{content:"";width:.28em;height:.28em;border-radius:50%;background:currentColor}
+@keyframes run{to{transform:translateX(-50%)}}
+.why{padding:56px var(--m) clamp(80px,10vw,140px)}
+.why h2{grid-column:1/6}
+.why .facts{grid-column:6/13;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 24px}
+.why .facts div b{display:block;font-size:var(--step-head);font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.why .facts div span{display:block;margin-top:8px;max-width:32ch}
+.why .note{grid-column:6/13;margin-top:32px;max-width:62ch;font-size:var(--step-small)}
+
+/* una setmana: dies i franges */
+.week-h{display:flex;flex-wrap:wrap;align-items:end;gap:24px 56px}
+.week-h h2{font-size:var(--step-head)}
+.week-h h2 span{display:block;color:var(--muted)}
+.agenda{display:grid;grid-template-columns:150px minmax(0,1fr);gap:40px;margin-top:56px}
+.days{display:grid;gap:6px;align-content:start}
+.days button{height:64px;border-radius:var(--r);background:var(--surface);text-align:left;padding:0 16px;display:flex;flex-direction:column;justify-content:center;transition:background-color .2s}
+.days button:hover{background:#cbc3b2}
+.days button b{font-weight:500;font-size:var(--step-body);line-height:1.2}
+.days button small{font-size:var(--step-small);opacity:.8}
+.days button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.bands{display:grid;gap:4px;align-content:start}
+.bands>div{min-height:76px;border-radius:8px;display:grid;grid-template-columns:110px minmax(0,1fr) auto;align-items:center;gap:20px;padding:12px 20px;animation:in .35s var(--ease) backwards}
+.bands>div:nth-child(odd){background:var(--surface)}
+.bands>div:nth-child(even){background:#cdc5b4}
+.bands>div:nth-child(2){animation-delay:.06s}.bands>div:nth-child(3){animation-delay:.12s}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+.bands .t{font-size:var(--step-lead);font-weight:500;font-variant-numeric:tabular-nums}
+.bands .what b{display:block;font-weight:500}
+.bands .what small{display:block;color:var(--muted);font-size:var(--step-small)}
+.dots{display:flex}
+.dots i{width:32px;height:32px;border-radius:50%;border:3px solid var(--bg);margin-left:-8px}
+.agenda-note{margin-top:18px;font-size:var(--step-small)}
+
+/* preguntes */
+.faq{align-items:start}
+.faq .h{grid-column:1/5;position:sticky;top:96px}
+.faq .h h2{font-size:var(--step-head)}
+.faq .h p{margin-top:16px;max-width:26ch}
+.faq .list{grid-column:5/13;display:grid;gap:8px}
+details{background:rgba(255,255,255,.12);border-radius:var(--r);transition:background-color .25s}
+details[open]{background:var(--paper);color:var(--ink)}
+summary{list-style:none;min-height:72px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:var(--step-lead);font-weight:500;line-height:1.2;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+summary i{width:16px;height:16px;position:relative;flex:none}
+summary i::before,summary i::after{content:"";position:absolute;left:0;top:6.5px;width:16px;height:3px;border-radius:2px;background:currentColor;transition:transform .25s var(--ease)}
+summary i::after{transform:rotate(90deg)}
+details[open] summary i::after{transform:rotate(0)}
+details p{padding:0 24px 24px;max-width:52ch}
+
+/* tancament */
+.cta{overflow:clip;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;padding:clamp(80px,10vw,140px) 0;background:var(--bg)}
+.cta>div{height:380px;border-radius:var(--r);overflow:hidden}
+.cta .l{grid-column:1/3;margin-left:-12px;border-radius:0 var(--r) var(--r) 0}
+.cta .l img{width:100%;height:100%;object-fit:cover}
+.cta .c{grid-column:3/11;background:var(--red);color:#fff;padding:40px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:center}
+.cta .c .txt{display:flex;flex-direction:column;gap:18px}
+.books{display:grid;gap:6px}
+.books span{display:flex;align-items:center;height:52px;padding:0 18px;border-radius:8px;font-weight:600;font-size:var(--step-body);transform:rotate(var(--t,0deg));transition:transform .3s var(--ease)}
+.cta .c:hover .books span{transform:rotate(0) translateX(6px)}
+@media (max-width:900px){.cta .c{grid-template-columns:1fr}}
+.cta .c h2{font-size:var(--step-head)}
+.cta .c p{max-width:46ch}
+.cta .r{grid-column:11/13;margin-right:-12px;background:var(--mustard);border-radius:var(--r) 0 0 var(--r)}
+
+.foot{min-height:90svh;background:var(--mustard);color:var(--ink);padding:40px var(--m) 28px;display:flex;flex-direction:column;justify-content:space-between;gap:48px}
+.foot .top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot .top p{max-width:28ch}
+.foot .name{font-size:clamp(4rem,17vw,16rem);font-weight:600;letter-spacing:-.05em;line-height:.85;text-decoration:none;display:block;transition:color .2s}
+.foot .name:hover{color:var(--red)}
+.foot .meta{display:grid;grid-template-columns:1fr 2fr 1fr;gap:20px;font-size:var(--step-small);align-items:start}
+.foot .meta>:last-child{text-align:right}
+.foot details{background:none}
+.foot details[open]{background:none;color:inherit}
+.foot summary{min-height:0;padding:0;font-size:var(--step-small);font-weight:500;display:inline-flex;text-decoration:underline;text-underline-offset:3px}
+.foot ul{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:4px}
+
+/* finestra de la pregunta */
+dialog{border:0;border-radius:var(--r);padding:0;width:min(720px,calc(100vw - 24px));max-height:calc(100svh - 24px);background:var(--paper);color:var(--ink);box-shadow:0 30px 80px rgba(20,5,4,.4)} /* taste-skill-ignore: diàleg obert */
+dialog::backdrop{background:rgba(42,17,16,.55)}
+.dq{padding:28px clamp(18px,4vw,36px) 30px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;font-family:"Andika","Chillax",sans-serif}
+.dq .tag{align-self:stretch;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:"Chillax",sans-serif;font-weight:500}
+.dq .tag span{display:flex;align-items:center;gap:8px}
+.dq .tag span::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--c)}
+.dq .x{width:44px;height:44px;border-radius:50%;background:var(--bg);font-size:1.4rem;line-height:1}
+.dq .prompt{font-size:clamp(1.4rem,3.4vw,1.9rem);font-weight:700;line-height:1.3;max-width:28ch}
+.dq .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%}
+.dq .opt{min-height:68px;border-radius:var(--r);background:var(--bg);font-size:1.3rem;font-weight:700;padding:10px 14px;transition:transform .12s,background-color .15s}
+.dq .opt:hover:not(:disabled){background:var(--surface)}
+.dq .opt:active:not(:disabled){transform:scale(.97)}
+.dq .opt.ok{background:#d6efd9;color:#185c25;outline:3px solid #2f8a3e;outline-offset:-3px}
+.dq .opt.no{background:#fbdcdc;color:#a01219;outline:3px solid var(--red);outline-offset:-3px}
+.dq .fb{width:100%;border-radius:var(--r);padding:14px 18px;text-align:left;background:var(--bg);display:grid;gap:4px}
+.dq .fb strong{font-size:1.15rem}
+.dq .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+/* dibuixos dels exercicis */
+.reading{background:var(--bg);border-radius:var(--r);padding:16px 18px;text-align:left;max-width:62ch;line-height:1.65}
+.reading b{display:block;font-family:"Chillax";font-size:1.3rem;margin-bottom:4px}
+.pic{font-size:3.4rem;line-height:1.1}
+.lbig{display:block;font-size:clamp(2rem,6vw,2.8rem);margin-top:6px}
+.vsum{display:inline-grid;justify-items:end;font-weight:700;font-size:clamp(2.2rem,8vw,3rem);line-height:1.08;font-variant-numeric:tabular-nums;padding:6px 20px;background:var(--bg);border-radius:var(--r)}
+.vsum .op{border-bottom:5px solid var(--ink)}
+.vsum .c{color:var(--slate)}.vsum .d{color:var(--red)}.vsum .u{color:var(--green)}
+.vsum .answer{font:inherit;color:var(--muted)}
+.duc{display:flex;gap:8px;font-weight:700}
+.duc span{display:grid;place-items:center;min-width:64px;padding:8px 12px;border-radius:12px;color:#fff;font-size:1.9rem;line-height:1}
+.duc small{display:block;font-size:.8rem}
+.groups{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.groups span{background:var(--bg);border-radius:12px;padding:4px 10px;font-size:1.6rem}
+.money{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;align-items:center}
+.clock{width:min(200px,55vw);height:auto}.shape{width:min(160px,45vw);height:auto}
+.cmp{display:flex;align-items:center;gap:14px;font-weight:700;font-size:clamp(2.2rem,8vw,3rem)}
+.cmp .slot{display:grid;place-items:center;width:60px;height:60px;border-radius:12px;background:var(--bg);color:var(--muted)}
+
+/* entrades: el contingut sempre es veu sense JavaScript */
+.js [data-rise]{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0) * 80ms)}
+.js [data-rise].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.js [data-rise]{opacity:1;transform:none}}
+
+/* ---------- mòbil ---------- */
+@media (max-width:900px){
+  .hero{display:block;height:auto;min-height:0;padding:8px}
+  .view{height:64svh;min-height:440px}
+  .view h1{font-size:10.4vw;top:18%;padding:0 16px}
+  .view h1 span{white-space:nowrap}
+  .mark{display:none}
+  .view .sub{display:none}
+  .wordmark{top:18px;left:18px}
+  .swatch{grid-template-rows:none;margin-top:8px}
+  .swatch a{height:52px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;font-size:.95rem}
+  .swatch small{margin:0}
+  .intro-m{display:block!important}
+  .stages-top{margin-bottom:32px}.stages-top .h{grid-column:1/-1}
+  .st1,.st2,.st3,.st4{grid-column:1/-1;margin-bottom:28px}
+  .st1 .tile{height:34vw}.st2 .tile{height:46vw}.st3 .tile{height:62vw}.st4 .tile{height:80vw}
+  .stage .tile img{width:auto;height:80%}
+  .st4 .tile img{width:100%;height:100%}
+  .board{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .piece{background-size:300% 600%}
+  .ctile h2{font-size:6vw}
+  .board .hide-m{display:none}
+  .wall{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .cell .w{font-size:22vw}.cell .w.sm{font-size:16vw}
+  .cell.first h2{font-size:13vw}
+  .band{height:22vh}.track span{font-size:15vw}
+  .why h2,.why .facts,.why .note{grid-column:1/-1}
+  .why h2{margin-bottom:28px}
+  .why .facts{grid-template-columns:1fr}
+  .agenda{grid-template-columns:1fr;gap:16px}
+  .days{grid-template-columns:repeat(5,minmax(0,1fr));position:sticky;top:0;z-index:2;background:var(--bg);padding:8px 0}
+  .days button{padding:0 8px;height:58px}
+  .days button small{display:none}
+  .bands>div{grid-template-columns:1fr;gap:6px;padding:16px;position:relative}
+  .bands .dots{position:absolute;top:14px;right:14px}
+  .faq .h,.faq .list{grid-column:1/-1}
+  .faq .h{position:static;margin-bottom:24px}
+  summary{font-size:1.1rem;min-height:64px;padding:16px 20px}
+  details p{padding:0 20px 20px}
+  .cta{display:grid;grid-template-columns:1fr 1fr;padding:64px var(--m)}
+  .cta .c{grid-column:1/-1;order:-1;height:auto;min-height:300px;padding:28px}
+  .cta .l,.cta .r{grid-column:auto;height:120px;margin:0;border-radius:var(--r)}
+  .foot .name{font-size:19vw}
+  .foot .meta{grid-template-columns:1fr}.foot .meta>:last-child{text-align:left}
+  .dq .opts{grid-template-columns:1fr}
+}
+.days .short{display:none}
+@media (max-width:900px){.wall .hide-m{display:none}}
+@media (max-width:900px){.days .long{display:none}.days .short{display:inline}.cell.first{grid-column:span 2;aspect-ratio:2/1}}
+.intro-m{display:none;padding:28px var(--m) 0;font-size:var(--step-lead);line-height:1.35}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="pack" viewBox="0 0 40 40"><rect x="7" y="9" width="26" height="28" rx="8" fill="currentColor"/><path d="M14 9V7a6 6 0 0 1 12 0v2" stroke="currentColor" stroke-width="3" fill="none"/><rect x="12" y="20" width="16" height="10" rx="3" fill="#e0a912"/><rect x="12" y="23" width="16" height="2.4" fill="#dc1928"/></symbol>
+</svg>
+
+<a class="mark" href="app.html"><svg aria-hidden="true"><use href="#pack"/></svg>Obri la Motxilla</a>
+
+<header class="hero" id="inici">
+  <div class="view">
+    <img src="assets/albufera-de-valencia-1.jpg" alt="L'Albufera de València a la posta de sol, amb canyes clavades a l'aigua i garses damunt" width="1920" height="1280" fetchpriority="high">
+    <a class="wordmark" href="#inici"><svg aria-hidden="true"><use href="#pack"/></svg>Motxilla 2A</a>
+    <h1><span>Aprén una mica</span><span>cada dia</span></h1>
+    <p class="sub">Una app gratuïta per a 2n de Primària: dotze minuts al dia per a repassar el que ja saps i aprendre una cosa nova. Sense comptes i sense connexió.</p>
+    <a class="btn paper go" href="app.html">Obri la Motxilla</a>
+  </div>
+  <nav class="swatch" aria-label="Capítols">
+    <a href="#prova" style="background:var(--mustard);color:var(--ink)">Prova-ho<small>Una pregunta de veritat</small></a>
+    <a href="#cami" style="background:var(--bg);color:var(--ink)">El camí<small>42 parades</small></a>
+    <a href="#sessio" style="background:var(--red);color:#fff">La sessió<small>Dotze minuts</small></a>
+    <a href="#setmana" style="background:var(--slate);color:#fff">Una setmana<small>El que torna</small></a>
+    <a href="#families" style="background:var(--maroon);color:#fff">Famílies<small>Preguntes</small></a>
+  </nav>
+</header>
+<p class="intro-m">Una app gratuïta per a 2n de Primària: dotze minuts al dia per a repassar el que ja saps i aprendre una cosa nova. Sense comptes i sense connexió.</p>
+
+<main>
+  <!-- La sessió: quatre parades que creixen -->
+  <section class="ch ch-red" id="sessio" data-ink="#ffffff" aria-labelledby="sessio-h">
+    <div class="wrap">
+      <div class="stages-top"><div class="h"><h2 id="sessio-h" class="big" data-rise>Quatre parades</h2>
+        <p class="lead" style="margin-top:22px;--i:1" data-rise>Cada sessió fa la mateixa ruta curta. Quan arribes al refugi, la sessió s'acaba: no n'hi ha «una més».</p></div></div>
+      <div class="stages-wrap">
+        <div class="stage st1" data-rise><div class="tile"><img src="img/p15.jpg" alt="Tres rellotges d'arena" loading="lazy"></div><b>Primer, escalfem</b><p>Cinc preguntes del que ja saps, barrejades. Es corregeixen al final.</p></div>
+        <div class="stage st2" data-rise style="--i:1"><div class="tile"><img src="img/p04.jpg" alt="Una lupa damunt d'un paper" loading="lazy"></div><b>Després, aprenc</b><p>Una sola cosa nova, amb una foto, els passos i un exemple resolt.</p></div>
+        <div class="stage st3" data-rise style="--i:2"><div class="tile"><img src="img/p00.jpg" alt="Llapis de colors en un pot" loading="lazy"></div><b>Ara practique</b><p>Primer amb pistes i després tot sol. Cada errada ve amb la seua explicació.</p></div>
+        <div class="stage st4" data-rise style="--i:3"><div class="tile"><img src="assets/albufera-embarcadero.jpg" alt="Embarcador de l'Albufera a la vesprada" loading="lazy"></div><b>Al final, el refugi</b><p>Un resum, les estrelles guanyades i fins demà. Descansar també ajuda a recordar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- El camí: el mapa de les 42 parades -->
+  <section class="ch ch-bone" id="cami" data-ink="#2a1110" aria-labelledby="cami-h">
+    <div class="board" id="board" aria-label="Un camí de muntanya, tallat en peces"></div>
+    <p class="caption">El camí de la foto és als Dolomites. El de la Motxilla té cinc rutes: Mates, Valencià, Medi, Castellano i English.</p>
+  </section>
+
+  <!-- Prova-ho: la paret de peces -->
+  <section class="ch ch-mustard" id="prova" data-ink="#2a1110" aria-labelledby="prova-h" style="padding-top:clamp(56px,7vw,100px)">
+    <div class="wall" id="wall">
+      <div class="cell first"><h2 id="prova-h">Prova-ho</h2><p>Toca una peça i respon una pregunta de la Motxilla.</p></div>
+    </div>
+  </section>
+
+  <!-- Per què funciona -->
+  <section aria-labelledby="why-h" style="background:var(--bg)" data-ink="#ffffff">
+    <div class="band" aria-hidden="true"><div class="track" id="track"></div></div>
+    <div class="why grid" data-ink="#2a1110">
+      <h2 id="why-h" class="head" data-rise>Per què funciona</h2>
+      <div class="facts">
+        <div data-rise><b>Repàs espaiat</b><span>El que ja saps torna d'ací a 1, 3, 7, 14 i 30 dies. Repartir la pràctica en el temps ajuda a recordar.</span></div>
+        <div data-rise style="--i:1"><b>Preguntes</b><span>Recordar una resposta, sense mirar, fixa més que tornar a llegir-la.</span></div>
+        <div data-rise style="--i:2"><b>Domini</b><span>Una parada nova s'obri quan l'anterior surt bé (85 %) en dos dies diferents.</span></div>
+        <div data-rise style="--i:3"><b>Correcció</b><span>No només «bé» o «malament»: per què, i com es fa.</span></div>
+      </div>
+      <p class="note">En aules reals de Primària i Secundària, aquestes pràctiques tenen efectes modestos però reals (recuperació g = 0,37; espaiat g = 0,20; intercalat g = 0,40, Ruitenburg i col. 2026; domini ≈ 0,5 DE, Kulik i col. 1990; correcció d = 0,48, Wisniewski i col. 2020). La Motxilla no promet millors notes ni més intel·ligència.</p>
+    </div>
+  </section>
+
+  <!-- Una setmana -->
+  <section class="ch ch-bone" id="setmana" data-ink="#2a1110" aria-labelledby="setmana-h" style="background:var(--bg)">
+    <div class="wrap">
+      <div class="week-h"><h2 id="setmana-h" data-rise><span>Una setmana</span>amb la Motxilla</h2><a class="btn" href="app.html" data-rise style="--i:1">Comença avui</a></div>
+      <div class="agenda">
+        <div class="days" role="tablist" aria-label="Dies de la setmana" id="days"></div>
+        <div class="bands" role="tabpanel" id="bands" aria-live="polite"></div>
+      </div>
+      <p class="agenda-note">Exemple d'una setmana. Cada alumne té la seua, segons el que encerta.</p>
+    </div>
+  </section>
+
+  <!-- Famílies -->
+  <section class="ch ch-slate" id="families" data-ink="#ffffff" aria-labelledby="fam-h">
+    <div class="wrap grid faq">
+      <div class="h"><h2 id="fam-h" data-rise>Per a les famílies</h2><p data-rise style="--i:1">Tot el que la Motxilla fa, i el que no fa.</p></div>
+      <div class="list" id="faq"></div>
+    </div>
+  </section>
+
+  <!-- Tancament -->
+  <section class="cta" data-ink="#2a1110" aria-labelledby="cta-h">
+    <div class="l"><img src="img/c7.jpg" alt="L'Albufera i la muntanya al fons" loading="lazy"></div>
+    <div class="c" data-rise><div class="txt"><h2 id="cta-h">Obri la motxilla</h2><p>Crea un perfil amb un àlies, tria una foto i fes la primera sessió. Si l'obris en una tauleta, pots afegir-la a la pantalla d'inici.</p><div><a class="btn paper" href="app.html">Comença la primera sessió</a></div></div>
+      <div class="books" aria-label="Les cinc llibretes"><span style="background:var(--slate);color:#fff;--t:-2deg">Mates</span><span style="background:var(--paper);color:var(--red);--t:1.5deg">Valencià</span><span style="background:var(--green);color:#fff;--t:-1deg">Medi</span><span style="background:var(--mustard);color:var(--ink);--t:2deg">Castellano</span><span style="background:var(--maroon);color:#fff;--t:-1.5deg">English</span></div></div>
+    <div class="r"></div>
+  </section>
+</main>
+
+<footer class="foot" data-ink="#2a1110">
+  <div class="top"><p>Gratuïta, per a 2n de Primària, en valencià, castellà i anglés.</p><p>Funciona sense connexió. Sense comptes, sense publicitat.</p><a href="#inici">Torna a dalt</a></div>
+  <a class="name" href="app.html">Motxilla 2A</a>
+  <div class="meta">
+    <div><a href="privacitat.html">Privacitat</a></div>
+    <details><summary>Crèdits de les fotos</summary><ul id="credits"></ul></details>
+    <div>València, 2026</div>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dq-p"><div class="dq" id="dq"></div></dialog>
+
+<script src="js/content.js"></script>
+<script src="js/curriculum.js"></script>
+<script>
+/* Els generadors de problemes fan servir S.name: a la presentació no hi ha cap perfil. */
+var S = { name: '' };
+const $ = s => document.querySelector(s);
+const escH = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* ---------- el camí: la foto tallada en 6 × 4 peces, amb cinc peces de color ---------- */
+(function board() {
+  const b = $('#board'); const phone = matchMedia('(max-width:900px)').matches;
+  const cols = phone ? 3 : 6, rows = phone ? 6 : 4;
+  const colour = phone
+    ? { 0: ['c-ink', '<h2 id="cami-h">42 parades, 5 camins</h2>', 2], 7: ['c-red', '<p><b>Una parada</b>cada habilitat de 2n, del rellotge a les síl·labes.</p>'], 11: ['c-slate', '<p><b>85 %</b>en dos dies diferents i s\'obri la parada següent.</p>'], 15: ['act c-green', ''] }
+    : { 0: ['c-ink', '<h2 id="cami-h">42 parades, 5 camins</h2>', 2], 8: ['c-red', '<p><b>Una parada</b>per cada habilitat de 2n, del rellotge a les síl·labes.</p>'], 13: ['c-slate', '<p><b>85 %</b>en dos dies diferents i s\'obri la parada següent.</p>'], 16: ['c-mustard', '<p><b>1, 3, 7, 14, 30</b>dies després, el que ja saps torna a eixir.</p>'], 23: ['act c-green', ''] };
+  let h = '', n = 0;
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const i = r * cols + c;
+    if (i === 1) continue;
+    const ct = colour[i];
+    if (ct) {
+      if (ct[0].startsWith('act')) h += `<a class="ctile ${ct[0]}" href="app.html"><span>Mira el mapa</span></a>`;
+      else h += `<div class="ctile ${ct[0]}" ${ct[2] ? 'style="grid-column:span 2;aspect-ratio:auto"' : ''}>${ct[1]}</div>`;
+    } else h += `<div class="piece" aria-hidden="true" style="background-position:${cols > 1 ? c / (cols - 1) * 100 : 0}% ${r / (rows - 1) * 100}%"></div>`;
+  }
+  b.innerHTML = h;
+})();
+
+/* ---------- prova-ho: peces que obrin una pregunta real ---------- */
+const CELLS = [
+  ['m1', '47'], ['m6', '3:15'], ['v6', null], ['v3', 'ca-sa', 'sm'],
+  ['v4', 'ç'], ['m7', '€'], ['c5', null], ['m5', '3×4', 'sm'],
+  ['i2', 'cat'], ['l2', 'ñ'], ['m8', null], ['c2', 'ull'],
+  ['i1', 'red'], ['v7', 'alt', 'sm'], ['i5', null]
+];
+const INK = { mat: '#fff', val: '#fff', med: '#fff', cas: 'var(--ink)', eng: '#fff' };
+/* el camp és mostassa: les peces de Castellano van en blanc perquè no s'hi perden */
+const BG = id => id === 'cas' ? 'var(--paper)' : `var(--${id})`;
+$('#wall').insertAdjacentHTML('beforeend', CELLS.map(([id, w, cls], n) => {
+  const t = SKILL[id];
+  if (!w) return `<button class="cell photo ${n === CELLS.length - 1 ? 'hide-m' : ''}" data-skill="${id}" aria-label="Prova una pregunta: ${escH(t.t)}"><img src="${t.img}" alt="" loading="lazy"><span class="cap">${escH(t.t)}</span></button>`;
+  return `<button class="cell" data-skill="${id}" style="background:${BG(t.area)};color:${INK[t.area]}" aria-label="Prova una pregunta: ${escH(t.t)}"><span class="w ${cls || ''}" aria-hidden="true">${w}</span><span class="cap">${escH(t.t)}</span></button>`;
+}).join(''));
+
+let cur = null;
+function ask(id) {
+  const t = SKILL[id]; let q = t.gen(1);
+  if (q.kind === 'num') { const a = +q.answer; q = { ...q, kind: 'choice', options: shuffle([q.answer, ...near(a, Math.max(3, Math.round(a * .15)), 0).map(String)]) }; }
+  cur = { id, q };
+  const vis = (q.reading ? `<div class="reading"><b>${escH(q.reading.t)}</b>${escH(q.reading.x)}</div>` : '') + (q.visual || '') + (q.pic ? `<div class="pic" aria-hidden="true">${q.pic}</div>` : '');
+  $('#dq').style.setProperty('--c', `var(--${t.area})`);
+  $('#dq').innerHTML = `<div class="tag"><span>${escH(AREA[t.area].short)} · ${escH(t.t)}</span><button class="x" data-close aria-label="Tanca">×</button></div>
+    <p class="prompt" id="dq-p">${q.prompt}</p>${vis}
+    <div class="opts">${q.options.map((o, k) => `<button class="opt" data-o="${k}">${escH(o)}</button>`).join('')}</div>
+    <div id="dq-fb" style="width:100%" aria-live="polite"></div>`;
+  const d = $('#dlg'); if (!d.open) d.showModal(); d.querySelector('.opt').focus();
+}
+$('#wall').addEventListener('click', e => { const c = e.target.closest('[data-skill]'); if (c) ask(c.dataset.skill); });
+$('#dlg').addEventListener('click', e => {
+  if (e.target === $('#dlg') || e.target.closest('[data-close]')) return $('#dlg').close();
+  if (e.target.closest('[data-again]')) return ask(cur.id);
+  const o = e.target.closest('[data-o]'); if (!o || o.disabled) return;
+  const q = cur.q, val = q.options[+o.dataset.o], ok = val === q.answer;
+  document.querySelectorAll('.dq .opt').forEach(b => { b.disabled = true; if (b.textContent === q.answer) b.classList.add('ok'); });
+  if (!ok) o.classList.add('no');
+  $('#dq-fb').innerHTML = `<div class="fb"><strong>${ok ? 'Correcte.' : 'La resposta és ' + escH(q.answer) + '.'}</strong>${q.explain ? `<span>${escH(q.explain)}</span>` : ''}${!ok && q.hint ? `<span>Pista per a la pròxima: ${escH(q.hint)}</span>` : ''}</div>
+    <div class="row" style="margin-top:14px"><button class="btn ink" data-again>Una altra</button><a class="btn" href="app.html">Obri la Motxilla</a></div>`;
+});
+
+/* ---------- per què funciona: la línia que corre ---------- */
+const PRACTICES = ['Repàs espaiat', 'Pràctica de recuperació', 'Aprenentatge per domini', 'Correcció explicada'];
+$('#track').innerHTML = [...PRACTICES, ...PRACTICES].map(n => `<span>${n}</span>`).join('');
+
+/* ---------- una setmana: exemple ---------- */
+const WEEK = [
+  { d: 'Dilluns', s: 'Dia 1', b: [['5 min', 'Escalfem', 'Les síl·labes, repàs d\'un dia', ['val']], ['6 min', 'Aprenc «El rellotge»', 'Primer dia: 88 % a la primera', ['mat']], ['1 min', 'Refugi', '+7 estrelles', []]] },
+  { d: 'Dimarts', s: 'Dia 2', b: [['5 min', 'Escalfem', 'Les síl·labes i Els sentits', ['val', 'med']], ['6 min', 'Aprenc «El rellotge»', 'Segon dia: 92 %. Dominada, segell nou!', ['mat']], ['1 min', 'Refugi', '+12 estrelles', []]] },
+  { d: 'Dimecres', s: 'Dia 3', b: [['4 min', 'Escalfem', 'El rellotge torna l\'endemà', ['mat']], ['7 min', 'Aprenc «Animals»', 'English: cat, dog, horse…', ['eng']], ['1 min', 'Joc de parelles', 'Un minut de recompensa', []]] },
+  { d: 'Dijous', s: 'Dia 4', b: [['5 min', 'Escalfem', 'Els sentits i Les síl·labes', ['med', 'val']], ['6 min', 'Aprenc «Les plantes»', '62 %: demà, una altra explicació', ['med']], ['1 min', 'Refugi', 'Correcció de l\'escalfament', []]] },
+  { d: 'Divendres', s: 'Dia 5', b: [['4 min', 'Escalfem', 'El rellotge, tres dies després', ['mat']], ['7 min', 'Aprenc «Les plantes»', 'Pas a pas, a poc a poc', ['med']], ['1 min', 'Refugi', 'Bon cap de setmana', []]] }
+];
+function showDay(i) {
+  document.querySelectorAll('#days button').forEach((b, k) => { b.setAttribute('aria-selected', k === i); b.tabIndex = k === i ? 0 : -1; });
+  $('#bands').innerHTML = WEEK[i].b.map(([t, w, n, a]) => `<div><span class="t">${t}</span><span class="what"><b>${escH(w)}</b><small>${escH(n)}</small></span><span class="dots" aria-hidden="true">${a.map(x => `<i style="background:var(--${x})"></i>`).join('')}</span></div>`).join('');
+}
+$('#days').innerHTML = WEEK.map((w, i) => `<button role="tab" id="day-${i}" aria-controls="bands" aria-label="${w.d}"><b><span class="long">${w.d}</span><span class="short" aria-hidden="true">${w.d.slice(0,2)}</span></b><small>${w.s}</small></button>`).join('');
+$('#days').addEventListener('click', e => { const b = e.target.closest('button'); if (b) showDay([...b.parentNode.children].indexOf(b)); });
+$('#days').addEventListener('keydown', e => { const bs = [...document.querySelectorAll('#days button')]; const i = bs.indexOf(document.activeElement); if (i < 0) return; const n = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? i - 1 : null; if (n === null) return; e.preventDefault(); const k = (n + bs.length) % bs.length; showDay(k); bs[k].focus(); });
+showDay(0);
+
+/* ---------- preguntes de les famílies ---------- */
+const FAQ = [
+  ['De veritat és gratis?', 'Sí. No hi ha publicitat, ni compres, ni subscripcions. És una pàgina web que es pot copiar en una carpeta o publicar gratis (GitHub Pages, Netlify).'],
+  ['On es guarden les dades?', 'Només en el navegador del dispositiu. No hi ha comptes, ni correus, ni servidor: ningú més rep res. Es fa servir un àlies, no el nom real.'],
+  ['Funciona sense internet?', 'Sí. Si s\'obri des d\'una carpeta, no necessita xarxa. Si es publica en una web, la primera visita la guarda i després funciona sense connexió.'],
+  ['Quant de temps cal?', 'Uns 10 o 15 minuts al dia, com trieu a la zona de famílies. Quan s\'acaba, s\'acaba: no hi ha sessions infinites.'],
+  ['Què vol dir «dominar»?', 'Encertar el 85 % a la primera en dos dies diferents. Llavors s\'obri la parada següent i la dominada torna als repassos.'],
+  ['I si ja sap moltes coses?', 'Hi ha una prova de nivell curta per àrea. El que ja sap es marca com a sabut i es comprova repassant-ho uns dies després.'],
+  ['Què veu la família?', 'Minuts per dia, què domina i què està aprenent, les errades recents, la prova de nivell comparada amb ara i idees per a practicar a casa.'],
+  ['Puc canviar de tauleta?', 'Sí: deseu una còpia del progrés en un fitxer i recupereu-la a l\'altre dispositiu. Si esborreu les dades del navegador, el progrés es perd.'],
+  ['Millorarà les notes?', 'No ho prometem. Fa servir pràctiques amb bona evidència, però els efectes en aula són modestos, i el joc del final és només una recompensa.']
+];
+$('#faq').innerHTML = FAQ.map(([q, a], i) => `<details name="faq" data-rise style="--i:${i % 3}"><summary>${escH(q)}<i aria-hidden="true"></i></summary><p>${escH(a)}</p></details>`).join('');
+
+/* ---------- crèdits ---------- */
+const CR = [
+  ['Albufera de Valencia 1', 'Pepe Serrador', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Albufera_de_Valencia_1.jpg'],
+  ['Albufera embarcadero', 'Iforner', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Albufera_embarcadero.jpg'],
+  ['Seiser Alm 16', 'H. Zell', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:Seiser_Alm_16.jpg'],
+  ...[15, 4, 0].map(i => PHOTOS[i].c),
+  ...['c7', 'v6', 'c5', 'm8', 'i5'].map(id => [CREDITS[id][0], CREDITS[id][1], CREDITS[id][2], CREDITS[id][4]])
+];
+$('#credits').innerHTML = CR.map(c => `<li><a href="${escH(c[3])}" target="_blank" rel="noopener">${escH(c[0])}</a>${c[1] ? ', ' + escH(c[1]) : ''} (${escH(c[2])})</li>`).join('') + '<li>Les altres fotos de l\'app tenen el crèdit davall de cada foto.</li>';
+
+/* ---------- moviment: entrades i marca que pren el color del capítol ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('[data-rise]').forEach(el => io.observe(el));
+const mark = $('.mark'); const heroEl = $('#inici');
+const chapters = [...document.querySelectorAll('[data-ink]')];
+function inkUnderMark() {
+  const y = 34; mark.classList.toggle('on', heroEl.getBoundingClientRect().bottom < 40);
+  let ink = '#2a1110'; for (const s of chapters) { const r = s.getBoundingClientRect(); if (r.top <= y && r.bottom > y) ink = s.dataset.ink; }
+  mark.style.setProperty('--mark', ink);
+}
+addEventListener('scroll', inkUnderMark, { passive: true }); inkUnderMark();
+</script>
+</body>
+</html>

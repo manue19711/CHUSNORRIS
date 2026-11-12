@@ -1,0 +1,12 @@
+{
+  "name": "Motxilla 2A",
+  "short_name": "Motxilla 2A",
+  "description": "Sessions diàries curtes per a 2n de Primària, sense comptes ni dades personals.",
+  "lang": "ca",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1b6e66",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
