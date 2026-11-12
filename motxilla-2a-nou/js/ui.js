@@ -157,6 +157,8 @@ function vHome() {
 
 /* ======================= mapa ======================= */
 const STATE_TXT = { locked: 'Tancada', learning: 'En camí', mastered: 'Dominada', review: 'Per repassar' };
+/* tots els temes estan oberts: «En camí» és el que toca a la sessió o el que ja s'ha començat; la resta, «Oberta» */
+function stTxt(p, id, st) { if (st !== 'learning') return STATE_TXT[st]; const c = currentSkill(p, SKILL[id].area); return (c && c.id === id) || sk(p, id).sess.length ? 'En camí' : 'Oberta'; }
 function ring(state, p, id) {
   const C = 2 * Math.PI * 45; let frac = 1, col = 'var(--c)', dash = '';
   if (state === 'locked') { col = 'var(--control)'; dash = 'stroke-dasharray="6 8"'; }
@@ -176,24 +178,25 @@ function vMap() {
   else if (st === 'learning') what = `Per a dominar-la cal encertar el ${MASTER_PCT} % en dos dies diferents. Portes <b class="num">${goodDays(s)} de ${MASTER_DAYS}</b>.${needsReinforce(s) ? ' La pròxima vegada ho tornarem a explicar d\'una altra manera.' : ''}`;
   else if (st === 'review') what = 'Ja la saps, però fa dies que no la repasses. Eixirà a l\'escalfament de la pròxima sessió.';
   else what = `Dominada${s.diag ? ' a la prova de nivell' : s.on ? ' ' + relDay(s.on).toLowerCase() : ''}. Pròxim repàs: ${s.due ? fmtDate(s.due).toLowerCase() : '—'}.`;
-  const canPractice = p.settings.free && st !== 'locked';
+  if (!p.settings.open2) { p.settings.free = true; p.settings.open2 = 1; save(); }
+  const canPractice = p.settings.free;
   return shell('map', `
-  <header class="hello" style="margin-bottom:24px"><h1>El mapa</h1><p>Cada camí és una àrea. Les parades s'obrin una darrere l'altra quan domines l'anterior.</p></header>
+  <header class="hello" style="margin-bottom:24px"><h1>El mapa</h1><p>Cada camí és una àrea. Totes les parades estan obertes: tria la que vulgues i practica tant com vulgues.</p></header>
   <div class="seg" role="group" aria-label="Àrea">${AREAS.map(x => `<button style="${cvars(x.id)}" data-map="${x.id}" aria-pressed="${x.id === area}">${esc(x.short)}</button>`).join('')}</div>
   <div class="maprow" style="${cvars(area)}">
     <section class="mapbox" aria-label="Camí de ${esc(a.short)}">
       ${topo()}
       <svg class="path" id="trailpath" aria-hidden="true"></svg>
       <div class="nodes">${a.topics.map(x => { const ss = skillState(p, x.id); return `
-        <button class="node ${ss}" data-sel="${x.id}" aria-pressed="${x.id === sel}" aria-label="${esc(x.t)}: ${STATE_TXT[ss]}">
+        <button class="node ${ss}" data-sel="${x.id}" aria-pressed="${x.id === sel}" aria-label="${esc(x.t)}: ${stTxt(p, x.id, ss)}">
           <span class="disc"><img src="${x.img}" alt="">${ring(ss, p, x.id)}<span class="badge">${ico(badge[ss])}</span></span>
-          <span class="lbl"><b>${esc(x.t)}</b><small>${STATE_TXT[ss]}</small></span></button>`; }).join('')}</div>
+          <span class="lbl"><b>${esc(x.t)}</b><small>${stTxt(p, x.id, ss)}</small></span></button>`; }).join('')}</div>
     </section>
     <aside class="panel detail" aria-labelledby="det-h">
       <img class="hero" src="${t.img}" alt="">
       <h2 id="det-h">${esc(t.t)}</h2>
       <p class="sub">${esc(t.s || '')}</p>
-      <div class="chips"><span class="chip ${st === 'mastered' ? 'ok' : st === 'review' ? 'rev' : st === 'learning' ? 'cur' : ''}">${STATE_TXT[st]}</span><span class="chip">${esc(t.block)}</span></div>
+      <div class="chips"><span class="chip ${st === 'mastered' ? 'ok' : st === 'review' ? 'rev' : st === 'learning' ? 'cur' : ''}">${stTxt(p, sel, st)}</span><span class="chip">${esc(t.block)}</span></div>
       <p>${what}</p>
       ${st !== 'locked' ? `<ul class="learnlist">${(t.learn || []).slice(0, 4).map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
@@ -204,7 +207,7 @@ function vMap() {
       ${credit(sel)}
     </aside>
   </div>
-  <div class="legend" style="${cvars(area)}"><span><i style="border-color:var(--c)"></i>En camí o dominada</span><span><i style="border-color:var(--warning)"></i>Per repassar</span><span><i style="border-style:dashed"></i>Tancada</span></div>`);
+  <div class="legend" style="${cvars(area)}"><span><i style="border-color:var(--c)"></i>Oberta, en camí o dominada</span><span><i style="border-color:var(--warning)"></i>Per repassar</span></div>`);
 }
 /* línies de nivell, com en un mapa d'excursió */
 function topo() {
@@ -235,9 +238,9 @@ function vCarnet() {
 
 /* ======================= sessió ======================= */
 const STAGES = { review: 'Escalfem', learn: 'Aprenc', example: 'Exemple resolt', guided: 'Practique amb ajuda', ind: 'Ara tu', sopa: 'Sopa de lletres', creuats: 'Mots encreuats', game: 'Joc', end: 'Refugi' };
-function startRun(practiceId) {
+function startRun(practiceId, more) {
   const p = P();
-  if (practiceId) p.run = buildPractice(p, practiceId);
+  if (practiceId) p.run = buildPractice(p, practiceId, more);
   else if (!(p.run && p.run.d === today() && !p.run.closed && !p.run.practice)) p.run = buildRun(p);
   save(); tick = Date.now(); Q = null; go({ name: 'run' });
 }
@@ -421,7 +424,7 @@ function endView(p, run) {
       ${s.reviews.length ? `<p style="margin-top:10px;color:var(--muted)">Repàs: ${revOk} de ${s.reviews.length} habilitats sense cap errada. Les tornarem a veure d'ací a uns dies.</p>` : ''}
       ${s.fix.length ? `<h2 style="font-size:1.1rem;margin-top:22px">Correcció de l'escalfament</h2><ul class="fix">${s.fix.map(x => `<li>${esc(x.prompt)}<br>Has dit <s>${esc(x.given)}</s>, la resposta és <b>${esc(x.answer)}</b>. ${esc(x.explain)}</li>`).join('')}</ul>`
                   : s.reviews.length ? `<p style="margin-top:12px">L'escalfament, tot bé.</p>` : ''}
-      <div style="margin-top:26px"><button class="btn btn-main btn-big" data-act="finish">${run.practice ? 'Torna al mapa' : 'Fins demà'}</button></div>
+      <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">${run.practice && run.pid ? `<button class="btn btn-main btn-big" data-more="${run.pid}">Més exercicis</button><button class="btn btn-soft btn-big" data-act="finish">Torna al mapa</button>` : `<button class="btn btn-main btn-big" data-act="finish">${run.practice ? 'Torna al mapa' : 'Fins demà'}</button>`}</div>
     </div>
     <div>${f && f.mastered ? `<div class="newstamp"><span class="seal"><img src="${ft.img}" alt=""></span><b>${esc(ft.t)}</b><small>Segell nou</small></div>`
        : ft ? `<div class="newstamp"><img src="${ft.img}" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px"><b>${esc(ft.t)}</b><small class="num">Dies amb ${MASTER_PCT} % o més: ${goodDays(sk(p, ft.id))} de ${MASTER_DAYS}</small></div>` : ''}</div>
@@ -537,7 +540,7 @@ function vAdults() {
     ${AREAS.map(a => `<section class="panel s12" style="${cvars(a.id)}" aria-labelledby="ad-${a.id}"><h2 class="ptitle" id="ad-${a.id}">${esc(a.name)} <span>2n curs, primer cicle</span></h2><div class="tbl"><table>
       <thead><tr><th>Habilitat</th><th>Sabers bàsics (RD 157/2022)</th><th>Estat</th><th class="r">Última sessió</th><th class="r">Repassos</th><th class="r">Últim dia</th></tr></thead><tbody>
       ${a.topics.map(t => { const s = p.skills[t.id], st = skillState(p, t.id), lp = s ? lastPct(s) : null; return `<tr><td><b>${esc(t.t)}</b><small>${esc(t.s || '')}</small></td><td>${esc(t.block)}</td>
-        <td><span class="chip ${st === 'mastered' ? 'ok' : st === 'review' ? 'rev' : st === 'learning' ? 'cur' : ''}">${STATE_TXT[st]}</span></td>
+        <td><span class="chip ${st === 'mastered' ? 'ok' : st === 'review' ? 'rev' : st === 'learning' ? 'cur' : ''}">${stTxt(p, t.id, st)}</span></td>
         <td class="r">${lp === null ? '—' : lp + ' %'}</td><td class="r">${s && s.ra ? `${s.rc} / ${s.ra}` : '—'}</td><td class="r">${relDay(s?.last)}</td></tr>`; }).join('')}
       </tbody></table></div></section>`).join('')}
   </div>
@@ -585,6 +588,7 @@ app.addEventListener('click', e => {
   if (d.sel) { V.sel = d.sel; render(); const b = $(`[data-sel="${d.sel}"]`); if (b) b.focus(); if (innerWidth < 860) $('.detail').scrollIntoView({ behavior: 'smooth' }); return; }
   if (d.diag) return startDiag(d.diag);
   if (d.practice) return startRun(d.practice);
+  if (d.more) return startRun(d.more, true);
   if (d.opt !== undefined) { const q = curQ().q; return answer(q.options[+d.opt]); }
   if (d.key) return key(d.key);
   if (d.card !== undefined) return flip(+d.card);

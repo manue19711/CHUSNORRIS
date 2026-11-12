@@ -30,7 +30,7 @@ const S = { get name() { const p = P(); return p ? p.alias : ''; } };
 
 function newProfile(alias, avatar) {
   const p = { id: uid(), alias: alias.trim().slice(0, 16), avatar, created: today(), stars: 0, games: 0,
-    settings: { len: 12, game: true, voice: false, free: false, sound: true, jocs: true }, best: {},
+    settings: { len: 12, game: true, voice: false, free: true, open2: 1, sound: true, jocs: true }, best: {},
     skills: {}, days: {}, errors: [], diag: {}, run: null, lastArea: null };
   A.profiles.push(p); A.current = p.id; save(); return p;
 }
@@ -42,7 +42,7 @@ function skillState(p, id) {
   const s = sk(p, id), t = SKILL[id];
   if (s.st === 'mastered') return (s.weak || (s.due && s.due <= today())) ? 'review' : 'mastered';
   const cur = currentSkill(p, t.area);
-  return cur && cur.id === id ? 'learning' : 'locked';
+  return 'learning'; /* tots els temes oberts: es pot practicar qualsevol parada */
 }
 const goodDays = s => new Set(s.sess.filter(x => x.a >= MIN_ITEMS && x.c / x.a * 100 >= MASTER_PCT).map(x => x.d)).size;
 const lastPct = s => { const l = s.sess[s.sess.length - 1]; return l && l.a ? Math.round(l.c / l.a * 100) : null; };
@@ -147,13 +147,13 @@ function buildRun(p) {
 }
 
 /* Pràctica lliure (si la família l'activa): una habilitat, sense límit de dia */
-function buildPractice(p, id) {
+function buildPractice(p, id, more) {
   const st = skillState(p, id), seen = new Set(), steps = [];
-  if (st === 'learning') { steps.push({ type: 'learn', skill: id }); makeItems(id, 2, 6, seen).forEach(q => steps.push({ type: 'ind', skill: id, q })); }
-  else makeItems(id, 3, 5, seen).forEach(q => steps.push({ type: 'review', skill: id, q }));
+  if (st === 'learning') { if (!more) steps.push({ type: 'learn', skill: id }); [1, 2, 2, 2, 2, 3, 3, 3].forEach(lv => makeItems(id, lv, 1, seen).forEach(q => steps.push({ type: 'ind', skill: id, q }))); }
+  else [2, 2, 3, 3, 3, 3, 2, 3].forEach(lv => makeItems(id, lv, 1, seen).forEach(q => steps.push({ type: 'review', skill: id, q })));
   addSopa(p, steps, id);
   steps.push({ type: 'end' });
-  return { d: today(), i: 0, steps, res: [], fresh: st === 'learning' ? id : null, ms: 0, practice: true };
+  return { d: today(), i: 0, steps, res: [], fresh: st === 'learning' ? id : null, ms: 0, practice: true, pid: id };
 }
 
 /* ---------- prova de nivell adaptativa (per àrea) ----------

@@ -6,3 +6,16 @@ VERSIÓN "NOU DISSENY" (pulido)
 - Cambio de pantalla más corto y sin rebote. Selección de texto, cursor, barras de desplazamiento y foco con los colores de la app.
 - Arreglado un error de la portada (saltaba al mover el dedo o el ratón).
 - Para volver al aspecto anterior basta quitar la línea de nou.css en app.html e index.html.
+
+TODOS LOS TEMAS ABIERTOS Y EJERCICIOS SIN FIN
+- Todos los temas del mapa están abiertos desde el primer día: ya no hay que dominar uno para pasar al siguiente. En cada tema, "Practica ara".
+- Al terminar una práctica aparece "Més exercicis": da otra tanda nueva, tantas veces como se quiera.
+- Ejercicios nuevos que se fabrican al momento (js/mes.js), con números, nombres y situaciones distintos cada vez:
+  · Sumas: número que falta, cálculo mental, tres sumandos, el doble, cuánto falta para la decena, "¿es correcta?", problemas con 10 situaciones.
+  · Restas: número que falta, cálculo mental, la mitad, comprobar con la suma, dos restas seguidas, problemas con 10 situaciones.
+  · Números hasta 99 y 999: series, mayor y menor, descomposición, par o impar, decena más próxima.
+  · Multiplicación: factor que falta, tablas, doble y triple, problemas de grupos.
+  · Problemas: de dos pasos, elegir la operación, sumas, restas y multiplicaciones mezcladas.
+  · Comprensión lectora (valenciano y castellano): 7 tipos de lectura que cambian de personaje, lugar, día, comida, etc. Salen miles de textos distintos, cada uno con 6 o 7 preguntas posibles.
+- La sesión diaria y las fichas en PDF también usan estos ejercicios nuevos.
+- Para volver a los ejercicios de antes basta quitar la línea de mes.js en app.html.
