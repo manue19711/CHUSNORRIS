@@ -130,3 +130,7 @@ a{text-underline-offset:.22em;text-decoration-thickness:.09em}
 .avb[aria-pressed="true"]{box-shadow:inset 0 0 0 4px var(--accent)}
 .avb:active{transform:scale(.95)}
 .avb.anim img{filter:drop-shadow(0 4px 0 rgba(27,37,89,.15))}
+
+/* ---------- el dibuix de l'alumne a la pantalla d'inici ---------- */
+.mydraw{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-8px 0 22px}
+.mydraw img{width:64px;height:64px;border-radius:50%;background:var(--surface);box-shadow:0 0 0 4px #fff}

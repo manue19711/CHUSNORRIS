@@ -35,7 +35,7 @@ function enterProfile(id) {
 function avatarPick(id) {
   const x = A.profiles.find(q => q.id === id); if (!x) return;
   const cur = av(x.avatar).id;
-  const m = modal(`<h2>Dibuix de ${esc(x.alias)}</h2><p>Triï el que més li agrade. Els últims huit es mouen.</p>
+  const m = modal(`<h2>Dibuix de ${esc(x.alias)}</h2><p>Triï el que més li agrade. Els dibuixos del final es mouen.</p>
     <div class="avgrid" role="group" aria-label="Dibuixos">${AVATARS.map(a => `<button type="button" class="avb${a.anim ? ' anim' : ''}" data-av="${a.id}" aria-pressed="${a.id === cur}" aria-label="${esc(a.l)}"><img src="${a.src}" alt=""><span>${esc(a.l)}</span></button>`).join('')}</div>
     <div class="row" style="margin-top:12px"><button class="btn btn-soft" type="button" data-m="no">Torna</button></div>`);
   m.addEventListener('click', ev => {
@@ -201,6 +201,7 @@ function runSheet() {
 document.addEventListener('click', e => {
   const pw = e.target.closest('[data-pwp]'); if (pw) return pwManage(pw.dataset.pwp);
   const av_ = e.target.closest('[data-avp]'); if (av_) return avatarPick(av_.dataset.avp);
+  if (e.target.closest('[data-myav]')) return avatarPick(P().id);
   const b = e.target.closest('[data-ev]'); if (!b) return;
   const k = b.dataset.ev;
   if (k === 'dellist') return modal(`<h2>Esborra un alumne</h2><p>Tria l'alumne que vols eliminar d'aquest dispositiu. Et demanarem que ho confirmes.</p>

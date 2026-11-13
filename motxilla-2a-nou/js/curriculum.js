@@ -79,5 +79,7 @@ const AVATARS = [
   { id:'unicorn', l:"l'unicorn" }, { id:'dino', l:'el dinosaure' }, { id:'gat', l:'el gat' }, { id:'rabosa', l:'la rabosa' },
   { id:'pop', l:'el pop' }, { id:'tortuga', l:'la tortuga' }, { id:'coet', l:'el coet' }, { id:'polls', l:'el pollet' },
   { id:'anim-cometa', l:'el cometa', anim:1 }, { id:'anim-bolet', l:'el bolet', anim:1 }, { id:'anim-peixet', l:'el peixet', anim:1 }, { id:'anim-pingui', l:'el pingüí', anim:1 },
-  { id:'anim-cuc', l:'el cuc', anim:1 }, { id:'anim-nuvol', l:'el núvol', anim:1 }, { id:'anim-sol', l:'el sol', anim:1 }, { id:'anim-estrella', l:"l'estrella", anim:1 }
+  { id:'anim-cuc', l:'el cuc', anim:1 }, { id:'anim-nuvol', l:'el núvol', anim:1 }, { id:'anim-sol', l:'el sol', anim:1 }, { id:'anim-estrella', l:"l'estrella", anim:1 },
+  { id:'anim-abella', l:'l\'abella', anim:1 }, { id:'anim-granota', l:'la granota', anim:1 }, { id:'anim-coet', l:'el coet dansant', anim:1 }, { id:'anim-gatet', l:'el gatet', anim:1 },
+  { id:'anim-peix', l:'el peix nedador', anim:1 }, { id:'anim-robotdos', l:'el robot que mira', anim:1 }, { id:'anim-monstret', l:'el monstret llengut', anim:1 }, { id:'anim-dinosalta', l:'el dino que bota', anim:1 }
 ].map(a => ({ ...a, src: a.anim ? 'img/anim/' + a.id + '.svg' : 'img/art/av-' + a.id + '.svg' }));

@@ -125,6 +125,7 @@ function vHome() {
   const undiag = AREAS.filter(a => !p.diag[a.id] && !a.topics.some(t => p.skills[t.id] && p.skills[t.id].sess.length));
   return shell('home', `
   <header class="hello mx"><span class="mxbox">${motxi(done ? 'wow' : 'happy')}</span><div><h1>Hola, ${esc(p.alias)}!</h1><p>${fmtDate()}. ${esc(fact)}</p></div></header>
+  <div class="mydraw"><img src="${av(p.avatar).src}" alt=""><button class="btn btn-soft" data-myav>${ico('i-game')}Canvia el meu dibuix</button></div>
   <div class="grid">
     <section class="panel today s9" style="${fresh ? cvars(fresh.area) : ''}" aria-labelledby="today-h">
       <div class="body">
