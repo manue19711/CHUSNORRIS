@@ -215,7 +215,7 @@ el('title').querySelector('h1').innerHTML = [...'Motxilla 2A'].map((c, i) => c =
 const stage = el('stage'), pack = el('pack'), packb = el('packb'), packs = el('packs');
 const PK = [pack, packb];
 const pk = (add, ...c) => PK.forEach(x => x.classList[add ? 'add' : 'remove'](...c));
-let shown = false, timers = [];
+let shown = false, timers = [], suckT0 = 0;
 const later = (f, ms) => { const t = setTimeout(f, ms); timers.push(t); return t; };
 function finale() { if (shown) return; shown = true; el('title').classList.add('go'); later(() => { if (phase === 'float') { el('hint').classList.remove('off'); later(() => el('hint').classList.add('off'), 4200); } }, 2600); }
 const small = innerWidth < 700;
@@ -270,7 +270,8 @@ function tick(now) {
       else if (o.y > H - rad) { o.y = H - rad; o.vy = -Math.abs(o.vy) * .58; o.vx *= .86; o.vr *= .7; }
     } else {
       let tx, ty, k, c;
-      if (phase === 'suck') { [tx, ty] = mouth(); k = 34; c = 9; o.sc += (0 - o.sc) * Math.min(1, dt * 5); }
+      if (phase === 'suck' && performance.now() - suckT0 < o.i * 70) { paint(o); continue; }
+      if (phase === 'suck') { [tx, ty] = mouth(); k = 16; c = 7; o.sc += (0 - o.sc) * Math.min(1, dt * 5); }
       else { tx = o.slot[0] / 100 * W + Math.sin(t * .7 + o.i * 1.7) * 16; ty = o.slot[1] / 100 * H + Math.cos(t * .55 + o.i * 2.3) * 20; k = 7; c = 3.4; o.sc += (1 - o.sc) * Math.min(1, dt * 6); }
       let ax = (tx - o.x) * k - o.vx * c, ay = (ty - o.y) * k - o.vy * c;
       if (ptr && phase === 'float') { const dx = o.x - ptr[0], dy = o.y - ptr[1], dd = Math.hypot(dx, dy) || 1, reach = small ? 110 : 190; if (dd < reach) { const f = 5200 * (1 - dd / reach); ax += dx / dd * f; ay += dy / dd * f; o.vr += (dx > 0 ? 1 : -1) * f * dt * .12; } }
@@ -316,15 +317,16 @@ function enter(e) {
     /* tot el material torna a la motxilla: si ja estava guardat, surt dels seus llocs i hi entra de nou */
     measure();
     if (phase === 'gone' || phase === 'idle') objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.vx = o.vy = 0; paint(o); o.el.classList.add('live'); });
-    phase = 'suck';
+    phase = 'suck'; suckT0 = performance.now();
     const r = pack.getBoundingClientRect(); c.style.setProperty('--cx', r.left + r.width / 2 + 'px'); c.style.setProperty('--cy', r.top + r.height / 2 + 'px');
-    pk(false, 'pop'); void pack.offsetWidth; pk(true, 'pop'); setTimeout(() => pk(false, 'open'), 380);
+    pk(false, 'pop'); void pack.offsetWidth; pk(true, 'pop');
+    later(() => pk(false, 'open'), 1500);   /* la tapa es tanca quan tot el material ja és dins */
   }
   else { c.style.setProperty('--cx', e.clientX + 'px'); c.style.setProperty('--cy', e.clientY + 'px'); }
   beep('win');
   /* el telò espera que el material haja entrat a la motxilla */
-  setTimeout(() => c.classList.add('on'), inView ? 780 : 0);
-  setTimeout(() => { location.href = url; }, inView ? 1450 : 700);
+  setTimeout(() => c.classList.add('on'), inView ? 1750 : 0);
+  setTimeout(() => { location.href = url; }, inView ? 2400 : 700);
 }
 el('enter').addEventListener('click', enter);
 document.querySelectorAll('[data-enter]').forEach(a => a.addEventListener('click', enter));

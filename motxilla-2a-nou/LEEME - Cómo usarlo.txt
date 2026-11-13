@@ -50,4 +50,4 @@ PORTADA: EL MATERIAL SALE Y ENTRA EN LA MOCHILA
 - Ya no aparece ningún objeto suelto en la esquina superior izquierda al empezar.
 
 AL PULSAR "ENTRA A JUGAR"
-- Todo el material vuelve a la mochila (aunque ya estuviera guardado), la tapa se cierra y después se entra en la app.
+- Todo el material entra en la mochila uno a uno, con la tapa abierta; al final la tapa se cierra y después se entra en la app.
