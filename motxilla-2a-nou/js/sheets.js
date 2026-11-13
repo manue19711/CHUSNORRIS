@@ -97,7 +97,7 @@ document.addEventListener('click', e => {
       A.profiles = A.profiles.filter(q => q.id !== x.id);
       if (A.current === x.id) A.current = A.profiles.length ? A.profiles[0].id : null;
       save(); toast(`${x.alias}: alumne eliminat.`);
-      go({ name: A.profiles.length ? 'adults' : 'profiles' });
+      go({ name: A.profiles.length && V.name === 'adults' ? 'adults' : 'profiles' });
     });
   }
 });

@@ -8,7 +8,16 @@
 function enterProfile(id) {
   const x = A.profiles.find(q => q.id === id); if (!x) return;
   const inside = () => { A.current = id; save(); go({ name: 'home' }); };
-  if (!x.pw) return inside();
+  if (!x.pw) {
+    const m = modal(`<h2>Hola, ${esc(x.alias)}!</h2><p>Abans d'entrar, crea la teua contrasenya secreta. Te la demanarem cada vegada.</p>
+      <form data-pwform><label class="sr" for="pw-in">Contrasenya nova</label><input id="pw-in" type="password" autocomplete="new-password" maxlength="12" required placeholder="La teua contrasenya">
+      <div class="row" style="margin-top:14px"><button class="btn btn-main" type="submit">Desa-la i entra</button><button class="btn btn-soft" type="button" data-m="no">Torna</button></div></form>
+      <p class="note">Tria una paraula o un número fàcil de recordar per a tu.</p>`);
+    const inp = m.querySelector('#pw-in'); inp.focus();
+    m.addEventListener('click', ev => { if (ev.target.closest('[data-m="no"]')) closeModal(); });
+    m.querySelector('form').addEventListener('submit', ev => { ev.preventDefault(); ev.stopPropagation(); const v = inp.value.trim(); if (!v) return inp.focus(); x.pw = pwHash(x.id, v); save(); closeModal(); inside(); });
+    return;
+  }
   const m = modal(`<h2>Hola, ${esc(x.alias)}!</h2><p>Escriu la teua contrasenya secreta per a entrar.</p>
     <form data-pwform><label class="sr" for="pw-in">Contrasenya</label><input id="pw-in" type="password" autocomplete="off" maxlength="12" required>
     <p class="note" id="pw-msg" role="status" style="min-height:1.4em;margin-top:8px"></p>
@@ -25,13 +34,13 @@ function enterProfile(id) {
 /* des de la Zona de famílies: posar, canviar o llevar la contrasenya d'un alumne */
 function pwManage(id) {
   const x = A.profiles.find(q => q.id === id); if (!x) return;
-  const m = modal(`<h2>Contrasenya de ${esc(x.alias)}</h2><p>${x.pw ? 'Ara té contrasenya. Escriu-ne una de nova, o lleva-la.' : 'Ara entra sense contrasenya. Escriu-ne una si voleu que la demane.'}</p>
+  const m = modal(`<h2>Contrasenya de ${esc(x.alias)}</h2><p>${x.pw ? 'Ja té contrasenya. Escriu-ne una de nova, o esborra-la perquè en cree una altra quan entre.' : 'Encara no en té: la crearà quan entre, o la podeu posar ara.'}</p>
     <form data-pwform><label class="sr" for="pw-new">Contrasenya nova</label><input id="pw-new" type="text" autocomplete="off" maxlength="12" placeholder="Contrasenya nova">
-    <div class="row" style="margin-top:14px"><button class="btn btn-main" type="submit">Desa</button>${x.pw ? '<button class="btn btn-danger" type="button" data-m="rm">Lleva-la</button>' : ''}<button class="btn btn-soft" type="button" data-m="no">Torna</button></div></form>`);
+    <div class="row" style="margin-top:14px"><button class="btn btn-main" type="submit">Desa</button>${x.pw ? '<button class="btn btn-danger" type="button" data-m="rm">Esborra-la</button>' : ''}<button class="btn btn-soft" type="button" data-m="no">Torna</button></div></form>`);
   const inp = m.querySelector('#pw-new'); inp.focus();
   m.addEventListener('click', ev => {
     const b = ev.target.closest('[data-m]'); if (!b) return; closeModal();
-    if (b.dataset.m === 'rm') { delete x.pw; save(); render(); toast(`${x.alias} ja entra sense contrasenya.`); }
+    if (b.dataset.m === 'rm') { delete x.pw; save(); render(); toast(`Contrasenya esborrada: ${x.alias} en crearà una de nova en entrar.`); }
   });
   m.querySelector('form').addEventListener('submit', ev => {
     ev.preventDefault(); ev.stopPropagation(); const v = inp.value.trim();
@@ -164,6 +173,10 @@ document.addEventListener('click', e => {
   const pw = e.target.closest('[data-pwp]'); if (pw) return pwManage(pw.dataset.pwp);
   const b = e.target.closest('[data-ev]'); if (!b) return;
   const k = b.dataset.ev;
+  if (k === 'dellist') return modal(`<h2>Esborra un alumne</h2><p>Tria l'alumne que vols eliminar d'aquest dispositiu. Et demanarem que ho confirmes.</p>
+    <ul class="alist">${A.profiles.map(x => `<li><img src="${av(x.avatar).src}" alt=""><span><b>${esc(x.alias)}</b><small>${x.stars} estrelles</small></span><button class="btn btn-danger" data-delp="${x.id}">Elimina</button></li>`).join('')}</ul>
+    <div class="row"><button class="btn btn-soft" data-ev="closem">Torna</button></div>`);
+  if (k === 'closem') return closeModal();
   if (k === 'start') return startEval();
   if (k === 'runpdf') return runSheet();
   if (k === 'report') return go({ name: 'report', wk: monday(today()) });

@@ -12,7 +12,7 @@ const fmtDate = (k = today()) => { const d = new Date(k + 'T12:00:00'); const s 
 const relDay = k => { if (!k) return '—'; const n = daysBetween(k, today()); return n === 0 ? 'Avui' : n === 1 ? 'Ahir' : `Fa ${n} dies`; };
 const TOTAL = Object.keys(SKILL).length;
 
-if (P() && P().pw) { A.current = null; save(); }   /* amb contrasenya, cada vegada es torna a demanar */
+if (P()) { A.current = null; save(); }   /* en obrir l'app sempre cal triar el perfil i escriure la contrasenya */
 let V = { name: P() ? 'home' : A.profiles.length ? 'profiles' : 'intro' };
 let Q = null;            // estat efímer de la pregunta actual
 let tick = Date.now();   // temps actiu de la sessió
@@ -67,7 +67,7 @@ function vProfiles() {
     <button class="pcard add" data-go="new"><span>${ico('i-plus')}</span>Apunta't</button>
   </div>
   <div class="foot">
-    ${A.profiles.length ? `<button class="btn-text" data-go="gate">Zona de famílies: alumnes, informes i fitxes</button>` : ''}
+    ${A.profiles.length ? `<button class="btn-text" data-go="gate">Zona de famílies: alumnes, informes i fitxes</button><button class="btn-text" data-ev="dellist">Esborra un alumne</button>` : ''}
     <label class="btn-text" style="display:inline-flex;align-items:center;cursor:pointer">Recupera un progrés guardat<input type="file" accept="application/json,.json" data-import hidden></label>
     <a class="btn-text" href="privacitat.html">Privacitat</a>
     <button class="btn-text" data-go="intro">Com funciona?</button>
@@ -86,8 +86,8 @@ function vNew() {
   <form class="form" data-form="new">
     <div class="field"><label for="alias">Com et diem?</label><input id="alias" name="alias" autocomplete="off" maxlength="16" required aria-describedby="alias-h" value="${esc(V.alias || '')}">
       <p class="help" id="alias-h">Un àlies o un sobrenom, per exemple «Lluna» o «Capità Pi».</p></div>
-    <div class="field"><label for="pw">La teua contrasenya secreta</label><input id="pw" name="pw" type="password" autocomplete="new-password" maxlength="12" aria-describedby="pw-h" value="${esc(V.pw || '')}">
-      <p class="help" id="pw-h">Una paraula o un número que només sàpigues tu, per a entrar. Si la deixes buida, no te la demanarem. Si un dia l'oblides, la família la pot canviar.</p></div>
+    <div class="field"><label for="pw">La teua contrasenya secreta</label><input id="pw" name="pw" type="password" autocomplete="new-password" maxlength="12" required aria-describedby="pw-h" value="${esc(V.pw || '')}">
+      <p class="help" id="pw-h">Una paraula o un número que només sàpigues tu. Te la demanarem cada vegada que entres. Si un dia l'oblides, la família la pot canviar.</p></div>
     <div class="field"><span style="display:block;font-weight:700;margin-bottom:8px" id="av-l">Tria el teu dibuix</span>
       <div class="avatars" role="group" aria-labelledby="av-l">${V.custom ? `<button type="button" data-avatar="${V.custom}" aria-pressed="${V.custom === sel}" aria-label="El meu dibuix"><img src="${V.custom}" alt=""></button>` : ''}${AVATARS.map(a => `<button type="button" data-avatar="${a.id}" aria-pressed="${a.id === sel}" aria-label="${esc(a.l)}"><img src="${a.src}" alt=""></button>`).join('')}</div>
       <label class="btn btn-soft upav">${ico('i-up')}Puja el teu dibuix<input type="file" accept="image/*" data-avup hidden></label>
@@ -626,7 +626,7 @@ app.addEventListener('click', e => {
 
 app.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target.dataset.form;
-  if (f === 'new') { const alias = $('#alias').value.trim(); if (!alias) return $('#alias').focus(); const np = newProfile(alias, V.avatar || AVATARS[0].id); const pw = ($('#pw') || {}).value || ''; if (pw.trim()) { np.pw = pwHash(np.id, pw); save(); } go({ name: 'home' }); }
+  if (f === 'new') { const alias = $('#alias').value.trim(); if (!alias) return $('#alias').focus(); if (!($('#pw').value || '').trim()) return $('#pw').focus(); const np = newProfile(alias, V.avatar || AVATARS[0].id); const pw = ($('#pw') || {}).value || ''; if (pw.trim()) { np.pw = pwHash(np.id, pw); save(); } go({ name: 'home' }); }
   if (f === 'gate') {
     const v = $('#gate-in').value.trim(); const ok = A.pin ? v === A.pin : +v === V.qa.a * V.qa.b;
     if (ok) { V.qa = null; if (!P() && A.profiles.length) A.current = A.profiles[0].id; go({ name: 'adults' }); }
