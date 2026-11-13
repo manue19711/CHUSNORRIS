@@ -81,14 +81,28 @@ function areaRows(areas) {
   return AREAS.map(a => { const x = areas && areas[a.id], v = x ? pct(x.c, x.a) : null;
     return `<tr><td>${esc(a.name)}</td><td class="r">${x ? `${x.c} de ${x.a}` : '—'}</td><td class="r">${v === null ? '—' : v + ' %'}</td><td class="barcell"><span class="pbar" style="--c:var(--${a.id})"><i style="width:${v || 0}%"></i></span></td></tr>`; }).join('');
 }
+/* Tema acabat: si l'avaluació d'una asignatura és molt bona (4 de 4), les seues habilitats queden dominades */
+function finishArea(p, areaId) {
+  let n = 0;
+  AREA[areaId].topics.forEach(t => { const s = sk(p, t.id); if (s.st !== 'mastered') { s.st = 'mastered'; s.box = 0; s.due = addDays(today(), INTERVALS[0]); s.weak = 0; s.on = today(); s.diag = false; n++; } });
+  if (n) p.stars += 5 * n;
+  return n;
+}
 function evalEnd(p, run) {
   const s = closeRun(p, run), areas = {};
   run.res.forEach(r => { const ar = SKILL[r.skill].area, x = (areas[ar] ||= { a: 0, c: 0 }); x.a++; if (r.ok) x.c++; });
-  if (!run.saved) { (p.evals ||= []).push({ d: today(), wk: monday(today()), a: s.a, c: s.c, areas }); if (p.evals.length > 80) p.evals.shift(); run.saved = true; save(); }
+  const done = [];
+  if (!run.saved) {
+    Object.entries(areas).forEach(([ar, x]) => { if (x.a >= 4 && x.c === x.a) { finishArea(p, ar); done.push(ar); } });
+    (p.evals ||= []).push({ d: today(), wk: monday(today()), a: s.a, c: s.c, areas, done });
+    if (p.evals.length > 80) p.evals.shift(); run.saved = true; save();
+  } else done.push(...((p.evals || []).slice(-1)[0] || {}).done || []);
+  run.doneAreas = done;
   const v = pct(s.c, s.a) || 0;
   return `<section class="qcard wide"><div style="width:100%;text-align:left">
     <div class="qtag"><i></i>Avaluació de la setmana</div>
-    <h1 style="margin-top:10px">Avaluació acabada!</h1>
+    <h1 class="congr" style="margin-top:10px">${v >= 85 ? `Molt bé, ${esc(p.alias)}!` : `Avaluació acabada, ${esc(p.alias)}!`}</h1>
+    ${done.length ? `<p class="done-areas" style="font-size:1.15rem">Has acabat ${done.length === 1 ? 'el tema' : 'els temes'} ${done.map(a => `<b>${esc(AREA[a].name)}</b>`).join(' i ')}. Tot dominat, enhorabona!</p>` : ''}
     <div class="facts"><div><b>${s.c} de ${s.a}</b><small>encertades</small></div><div><b>${v} %</b><small>d'encert</small></div><div><b>${s.min}</b><small>${s.min === 1 ? 'minut' : 'minuts'}</small></div></div>
     <p style="font-size:1.15rem">${v >= 85 ? 'Molt bé! Ho portes tot molt ben aprés.' : v >= 60 ? 'Bona faena. Mira baix què convé repassar.' : 'Ho has intentat, i això és el que compta. Repassarem el que ha costat més.'}</p>
     <table class="evt" style="margin-top:14px"><thead><tr><th>Àrea</th><th class="r">Encerts</th><th class="r">%</th><th></th></tr></thead><tbody>${areaRows(areas)}</tbody></table>

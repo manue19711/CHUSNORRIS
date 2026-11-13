@@ -39,3 +39,7 @@ PORTADA NUEVA (mochila realista)
 CONTRASEÑA OBLIGATORIA Y BORRAR ALUMNOS (cambio)
 - La contraseña ahora es obligatoria: se crea al apuntarse y se pide SIEMPRE al abrir la app o cambiar de perfil. Un alumno antiguo sin contraseña tiene que crearla la primera vez que entra.
 - Borrar un alumno: en la pantalla "Qui juga avui?" (la de los perfiles) hay un botón "Esborra un alumne". También sigue en Famílies > Alumnes.
+
+ENTRADA DE CADA ASIGNATURA Y TEMAS TERMINADOS
+- Al abrir una asignatura en el mapa, las paradas aparecen una a una con un pequeño rebote.
+- En la evaluación semanal, si una asignatura sale con 4 de 4, se da por terminada: todas sus habilidades quedan dominadas y se suman estrellas. La felicitación sale con el nombre del alumno.
