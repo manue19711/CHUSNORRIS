@@ -237,21 +237,29 @@ function measure() { const b = stage.getBoundingClientRect(); W = b.width; H = b
 function mouth() { const r = pack.getBoundingClientRect(), s = stage.getBoundingClientRect(); return [r.left - s.left + r.width / 2, r.top - s.top + r.height * .37]; }
 function paint(o) { o.el.style.transform = `translate3d(${o.x - o.s / 2}px,${o.y - o.s / 2}px,0) rotate(${o.r}deg) scale(${o.sc})`; }
 
+/* el material torna a la motxilla: vola cap a la boca, es fa petit i desapareix; la tapa es tanca */
+function swallow() {
+  if (phase !== 'float') return;
+  phase = 'suck'; measure(); pk(false, 'open');
+  later(() => { objs.forEach(o => o.el.classList.remove('live')); phase = 'gone'; el('hint').classList.remove('off'); }, 1250);
+}
 function burst() {
   measure(); const [mx, my] = mouth(); phase = 'burst'; t0 = performance.now();
   pk(false, 'fly', 'pop'); packs.classList.remove('fly'); void pack.offsetWidth; pk(true, 'open', 'pop');
   el('hint').classList.add('off'); later(finale, shown ? 0 : 1150);   /* el rètol, al final */
   objs.forEach((o, i) => {
-    o.x = mx; o.y = my; o.sc = .15; o.r = 0; o.delay = i * 55; o.el.classList.add('live');
+    o.x = mx; o.y = my; o.sc = .15; o.r = 0; o.delay = i * 55;
     o.vx = (Math.random() * 2 - 1) * W * .6; o.vy = -(H * 1.0 + Math.random() * H * .8); o.vr = (Math.random() * 2 - 1) * 620;
+    paint(o); o.el.classList.add('live');   /* primer es col·loca dins la motxilla, després es mostra */
   });
+  later(() => { if (phase === 'float') swallow(); }, 4200);   /* al cap d'un ratet, tot torna a la motxilla */
   beep('pop');
 }
 function tick(now) {
   const dt = Math.max(0, Math.min(.033, (now - last) / 1000 || .016)); last = Math.max(last, now); const t = now / 1000;
   if (phase === 'burst' && now - t0 > 2500) { phase = 'float'; objs.forEach(o => { o.r = ((o.r % 360) + 540) % 360 - 180; }); }
   for (const o of objs) {
-    if (phase === 'idle') continue;
+    if (phase === 'idle' || phase === 'gone') continue;
     if (o.drag) { paint(o); continue; }
     const rad = o.s * .42;
     if (phase === 'burst') {
@@ -286,7 +294,7 @@ objs.forEach(o => {
 stage.addEventListener('pointermove', e => { const s = stage.getBoundingClientRect(); ptr = [e.clientX - s.left, e.clientY - s.top]; });
 stage.addEventListener('pointerleave', () => { ptr = null; });
 addEventListener('resize', measure);
-pack.addEventListener('click', () => { if (phase === 'float' || phase === 'idle') { if (phase === 'float') { phase = 'suck'; setTimeout(burst, 520); } else burst(); } });
+pack.addEventListener('click', () => { if (phase === 'float') { swallow(); later(burst, 1400); } else if (phase === 'idle' || phase === 'gone') burst(); });
 
 if (calm) { measure(); phase = 'float'; shown = true; el('title').classList.add('go'); pk(false, 'fly'); packs.classList.remove('fly'); pk(true, 'open'); objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.el.classList.add('live'); paint(o); }); }
 else {

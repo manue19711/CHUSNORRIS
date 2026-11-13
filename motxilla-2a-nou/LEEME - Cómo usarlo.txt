@@ -43,3 +43,8 @@ CONTRASEÑA OBLIGATORIA Y BORRAR ALUMNOS (cambio)
 ENTRADA DE CADA ASIGNATURA Y TEMAS TERMINADOS
 - Al abrir una asignatura en el mapa, las paradas aparecen una a una con un pequeño rebote.
 - En la evaluación semanal, si una asignatura sale con 4 de 4, se da por terminada: todas sus habilidades quedan dominadas y se suman estrellas. La felicitación sale con el nombre del alumno.
+
+PORTADA: EL MATERIAL SALE Y ENTRA EN LA MOCHILA
+- Al empezar, el material sale de la mochila, flota y, al cabo de unos segundos, vuelve a entrar y la tapa se cierra.
+- Tocar la mochila lo vuelve a sacar. Tocar la pantalla durante la salida lo muestra todo de golpe.
+- Ya no aparece ningún objeto suelto en la esquina superior izquierda al empezar.
