@@ -51,3 +51,7 @@ PORTADA: EL MATERIAL SALE Y ENTRA EN LA MOCHILA
 
 AL PULSAR "ENTRA A JUGAR"
 - Todo el material entra en la mochila uno a uno, con la tapa abierta; al final la tapa se cierra y después se entra en la app.
+
+DIBUIXOS DE L'ALUMNE
+- Famílies > Alumnes > «Dibuix»: tria un altre dibuix per a l'alumne en qualsevol moment.
+- 8 dibuixos nous que es mouen (el cometa, el bolet, el peixet, el pingüí, el cuc, el núvol, el sol i l'estrella): parpadegen, reboten i mouen els braços, les antenes o la cua. Estan al final de la llista.

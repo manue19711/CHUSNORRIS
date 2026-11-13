@@ -77,5 +77,7 @@ const AVATARS = [
   { id:'fada', l:'la fada' }, { id:'geni', l:'el geni' }, { id:'vampir', l:'el vampir' }, { id:'alien', l:"l'extraterrestre" },
   { id:'monstre', l:'el monstre' }, { id:'fantasma', l:'el fantasma' }, { id:'drac', l:'el drac' }, { id:'robot', l:'el robot' },
   { id:'unicorn', l:"l'unicorn" }, { id:'dino', l:'el dinosaure' }, { id:'gat', l:'el gat' }, { id:'rabosa', l:'la rabosa' },
-  { id:'pop', l:'el pop' }, { id:'tortuga', l:'la tortuga' }, { id:'coet', l:'el coet' }, { id:'polls', l:'el pollet' }
-].map(a => ({ ...a, src: 'img/art/av-' + a.id + '.svg' }));
+  { id:'pop', l:'el pop' }, { id:'tortuga', l:'la tortuga' }, { id:'coet', l:'el coet' }, { id:'polls', l:'el pollet' },
+  { id:'anim-cometa', l:'el cometa', anim:1 }, { id:'anim-bolet', l:'el bolet', anim:1 }, { id:'anim-peixet', l:'el peixet', anim:1 }, { id:'anim-pingui', l:'el pingüí', anim:1 },
+  { id:'anim-cuc', l:'el cuc', anim:1 }, { id:'anim-nuvol', l:'el núvol', anim:1 }, { id:'anim-sol', l:'el sol', anim:1 }, { id:'anim-estrella', l:"l'estrella", anim:1 }
+].map(a => ({ ...a, src: a.anim ? 'img/anim/' + a.id + '.svg' : 'img/art/av-' + a.id + '.svg' }));

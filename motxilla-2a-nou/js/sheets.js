@@ -20,7 +20,7 @@ function famTools(p) {
     <p class="note" style="margin-top:12px">Exercicis nous cada vegada. Amb «Tota l'àrea» o «Tots els temes» ixen els temes seguits (fins a 6 exercicis de cada un). L'«Avaluació» barreja totes les àrees en una prova. Amb diversos models, cada un porta exercicis diferents.</p>
   </section>
   <section class="panel s5" aria-labelledby="ft-al"><h2 class="ptitle" id="ft-al">Alumnes <span>${A.profiles.length} en aquest dispositiu</span></h2>
-    <ul class="alist">${A.profiles.map(x => `<li><img src="${av(x.avatar).src}" alt=""><span><b>${esc(x.alias)}</b><small>${Object.values(x.skills).filter(s => s.st === 'mastered').length} dominades · ${x.stars} estrelles</small></span><button class="btn btn-soft" data-pwp="${x.id}">${ico('i-lock')}${x.pw ? 'Canvia' : 'Contrasenya'}</button><button class="btn btn-danger" data-delp="${x.id}">Elimina</button></li>`).join('')}</ul>
+    <ul class="alist">${A.profiles.map(x => `<li><img src="${av(x.avatar).src}" alt=""><span><b>${esc(x.alias)}</b><small>${Object.values(x.skills).filter(s => s.st === 'mastered').length} dominades · ${x.stars} estrelles</small></span><button class="btn btn-soft" data-avp="${x.id}">${ico('i-game')}Dibuix</button><button class="btn btn-soft" data-pwp="${x.id}">${ico('i-lock')}${x.pw ? 'Canvia' : 'Contrasenya'}</button><button class="btn btn-danger" data-delp="${x.id}">Elimina</button></li>`).join('')}</ul>
     <button class="btn btn-soft" data-go="new">Afig un alumne</button>
   </section></div>`;
 }
