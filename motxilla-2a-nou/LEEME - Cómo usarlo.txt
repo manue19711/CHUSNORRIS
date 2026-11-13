@@ -60,3 +60,12 @@ DIBUIXOS DE L'ALUMNE
 BOTONES DIVERTIDOS
 - Todos los botones se mueven al pasar el ratón (suben y se inclinan), se aplastan al pulsarlos y los principales cambian suavemente de color.
 - Los botones con el foco del teclado laten, para verlos bien. Si el dispositivo pide reducir el movimiento, no se mueven.
+
+NÚMEROS EN VALENCIÀ DEL 1 AL 100 (tema «Nombres fins al 99»)
+- Escuchar y escribir el número con cifras (botón «Escolta»).
+- Leer la palabra y escribir el número con cifras: «vint-i-tres» = 23.
+- Escuchar y elegir el número.
+- Elegir la forma bien escrita (vint-i-set, no «vint-set»).
+- Qué número va justo antes o justo después de otro, hasta el 100 (cent).
+- Números formados con blocs, con la explicación de desenas y unidades.
+- Formas corregidas: disset, divuit, dinou (antes salían «dèsset», «díhuit», «dènou»).

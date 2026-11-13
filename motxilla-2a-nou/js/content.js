@@ -18,7 +18,7 @@ function num(prompt, answer, extra={}){ return {kind:'num', prompt, answer:Strin
 function near(n, spread, min=0){ const s=new Set(); let g=0; while(s.size<3 && g++<60){ const v=n+R(-spread,spread); if(v!==n && v>=min) s.add(v);} return [...s]; }
 
 /* nombres en valencià */
-const U=['zero','u','dos','tres','quatre','cinc','sis','set','huit','nou','deu','onze','dotze','tretze','catorze','quinze','setze','dèsset','díhuit','dènou'];
+const U=['zero','u','dos','tres','quatre','cinc','sis','set','huit','nou','deu','onze','dotze','tretze','catorze','quinze','setze','disset','divuit','dinou'];
 const T=['','','vint','trenta','quaranta','cinquanta','seixanta','setanta','huitanta','noranta'];
 const w99 = n => { if(n<20) return U[n]; const t=Math.floor(n/10), u=n%10; return u ? T[t]+(t===2?'-i-':'-')+U[u] : T[t]; };
 const words = n => { if(n<100) return w99(n); const c=Math.floor(n/100), r=n%100; const cs = c===1 ? 'cent' : U[c]+'-cents'; return r ? cs+' '+w99(r) : cs; };

@@ -228,4 +228,32 @@ extend('v1', .7, [{ f: () => readQ(VA, 'ca-ES', 'Torna a llegir el text i busca 
 extend('l1', .7, [{ f: () => readQ(ES, 'es-ES', 'Vuelve a leer el texto y busca la respuesta.', a => `En el texto dice: ${a}.`) }]);
 
 window.__mes = { story, VA, ES };
+
+/* ======================= NOMBRES EN VALENCIÀ, DEL 1 AL 100 ======================= */
+const VUN = ['zero','u','dos','tres','quatre','cinc','sis','set','huit','nou','deu','onze','dotze','tretze','catorze','quinze','setze','disset','divuit','dinou'];
+const VDEC = ['','','vint','trenta','quaranta','cinquanta','seixanta','setanta','huitanta','noranta'];
+const paraula = n => { if (n === 100) return 'cent'; if (n < 20) return VUN[n]; const t = Math.floor(n / 10), u = n % 10; return u ? VDEC[t] + (t === 2 ? '-i-' : '-') + VUN[u] : VDEC[t]; };
+/* formes que un alumne pot escriure malament: sense la «i», amb espai, o amb una unitat de més/menys */
+const formesMalament = n => { const ok = paraula(n), out = new Set([ok.replace(/-i-/g, '-'), ok.replace(/-/g, ' '), ok.replace(/-i-/g, ' i ')]); if (n > 1) out.add(paraula(n - 1)); if (n < 100) out.add(paraula(n + 1)); out.delete(ok); return [...out].slice(0, 3); };
+const nDeuN = n => { const t = Math.floor(n / 10), u = n % 10; const us = `${u} ${u === 1 ? 'unitat' : 'unitats'}`; return t ? `${t} ${t === 1 ? 'desena' : 'desenes'} i ${us}` : us; };
+const bloc = n => { const t = Math.floor(n / 10), u = n % 10; return `<div class="demo-row">${vDUC(null, t, u)}</div>`; };
+
+extend('m1', .4, [
+  /* 1. escoltar i escriure amb xifres */
+  { min: 1, f: lv => { const n = R(1, lv === 1 ? 30 : 100); return num('Escolta i escriu el nombre amb xifres.', n, { say: paraula(n), lang: 'ca-ES', rtl: false, hint: 'Els nombres de la dècada van en una paraula: «dèneu» no existeix, és «deu», «onze», «dotze»...', explain: `«${paraula(n)}» és el ${n}: ${nDeuN(n)}.` }); } },
+  /* 2. llegir la paraula i escriure la xifra */
+  { min: 1, f: lv => { const n = R(1, lv === 1 ? 30 : 100); return num(`Quin nombre és «${paraula(n)}»? Escriu-ho amb xifres.`, n, { rtl: false, say: `${paraula(n)}. Quin nombre és?`, hint: 'Mira les desenes (vint, trenta...) i després les unitats (u, dos, tres...).', explain: `«${paraula(n)}» és el ${n}: ${nDeuN(n)}.` }); } },
+  /* 3. quina és la forma ben escrita */
+  { min: 2, f: lv => { const n = R(1, 100); const w = formesMalament(n); return choice(`Quina és la forma ben escrita del ${n}?`, paraula(n), w, { say: `Quina és la forma ben escrita del ${n}?`, lang: 'ca-ES', hint: 'Les desenes van amb «-i-» quan hi ha unitats: vint-i-u, trenta-dos...', explain: `${n} s'escriu «${paraula(n)}».` }); } },
+  /* 4. escoltar i triar la xifra */
+  { min: 1, f: lv => { const n = R(1, lv === 1 ? 30 : 100); const w = [n + 1, n - 1, n + 10].filter(x => x >= 1 && x <= 100 && x !== n); return choice('Escolta i tria el nombre que sents.', String(n), w.slice(0, 3).map(String), { say: paraula(n), lang: 'ca-ES', hint: 'Escolta amb atenció: primer la desena i després la unitat.', explain: `«${paraula(n)}» és el ${n}.` }); } },
+  /* 5. escriu el número en lletres: triar la paraula que falta de l'escala */
+  { min: 2, f: lv => { const n = R(2, 100); const w = [paraula(n - 1), paraula(n + 1 > 100 ? 99 : n + 1), formesMalament(n)[0]]; return choice(`Quin nombre va just després de «${paraula(n - 1)}»?`, paraula(n), w.filter(x => x !== paraula(n)), { say: `Quin nombre va just després de ${paraula(n - 1)}?`, lang: 'ca-ES', hint: 'Compta: després d\'un ve el següent.', explain: `${n - 1} + 1 = ${n}: «${paraula(n)}».` }); } },
+  /* 6. quin nombre va abans */
+  { min: 2, f: lv => { const n = R(2, 100); return choice(`Quin nombre va just abans de «${paraula(n)}»?`, paraula(n - 1), [paraula(n + 1 > 100 ? 99 : n + 1), formesMalament(n - 1)[0]].filter(x => x !== paraula(n - 1)), { say: `Quin nombre va just abans de ${paraula(n)}?`, lang: 'ca-ES', hint: 'Abans vol dir un menys.', explain: `${n} − 1 = ${n - 1}: «${paraula(n - 1)}».` }); } },
+  /* 7. amb blocs: quin nombre és i com s'escriu */
+  { min: 1, f: lv => { const n = R(10, lv === 1 ? 59 : 99); return choice('Quin nombre formen els blocs? Escolta i tria la paraula.', paraula(n), [paraula(n + 10 > 99 ? n - 10 : n + 10), formesMalament(n)[0], paraula(Math.max(1, n - 1))], { visual: bloc(n), say: 'Quin nombre formen els blocs?', lang: 'ca-ES', hint: 'Les barres són desenes: compta-les primer.', explain: `${Math.floor(n / 10)} desenes i ${n % 10} unitats: «${paraula(n)}» (${n}).` }); } },
+  /* 8. el 100 */
+  { min: 2, f: () => choice('Quin és el nombre que va just després del noranta-nou?', 'cent', ['cent-deu', 'noranta-deu', 'cent-u'], { say: 'Quin és el nombre que va just després del noranta-nou?', lang: 'ca-ES', hint: 'Després del 99 ve el 100, que és ben rodó: cent.', explain: '99 + 1 = 100: «cent».' }) },
+]);
 })();
