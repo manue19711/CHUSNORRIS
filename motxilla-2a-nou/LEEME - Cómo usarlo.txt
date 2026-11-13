@@ -45,8 +45,8 @@ ENTRADA DE CADA ASIGNATURA Y TEMAS TERMINADOS
 - En la evaluación semanal, si una asignatura sale con 4 de 4, se da por terminada: todas sus habilidades quedan dominadas y se suman estrellas. La felicitación sale con el nombre del alumno.
 
 PORTADA: EL MATERIAL SALE Y ENTRA EN LA MOCHILA
-- Al empezar, el material sale de la mochila, flota y, al cabo de unos segundos, vuelve a entrar y la tapa se cierra.
-- Tocar la mochila lo vuelve a sacar. Tocar la pantalla durante la salida lo muestra todo de golpe.
+- Al empezar, el material sale de la mochila y se queda flotando.
+- Solo vuelve a entrar al pulsar «Entra a jugar». Tocar la pantalla durante la salida lo muestra todo de golpe.
 - Ya no aparece ningún objeto suelto en la esquina superior izquierda al empezar.
 
 AL PULSAR "ENTRA A JUGAR"

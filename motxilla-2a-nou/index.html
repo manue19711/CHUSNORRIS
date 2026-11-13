@@ -252,7 +252,6 @@ function burst() {
     o.vx = (Math.random() * 2 - 1) * W * .6; o.vy = -(H * 1.0 + Math.random() * H * .8); o.vr = (Math.random() * 2 - 1) * 620;
     paint(o); o.el.classList.add('live');   /* primer es col·loca dins la motxilla, després es mostra */
   });
-  later(() => { if (phase === 'float') swallow(); }, 4200);   /* al cap d'un ratet, tot torna a la motxilla */
   beep('pop');
 }
 function tick(now) {
@@ -294,7 +293,7 @@ objs.forEach(o => {
 stage.addEventListener('pointermove', e => { const s = stage.getBoundingClientRect(); ptr = [e.clientX - s.left, e.clientY - s.top]; });
 stage.addEventListener('pointerleave', () => { ptr = null; });
 addEventListener('resize', measure);
-pack.addEventListener('click', () => { if (phase === 'float') { swallow(); later(burst, 1400); } else if (phase === 'idle' || phase === 'gone') burst(); });
+pack.addEventListener('click', () => { if (phase === 'idle' || phase === 'gone') burst(); });   /* mentre el material està fora, es queda fora fins a «Entra a jugar» */
 
 if (calm) { measure(); phase = 'float'; shown = true; el('title').classList.add('go'); pk(false, 'fly'); packs.classList.remove('fly'); pk(true, 'open'); objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.el.classList.add('live'); paint(o); }); }
 else {
