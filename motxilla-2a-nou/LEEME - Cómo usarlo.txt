@@ -35,3 +35,7 @@ PORTADA NUEVA (mochila realista)
 - Tocar la pantalla durante la entrada lo muestra todo de golpe. Tocar la mochila vuelve a lanzar el material. Los objetos se pueden agarrar y lanzar.
 - Material escolar: Fluent Emoji de Microsoft (licencia MIT), en img/esc. La goma y la mochila están dibujadas para esta portada.
 - La mascota Motxi sigue dentro de la app.
+
+CONTRASEÑA OBLIGATORIA Y BORRAR ALUMNOS (cambio)
+- La contraseña ahora es obligatoria: se crea al apuntarse y se pide SIEMPRE al abrir la app o cambiar de perfil. Un alumno antiguo sin contraseña tiene que crearla la primera vez que entra.
+- Borrar un alumno: en la pantalla "Qui juga avui?" (la de los perfiles) hay un botón "Esborra un alumne". También sigue en Famílies > Alumnes.
