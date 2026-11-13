@@ -1,5 +1,16 @@
 # Motxilla 2A · resum del projecte
 
+> ## ▶ Empieza aquí
+>
+> 1. **Trabaja en `motxilla-2a-nou/`.** No toques `motxilla-2a/` (es la original).
+> 2. **Rama:** `claude/peaceful-gates-52j8yz`.
+> 3. **Cada cambio:** sube el número de versión de `sw.js` (`motxilla2a-nou-vN`), regenera el zip `Motxilla-2A-nou-disseny.zip` y haz commit y push.
+> 4. **Enlace del zip** (con sesión de GitHub iniciada):
+>    https://github.com/manue19711/CHUSNORRIS/raw/claude/peaceful-gates-52j8yz/Motxilla-2A-nou-disseny.zip
+> 5. **Pendiente principal:** escribir palabras enteras en valenciano y revisar los textos con un hablante nativo.
+>
+> Lo demás de este archivo es referencia: qué hay en cada fichero, cómo funciona y qué se decidió.
+
 App web gratuïta per a 2n de Primària, en valencià i castellà (i anglés en el tema de vocabulari). Funciona sense servidor, sense comptes i sense analítica: tot es guarda al navegador de cada dispositiu.
 
 ## On està cada cosa
