@@ -134,3 +134,29 @@ a{text-underline-offset:.22em;text-decoration-thickness:.09em}
 /* ---------- el dibuix de l'alumne a la pantalla d'inici ---------- */
 .mydraw{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-8px 0 22px}
 .mydraw img{width:64px;height:64px;border-radius:50%;background:var(--surface);box-shadow:0 0 0 4px #fff}
+
+/* ---------- botons divertits: es mouen, es xafen i canvien de color en tocar-los ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .btn,.pcard,.gtile,.gbanner,.opt,.pad button,.seg button,.chip,.avb,.stamp,.node .disc,.trail,.nav a,.tabbar a,.btn-text,.exit,.toggle .switch,.switch{
+    transition:transform .28s cubic-bezier(.3,1.8,.5,1),background-color .35s ease,color .25s ease,box-shadow .25s ease,filter .35s ease}
+  @media (hover:hover){
+    .btn:hover:not(:disabled),.opt:hover:not(:disabled),.seg button:hover,.avb:hover,.pcard:hover,.gtile:hover,.gbanner:hover,.stamp:hover,.trail:hover{transform:translateY(-3px) rotate(-1.5deg) scale(1.03)}
+    .btn:nth-child(even):hover:not(:disabled),.gtile:nth-child(even):hover,.pcard:nth-child(even):hover{transform:translateY(-3px) rotate(1.5deg) scale(1.03)}
+    .btn:hover:not(:disabled){filter:hue-rotate(18deg) saturate(1.15)}
+    .btn-soft:hover:not(:disabled){filter:none}
+    .nav a:hover,.tabbar a:hover{transform:translateX(5px) rotate(-2deg)}
+    .btn-text:hover{transform:translateY(-2px) rotate(-2deg)}
+    .chip:hover,.seg button:hover{transform:scale(1.08) rotate(-2deg)}
+  }
+  .btn:active:not(:disabled),.opt:active:not(:disabled),.pad button:active,.avb:active,.pcard:active,.gtile:active,.gbanner:active,.seg button:active,.stamp:active,.btn-text:active{transform:translateY(4px) scale(1.06,.9);transition-duration:.07s}
+  .btn:focus-visible,.opt:focus-visible,.pcard:focus-visible,.gtile:focus-visible,.avb:focus-visible{animation:ringpop 1.4s ease-in-out infinite}
+  .btn-main{animation:colorshift 6s ease-in-out infinite}
+  .btn-main:hover:not(:disabled){animation-play-state:paused}
+  .gbanner .btn{animation:colorshift 4s ease-in-out infinite}
+  .stamp .seal{transition:transform .4s cubic-bezier(.3,1.8,.5,1)}
+  .stamp:hover .seal{transform:rotate(-12deg) scale(1.1)}
+  .switch{transition:background-color .3s,transform .3s cubic-bezier(.3,1.8,.5,1)}
+  .switch:active{transform:scale(1.12,.9)}
+}
+@keyframes colorshift{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(28deg) saturate(1.1)}}
+@keyframes ringpop{0%,100%{box-shadow:0 0 0 4px var(--mat),0 0 0 0 transparent}50%{box-shadow:0 0 0 7px var(--cas),0 0 0 14px transparent}}
