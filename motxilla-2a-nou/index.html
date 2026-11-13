@@ -49,12 +49,27 @@ html:not(.js) .obj{display:none}
 .js .title.go p,.js .title.go .btn{opacity:1;transform:none}
 .title .btn.btn-big{min-height:clamp(60px,10vh,78px);font-size:clamp(1.3rem,min(2.6vw,3.6vh),1.9rem);padding:0 46px}
 
-.pack{position:absolute;left:50%;bottom:4%;width:var(--pk);margin-left:calc(var(--pk)/-2);z-index:3;cursor:pointer;transform-origin:50% 100%}
-.pack.shake{animation:shake2 .9s ease-in-out infinite}
-@keyframes shake2{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(7deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(4deg)}}
-.pack.pop{animation:popup .7s cubic-bezier(.3,1.6,.5,1)}
-@keyframes popup{0%{transform:scale(1,1)}18%{transform:scale(1.25,.7)}45%{transform:scale(.82,1.28) translateY(-40px)}70%{transform:scale(1.08,.94)}100%{transform:none}}
-.hint{position:absolute;left:50%;bottom:calc(4% + var(--pk) * 1.04 + 6px);transform:translateX(-50%);z-index:4;background:#fff;color:#1b2559;font:600 1.15rem var(--serif);padding:10px 18px;border-radius:99px;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+.pack{position:absolute;left:50%;bottom:4%;width:var(--pk);aspect-ratio:300/360;margin-left:calc(var(--pk)/-2);transform-origin:50% 100%;-webkit-tap-highlight-color:transparent}
+.pack svg{display:block;width:100%;height:100%;overflow:visible}
+.pk-b{z-index:1;pointer-events:none}
+.pk-f{z-index:3;cursor:pointer;background:none;border:0;padding:0}
+.pk-sh{position:absolute;left:50%;bottom:calc(4% - var(--pk)*.045);width:calc(var(--pk)*.96);height:calc(var(--pk)*.13);margin-left:calc(var(--pk)*-.48);border-radius:50%;background:#1f6b3a;opacity:.38;z-index:1;pointer-events:none}
+/* entra volant, aterra i s'esclafa una mica */
+.js .pack.fly{animation:flyin 1s cubic-bezier(.3,.05,.35,1) both}
+.js .pk-sh.fly{animation:shin 1s cubic-bezier(.3,.05,.35,1) both}
+@keyframes flyin{0%{transform:translate(-72vw,-58vh) rotate(-42deg) scale(.72)}52%{transform:translate(-9vw,-13vh) rotate(-10deg) scale(1)}70%{transform:translate(0,0) rotate(2deg) scale(1.09,.88)}84%{transform:translate(0,-3.2vh) rotate(-1.5deg) scale(.97,1.04)}100%{transform:none}}
+@keyframes shin{0%,45%{transform:scale(.2);opacity:0}70%{transform:scale(1.08);opacity:.42}84%{transform:scale(.86);opacity:.3}100%{transform:none;opacity:.38}}
+.pack.pop{animation:popup .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes popup{0%{transform:scale(1,1)}20%{transform:scale(1.12,.86)}50%{transform:scale(.93,1.1) translateY(-14px)}75%{transform:scale(1.04,.97)}100%{transform:none}}
+/* la tapa: tancada davant, oberta darrere */
+.lid-c,.lid-o{transform-box:view-box;transform-origin:150px 134px}
+.lid-c{transition:transform .16s cubic-bezier(.5,0,.9,.4)}
+.lid-o{transform:scaleY(0);transition:transform .14s cubic-bezier(.5,0,.9,.4)}
+.pack.open .lid-c{transform:scaleY(0)}
+.pack.open .lid-o{transform:scaleY(1);transition:transform .34s .14s cubic-bezier(.2,1.5,.4,1)}
+.pack:not(.open) .lid-c{transition-delay:.12s}
+.pk-f:focus-visible{outline:4px solid #1b2559;outline-offset:6px;border-radius:40px}
+.hint{position:absolute;left:50%;bottom:calc(4% + var(--pk) * 1.22 + 6px);transform:translateX(-50%);z-index:4;background:#fff;color:#1b2559;font:600 1.15rem var(--serif);padding:10px 18px;border-radius:99px;white-space:nowrap;pointer-events:none;transition:opacity .3s}
 .hint::after{content:"";position:absolute;left:50%;bottom:-7px;width:16px;height:16px;margin-left:-8px;background:#fff;transform:rotate(45deg);border-radius:3px}
 .hint.off{opacity:0}
 
@@ -105,7 +120,7 @@ html:not(.js) .obj{display:none}
 .foot2{padding:16px 24px 20px;justify-content:center;display:flex;gap:10px 24px;flex-wrap:wrap;align-items:center;font-size:.95rem}
 
 @media (max-width:860px){
-  .cover{--pk:min(60vw,36vh)}
+  .cover{--pk:min(56vw,33vh)}
   .title .btn.btn-big{min-height:64px;padding:0 38px}
   .title h1{font-size:min(13.6vw,20vh)}
   .two{grid-template-columns:1fr}
@@ -115,7 +130,7 @@ html:not(.js) .obj{display:none}
   .title{top:5%}
 }
 @media (max-width:520px){.day{grid-template-columns:1fr}.lp{padding:0 16px}.field{border-radius:28px}.cloud{scale:.6}}
-@media (prefers-reduced-motion:reduce){.cloud,.pack.shake{animation:none}}
+@media (prefers-reduced-motion:reduce){.cloud,.js .pack.fly,.js .pk-sh.fly,.pack.pop{animation:none}.lid-c,.lid-o,.pack.open .lid-o{transition:none}}
 </style>
 </head>
 <body>
@@ -128,13 +143,58 @@ html:not(.js) .obj{display:none}
       <p>Obri la motxilla i aprén una mica cada dia: nombres, lletres i jocs per a 2n de Primària.</p>
       <a class="btn btn-main btn-big" href="app.html" id="enter">Entra a jugar</a>
     </div>
-    <span class="hint" id="hint">Toca la motxilla!</span>
-    <button class="pack shake" id="pack" aria-label="Obri la motxilla: fes eixir els objectes"></button>
+    <span class="hint off" id="hint">Toca la motxilla!</span>
+    <i class="pk-sh fly" id="packs"></i>
+    <div class="pack pk-b fly" id="packb"><svg viewBox="0 0 300 360" aria-hidden="true"><defs>
+<linearGradient id="pkBody" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d93a2f"/><stop offset=".28" stop-color="#f4574a"/><stop offset=".6" stop-color="#ff6a58"/><stop offset="1" stop-color="#cf3429"/></linearGradient>
+<linearGradient id="pkShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a120c" stop-opacity="0"/><stop offset="1" stop-color="#7a120c" stop-opacity=".42"/></linearGradient>
+<linearGradient id="pkLid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8573"/><stop offset="1" stop-color="#ee4d40"/></linearGradient>
+<linearGradient id="pkPocket" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd257"/><stop offset="1" stop-color="#f3a51c"/></linearGradient>
+<linearGradient id="pkIn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1238"/><stop offset="1" stop-color="#27347a"/></linearGradient>
+<linearGradient id="pkLin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#f6b93b"/></linearGradient>
+<linearGradient id="pkMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#aab6d3"/></linearGradient>
+</defs>
+<path d="M112 52C112 6 188 6 188 52" fill="none" stroke="#141b47" stroke-width="15" stroke-linecap="round"/>
+<path d="M112 52C112 6 188 6 188 52" fill="none" stroke="#2a3676" stroke-width="5" stroke-linecap="round"/>
+<path d="M50 150C14 176 12 268 44 312" fill="none" stroke="#141b47" stroke-width="20" stroke-linecap="round"/>
+<path d="M250 150C286 176 288 268 256 312" fill="none" stroke="#141b47" stroke-width="20" stroke-linecap="round"/>
+<path d="M36 196C24 230 26 262 40 296" fill="none" stroke="#3a488f" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+<path d="M264 196C276 230 274 262 260 296" fill="none" stroke="#3a488f" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+<g class="lid-o"><path d="M46 134C34 58 88 12 150 12C212 12 266 58 254 134Q150 104 46 134Z" fill="url(#pkLin)" stroke="#c98612" stroke-width="3"/>
+<path d="M66 122C60 66 100 32 150 32C200 32 240 66 234 122" fill="none" stroke="#fff3c9" stroke-width="3" stroke-dasharray="7 7" stroke-linecap="round"/>
+<rect x="118" y="56" width="64" height="34" rx="8" fill="#fff" opacity=".85"/><rect x="128" y="66" width="44" height="5" rx="2.5" fill="#1b2559"/><rect x="128" y="76" width="28" height="5" rx="2.5" fill="#9fb0d6"/></g>
+<ellipse cx="150" cy="134" rx="106" ry="27" fill="url(#pkIn)"/>
+</svg></div>
+    <button class="pack pk-f fly" id="pack" aria-label="Motxilla: toca-la i tornarà a traure el material"><svg viewBox="0 0 300 360" aria-hidden="true">
+<path d="M44 134Q150 190 256 134L262 296C262 326 242 344 214 344L86 344C58 344 38 326 38 296Z" fill="url(#pkBody)"/>
+<path d="M44 134Q150 190 256 134L262 296C262 326 242 344 214 344L86 344C58 344 38 326 38 296Z" fill="url(#pkShade)"/>
+<path d="M38 286L38 296C38 326 58 344 86 344L214 344C242 344 262 326 262 296L262 286C240 304 60 304 38 286Z" fill="#a8261d"/>
+<path d="M40 232C40 222 70 226 70 240L70 318C70 326 40 322 38 300Z" fill="#b92b21"/><path d="M40 236C52 232 68 238 70 246" fill="none" stroke="#7d140e" stroke-width="3"/>
+<path d="M260 232C260 222 230 226 230 240L230 318C230 326 260 322 262 300Z" fill="#b92b21"/><path d="M260 236C248 232 232 238 230 246" fill="none" stroke="#7d140e" stroke-width="3"/>
+<rect x="43" y="204" width="20" height="40" rx="8" fill="#2f8fe6"/><rect x="46" y="194" width="14" height="14" rx="4" fill="#1b2559"/><rect x="47" y="212" width="5" height="22" rx="2.5" fill="#fff" opacity=".5"/>
+<path d="M82 226C82 196 108 186 150 186C192 186 218 196 218 226L218 300C218 314 208 322 194 322L106 322C92 322 82 314 82 300Z" fill="#c9860f"/>
+<path d="M82 220C82 190 108 180 150 180C192 180 218 190 218 220L218 294C218 308 208 316 194 316L106 316C92 316 82 308 82 294Z" fill="url(#pkPocket)"/>
+<path d="M92 224C92 200 112 192 150 192C188 192 208 200 208 224L208 290C208 300 201 306 191 306L109 306C99 306 92 300 92 290Z" fill="none" stroke="#fff3c9" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round"/>
+<path d="M96 232Q150 216 204 232" fill="none" stroke="#1b2559" stroke-width="7" stroke-linecap="round"/><path d="M96 232Q150 216 204 232" fill="none" stroke="#dfe6f5" stroke-width="2.5" stroke-dasharray="3 4"/>
+<rect x="190" y="226" width="12" height="24" rx="5" fill="url(#pkMetal)" stroke="#1b2559" stroke-width="2"/>
+<rect x="126" y="252" width="48" height="30" rx="7" fill="#fff"/><rect x="134" y="260" width="32" height="4.5" rx="2.25" fill="#1b2559"/><rect x="134" y="269" width="20" height="4.5" rx="2.25" fill="#9fb0d6"/>
+<path d="M62 168Q150 214 238 168" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-dasharray="7 7" stroke-linecap="round"/>
+<path d="M44 134Q150 190 256 134" fill="none" stroke="#141b47" stroke-width="8" stroke-linecap="round"/>
+<path d="M44 134Q150 190 256 134" fill="none" stroke="#dfe6f5" stroke-width="2.6" stroke-dasharray="3 4"/>
+<path d="M58 176C56 210 56 250 60 280" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="7" stroke-linecap="round"/>
+<g class="lid-c"><path d="M44 134C36 72 96 40 150 40C204 40 264 72 256 134Q150 190 44 134Z" fill="url(#pkLid)"/>
+<path d="M44 134C36 72 96 40 150 40C204 40 264 72 256 134Q150 190 44 134Z" fill="url(#pkBody)" opacity=".55"/>
+<path d="M70 120C70 82 110 60 150 60C190 60 230 82 230 120" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-dasharray="7 7" stroke-linecap="round"/>
+<path d="M86 96C100 70 128 58 150 58" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="8" stroke-linecap="round"/>
+<rect x="116" y="84" width="68" height="16" rx="8" fill="#dfe6f5"/><rect x="116" y="84" width="68" height="16" rx="8" fill="none" stroke="#141b47" stroke-width="2.5"/>
+<path d="M44 134Q150 190 256 134" fill="none" stroke="#141b47" stroke-width="9" stroke-linecap="round"/><path d="M44 134Q150 190 256 134" fill="none" stroke="#dfe6f5" stroke-width="3" stroke-dasharray="3 4"/>
+<g transform="translate(150 161)"><rect x="-7" y="-4" width="14" height="30" rx="6" fill="url(#pkMetal)" stroke="#141b47" stroke-width="2.5"/><circle cx="0" cy="17" r="3.2" fill="#141b47"/></g></g>
+</svg></button>
   </section>
 </main>
 <footer class="lp foot2">
   <a href="privacitat.html">Privacitat</a>
-  <span>Lletres: Fredoka i Andika (SIL OFL). Objectes 3D: «3dicons» de Vijay Verma (CC0). Dibuixos: Fluent Emoji de Microsoft (MIT).</span>
+  <span>Lletres: Fredoka i Andika (SIL OFL). Material escolar i dibuixos: Fluent Emoji de Microsoft (MIT). Icones de l'app: «3dicons» de Vijay Verma (CC0).</span>
 </footer>
 <div class="curtain" id="curtain" aria-hidden="true"></div>
 
@@ -150,34 +210,37 @@ const calm = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 /* ---------- títol lletra a lletra ---------- */
 el('title').querySelector('h1').innerHTML = [...'Motxilla 2A'].map((c, i) => c === ' ' ? ' ' : `<span aria-hidden="true" style="--i:${i}">${c}</span>`).join('');
-el('pack').innerHTML = motxi('happy');
 
 /* ---------- els objectes de la motxilla, amb física ---------- */
-const stage = el('stage'), pack = el('pack');
+const stage = el('stage'), pack = el('pack'), packb = el('packb'), packs = el('packs');
+const PK = [pack, packb];
+const pk = (add, ...c) => PK.forEach(x => x.classList[add ? 'add' : 'remove'](...c));
+let shown = false, timers = [];
+const later = (f, ms) => { const t = setTimeout(f, ms); timers.push(t); return t; };
+function finale() { if (shown) return; shown = true; el('title').classList.add('go'); later(() => { if (phase === 'float') { el('hint').classList.remove('off'); later(() => el('hint').classList.add('off'), 4200); } }, 2600); }
 const small = innerWidth < 700;
-const NAMES = ['pencil', 'notebook', 'calculator', 'scissor', 'paint-kit', 'rocket', 'puzzle', 'star', 'trophy', 'clock', 'zoom', 'bulb', 'medal', 'music', 'cube', 'paint-brush'];
+const NAMES = ['llibres', 'llibreta', 'boli', 'goma', 'llapis', 'regle', 'llibre-blau', 'tisores', 'cera', 'quadern', 'escaire', 'poma', 'llibre-verd', 'ploma', 'globus', 'paleta', 'llibreta-punts', 'pinzell', 'abac', 'suc', 'llibre-taronja', 'clip'];
 /* llocs on es queden surant: [x %, y %] (deixen lliure el títol i la motxilla) */
 const SLOTS = small
-  ? [[14, 52], [86, 52], [13, 70], [87, 70], [15, 89], [85, 89], [12, 37], [88, 37]]
-  : [[8, 16], [92, 15], [5, 40], [95, 39], [10, 63], [90, 62], [6, 86], [94, 86], [21, 78], [79, 79], [31, 91], [69, 91], [24, 55], [77, 54]];
+  ? [[13, 46], [87, 46], [12, 60], [88, 60], [13, 75], [87, 75], [14, 90], [86, 90], [12, 33], [88, 33]]
+  : [[8, 16], [92, 15], [5, 40], [95, 39], [10, 63], [90, 62], [6, 86], [94, 86], [21, 78], [79, 79], [30, 92], [70, 92], [24, 55], [77, 54], [16, 30], [85, 29]];
 let W = 0, H = 0, phase = 'idle', t0 = 0, last = 0, ptr = null;
 const objs = SLOTS.map((sl, i) => {
   const d = document.createElement('div'); d.className = 'obj';
-  const s = small ? 64 + (i % 3) * 12 : 104 + ((i * 37) % 5) * 20;
+  const s = small ? 58 + (i % 3) * 11 : 96 + ((i * 37) % 5) * 15;
   d.style.setProperty('--s', s + 'px');
-  d.innerHTML = `<img src="img/obj/${NAMES[i]}.png" alt="" draggable="false">`;
+  d.innerHTML = `<img src="img/esc/${NAMES[i]}.${NAMES[i] === 'goma' ? 'svg' : 'png'}" alt="" draggable="false">`;
   stage.appendChild(d);
   return { el: d, i, s, x: 0, y: 0, vx: 0, vy: 0, r: 0, vr: 0, sc: 0, r0: ((i * 53) % 40) - 20, slot: sl, drag: false };
 });
 function measure() { const b = stage.getBoundingClientRect(); W = b.width; H = b.height; }
-function mouth() { const r = pack.getBoundingClientRect(), s = stage.getBoundingClientRect(); return [r.left - s.left + r.width / 2, r.top - s.top + r.height * .22]; }
+function mouth() { const r = pack.getBoundingClientRect(), s = stage.getBoundingClientRect(); return [r.left - s.left + r.width / 2, r.top - s.top + r.height * .37]; }
 function paint(o) { o.el.style.transform = `translate3d(${o.x - o.s / 2}px,${o.y - o.s / 2}px,0) rotate(${o.r}deg) scale(${o.sc})`; }
 
 function burst() {
   measure(); const [mx, my] = mouth(); phase = 'burst'; t0 = performance.now();
-  pack.classList.remove('shake', 'pop'); void pack.offsetWidth; pack.classList.add('pop');
-  pack.innerHTML = motxi('wow'); setTimeout(() => { pack.innerHTML = motxi('happy'); }, 1600);
-  el('hint').classList.add('off'); el('title').classList.add('go');
+  pk(false, 'fly', 'pop'); packs.classList.remove('fly'); void pack.offsetWidth; pk(true, 'open', 'pop');
+  el('hint').classList.add('off'); later(finale, shown ? 0 : 1150);   /* el rètol, al final */
   objs.forEach((o, i) => {
     o.x = mx; o.y = my; o.sc = .15; o.r = 0; o.delay = i * 55; o.el.classList.add('live');
     o.vx = (Math.random() * 2 - 1) * W * .6; o.vy = -(H * 1.0 + Math.random() * H * .8); o.vr = (Math.random() * 2 - 1) * 620;
@@ -225,8 +288,15 @@ stage.addEventListener('pointerleave', () => { ptr = null; });
 addEventListener('resize', measure);
 pack.addEventListener('click', () => { if (phase === 'float' || phase === 'idle') { if (phase === 'float') { phase = 'suck'; setTimeout(burst, 520); } else burst(); } });
 
-if (calm) { measure(); phase = 'float'; el('title').classList.add('go'); el('hint').classList.add('off'); pack.classList.remove('shake'); objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.el.classList.add('live'); paint(o); }); }
-else { requestAnimationFrame(loop); setTimeout(() => { if (phase === 'idle') burst(); }, 1500); }
+if (calm) { measure(); phase = 'float'; shown = true; el('title').classList.add('go'); pk(false, 'fly'); packs.classList.remove('fly'); pk(true, 'open'); objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.el.classList.add('live'); paint(o); }); }
+else {
+  requestAnimationFrame(loop);
+  /* 1) entra volant i aterra  2) s'obri la tapa  3) ix el material  4) el rètol */
+  later(() => { if (phase === 'idle') pk(true, 'open'); }, 1020);
+  later(() => { if (phase === 'idle') burst(); }, 1330);
+  /* qui no vol esperar, toca la pantalla i ho té tot de colp */
+  stage.addEventListener('pointerdown', () => { if (shown) return; timers.forEach(clearTimeout); timers = []; if (phase === 'idle') burst(); finale(); });
+}
 
 /* ---------- entrar: tot torna a la motxilla i la motxilla ompli la pantalla ---------- */
 function enter(e) {
@@ -235,7 +305,7 @@ function enter(e) {
   if (calm) { location.href = url; return; }
   const inView = stage.getBoundingClientRect().bottom > 120;
   const c = el('curtain');
-  if (inView) { phase = 'suck'; const r = pack.getBoundingClientRect(); c.style.setProperty('--cx', r.left + r.width / 2 + 'px'); c.style.setProperty('--cy', r.top + r.height / 2 + 'px'); pack.classList.remove('pop'); void pack.offsetWidth; pack.classList.add('pop'); }
+  if (inView) { phase = 'suck'; const r = pack.getBoundingClientRect(); c.style.setProperty('--cx', r.left + r.width / 2 + 'px'); c.style.setProperty('--cy', r.top + r.height / 2 + 'px'); pk(false, 'pop'); void pack.offsetWidth; pk(true, 'pop'); setTimeout(() => pk(false, 'open'), 380); }
   else { c.style.setProperty('--cx', e.clientX + 'px'); c.style.setProperty('--cy', e.clientY + 'px'); }
   beep('win');
   setTimeout(() => c.classList.add('on'), inView ? 420 : 0);
@@ -243,7 +313,7 @@ function enter(e) {
 }
 el('enter').addEventListener('click', enter);
 document.querySelectorAll('[data-enter]').forEach(a => a.addEventListener('click', enter));
-addEventListener('pageshow', e => { if (e.persisted) { el('curtain').classList.remove('on'); if (phase === 'suck') phase = 'float'; } });
+addEventListener('pageshow', e => { if (e.persisted) { el('curtain').classList.remove('on'); if (phase === 'suck') phase = 'float'; pk(true, 'open'); } });
 
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
 window.__mx = () => phase; window.__mxTick = tick;

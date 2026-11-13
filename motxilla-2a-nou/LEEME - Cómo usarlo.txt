@@ -29,3 +29,9 @@ CONTRASEÑA, EVALUACIÓN SEMANAL, INFORME E IMPRESIÓN
   El acierto por área se empieza a apuntar desde esta versión; las semanas anteriores salen sin ese dato.
 - Impresión de ejercicios (Famílies > "Fitxes en PDF"): tema, un área entera, todos los temas o una evaluación de todas las áreas; de 6 a 40 ejercicios; nivel; 1, 2 o 3 modelos distintos (A, B, C); letra normal o grande; 1 o 2 columnas; con o sin explicación; con o sin soluciones. También "Avaluació en paper".
 - Imprimir lo que acaba de hacer: al terminar una sesión, una práctica o la evaluación, botón "Imprimeix estos exercicis (PDF)". En la hoja de soluciones sale también lo que respondió.
+
+PORTADA NUEVA (mochila realista)
+- Una mochila escolar dibujada con detalle (cremalleras, bolsillo, asas, botella) entra volando, aterriza, abre la tapa y suelta el material escolar: libros, libretas, bolis, lápices, goma, reglas, tijeras, ceras, globo terráqueo, etc. El letrero "Motxilla 2A" y el botón aparecen al final.
+- Tocar la pantalla durante la entrada lo muestra todo de golpe. Tocar la mochila vuelve a lanzar el material. Los objetos se pueden agarrar y lanzar.
+- Material escolar: Fluent Emoji de Microsoft (licencia MIT), en img/esc. La goma y la mochila están dibujadas para esta portada.
+- La mascota Motxi sigue dentro de la app.
