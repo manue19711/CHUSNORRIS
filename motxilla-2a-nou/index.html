@@ -313,11 +313,19 @@ function enter(e) {
   if (calm) { location.href = url; return; }
   const inView = stage.getBoundingClientRect().bottom > 120;
   const c = el('curtain');
-  if (inView) { phase = 'suck'; const r = pack.getBoundingClientRect(); c.style.setProperty('--cx', r.left + r.width / 2 + 'px'); c.style.setProperty('--cy', r.top + r.height / 2 + 'px'); pk(false, 'pop'); void pack.offsetWidth; pk(true, 'pop'); setTimeout(() => pk(false, 'open'), 380); }
+  if (inView) {
+    /* tot el material torna a la motxilla: si ja estava guardat, surt dels seus llocs i hi entra de nou */
+    measure();
+    if (phase === 'gone' || phase === 'idle') objs.forEach(o => { o.x = o.slot[0] / 100 * W; o.y = o.slot[1] / 100 * H; o.sc = 1; o.r = o.r0; o.vx = o.vy = 0; paint(o); o.el.classList.add('live'); });
+    phase = 'suck';
+    const r = pack.getBoundingClientRect(); c.style.setProperty('--cx', r.left + r.width / 2 + 'px'); c.style.setProperty('--cy', r.top + r.height / 2 + 'px');
+    pk(false, 'pop'); void pack.offsetWidth; pk(true, 'pop'); setTimeout(() => pk(false, 'open'), 380);
+  }
   else { c.style.setProperty('--cx', e.clientX + 'px'); c.style.setProperty('--cy', e.clientY + 'px'); }
   beep('win');
-  setTimeout(() => c.classList.add('on'), inView ? 420 : 0);
-  setTimeout(() => { location.href = url; }, inView ? 1120 : 700);
+  /* el telò espera que el material haja entrat a la motxilla */
+  setTimeout(() => c.classList.add('on'), inView ? 780 : 0);
+  setTimeout(() => { location.href = url; }, inView ? 1450 : 700);
 }
 el('enter').addEventListener('click', enter);
 document.querySelectorAll('[data-enter]').forEach(a => a.addEventListener('click', enter));
