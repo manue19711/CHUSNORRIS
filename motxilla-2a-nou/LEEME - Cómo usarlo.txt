@@ -19,3 +19,13 @@ TODOS LOS TEMAS ABIERTOS Y EJERCICIOS SIN FIN
   · Comprensión lectora (valenciano y castellano): 7 tipos de lectura que cambian de personaje, lugar, día, comida, etc. Salen miles de textos distintos, cada uno con 6 o 7 preguntas posibles.
 - La sesión diaria y las fichas en PDF también usan estos ejercicios nuevos.
 - Para volver a los ejercicios de antes basta quitar la línea de mes.js en app.html.
+
+CONTRASEÑA, EVALUACIÓN SEMANAL, INFORME E IMPRESIÓN
+- Contraseña del alumno (opcional): se elige al apuntarse. Si tiene contraseña, se le pide cada vez que entra. Es un cierre sencillo entre hermanos o compañeros, no una seguridad fuerte: todo sigue guardado solo en el navegador.
+  Si la olvida: Famílies > Alumnes > botón "Contrasenya / Canvia" para ponerla, cambiarla o quitarla.
+- Eliminar alumnos: Famílies > Alumnes > "Elimina" (pide confirmación). Se entra desde el candado o desde "Zona de famílies" en la pantalla de perfiles.
+- Evaluación semanal: en la pantalla "Avui", tarjeta "Avaluació de la setmana". 20 preguntas (4 de cada área) de los temas que ha trabajado; se corrige al final y se puede repetir.
+- Informe semanal para las familias: Famílies > "Informe setmanal". Días, minutos, ejercicios, acierto por área, resultado de la evaluación, temas dominados y errores. Se puede ver la semana anterior e imprimir o guardar en PDF.
+  El acierto por área se empieza a apuntar desde esta versión; las semanas anteriores salen sin ese dato.
+- Impresión de ejercicios (Famílies > "Fitxes en PDF"): tema, un área entera, todos los temas o una evaluación de todas las áreas; de 6 a 40 ejercicios; nivel; 1, 2 o 3 modelos distintos (A, B, C); letra normal o grande; 1 o 2 columnas; con o sin explicación; con o sin soluciones. También "Avaluació en paper".
+- Imprimir lo que acaba de hacer: al terminar una sesión, una práctica o la evaluación, botón "Imprimeix estos exercicis (PDF)". En la hoja de soluciones sale también lo que respondió.

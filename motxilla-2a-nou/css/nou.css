@@ -78,3 +78,31 @@ a{text-underline-offset:.22em;text-decoration-thickness:.09em}
   .trails>.trail:last-child:nth-child(odd) b{align-self:end}
   .trails>.trail:last-child:nth-child(odd) small{align-self:start}
 }
+
+/* ---------- contrasenya, avaluació i informe setmanal ---------- */
+.pcard{position:relative}
+.plock{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:#fff;color:#1b2559;display:grid;place-items:center}
+.plock svg{width:18px;height:18px}
+.modal input{max-width:none}
+.alist li{flex-wrap:wrap}
+.alist .btn svg{width:18px;height:18px}
+.evalcard{background:var(--mat-soft)}
+.pbar{display:block;height:12px;min-width:90px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:99px;background:var(--c)}
+.barcell{width:34%;vertical-align:middle}
+.evt td,.evt th{text-align:left}.evt .r{text-align:right}
+.qcard.wide .fix{text-align:left}
+.rep h2{margin-top:22px}
+.rep table{margin-top:6px}
+.rep .note{font-size:.9rem;color:var(--muted);margin-top:6px}
+.repfacts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0 6px}
+.repfacts div{background:var(--surface-2);border-radius:16px;padding:12px 14px;display:grid;gap:2px}
+.repfacts b{font:700 1.7rem var(--serif);font-variant-numeric:tabular-nums}
+.repfacts small{font-size:.85rem;color:var(--muted);line-height:1.25}
+.rep .fix{margin:8px 0 0;padding-left:20px;display:grid;gap:8px}
+@media (max-width:640px){.repfacts{grid-template-columns:repeat(2,minmax(0,1fr))}.barcell{display:none}}
+/* opcions d'impressió de les fitxes */
+.sheet.big .shqs,.sheet.big .shlearn,.sheet.big .shans{font-size:1.22em}
+.sheet.one .shqs{grid-template-columns:1fr}
+.sheet.one .shq{padding-bottom:46px}
+@media print{.repfacts{grid-template-columns:repeat(5,minmax(0,1fr))}.rep .shpage{break-after:auto}}

@@ -12,6 +12,7 @@ const fmtDate = (k = today()) => { const d = new Date(k + 'T12:00:00'); const s 
 const relDay = k => { if (!k) return '—'; const n = daysBetween(k, today()); return n === 0 ? 'Avui' : n === 1 ? 'Ahir' : `Fa ${n} dies`; };
 const TOTAL = Object.keys(SKILL).length;
 
+if (P() && P().pw) { A.current = null; save(); }   /* amb contrasenya, cada vegada es torna a demanar */
 let V = { name: P() ? 'home' : A.profiles.length ? 'profiles' : 'intro' };
 let Q = null;            // estat efímer de la pregunta actual
 let tick = Date.now();   // temps actiu de la sessió
@@ -62,11 +63,11 @@ function vProfiles() {
   <div class="hello mx"><span class="mxbox big">${motxi('happy')}</span><div><h1>${A.profiles.length ? 'Qui juga avui?' : 'Hola! Sóc Motxi'}</h1>
   <p>${A.profiles.length ? 'Toca el teu dibuix per a començar.' : 'Cada dia, uns minuts: primer repassem el que ja saps i després aprens una cosa nova. Crea el teu perfil per a començar.'}</p></div></div>
   <div class="profiles">
-    ${A.profiles.map(p => `<button class="pcard" data-profile="${p.id}"><img src="${av(p.avatar).src}" alt="">${esc(p.alias)}</button>`).join('')}
+    ${A.profiles.map(p => `<button class="pcard" data-profile="${p.id}"${p.pw ? ' aria-label="' + esc(p.alias) + ', amb contrasenya"' : ''}><img src="${av(p.avatar).src}" alt="">${esc(p.alias)}${p.pw ? `<span class="plock">${ico('i-lock')}</span>` : ''}</button>`).join('')}
     <button class="pcard add" data-go="new"><span>${ico('i-plus')}</span>Apunta't</button>
   </div>
   <div class="foot">
-    ${A.profiles.length ? `<button class="btn-text" data-go="gate">Zona de famílies</button>` : ''}
+    ${A.profiles.length ? `<button class="btn-text" data-go="gate">Zona de famílies: alumnes, informes i fitxes</button>` : ''}
     <label class="btn-text" style="display:inline-flex;align-items:center;cursor:pointer">Recupera un progrés guardat<input type="file" accept="application/json,.json" data-import hidden></label>
     <a class="btn-text" href="privacitat.html">Privacitat</a>
     <button class="btn-text" data-go="intro">Com funciona?</button>
@@ -81,10 +82,12 @@ function vNew() {
   const sel = V.avatar || AVATARS[0].id;
   return `<div class="center"><div class="welcome">
   <button class="btn-text" data-go="profiles">${ico('i-back')} Tornar</button>
-  <div class="hello mx" style="margin-top:12px"><span class="mxbox">${motxi('happy')}</span><div><h1>Apunta't!</h1><p>Sense correu, sense contrasenya i sense nom real: tot es queda en aquest dispositiu.</p></div></div>
+  <div class="hello mx" style="margin-top:12px"><span class="mxbox">${motxi('happy')}</span><div><h1>Apunta't!</h1><p>Sense correu i sense nom real: tot es queda en aquest dispositiu.</p></div></div>
   <form class="form" data-form="new">
     <div class="field"><label for="alias">Com et diem?</label><input id="alias" name="alias" autocomplete="off" maxlength="16" required aria-describedby="alias-h" value="${esc(V.alias || '')}">
       <p class="help" id="alias-h">Un àlies o un sobrenom, per exemple «Lluna» o «Capità Pi».</p></div>
+    <div class="field"><label for="pw">La teua contrasenya secreta</label><input id="pw" name="pw" type="password" autocomplete="new-password" maxlength="12" aria-describedby="pw-h" value="${esc(V.pw || '')}">
+      <p class="help" id="pw-h">Una paraula o un número que només sàpigues tu, per a entrar. Si la deixes buida, no te la demanarem. Si un dia l'oblides, la família la pot canviar.</p></div>
     <div class="field"><span style="display:block;font-weight:700;margin-bottom:8px" id="av-l">Tria el teu dibuix</span>
       <div class="avatars" role="group" aria-labelledby="av-l">${V.custom ? `<button type="button" data-avatar="${V.custom}" aria-pressed="${V.custom === sel}" aria-label="El meu dibuix"><img src="${V.custom}" alt=""></button>` : ''}${AVATARS.map(a => `<button type="button" data-avatar="${a.id}" aria-pressed="${a.id === sel}" aria-label="${esc(a.l)}"><img src="${a.src}" alt=""></button>`).join('')}</div>
       <label class="btn btn-soft upav">${ico('i-up')}Puja el teu dibuix<input type="file" accept="image/*" data-avup hidden></label>
@@ -143,6 +146,7 @@ function vHome() {
     ${undiag.length && !done ? `<div class="callout s12"><p><b>Per on comencem?</b> Una prova curta ens diu què ja saps, i així no repetim coses fàcils.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap">${undiag.map(a => `<button class="btn" style="background:var(--${a.id});color:var(--${a.id}-ink)" data-diag="${a.id}">${esc(a.short)}</button>`).join('')}</div></div>` : ''}
     ${p.settings.jocs !== false ? `<button class="gbanner s12" data-go="games"><img class="gb-obj" src="img/obj/puzzle.png" alt=""><span><b>Zona de jocs</b><small>Construeix nombres amb barres i quadradets, explota globus de sumes i més.</small></span><span class="btn btn-main">Juga</span></button>` : ''}
+    ${evalCard(p)}
     <section class="panel s12" aria-labelledby="tr-h">
       <h2 class="ptitle" id="tr-h">Els meus camins <button class="btn-text" data-go="map">Obri el mapa</button></h2>
       <div class="trails">${AREAS.map(a => {
@@ -256,7 +260,7 @@ function vRun() {
   const head = `<div class="runbar" style="${t ? cvars(t.area) : ''}">
     <button class="exit" data-act="exit">${ico('i-x')}<span>Surt</span></button>
     <div class="route" aria-hidden="true">${routeBar(run)}</div>
-    <span class="stage">${STAGES[st.type]}</span></div>`;
+    <span class="stage">${run.eval && st.type === 'review' ? 'Avaluació' : STAGES[st.type]}</span></div>`;
   let body = '';
   if (st.type === 'learn') body = learnView(st, t);
   else if (st.type === 'example') body = exampleView(st, t);
@@ -283,7 +287,7 @@ function answerControls(q) {
     <div class="pad" role="group" aria-label="Teclat de números">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(d => `<button data-key="${d}">${d}</button>`).join('')}<button class="del" data-key="del" aria-label="Esborra">${ico('i-del')}</button><button data-key="0">0</button><span></span><button class="ok" data-key="ok">Comprova</button></div>`;
 }
 function tagLine(st, t) {
-  const lbl = st.type === 'review' ? `Escalfem · ${AREA[t.area].short}` : st.type === 'diag' ? st.label : `${STAGES[st.type]} · ${t.t}`;
+  const lbl = st.type === 'review' ? `${P().run && P().run.eval ? 'Avaluació' : 'Escalfem'} · ${AREA[t.area].short}` : st.type === 'diag' ? st.label : `${STAGES[st.type]} · ${t.t}`;
   return `<div class="qtag"><i></i>${esc(lbl)}</div>`;
 }
 function questionView(st, t) {
@@ -404,6 +408,7 @@ function closeRun(p, run) {
   run.closed = true; run.sum = sum; save(); return sum;
 }
 function endView(p, run) {
+  if (run.eval) return evalEnd(p, run);
   const s = closeRun(p, run); const f = s.fresh; const ft = f ? SKILL[f.id] : null;
   let freshTxt = '';
   if (f && f.mastered) freshTxt = `Has dominat «${esc(ft.t)}». Nou segell al carnet!`;
@@ -424,7 +429,7 @@ function endView(p, run) {
       ${s.reviews.length ? `<p style="margin-top:10px;color:var(--muted)">Repàs: ${revOk} de ${s.reviews.length} habilitats sense cap errada. Les tornarem a veure d'ací a uns dies.</p>` : ''}
       ${s.fix.length ? `<h2 style="font-size:1.1rem;margin-top:22px">Correcció de l'escalfament</h2><ul class="fix">${s.fix.map(x => `<li>${esc(x.prompt)}<br>Has dit <s>${esc(x.given)}</s>, la resposta és <b>${esc(x.answer)}</b>. ${esc(x.explain)}</li>`).join('')}</ul>`
                   : s.reviews.length ? `<p style="margin-top:12px">L'escalfament, tot bé.</p>` : ''}
-      <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">${run.practice && run.pid ? `<button class="btn btn-main btn-big" data-more="${run.pid}">Més exercicis</button><button class="btn btn-soft btn-big" data-act="finish">Torna al mapa</button>` : `<button class="btn btn-main btn-big" data-act="finish">${run.practice ? 'Torna al mapa' : 'Fins demà'}</button>`}</div>
+      <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">${run.practice && run.pid ? `<button class="btn btn-main btn-big" data-more="${run.pid}">Més exercicis</button><button class="btn btn-soft btn-big" data-act="finish">Torna al mapa</button>` : `<button class="btn btn-main btn-big" data-act="finish">${run.practice ? 'Torna al mapa' : 'Fins demà'}</button>`}<button class="btn btn-soft btn-big" data-ev="runpdf">${ico('i-down')}Imprimeix estos exercicis (PDF)</button></div>
     </div>
     <div>${f && f.mastered ? `<div class="newstamp"><span class="seal"><img src="${ft.img}" alt=""></span><b>${esc(ft.t)}</b><small>Segell nou</small></div>`
        : ft ? `<div class="newstamp"><img src="${ft.img}" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px"><b>${esc(ft.t)}</b><small class="num">Dies amb ${MASTER_PCT} % o més: ${goodDays(sk(p, ft.id))} de ${MASTER_DAYS}</small></div>` : ''}</div>
@@ -515,6 +520,7 @@ function vAdults() {
   return shell('adults', `
   <header class="hello"><h1>Zona de famílies</h1><p>Progrés de ${esc(p.alias)}. Les dades només estan en aquest navegador; ningú més les rep.</p></header>
   ${famTools(p)}
+  ${famWeek(p)}
   ${A.profiles.length > 1 ? `<div class="seg" role="group" aria-label="Perfil" style="margin-bottom:20px">${A.profiles.map(x => `<button data-switch="${x.id}" aria-pressed="${x.id === p.id}" style="--c:var(--accent)">${esc(x.alias)}</button>`).join('')}</div>` : ''}
   <div class="grid">
     <section class="panel s7" aria-labelledby="ad-week">
@@ -569,7 +575,7 @@ function vAdults() {
 /* ======================= render i esdeveniments ======================= */
 function render() {
   if (V.name !== 'profiles' && V.name !== 'new' && V.name !== 'intro' && V.name !== 'gate' && V.name !== 'adults' && !P()) V = { name: 'profiles' };
-  const views = { profiles: vProfiles, new: vNew, home: vHome, map: vMap, carnet: vCarnet, run: vRun, diag: vDiag, gate: vGate, adults: vAdults, games: vGames, play: vPlay, intro: vIntro, sheet: vSheet };
+  const views = { profiles: vProfiles, new: vNew, home: vHome, map: vMap, carnet: vCarnet, run: vRun, diag: vDiag, gate: vGate, adults: vAdults, games: vGames, play: vPlay, intro: vIntro, sheet: vSheet, report: vReport };
   if (V.name === 'play' && !V.J) V = { name: 'games' };
   app.innerHTML = (views[V.name] || vHome)();
   document.title = { home: 'Avui', map: 'El mapa', carnet: 'El meu carnet', run: 'Sessió', diag: 'Prova de nivell', adults: 'Famílies', games: 'Jocs', play: 'Jocs', sheet: 'Fitxa' }[V.name] ? `${{ home: 'Avui', map: 'El mapa', carnet: 'El meu carnet', run: 'Sessió', diag: 'Prova de nivell', adults: 'Famílies', games: 'Jocs', play: 'Jocs', sheet: 'Fitxa' }[V.name]} · Motxilla 2A` : 'Motxilla 2A';
@@ -582,8 +588,8 @@ app.addEventListener('click', e => {
   const d = el.dataset;
   if (el.tagName === 'A' && d.go) e.preventDefault();
   if (d.go) { if (d.go === 'gate') return go({ name: 'gate' }); if (d.go === 'profiles') { A.current = null; save(); } return go({ name: d.go }); }
-  if (d.profile) { A.current = d.profile; save(); return go({ name: 'home' }); }
-  if (d.avatar) { V.avatar = d.avatar; V.alias = ($('#alias') || {}).value || ''; render(); const b = $$('[data-avatar]').find(x => x.dataset.avatar === d.avatar); if (b) b.focus(); return; }
+  if (d.profile) return enterProfile(d.profile);
+  if (d.avatar) { V.avatar = d.avatar; V.alias = ($('#alias') || {}).value || ''; V.pw = ($('#pw') || {}).value || ''; render(); const b = $$('[data-avatar]').find(x => x.dataset.avatar === d.avatar); if (b) b.focus(); return; }
   if (d.map) return go({ name: 'map', area: d.map });
   if (d.sel) { V.sel = d.sel; render(); const b = $(`[data-sel="${d.sel}"]`); if (b) b.focus(); if (innerWidth < 860) $('.detail').scrollIntoView({ behavior: 'smooth' }); return; }
   if (d.diag) return startDiag(d.diag);
@@ -604,7 +610,7 @@ app.addEventListener('click', e => {
   if (act === 'hint') { const q = curQ().q; $('#fb').innerHTML = `<div class="fb hint"><strong>Pista</strong><span>${esc(q.hint || 'Llig-ho una altra vegada a poc a poc.')}</span></div>`; el.hidden = true; return; }
   if (act === 'dunno') return diagAnswerUI(false, null);
   if (act === 'gamedone') { P().games++; V.G = null; return nextStep(); }
-  if (act === 'finish') { const pr = P().run && P().run.practice; P().run = pr ? null : P().run; save(); return go({ name: pr ? 'map' : 'home' }); }
+  if (act === 'finish') { const pr = P().run && P().run.practice, ev = P().run && P().run.eval; P().run = pr ? null : P().run; save(); return go({ name: pr && !ev ? 'map' : 'home' }); }
   if (act === 'exit') {
     const m = modal(`<h2>Vols parar?</h2><p>El que has fet es queda guardat. Pots continuar avui mateix des de l'inici.</p><div class="row"><button class="btn btn-main" data-m="stay">Continue</button><button class="btn btn-soft" data-m="leave">Para</button></div>`);
     m.addEventListener('click', ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeModal(); if (b.dataset.m === 'leave') { addTime(); save(); go({ name: 'home' }); } });
@@ -620,7 +626,7 @@ app.addEventListener('click', e => {
 
 app.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target.dataset.form;
-  if (f === 'new') { const alias = $('#alias').value.trim(); if (!alias) return $('#alias').focus(); newProfile(alias, V.avatar || AVATARS[0].id); go({ name: 'home' }); }
+  if (f === 'new') { const alias = $('#alias').value.trim(); if (!alias) return $('#alias').focus(); const np = newProfile(alias, V.avatar || AVATARS[0].id); const pw = ($('#pw') || {}).value || ''; if (pw.trim()) { np.pw = pwHash(np.id, pw); save(); } go({ name: 'home' }); }
   if (f === 'gate') {
     const v = $('#gate-in').value.trim(); const ok = A.pin ? v === A.pin : +v === V.qa.a * V.qa.b;
     if (ok) { V.qa = null; if (!P() && A.profiles.length) A.current = A.profiles[0].id; go({ name: 'adults' }); }

@@ -12,6 +12,10 @@ const today = () => dayKey();
 const addDays = (k, n) => { const d = new Date(k + 'T12:00:00'); d.setDate(d.getDate() + n); return dayKey(d); };
 const daysBetween = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 864e5);
 const uid = () => Math.random().toString(36).slice(2, 9);
+/* el dilluns de la setmana d'una data (clau AAAA-MM-DD) */
+function monday(k) { const d = new Date(k + 'T12:00:00'); return addDays(k, -((d.getDay() + 6) % 7)); }
+/* empremta de la contrasenya: no es guarda mai escrita tal qual */
+function pwHash(id, s) { let h = 5381; const t = id + '·' + String(s).trim().toLowerCase(); for (let i = 0; i < t.length; i++) h = ((h << 5) + h + t.charCodeAt(i)) >>> 0; return h.toString(36); }
 
 let STORAGE_OK = true;
 function load() {
@@ -28,7 +32,7 @@ const P = () => A.profiles.find(p => p.id === A.current) || null;
 /* La variable S la fan servir els generadors de problemes per a posar l'àlies en els enunciats. */
 const S = { get name() { const p = P(); return p ? p.alias : ''; } };
 
-function newProfile(alias, avatar) {
+function newProfile(alias, avatar) { /* torna el perfil creat */
   const p = { id: uid(), alias: alias.trim().slice(0, 16), avatar, created: today(), stars: 0, games: 0,
     settings: { len: 12, game: true, voice: false, free: true, open2: 1, sound: true, jocs: true }, best: {},
     skills: {}, days: {}, errors: [], diag: {}, run: null, lastArea: null };
@@ -52,6 +56,7 @@ const needsReinforce = s => { const l = lastPct(s); return l !== null && l < MAS
 function dayRec(p, d = today()) { return (p.days[d] ||= { ms: 0, a: 0, c: 0, done: false }); }
 function logAnswer(p, skillId, ok, q, given) {
   const d = dayRec(p); d.a++; if (ok) d.c++;
+  const ar = SKILL[skillId] && SKILL[skillId].area; if (ar) { const w = ((p.wk ||= {})[monday(today())] ||= {}), x = (w[ar] ||= { a: 0, c: 0 }); x.a++; if (ok) x.c++; }
   sk(p, skillId).last = today();
   if (!ok) { p.errors.push({ d: today(), s: skillId, q: strip(q.prompt).slice(0, 140), g: given == null ? '—' : String(given), a: q.answer }); if (p.errors.length > 80) p.errors.shift(); }
 }
