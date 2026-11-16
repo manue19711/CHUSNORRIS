@@ -295,8 +295,10 @@ def resumen_vintage(sel, quien, pelo):
     if pelo == "ella-epoca" and quien == "el":
         pelo = "identico"
     for cat in CAT_VINTAGE:
-        if pelo == "ella-epoca" and cat == "pelo_el":
+        if pelo == "ella-epoca" and cat == "pelo_el" and quien == "pareja":
             out.append("- Pelo él: idéntico a su foto")
+            continue
+        if pelo == "ella-epoca" and cat in ("pelo_el", "pelo_ella") and cat == "pelo_el":
             continue
         if pelo == "ella-epoca" and cat == "pelo_ella":
             out.append(f"- Pelo ella: años 50 · [{sel[cat]['id']}] {sel[cat]['es']} (mismo color)")
