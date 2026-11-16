@@ -1,0 +1,2466 @@
+{
+  "_nota": "Estilo 'actual': fotos lifestyle navideñas naturales, ropa de diario, 9:16. Actividades: [categoria, grupo_de_lugar, es, en, (opcional) min_personas]. Categoría K = actividades EXTRA inventadas.",
+  "categorias": {
+    "A": "Repostería y cocina",
+    "B": "Decorar",
+    "C": "Compras",
+    "D": "Envolver y preparar regalos",
+    "E": "Aventuras en la nieve",
+    "F": "Salidas y viajes",
+    "G": "Casa acogedora",
+    "H": "Caos divertido",
+    "I": "Tradiciones entrañables",
+    "J": "Magia extra",
+    "K": "EXTRA inventadas"
+  },
+  "actividades": [
+    [
+      "A",
+      "cocina",
+      "Galletas de azúcar caseras",
+      "baking homemade Christmas sugar cookies, cutters and flour everywhere"
+    ],
+    [
+      "A",
+      "cocina",
+      "Decorar hombrecitos de jengibre",
+      "decorating gingerbread men with piping bags of icing"
+    ],
+    [
+      "A",
+      "cocina",
+      "Construir una casita de jengibre",
+      "building a gingerbread house, holding the walls together while the icing sets"
+    ],
+    [
+      "A",
+      "cocina",
+      "Hacer turrón de menta (peppermint bark)",
+      "making peppermint bark, crushing candy canes over melted chocolate"
+    ],
+    [
+      "A",
+      "cocina",
+      "Estirar masa de galletas",
+      "rolling out Christmas cookie dough with a wooden rolling pin"
+    ],
+    [
+      "A",
+      "cocina",
+      "Decorar cupcakes elaborados",
+      "decorating elaborate Christmas cupcakes with swirls of frosting"
+    ],
+    [
+      "A",
+      "cocina",
+      "Rollos de canela caseros",
+      "making homemade cinnamon rolls, pulling a tray out of the oven"
+    ],
+    [
+      "A",
+      "cocina",
+      "Desayuno de mañana de Navidad",
+      "preparing a Christmas morning breakfast of pancakes and berries"
+    ],
+    [
+      "A",
+      "cocina",
+      "Hacer caramelos navideños",
+      "making Christmas candy, pouring hot sugar syrup carefully"
+    ],
+    [
+      "A",
+      "cocina",
+      "Decorar una tarta navideña",
+      "decorating a holiday cake with a spatula and sugar decorations"
+    ],
+    [
+      "A",
+      "cocina",
+      "Chocolate caliente casero",
+      "mixing homemade hot chocolate on the stove, whisking a pot"
+    ],
+    [
+      "A",
+      "cocina",
+      "Hacer fudge",
+      "cutting squares of homemade Christmas fudge"
+    ],
+    [
+      "A",
+      "cocina",
+      "Hornear tartas de fiesta",
+      "crimping the crust of a holiday pie"
+    ],
+    [
+      "A",
+      "cocina",
+      "Preparar la cena de Navidad",
+      "preparing Christmas dinner, basting a roast and juggling pots"
+    ],
+    [
+      "A",
+      "cocina",
+      "Pretzels con chocolate",
+      "dipping pretzels in chocolate and adding sprinkles"
+    ],
+    [
+      "A",
+      "cocina",
+      "Glasear galletas de colores",
+      "decorating cookies with colorful frosting, tongue out in concentration"
+    ],
+    [
+      "A",
+      "casa",
+      "Guirnaldas de palomitas",
+      "threading popcorn garlands with needle and string"
+    ],
+    [
+      "A",
+      "cocina",
+      "Bandejas de aperitivos",
+      "arranging festive holiday snack trays"
+    ],
+    [
+      "A",
+      "cocina",
+      "Adornos de masa de sal",
+      "shaping homemade salt-dough Christmas ornaments"
+    ],
+    [
+      "A",
+      "cocina",
+      "Desastre repostero divertido",
+      "a hilarious Christmas baking disaster: collapsed cake, flour cloud, burnt edges"
+    ],
+    [
+      "B",
+      "casa",
+      "Desenredar luces",
+      "untangling a giant pile of Christmas lights"
+    ],
+    [
+      "B",
+      "casa",
+      "Decorar el árbol",
+      "decorating the Christmas tree"
+    ],
+    [
+      "B",
+      "casa",
+      "Colgar bolas",
+      "hanging ornaments one by one, choosing the perfect branch"
+    ],
+    [
+      "B",
+      "casa",
+      "Poner la estrella",
+      "putting the star on top of the tree from a small step stool"
+    ],
+    [
+      "B",
+      "casa",
+      "Colgar calcetines",
+      "hanging stockings on the mantel"
+    ],
+    [
+      "B",
+      "casa",
+      "Decorar la repisa de la chimenea",
+      "styling the fireplace mantel with garland and candles"
+    ],
+    [
+      "B",
+      "exterior_casa",
+      "Colgar luces exteriores",
+      "hanging outdoor Christmas lights along the roofline from a ladder"
+    ],
+    [
+      "B",
+      "exterior_casa",
+      "Decorar el porche",
+      "decorating the front porch with lanterns and garland"
+    ],
+    [
+      "B",
+      "casa",
+      "Montar el pueblo navideño",
+      "arranging miniature Christmas village houses with fake snow"
+    ],
+    [
+      "B",
+      "casa",
+      "Montar el tren navideño",
+      "setting up a miniature Christmas train around the tree"
+    ],
+    [
+      "B",
+      "casa",
+      "Guirnalda en la escalera",
+      "wrapping a staircase banister with garland"
+    ],
+    [
+      "B",
+      "exterior_casa",
+      "Colgar la corona",
+      "hanging a Christmas wreath on the front door"
+    ],
+    [
+      "B",
+      "casa",
+      "Decorar el dormitorio",
+      "decorating a bedroom with fairy lights and a tiny tree"
+    ],
+    [
+      "B",
+      "cocina",
+      "Decorar la cocina",
+      "decorating the kitchen with garland and festive towels"
+    ],
+    [
+      "B",
+      "exterior_casa",
+      "Montar un hinchable",
+      "setting up a giant outdoor Christmas inflatable that is half-inflated"
+    ],
+    [
+      "B",
+      "casa",
+      "Centro de mesa casero",
+      "making a homemade Christmas centerpiece with pine, pinecones and candles"
+    ],
+    [
+      "B",
+      "casa",
+      "Decorar la mesa del comedor",
+      "decorating a dining room table"
+    ],
+    [
+      "B",
+      "casa",
+      "Revisar adornos antiguos",
+      "sorting through old boxes of Christmas decorations"
+    ],
+    [
+      "B",
+      "casa",
+      "Colocar velas",
+      "setting up and lighting Christmas candles"
+    ],
+    [
+      "B",
+      "casa",
+      "Desastre decorando",
+      "laughing over a Christmas decorating disaster: the garland just fell down"
+    ],
+    [
+      "C",
+      "tienda",
+      "Comprar regalos",
+      "shopping for Christmas presents, comparing two options"
+    ],
+    [
+      "C",
+      "tienda",
+      "Tienda de bolas navideñas",
+      "browsing a Christmas ornament store, holding a glass ornament up to the light"
+    ],
+    [
+      "C",
+      "tienda",
+      "Elegir pijamas navideños",
+      "choosing holiday pajamas, holding one up against the body"
+    ],
+    [
+      "C",
+      "tienda",
+      "Comprar detalles para el calcetín",
+      "shopping for stocking stuffers"
+    ],
+    [
+      "C",
+      "tienda",
+      "Tienda de manualidades",
+      "exploring a Christmas craft store aisle"
+    ],
+    [
+      "C",
+      "tienda",
+      "Mirar decoraciones",
+      "looking through Christmas decorations on high shelves"
+    ],
+    [
+      "C",
+      "mercado",
+      "Mercadillo navideño",
+      "shopping at a holiday market stall"
+    ],
+    [
+      "C",
+      "pueblo",
+      "Cargando bolsas llenas",
+      "carrying overflowing shopping bags down a festive street"
+    ],
+    [
+      "C",
+      "tienda",
+      "Buscar el regalo perfecto",
+      "searching for the perfect Christmas gift, deep in thought"
+    ],
+    [
+      "C",
+      "tienda",
+      "Comprar cosas de repostería",
+      "shopping for holiday baking supplies"
+    ],
+    [
+      "C",
+      "tienda",
+      "Elegir papel de regalo",
+      "choosing festive wrapping paper rolls"
+    ],
+    [
+      "C",
+      "tienda",
+      "Oler velas navideñas",
+      "browsing and smelling Christmas candles"
+    ],
+    [
+      "C",
+      "granja",
+      "Elegir el árbol de Navidad",
+      "picking out a Christmas tree, measuring it by eye"
+    ],
+    [
+      "C",
+      "tienda",
+      "Comprar flores de Navidad",
+      "buying poinsettias and Christmas flowers"
+    ],
+    [
+      "C",
+      "tienda",
+      "Jerséis feos de Navidad",
+      "shopping for ugly Christmas sweaters, trying the worst one on"
+    ],
+    [
+      "C",
+      "tienda",
+      "Librería navideña",
+      "exploring a festive bookstore"
+    ],
+    [
+      "C",
+      "tienda",
+      "Tienda de golosinas",
+      "visiting a holiday candy shop with jars of treats"
+    ],
+    [
+      "C",
+      "tienda",
+      "Compra para la cena",
+      "shopping for Christmas dinner groceries"
+    ],
+    [
+      "C",
+      "coche",
+      "Cargar las compras en el coche",
+      "loading Christmas purchases into a car trunk"
+    ],
+    [
+      "C",
+      "tienda",
+      "Accidente con el carrito",
+      "a funny shopping-cart mishap, the cart overflowing and tipping"
+    ],
+    [
+      "D",
+      "casa",
+      "Envolver en el suelo del salón",
+      "wrapping Christmas presents on the living room floor"
+    ],
+    [
+      "D",
+      "casa",
+      "Cortar papel en la mesa",
+      "cutting wrapping paper at a dining table"
+    ],
+    [
+      "D",
+      "casa",
+      "Hacer lazos elaborados",
+      "making elaborate Christmas bows"
+    ],
+    [
+      "D",
+      "casa",
+      "Rellenar calcetines",
+      "stuffing Christmas stockings"
+    ],
+    [
+      "D",
+      "casa",
+      "Escribir felicitaciones",
+      "writing Christmas cards"
+    ],
+    [
+      "D",
+      "casa",
+      "Poner direcciones en sobres",
+      "addressing Christmas envelopes"
+    ],
+    [
+      "D",
+      "casa",
+      "Ordenar regalos bajo el árbol",
+      "organizing presents beneath the tree"
+    ],
+    [
+      "D",
+      "casa",
+      "Esconder regalos en el armario",
+      "hiding gifts in a closet, glancing back to check nobody sees"
+    ],
+    [
+      "D",
+      "casa",
+      "Montar cestas de regalo",
+      "assembling Christmas gift baskets"
+    ],
+    [
+      "D",
+      "casa",
+      "Adornos personalizados",
+      "making personalized ornaments with paint pens"
+    ],
+    [
+      "D",
+      "casa",
+      "Paquetes para enviar",
+      "putting together Christmas care packages for mailing"
+    ],
+    [
+      "D",
+      "casa",
+      "Regalos hechos a mano",
+      "creating handmade gifts at a craft table"
+    ],
+    [
+      "D",
+      "casa",
+      "Clasificar paquetes",
+      "sorting holiday packages by the front door"
+    ],
+    [
+      "D",
+      "casa",
+      "Decorar cajas de regalo",
+      "decorating gift boxes with stamps and twine"
+    ],
+    [
+      "D",
+      "casa",
+      "Envolver regalos con formas raras",
+      "wrapping an absurdly oddly shaped present"
+    ],
+    [
+      "D",
+      "casa",
+      "Amigo invisible",
+      "preparing Secret Santa gifts"
+    ],
+    [
+      "D",
+      "casa",
+      "Etiquetas caseras",
+      "making homemade Christmas gift tags"
+    ],
+    [
+      "D",
+      "casa",
+      "Ordenar cintas",
+      "organizing a rainbow of gift ribbons"
+    ],
+    [
+      "D",
+      "casa",
+      "Regalos para donar",
+      "preparing gifts for a donation drive"
+    ],
+    [
+      "D",
+      "casa",
+      "Enredo de papel y celo",
+      "getting hilariously tangled in wrapping paper and tape"
+    ],
+    [
+      "E",
+      "pueblo",
+      "Pueblo navideño nevado",
+      "walking through a snowy Christmas village"
+    ],
+    [
+      "E",
+      "patinaje",
+      "Patinar sobre hielo",
+      "ice skating on an outdoor rink"
+    ],
+    [
+      "E",
+      "colina",
+      "Bajar en trineo",
+      "sledding down a snowy hill"
+    ],
+    [
+      "E",
+      "nieve",
+      "Muñeco de nieve",
+      "building a snowman"
+    ],
+    [
+      "E",
+      "nieve",
+      "Ángeles de nieve",
+      "making snow angels"
+    ],
+    [
+      "E",
+      "nieve",
+      "Guerra de bolas de nieve",
+      "a playful snowball fight, snow bursting mid-air"
+    ],
+    [
+      "E",
+      "pueblo",
+      "Paseo bajo farolas navideñas",
+      "walking beneath Christmas streetlights"
+    ],
+    [
+      "E",
+      "nieve",
+      "Parque nevado",
+      "exploring a snow-covered park"
+    ],
+    [
+      "E",
+      "nieve",
+      "Chocolate junto a una hoguera",
+      "drinking hot chocolate beside an outdoor fire pit"
+    ],
+    [
+      "E",
+      "granja",
+      "Paseo por la granja de árboles",
+      "walking through a Christmas tree farm"
+    ],
+    [
+      "E",
+      "nieve",
+      "Paseo en trineo de caballos (sin conductor)",
+      "riding in a horse-drawn sleigh, reins in hand, with no additional human driver"
+    ],
+    [
+      "E",
+      "nieve",
+      "Lago helado",
+      "exploring a frozen lakeside"
+    ],
+    [
+      "E",
+      "nieve",
+      "Fotos de invierno",
+      "taking winter photographs with a camera"
+    ],
+    [
+      "E",
+      "cabana",
+      "Escapada a cabaña nevada",
+      "enjoying a snowy cabin getaway, stepping out onto the deck"
+    ],
+    [
+      "E",
+      "nieve",
+      "Pasear perros con jersey",
+      "walking dogs wearing Christmas sweaters"
+    ],
+    [
+      "E",
+      "exterior_casa",
+      "Adornos de alpiste para pájaros",
+      "hanging birdseed ornaments on an outdoor tree"
+    ],
+    [
+      "E",
+      "exterior_casa",
+      "Decorar un árbol exterior",
+      "decorating an outdoor tree"
+    ],
+    [
+      "E",
+      "exterior_casa",
+      "Ver nevar desde el porche",
+      "watching snow fall from a porch"
+    ],
+    [
+      "E",
+      "nieve",
+      "Paseo navideño por la naturaleza",
+      "taking a snowy Christmas nature walk"
+    ],
+    [
+      "E",
+      "nieve",
+      "Fuerte de nieve",
+      "building a Christmas snow fort"
+    ],
+    [
+      "F",
+      "coche",
+      "Ver luces en coche",
+      "driving around looking at Christmas lights, photographed from inside the car"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Exposición de luces",
+      "visiting a Christmas light display tunnel"
+    ],
+    [
+      "F",
+      "coche",
+      "Viaje por carretera navideño",
+      "on a festive holiday road trip"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Parada en un diner decorado",
+      "stopping at a decorated roadside diner booth"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Cafetería navideña",
+      "visiting a Christmas-themed coffee shop"
+    ],
+    [
+      "F",
+      "mercado",
+      "Festival navideño de pueblo",
+      "exploring a small-town Christmas festival"
+    ],
+    [
+      "F",
+      "tienda",
+      "Invernadero navideño",
+      "visiting a holiday greenhouse full of poinsettias"
+    ],
+    [
+      "F",
+      "cabana",
+      "Retiro en cabaña",
+      "enjoying a Christmas cabin retreat"
+    ],
+    [
+      "F",
+      "granja",
+      "Puesto de árboles en la carretera",
+      "stopping at a roadside Christmas tree stand"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Centro histórico decorado",
+      "exploring a decorated historic downtown"
+    ],
+    [
+      "F",
+      "tienda",
+      "Librería temática",
+      "visiting a Christmas-themed bookstore"
+    ],
+    [
+      "F",
+      "nieve",
+      "Picnic de invierno",
+      "enjoying a winter picnic on a blanket"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Jardín botánico decorado",
+      "exploring a decorated botanical garden"
+    ],
+    [
+      "F",
+      "tienda",
+      "Exposición de trenes",
+      "visiting a holiday model train display"
+    ],
+    [
+      "F",
+      "coche",
+      "Ruta panorámica de invierno",
+      "taking a scenic winter drive, pulled over at a viewpoint"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Luces reflejadas en el agua",
+      "enjoying Christmas lights reflected on a waterfront"
+    ],
+    [
+      "F",
+      "coche",
+      "Fotos en la carretera",
+      "stopping for festive roadside photographs"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Pueblo de montaña navideño",
+      "exploring a charming mountain Christmas town"
+    ],
+    [
+      "F",
+      "playa",
+      "Paseo marítimo navideño",
+      "enjoying Christmas decorations along a beach boardwalk"
+    ],
+    [
+      "F",
+      "pueblo",
+      "Aventura espontánea",
+      "a spontaneous Christmas travel adventure with a rolling suitcase"
+    ],
+    [
+      "G",
+      "casa",
+      "Pelis navideñas bajo mantas",
+      "watching Christmas movies under blankets"
+    ],
+    [
+      "G",
+      "casa",
+      "Leer una novela navideña",
+      "reading a Christmas novel"
+    ],
+    [
+      "G",
+      "casa",
+      "Música junto a la chimenea",
+      "enjoying Christmas music by the fireplace"
+    ],
+    [
+      "G",
+      "exterior_casa",
+      "Café en el porche decorado",
+      "drinking coffee on a decorated porch"
+    ],
+    [
+      "G",
+      "casa",
+      "Puzle navideño",
+      "working on a Christmas jigsaw puzzle"
+    ],
+    [
+      "G",
+      "casa",
+      "Copos de nieve de papel",
+      "cutting paper snowflakes"
+    ],
+    [
+      "G",
+      "casa",
+      "Relax en pijama navideño",
+      "relaxing in festive pajamas"
+    ],
+    [
+      "G",
+      "casa",
+      "Mañana tranquila nevada",
+      "enjoying a quiet snowy morning at the window"
+    ],
+    [
+      "G",
+      "casa",
+      "Desayuno navideño en la cama",
+      "having Christmas breakfast in bed"
+    ],
+    [
+      "G",
+      "casa",
+      "Juegos de mesa navideños",
+      "playing Christmas board games",
+      "2"
+    ],
+    [
+      "G",
+      "casa",
+      "Mirar fotos antiguas",
+      "looking through old Christmas photographs in an album"
+    ],
+    [
+      "G",
+      "casa",
+      "Manualidades caseras",
+      "making homemade Christmas crafts"
+    ],
+    [
+      "G",
+      "casa",
+      "Maratón de pelis",
+      "a cozy Christmas movie marathon with snacks everywhere"
+    ],
+    [
+      "G",
+      "casa",
+      "Doblar mantas navideñas",
+      "folding Christmas blankets"
+    ],
+    [
+      "G",
+      "cocina",
+      "Estación de chocolate caliente",
+      "setting up a holiday hot cocoa station"
+    ],
+    [
+      "G",
+      "casa",
+      "Noche a la luz de las velas",
+      "enjoying a candlelit Christmas evening"
+    ],
+    [
+      "G",
+      "casa",
+      "Escuchar discos navideños",
+      "listening to Christmas vinyl records"
+    ],
+    [
+      "G",
+      "casa",
+      "Descansar tras decorar",
+      "relaxing after decorating, surrounded by empty boxes"
+    ],
+    [
+      "G",
+      "casa",
+      "Amanecer navideño tranquilo",
+      "enjoying a peaceful Christmas sunrise"
+    ],
+    [
+      "G",
+      "casa",
+      "Dormirse junto al árbol",
+      "falling asleep beside a softly glowing Christmas tree"
+    ],
+    [
+      "H",
+      "casa",
+      "Tirar una caja de bolas",
+      "accidentally knocking over a box of ornaments"
+    ],
+    [
+      "H",
+      "casa",
+      "Enredado en luces",
+      "getting completely tangled in Christmas lights"
+    ],
+    [
+      "H",
+      "casa",
+      "Se cae el montón de papel",
+      "dropping a giant pile of wrapping paper rolls"
+    ],
+    [
+      "H",
+      "cocina",
+      "Galletas quemadas",
+      "burning a batch of Christmas cookies, smoke rising from the tray"
+    ],
+    [
+      "H",
+      "casa",
+      "Pelea con el árbol artificial",
+      "wrestling with a stubborn artificial tree"
+    ],
+    [
+      "H",
+      "cocina",
+      "Fideos de colores derramados",
+      "accidentally spilling holiday sprinkles everywhere"
+    ],
+    [
+      "H",
+      "casa",
+      "Cargar un regalo enorme",
+      "struggling to carry an oversized Christmas present"
+    ],
+    [
+      "H",
+      "pueblo",
+      "Avalancha de bolsas",
+      "losing control of a mountain of shopping bags"
+    ],
+    [
+      "H",
+      "casa",
+      "Atrapado en una corona gigante",
+      "getting stuck inside a giant Christmas wreath"
+    ],
+    [
+      "H",
+      "cocina",
+      "Derribar la casita de jengibre",
+      "accidentally knocking over a gingerbread house"
+    ],
+    [
+      "H",
+      "casa",
+      "Pelea con el rollo de papel",
+      "fighting with a roll of wrapping paper that keeps rolling back"
+    ],
+    [
+      "H",
+      "cocina",
+      "Experimento repostero desastroso",
+      "discovering a disastrous holiday baking experiment in the oven"
+    ],
+    [
+      "H",
+      "casa",
+      "Desenredar una cinta gigante",
+      "attempting to untangle a giant ribbon"
+    ],
+    [
+      "H",
+      "casa",
+      "Un adorno se desmonta",
+      "a Christmas decoration falling apart in their hands"
+    ],
+    [
+      "H",
+      "casa",
+      "Carcajadas preparando todo",
+      "laughing hysterically during holiday preparations"
+    ],
+    [
+      "I",
+      "casa",
+      "Colgar un adorno familiar querido",
+      "hanging a treasured family ornament"
+    ],
+    [
+      "I",
+      "cocina",
+      "Preparar la cena de Nochebuena",
+      "preparing Christmas Eve dinner"
+    ],
+    [
+      "I",
+      "casa",
+      "Felicitaciones sentidas",
+      "writing heartfelt Christmas cards"
+    ],
+    [
+      "I",
+      "casa",
+      "Encender velas navideñas",
+      "lighting Christmas candles"
+    ],
+    [
+      "I",
+      "casa",
+      "Álbum de recuerdos navideños",
+      "creating a Christmas memory scrapbook"
+    ],
+    [
+      "I",
+      "casa",
+      "Caja de donaciones",
+      "preparing a Christmas donation box"
+    ],
+    [
+      "I",
+      "casa",
+      "Dejar galletas para Papá Noel",
+      "setting out Christmas cookies and milk"
+    ],
+    [
+      "I",
+      "exterior_casa",
+      "Compartir dulces caseros",
+      "delivering a plate of homemade holiday treats to a neighbor's door"
+    ],
+    [
+      "I",
+      "casa",
+      "Calendario de Adviento",
+      "making a Christmas countdown calendar"
+    ],
+    [
+      "I",
+      "casa",
+      "Nochebuena tranquila",
+      "enjoying a quiet Christmas Eve"
+    ],
+    [
+      "I",
+      "casa",
+      "Abrir un regalo especial",
+      "opening a meaningful Christmas gift, emotional"
+    ],
+    [
+      "I",
+      "casa",
+      "Adorno recuerdo",
+      "making a holiday memory ornament with a photo inside"
+    ],
+    [
+      "I",
+      "casa",
+      "Poner una mesa preciosa",
+      "setting a beautiful Christmas dinner table"
+    ],
+    [
+      "I",
+      "exterior_casa",
+      "Ver la primera nevada",
+      "watching the first snowfall, catching flakes"
+    ],
+    [
+      "I",
+      "casa",
+      "Mañana de Navidad tranquila",
+      "enjoying a peaceful Christmas morning"
+    ],
+    [
+      "J",
+      "casa",
+      "Karaoke navideño",
+      "singing Christmas karaoke at home with a hairbrush microphone"
+    ],
+    [
+      "J",
+      "casa",
+      "Bailar mientras decoran",
+      "dancing while decorating"
+    ],
+    [
+      "J",
+      "casa",
+      "Fiesta de pijamas navideña",
+      "having a Christmas pajama party"
+    ],
+    [
+      "J",
+      "cocina",
+      "Tabla de embutidos navideña",
+      "making a holiday charcuterie board shaped like a wreath"
+    ],
+    [
+      "J",
+      "coche",
+      "Decorar el coche",
+      "decorating a car for Christmas with antlers and a red nose"
+    ],
+    [
+      "J",
+      "pueblo",
+      "Selfies navideños",
+      "taking Christmas selfies in front of festive lights"
+    ],
+    [
+      "J",
+      "casa",
+      "Crear contenido para redes",
+      "creating holiday social media content with a phone on a mini tripod"
+    ],
+    [
+      "J",
+      "cocina",
+      "Velas caseras",
+      "making homemade Christmas candles, pouring wax"
+    ],
+    [
+      "J",
+      "cocina",
+      "Concurso de decorar galletas",
+      "hosting a Christmas cookie decorating competition",
+      "2"
+    ],
+    [
+      "J",
+      "casa",
+      "Noche de manualidades",
+      "having a Christmas craft night"
+    ],
+    [
+      "J",
+      "casa",
+      "Arreglo floral navideño",
+      "creating a Christmas floral arrangement"
+    ],
+    [
+      "J",
+      "cocina",
+      "Organizar estación de repostería",
+      "organizing a holiday baking station"
+    ],
+    [
+      "J",
+      "casa",
+      "Decorar tazas",
+      "decorating Christmas mugs with ceramic paint"
+    ],
+    [
+      "J",
+      "casa",
+      "Lista de deseos navideña",
+      "writing a Christmas bucket list"
+    ],
+    [
+      "J",
+      "casa",
+      "Spa de invierno",
+      "enjoying a festive winter spa evening with face masks and robes"
+    ],
+    [
+      "J",
+      "cocina",
+      "Brunch navideño",
+      "having a Christmas brunch"
+    ],
+    [
+      "J",
+      "casa",
+      "Hacer una corona",
+      "making a Christmas wreath from fresh greenery"
+    ],
+    [
+      "J",
+      "casa",
+      "Decoraciones hechas a mano",
+      "creating handmade holiday decorations"
+    ],
+    [
+      "J",
+      "casa",
+      "Noche de juegos",
+      "hosting a holiday game night",
+      "2"
+    ],
+    [
+      "J",
+      "playa",
+      "Atardecer navideño",
+      "celebrating a beautiful Christmas sunset"
+    ],
+    [
+      "K",
+      "exterior_casa",
+      "EXTRA · Quitar nieve con pala para despejar el camino al árbol",
+      "shoveling snow to clear a path, then posing triumphantly on the shovel"
+    ],
+    [
+      "K",
+      "casa",
+      "EXTRA · Montar el Belén",
+      "setting up a nativity scene, placing the tiny figures"
+    ],
+    [
+      "K",
+      "cocina",
+      "EXTRA · Roscón de Reyes",
+      "making a Roscón de Reyes, placing candied fruit on top"
+    ],
+    [
+      "K",
+      "casa",
+      "EXTRA · Probarse el jersey feo tejido por la abuela",
+      "trying on a hilariously ugly hand-knitted Christmas sweater"
+    ],
+    [
+      "K",
+      "casa",
+      "EXTRA · Fotografiar al perro con gorro de Papá Noel",
+      "trying to photograph a dog wearing a Santa hat that keeps falling off"
+    ],
+    [
+      "K",
+      "cocina",
+      "EXTRA · Uvas de Nochevieja de práctica",
+      "practicing eating twelve grapes as fast as possible"
+    ],
+    [
+      "K",
+      "casa",
+      "EXTRA · Escribir la carta a los Reyes Magos",
+      "writing a letter to the Three Kings in fancy handwriting"
+    ],
+    [
+      "K",
+      "pueblo",
+      "EXTRA · Comprar castañas asadas",
+      "buying roasted chestnuts from an unattended street cart, paper cone in hand"
+    ],
+    [
+      "K",
+      "casa",
+      "EXTRA · Proyectar luces navideñas en la pared",
+      "setting up a projector that throws snowflakes across the living room walls"
+    ],
+    [
+      "K",
+      "colina",
+      "EXTRA · Esquí con gorro navideño",
+      "skiing down a gentle slope in a Santa hat"
+    ],
+    [
+      "K",
+      "cocina",
+      "EXTRA · Hacer polvorones",
+      "making polvorones and wrapping them in tissue paper"
+    ],
+    [
+      "K",
+      "casa",
+      "EXTRA · Montar una cabaña de mantas con luces",
+      "building a blanket fort lit with fairy lights"
+    ],
+    [
+      "K",
+      "exterior_casa",
+      "EXTRA · Recoger un paquete navideño enorme",
+      "receiving a gigantic delivery box left on the doorstep"
+    ],
+    [
+      "K",
+      "tienda",
+      "EXTRA · Probar gorros y bufandas en una tienda",
+      "trying on festive hats and scarves in front of a store mirror (no reflections of other people)"
+    ],
+    [
+      "K",
+      "playa",
+      "EXTRA · Navidad en la playa",
+      "a warm-weather Christmas on the beach, decorating a small palm tree with ornaments"
+    ]
+  ],
+  "lugares": {
+    "cocina": [
+      [
+        "Cocina acogedora",
+        "a cozy lived-in home kitchen"
+      ],
+      [
+        "Cocina moderna blanca",
+        "a bright modern white kitchen with a big island"
+      ],
+      [
+        "Cocina rústica de granja",
+        "a rustic farmhouse kitchen with butcher-block counters and open shelves"
+      ],
+      [
+        "Cocina pequeña de piso",
+        "a small city-apartment kitchen with a window over the sink"
+      ],
+      [
+        "Cocina de cabaña",
+        "a mountain-cabin kitchen with wooden beams"
+      ],
+      [
+        "Cocina de colores",
+        "a colorful kitchen with sage-green cabinets and patterned tiles"
+      ]
+    ],
+    "casa": [
+      [
+        "Salón con sofá grande",
+        "a comfortable family living room with a big sectional sofa"
+      ],
+      [
+        "Salón nórdico",
+        "a minimalist Scandinavian living room with pale wood and white walls"
+      ],
+      [
+        "Salón de cabaña con chimenea de piedra",
+        "a rustic cabin living room with a stone fireplace"
+      ],
+      [
+        "Dormitorio acogedor",
+        "a cozy bedroom with soft bedding"
+      ],
+      [
+        "Piso urbano con ventanales",
+        "a city apartment with tall windows overlooking lit streets"
+      ],
+      [
+        "Comedor",
+        "a warm dining room"
+      ],
+      [
+        "Suite de hotel decorada",
+        "a decorated hotel suite"
+      ],
+      [
+        "Cabaña junto al lago",
+        "a lakeside cabin interior with a view of the water"
+      ],
+      [
+        "Estudio con estanterías",
+        "a family den lined with bookshelves"
+      ]
+    ],
+    "exterior_casa": [
+      [
+        "Porche de casa de madera",
+        "the front porch of a craftsman-style house"
+      ],
+      [
+        "Entrada de coche suburbana",
+        "a suburban driveway"
+      ],
+      [
+        "Patio trasero",
+        "a backyard patio with string lights"
+      ],
+      [
+        "Garaje abierto",
+        "an open garage full of storage bins of decorations"
+      ],
+      [
+        "Jardín delantero",
+        "the front yard of a family home"
+      ],
+      [
+        "Escalinata de casa urbana",
+        "the front steps of a brick townhouse"
+      ]
+    ],
+    "tienda": [
+      [
+        "Boutique navideña",
+        "a charming Christmas boutique"
+      ],
+      [
+        "Gran tienda de manualidades",
+        "an aisle of a big craft store"
+      ],
+      [
+        "Tienda de bolas",
+        "a shop filled wall-to-wall with ornaments"
+      ],
+      [
+        "Pasillo navideño del súper",
+        "the holiday aisle of a grocery store"
+      ],
+      [
+        "Librería",
+        "a cozy independent bookstore"
+      ],
+      [
+        "Tienda de golosinas",
+        "a candy shop with glass jars"
+      ],
+      [
+        "Centro comercial",
+        "a decorated shopping mall concourse"
+      ],
+      [
+        "Centro de jardinería",
+        "a garden center greenhouse"
+      ],
+      [
+        "Floristería",
+        "a small flower shop"
+      ]
+    ],
+    "mercado": [
+      [
+        "Mercadillo navideño de casetas de madera",
+        "an outdoor Christmas market with wooden stalls, photographed in a quiet moment before opening"
+      ],
+      [
+        "Festival de calle de pueblo",
+        "a small-town holiday festival street during a quiet lull"
+      ],
+      [
+        "Mercado nocturno",
+        "a night holiday market glowing with stall lights"
+      ]
+    ],
+    "nieve": [
+      [
+        "Parque nevado",
+        "a snow-covered park"
+      ],
+      [
+        "Lago helado",
+        "a frozen lake with pine trees around it"
+      ],
+      [
+        "Sendero de bosque nevado",
+        "a snowy forest trail"
+      ],
+      [
+        "Pueblo de montaña",
+        "a mountain village under snow"
+      ]
+    ],
+    "pueblo": [
+      [
+        "Centro histórico decorado",
+        "a decorated historic downtown"
+      ],
+      [
+        "Calle mayor de pueblo",
+        "a small-town main street"
+      ],
+      [
+        "Acera de ciudad con escaparates",
+        "a city sidewalk lined with glowing storefronts"
+      ],
+      [
+        "Paseo junto al agua",
+        "a waterfront promenade with lights reflected in the water"
+      ],
+      [
+        "Túnel de luces",
+        "a walk-through Christmas light display"
+      ],
+      [
+        "Diner de carretera",
+        "a decorated roadside diner"
+      ],
+      [
+        "Cafetería",
+        "a cozy coffee shop"
+      ]
+    ],
+    "coche": [
+      [
+        "Dentro del coche por un barrio iluminado",
+        "inside a car driving through a neighborhood of Christmas lights"
+      ],
+      [
+        "Maletero abierto en un aparcamiento",
+        "an open car trunk in a parking lot"
+      ],
+      [
+        "Pickup con el árbol en la caja",
+        "a pickup truck with a tree in its bed"
+      ],
+      [
+        "Carretera de campo",
+        "a country road pull-off"
+      ]
+    ],
+    "granja": [
+      [
+        "Granja de árboles de Navidad",
+        "rows of a Christmas tree farm"
+      ],
+      [
+        "Puesto de árboles en la carretera",
+        "a roadside Christmas tree lot with string lights"
+      ]
+    ],
+    "cabana": [
+      [
+        "Cabaña de montaña",
+        "a snowy mountain cabin"
+      ],
+      [
+        "Cabaña junto al lago",
+        "a lakeside cabin in winter"
+      ]
+    ],
+    "playa": [
+      [
+        "Paseo marítimo",
+        "a beach boardwalk decorated for Christmas"
+      ],
+      [
+        "Playa al atardecer",
+        "a sandy beach at sunset"
+      ]
+    ],
+    "patinaje": [
+      [
+        "Pista de patinaje exterior con luces",
+        "an outdoor ice rink strung with lights"
+      ],
+      [
+        "Lago helado despejado para patinar",
+        "a frozen lake cleared for skating, pines all around"
+      ],
+      [
+        "Pista en una plaza de ciudad",
+        "an ice rink in a festive city plaza"
+      ]
+    ],
+    "colina": [
+      [
+        "Colina de trineo",
+        "a gentle snowy sledding hill"
+      ],
+      [
+        "Pista de esquí suave",
+        "a gentle ski slope with pine trees"
+      ],
+      [
+        "Ladera junto a una cabaña",
+        "a snowy slope beside a mountain cabin"
+      ]
+    ]
+  },
+  "exteriores": [
+    "exterior_casa",
+    "mercado",
+    "nieve",
+    "pueblo",
+    "coche",
+    "granja",
+    "cabana",
+    "playa",
+    "patinaje",
+    "colina"
+  ],
+  "clima": [
+    {
+      "es": "Nevada suave",
+      "en": "light snowfall",
+      "grupos": [
+        "exterior_casa",
+        "mercado",
+        "nieve",
+        "pueblo",
+        "coche",
+        "granja",
+        "cabana",
+        "patinaje",
+        "colina"
+      ]
+    },
+    {
+      "es": "Tormenta de nieve",
+      "en": "a heavy snowstorm with blowing snow",
+      "grupos": [
+        "exterior_casa",
+        "nieve",
+        "coche",
+        "cabana",
+        "pueblo",
+        "patinaje",
+        "colina"
+      ]
+    },
+    {
+      "es": "Mañana helada despejada",
+      "en": "a frosty clear morning with frost on every surface",
+      "grupos": [
+        "exterior_casa",
+        "nieve",
+        "granja",
+        "cabana",
+        "coche",
+        "patinaje",
+        "colina"
+      ]
+    },
+    {
+      "es": "Tarde lluviosa de diciembre",
+      "en": "a rainy December day with wet reflective pavement",
+      "grupos": [
+        "exterior_casa",
+        "mercado",
+        "pueblo",
+        "coche",
+        "granja"
+      ]
+    },
+    {
+      "es": "Cielo despejado sin nieve",
+      "en": "crisp clear skies, cold but no snow",
+      "grupos": [
+        "exterior_casa",
+        "mercado",
+        "pueblo",
+        "coche",
+        "granja",
+        "playa"
+      ]
+    },
+    {
+      "es": "Nublado de invierno",
+      "en": "soft overcast winter sky",
+      "grupos": [
+        "exterior_casa",
+        "mercado",
+        "nieve",
+        "pueblo",
+        "coche",
+        "granja",
+        "cabana",
+        "patinaje",
+        "colina"
+      ]
+    },
+    {
+      "es": "Navidad cálida costera",
+      "en": "warm coastal Christmas weather with palm trees",
+      "grupos": [
+        "playa",
+        "pueblo",
+        "exterior_casa"
+      ]
+    }
+  ],
+  "hora": [
+    {
+      "es": "Primera hora de la mañana",
+      "en": "early morning",
+      "t": "dia"
+    },
+    {
+      "es": "Media mañana",
+      "en": "midmorning",
+      "t": "dia"
+    },
+    {
+      "es": "Tarde",
+      "en": "afternoon",
+      "t": "dia"
+    },
+    {
+      "es": "Hora dorada",
+      "en": "golden hour",
+      "t": "dia"
+    },
+    {
+      "es": "Atardecer",
+      "en": "sunset",
+      "t": "dia"
+    },
+    {
+      "es": "Hora azul",
+      "en": "blue hour",
+      "t": "noche"
+    },
+    {
+      "es": "Noche",
+      "en": "evening",
+      "t": "noche"
+    },
+    {
+      "es": "Madrugada",
+      "en": "late night",
+      "t": "noche"
+    }
+  ],
+  "luz": [
+    {
+      "es": "Luz natural de ventana",
+      "en": "soft natural window light",
+      "t": "dia",
+      "grupos": [
+        "cocina",
+        "casa",
+        "tienda",
+        "cabana"
+      ]
+    },
+    {
+      "es": "Cocina bien iluminada",
+      "en": "bright kitchen lighting",
+      "grupos": [
+        "cocina"
+      ]
+    },
+    {
+      "es": "Luces cálidas del árbol",
+      "en": "warm Christmas tree lights as the main source",
+      "t": "noche",
+      "grupos": [
+        "casa",
+        "tienda",
+        "exterior_casa"
+      ]
+    },
+    {
+      "es": "Luz de día fría de invierno",
+      "en": "cool winter daylight",
+      "t": "dia"
+    },
+    {
+      "es": "Luz de chimenea",
+      "en": "glowing fireplace light",
+      "grupos": [
+        "casa",
+        "cabana"
+      ]
+    },
+    {
+      "es": "Luces de colores exteriores",
+      "en": "colorful outdoor Christmas lights",
+      "t": "noche",
+      "grupos": [
+        "exterior_casa",
+        "mercado",
+        "pueblo",
+        "coche",
+        "granja",
+        "playa"
+      ]
+    },
+    {
+      "es": "Luz de velas",
+      "en": "soft candlelight",
+      "t": "noche",
+      "grupos": [
+        "casa",
+        "cocina",
+        "cabana"
+      ]
+    },
+    {
+      "es": "Día nublado",
+      "en": "flat overcast winter daylight",
+      "t": "dia"
+    },
+    {
+      "es": "Lámparas acogedoras",
+      "en": "cozy warm lamplight",
+      "t": "noche",
+      "grupos": [
+        "casa",
+        "cocina",
+        "cabana"
+      ]
+    },
+    {
+      "es": "Escaparates iluminados",
+      "en": "beautifully illuminated storefronts",
+      "t": "noche",
+      "grupos": [
+        "pueblo",
+        "mercado",
+        "tienda"
+      ]
+    },
+    {
+      "es": "Luz de luna",
+      "en": "natural moonlight on snow",
+      "t": "noche",
+      "grupos": [
+        "nieve",
+        "exterior_casa",
+        "cabana",
+        "granja",
+        "patinaje",
+        "colina"
+      ]
+    },
+    {
+      "es": "Sol nítido de mañana",
+      "en": "crisp low morning sunlight",
+      "t": "dia"
+    }
+  ],
+  "animo": [
+    [
+      "Juguetón",
+      "playful"
+    ],
+    [
+      "Acogedor",
+      "cozy"
+    ],
+    [
+      "Nostálgico",
+      "nostalgic"
+    ],
+    [
+      "Alegre",
+      "joyful"
+    ],
+    [
+      "Tranquilo",
+      "peaceful"
+    ],
+    [
+      "Tonto",
+      "silly"
+    ],
+    [
+      "Emocionado",
+      "excited"
+    ],
+    [
+      "Relajado",
+      "relaxed"
+    ],
+    [
+      "Aventurero",
+      "adventurous"
+    ],
+    [
+      "Entrañable",
+      "heartwarming"
+    ],
+    [
+      "Caótico",
+      "chaotic"
+    ],
+    [
+      "Festivo",
+      "festive"
+    ],
+    [
+      "Sentimental",
+      "sentimental"
+    ],
+    [
+      "Espontáneo",
+      "spontaneous"
+    ]
+  ],
+  "emocion": [
+    [
+      "Carcajada real",
+      "genuine laughter"
+    ],
+    [
+      "Concentración",
+      "focused concentration"
+    ],
+    [
+      "Emoción",
+      "excitement"
+    ],
+    [
+      "Sorpresa",
+      "surprise"
+    ],
+    [
+      "Cariño",
+      "affection"
+    ],
+    [
+      "Frustración divertida",
+      "playful frustration"
+    ],
+    [
+      "Felicidad tranquila",
+      "quiet happiness"
+    ],
+    [
+      "Sonrisa traviesa",
+      "a mischievous smile"
+    ],
+    [
+      "Satisfacción relajada",
+      "relaxed contentment"
+    ],
+    [
+      "Pensativo",
+      "a thoughtful expression"
+    ],
+    [
+      "Conversación natural",
+      "mid-conversation"
+    ],
+    [
+      "Diversión",
+      "amusement"
+    ],
+    [
+      "Asombro",
+      "wonder"
+    ]
+  ],
+  "camara": [
+    [
+      "Cándida a la altura de los ojos",
+      "eye-level candid, 35mm"
+    ],
+    [
+      "Contrapicado lifestyle",
+      "low-angle lifestyle shot, 24mm"
+    ],
+    [
+      "Cenital (desde arriba)",
+      "overhead top-down view"
+    ],
+    [
+      "Perfil lateral",
+      "side-profile composition, 85mm"
+    ],
+    [
+      "Por encima del hombro",
+      "behind-the-shoulder viewpoint"
+    ],
+    [
+      "Plano general del entorno",
+      "wide environmental photograph, 24mm, deep focus"
+    ],
+    [
+      "Primer plano íntimo",
+      "intimate close-up, 85mm, shallow depth of field"
+    ],
+    [
+      "Tres cuartos de cuerpo",
+      "three-quarter body photograph, 50mm"
+    ],
+    [
+      "Cuerpo entero en acción",
+      "full-body action photograph"
+    ],
+    [
+      "Estilo documental",
+      "natural documentary-style photograph, 35mm"
+    ],
+    [
+      "Desde una puerta",
+      "view from a doorway, door frame framing the scene"
+    ],
+    [
+      "A través de una ventana",
+      "view through a window, slight reflections on the glass"
+    ],
+    [
+      "A ras de suelo",
+      "ground-level perspective"
+    ],
+    [
+      "Composición diagonal",
+      "diagonal environmental composition"
+    ],
+    [
+      "Congelado en plena acción",
+      "mid-action freeze-frame, fast shutter"
+    ],
+    [
+      "Detalles en primer plano desenfocados",
+      "softly framed by out-of-focus foreground details"
+    ],
+    [
+      "Teleobjetivo comprimido",
+      "135mm telephoto from a distance, compressed background"
+    ]
+  ],
+  "colocacion_solo": [
+    [
+      "Absorto en la acción, sin mirar a cámara",
+      "fully absorbed in the activity, not looking at the camera"
+    ],
+    [
+      "Mirando por encima del hombro",
+      "glancing back over the shoulder toward the camera mid-task"
+    ],
+    [
+      "De perfil",
+      "seen in clear profile"
+    ],
+    [
+      "Posición baja (de rodillas, en cuclillas o en el suelo)",
+      "in a low position: kneeling, crouching or sitting on the floor"
+    ],
+    [
+      "Estirándose hacia arriba",
+      "stretching or reaching upward"
+    ],
+    [
+      "Caminando, a mitad de paso",
+      "walking, caught mid-stride"
+    ],
+    [
+      "Inclinado sobre la superficie con las dos manos ocupadas",
+      "leaning forward with both hands busy"
+    ],
+    [
+      "Pausa riendo por algo fuera de plano",
+      "a candid pause, laughing at something just out of frame"
+    ],
+    [
+      "Girado tres cuartos (cara visible)",
+      "turned three-quarters away, face still clearly visible"
+    ],
+    [
+      "Sentado y relajado",
+      "seated comfortably with relaxed body language"
+    ],
+    [
+      "Descentrado a un lado del encuadre",
+      "placed off-center, with the activity filling the rest of the frame"
+    ]
+  ],
+  "colocacion_pareja": [
+    [
+      "Ella dirige en primer plano, él ayuda detrás",
+      "PERSON 1 leads the activity in the foreground while PERSON 2 helps from slightly behind"
+    ],
+    [
+      "Él dirige en primer plano, ella ayuda detrás",
+      "PERSON 2 leads the activity in the foreground while PERSON 1 helps from slightly behind"
+    ],
+    [
+      "Alturas distintas: uno sentado, otro de pie",
+      "at clearly different heights: one sitting or kneeling, the other standing"
+    ],
+    [
+      "Uno frente al otro con la actividad en medio",
+      "facing each other across the activity"
+    ],
+    [
+      "Uno cerca de cámara algo desenfocado, el otro nítido detrás",
+      "one close to the camera and slightly soft, the other sharp in the midground"
+    ],
+    [
+      "Los dos de espaldas a medias, caras visibles de perfil",
+      "both turned toward the activity, faces visible in profile"
+    ],
+    [
+      "Uno reacciona a lo que hace el otro",
+      "one reacts with laughter to what the other is doing mid-action"
+    ],
+    [
+      "Él a la izquierda, ella a la derecha, solapados",
+      "PERSON 2 on the left and PERSON 1 on the right, bodies naturally overlapping"
+    ],
+    [
+      "Uno caminando delante tirando del otro",
+      "one walking ahead and pulling the other along by the hand"
+    ],
+    [
+      "Cariño espontáneo en mitad de la tarea",
+      "a spontaneous moment of affection (a hug from behind or a quick kiss) in the middle of the task"
+    ]
+  ],
+  "giro": [
+    [
+      "Acaban de conseguirlo",
+      "the moment right after succeeding, a small triumph"
+    ],
+    [
+      "Algo está a punto de salir mal",
+      "the split second before something goes wrong"
+    ],
+    [
+      "Pausa tranquila entre pasos",
+      "a quiet pause between steps"
+    ],
+    [
+      "Descubren una sorpresa",
+      "discovering an unexpected surprise"
+    ],
+    [
+      "A mitad del esfuerzo",
+      "right in the middle of the effort"
+    ],
+    [
+      "Recordando algo con nostalgia",
+      "a nostalgic memory crossing their mind"
+    ],
+    [
+      "Improvisando una solución",
+      "improvising a clumsy but clever fix"
+    ]
+  ],
+  "ropa": [
+    {
+      "es": "Vaqueros y jersey navideño",
+      "en": "comfortable jeans and a Christmas sweater",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Mallas y sudadera ancha",
+      "en": "leggings and an oversized sweatshirt",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ],
+      "para": "ella"
+    },
+    {
+      "es": "Camiseta navideña con dibujo",
+      "en": "a festive graphic T-shirt and jeans",
+      "ctx": [
+        "casa",
+        "calor"
+      ]
+    },
+    {
+      "es": "Camisa de franela",
+      "en": "a Christmas flannel shirt over a tee",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Jersey de punto casual",
+      "en": "a casual cable-knit sweater and chinos",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Joggers cómodos",
+      "en": "comfortable joggers and a fitted long-sleeve top",
+      "ctx": [
+        "casa"
+      ]
+    },
+    {
+      "es": "Pijama navideño",
+      "en": "Christmas pajamas",
+      "ctx": [
+        "casa_pijama"
+      ]
+    },
+    {
+      "es": "Forro polar",
+      "en": "a cozy fleece pullover and jeans",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Chaqueta de invierno casual",
+      "en": "a casual winter jacket, beanie and jeans",
+      "ctx": [
+        "frio",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Plumífero y bufanda",
+      "en": "a puffer coat, knitted scarf and gloves",
+      "ctx": [
+        "frio"
+      ]
+    },
+    {
+      "es": "Chaqueta vaquera",
+      "en": "a sherpa-lined denim jacket",
+      "ctx": [
+        "cualquiera",
+        "calor"
+      ]
+    },
+    {
+      "es": "Rebeca festiva",
+      "en": "a festive cardigan over a simple top",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Vestido casual de fiesta",
+      "en": "a casual holiday dress with tights",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ],
+      "para": "ella"
+    },
+    {
+      "es": "Vestido de punto",
+      "en": "a knit sweater dress with boots",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ],
+      "para": "ella"
+    },
+    {
+      "es": "Delantal sobre ropa cómoda",
+      "en": "a holiday apron over comfortable clothes",
+      "ctx": [
+        "cocina"
+      ]
+    },
+    {
+      "es": "Camisa de cuadros",
+      "en": "a plaid shirt with rolled sleeves",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Conjunto de estar por casa",
+      "en": "a soft matching lounge set",
+      "ctx": [
+        "casa_pijama",
+        "casa"
+      ]
+    },
+    {
+      "es": "Mallas y botas",
+      "en": "leggings, a long sweater and winter boots",
+      "ctx": [
+        "cualquiera",
+        "frio"
+      ],
+      "para": "ella"
+    },
+    {
+      "es": "Sudadera con capucha navideña",
+      "en": "a festive hoodie and jeans",
+      "ctx": [
+        "casa",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Abrigo largo de lana",
+      "en": "a long wool coat over a turtleneck",
+      "ctx": [
+        "frio",
+        "cualquiera"
+      ]
+    },
+    {
+      "es": "Ropa de nieve",
+      "en": "snow pants, a ski jacket and a bobble hat",
+      "ctx": [
+        "nieve"
+      ]
+    },
+    {
+      "es": "Ropa ligera de playa navideña",
+      "en": "light linen clothes with a Santa hat",
+      "ctx": [
+        "calor"
+      ]
+    }
+  ],
+  "color_ropa": [
+    [
+      "burdeos",
+      "burgundy"
+    ],
+    [
+      "crema",
+      "cream"
+    ],
+    [
+      "gris marengo",
+      "charcoal"
+    ],
+    [
+      "negro",
+      "black"
+    ],
+    [
+      "blanco",
+      "white"
+    ],
+    [
+      "azul marino",
+      "navy"
+    ],
+    [
+      "lavanda",
+      "lavender"
+    ],
+    [
+      "morado",
+      "purple"
+    ],
+    [
+      "rosa",
+      "pink"
+    ],
+    [
+      "azul hielo",
+      "icy blue"
+    ],
+    [
+      "verde bosque",
+      "forest green"
+    ],
+    [
+      "marrón",
+      "brown"
+    ],
+    [
+      "vaquero",
+      "denim blue"
+    ],
+    [
+      "rojo",
+      "red"
+    ],
+    [
+      "mostaza",
+      "mustard"
+    ]
+  ],
+  "detalles": [
+    [
+      "luces navideñas",
+      "Christmas lights"
+    ],
+    [
+      "bolas",
+      "ornaments"
+    ],
+    [
+      "guirnaldas",
+      "garlands"
+    ],
+    [
+      "papel de regalo",
+      "wrapping paper"
+    ],
+    [
+      "cintas",
+      "ribbon"
+    ],
+    [
+      "galletas de jengibre",
+      "gingerbread cookies",
+      [
+        "casa",
+        "cocina",
+        "tienda",
+        "mercado"
+      ]
+    ],
+    [
+      "utensilios de repostería",
+      "baking supplies",
+      [
+        "cocina"
+      ]
+    ],
+    [
+      "calcetines navideños",
+      "Christmas stockings",
+      [
+        "casa",
+        "cabana"
+      ]
+    ],
+    [
+      "escaparates decorados",
+      "decorated storefronts",
+      [
+        "pueblo",
+        "mercado",
+        "tienda"
+      ]
+    ],
+    [
+      "bolsas de compras",
+      "festive shopping bags",
+      [
+        "pueblo",
+        "mercado",
+        "tienda",
+        "coche"
+      ]
+    ],
+    [
+      "velas",
+      "holiday candles"
+    ],
+    [
+      "felicitaciones",
+      "Christmas cards"
+    ],
+    [
+      "coronas nevadas",
+      "snow-covered wreaths",
+      [
+        "exterior_casa",
+        "pueblo",
+        "mercado",
+        "cabana",
+        "granja"
+      ]
+    ],
+    [
+      "cojines navideños",
+      "Christmas pillows",
+      [
+        "casa",
+        "cabana"
+      ]
+    ],
+    [
+      "mantas",
+      "holiday blankets",
+      [
+        "casa",
+        "cabana",
+        "coche",
+        "nieve"
+      ]
+    ],
+    [
+      "paños de cocina navideños",
+      "seasonal kitchen towels",
+      [
+        "cocina"
+      ]
+    ],
+    [
+      "cascanueces",
+      "decorative nutcrackers"
+    ],
+    [
+      "centro de mesa",
+      "a holiday centerpiece",
+      [
+        "casa",
+        "cocina"
+      ]
+    ],
+    [
+      "vasos de café festivos",
+      "festive coffee cups"
+    ],
+    [
+      "piñas",
+      "pinecones"
+    ],
+    [
+      "flores de Pascua",
+      "poinsettias"
+    ]
+  ],
+  "animal": [
+    [
+      "Ninguno",
+      ""
+    ],
+    [
+      "Ninguno",
+      ""
+    ],
+    [
+      "Ninguno",
+      ""
+    ],
+    [
+      "Perro curioso",
+      "a curious dog watching or getting in the way"
+    ],
+    [
+      "Gato travieso",
+      "a mischievous cat batting at something"
+    ]
+  ]
+}

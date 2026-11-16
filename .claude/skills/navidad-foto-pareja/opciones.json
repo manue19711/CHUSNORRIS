@@ -1,285 +1,1694 @@
 {
   "_nota": "Banco de opciones. 'es' = etiqueta en español para el resumen; 'en' = texto que entra en el prompt. 'solo_escenas' limita una opción a esas escenas. Las ids 'extra' son añadidos nuevos a las del prompt original.",
-  "exteriores": [16, 18, 19],
-
+  "exteriores": [
+    16,
+    18,
+    19
+  ],
   "prioridad": [
-    {"id": 1, "es": "Pose", "en": "POSE — the couple's body language is the showstopper: a bold, sculptural, highly dynamic pose with distinct body levels and unmistakable chemistry."},
-    {"id": 2, "es": "Movimiento", "en": "MOVEMENT — capture a decisive moment mid-motion: swirling skirts, flying ribbon, hair in motion, a sense that the frame was caught a split second before something happened."},
-    {"id": 3, "es": "Ángulo de cámara", "en": "CAMERA ANGLE — the viewpoint itself is the spectacle: an unexpected, daring vantage point that makes the image instantly memorable."},
-    {"id": 4, "es": "Encuadre", "en": "FRAMING — an extraordinary, deliberate crop and frame-within-a-frame design that guides the eye in a surprising way."},
-    {"id": 5, "es": "Moda", "en": "FASHION — the period wardrobe is breathtaking: impeccably tailored, richly detailed 1950s garments photographed like a couture holiday campaign."},
-    {"id": 6, "es": "Tejido", "en": "FABRIC — the textiles steal the show: satin sheen, velvet pile, crisp taffeta, chunky knits, tulle petticoats, all rendered with tactile, macro-level realism."},
-    {"id": 7, "es": "Peinado", "en": "HAIR — the hair is sculpted and luminous, every curl, wave and strand catching the light with salon-perfect 1950s craftsmanship (natural hair color strictly preserved)."},
-    {"id": 8, "es": "Maquillaje", "en": "MAKEUP — period makeup is the hero: flawless 1950s technique on real, textured skin, beautifully lit and photographed close enough to appreciate it."},
-    {"id": 9, "es": "Accesorios", "en": "ACCESSORIES — jewelry, gloves, ribbons and festive details are the focal point, styled with jewel-box precision."},
-    {"id": 10, "es": "Iluminación", "en": "LIGHTING — the light is cinematic and extraordinary: sculpted, layered, motivated by practical sources and absolutely gorgeous."},
-    {"id": 11, "es": "Color", "en": "COLOR — an unforgettable, saturated, perfectly controlled color story that makes the image pop like a vintage Kodachrome magazine spread."},
-    {"id": 12, "es": "Decorado", "en": "SET DESIGN — the room is a maximalist masterpiece of 1950s holiday styling, every corner obsessively art-directed."},
-    {"id": 13, "es": "Atrezo", "en": "PROPS — the props are oversized, abundant and central to the action, with the couple physically interacting with them."},
-    {"id": 14, "es": "Escala", "en": "SCALE — play with scale: gigantic gifts, towering trees, enormous bows or a vast room that dwarfs the couple for a playful, surreal-yet-plausible effect."},
-    {"id": 15, "es": "Textura", "en": "TEXTURE — tactile richness everywhere: flocking, tinsel, glass ornaments, knit, wood grain, frosting, crinkled paper, all in hyper-detailed focus."},
-    {"id": 16, "es": "Surrealismo", "en": "SURREALISM — a subtle dreamlike twist (impossible abundance, gravity-defying ribbons, snow falling indoors) that still obeys photographic physics in light, shadow and contact."},
-    {"id": 17, "es": "Expresión", "en": "EXPRESSION — the faces are everything: authentic, readable, emotionally rich expressions that tell the story at a glance."},
-    {"id": 18, "es": "Interacción con el entorno", "en": "ENVIRONMENTAL INTERACTION — the couple actively uses the space: leaning, climbing, sitting on, reaching into and rearranging the décor around them."}
+    {
+      "id": 1,
+      "es": "Pose",
+      "en": "POSE — body language is the showstopper: a bold, sculptural, highly dynamic pose with distinct body levels and irresistible charm."
+    },
+    {
+      "id": 2,
+      "es": "Movimiento",
+      "en": "MOVEMENT — capture a decisive moment mid-motion: swirling skirts, flying ribbon, hair in motion, a sense that the frame was caught a split second before something happened."
+    },
+    {
+      "id": 3,
+      "es": "Ángulo de cámara",
+      "en": "CAMERA ANGLE — the viewpoint itself is the spectacle: an unexpected, daring vantage point that makes the image instantly memorable."
+    },
+    {
+      "id": 4,
+      "es": "Encuadre",
+      "en": "FRAMING — an extraordinary, deliberate crop and frame-within-a-frame design that guides the eye in a surprising way."
+    },
+    {
+      "id": 5,
+      "es": "Moda",
+      "en": "FASHION — the period wardrobe is breathtaking: impeccably tailored, richly detailed 1950s garments photographed like a couture holiday campaign."
+    },
+    {
+      "id": 6,
+      "es": "Tejido",
+      "en": "FABRIC — the textiles steal the show: satin sheen, velvet pile, crisp taffeta, chunky knits, tulle petticoats, all rendered with tactile, macro-level realism."
+    },
+    {
+      "id": 7,
+      "es": "Peinado",
+      "en": "HAIR — the hair is sculpted and luminous, every curl, wave and strand catching the light with salon-perfect 1950s craftsmanship (natural hair color strictly preserved)."
+    },
+    {
+      "id": 8,
+      "es": "Maquillaje",
+      "en": "MAKEUP — period makeup is the hero: flawless 1950s technique on real, textured skin, beautifully lit and photographed close enough to appreciate it."
+    },
+    {
+      "id": 9,
+      "es": "Accesorios",
+      "en": "ACCESSORIES — jewelry, gloves, ribbons and festive details are the focal point, styled with jewel-box precision."
+    },
+    {
+      "id": 10,
+      "es": "Iluminación",
+      "en": "LIGHTING — the light is cinematic and extraordinary: sculpted, layered, motivated by practical sources and absolutely gorgeous."
+    },
+    {
+      "id": 11,
+      "es": "Color",
+      "en": "COLOR — an unforgettable, saturated, perfectly controlled color story that makes the image pop like a vintage Kodachrome magazine spread."
+    },
+    {
+      "id": 12,
+      "es": "Decorado",
+      "en": "SET DESIGN — the room is a maximalist masterpiece of 1950s holiday styling, every corner obsessively art-directed."
+    },
+    {
+      "id": 13,
+      "es": "Atrezo",
+      "en": "PROPS — the props are oversized, abundant and central to the action, with the couple physically interacting with them."
+    },
+    {
+      "id": 14,
+      "es": "Escala",
+      "en": "SCALE — play with scale: gigantic gifts, towering trees, enormous bows or a vast room that dwarfs the couple for a playful, surreal-yet-plausible effect."
+    },
+    {
+      "id": 15,
+      "es": "Textura",
+      "en": "TEXTURE — tactile richness everywhere: flocking, tinsel, glass ornaments, knit, wood grain, frosting, crinkled paper, all in hyper-detailed focus."
+    },
+    {
+      "id": 16,
+      "es": "Surrealismo",
+      "en": "SURREALISM — a subtle dreamlike twist (impossible abundance, gravity-defying ribbons, snow falling indoors) that still obeys photographic physics in light, shadow and contact."
+    },
+    {
+      "id": 17,
+      "es": "Expresión",
+      "en": "EXPRESSION — the faces are everything: authentic, readable, emotionally rich expressions that tell the story at a glance."
+    },
+    {
+      "id": 18,
+      "es": "Interacción con el entorno",
+      "en": "ENVIRONMENTAL INTERACTION — the couple actively uses the space: leaning, climbing, sitting on, reaching into and rearranging the décor around them."
+    }
   ],
-
   "escena": [
-    {"id": 1, "es": "Revelación del árbol perfecto", "en": "a gleaming 1950s living room built around a towering, perfectly decorated Christmas tree, mountains of perfectly wrapped presents, polished side tables and pristine holiday staging"},
-    {"id": 2, "es": "Postal de la chimenea", "en": "a brick fireplace with neatly hung stockings, evergreen garland, tall candles and a perfectly balanced mantel arrangement of festive décor"},
-    {"id": 3, "es": "Rincón del desayuno navideño", "en": "a charming breakfast nook with gingham curtains, candy-colored dishes, frosted pastries, a percolator coffee service and Christmas-morning cheer"},
-    {"id": 4, "es": "Mesa de envolver regalos", "en": "a tidy-but-busy gift-wrapping table loaded with ribbon spools, scissors, bows, tape, patterned paper and stacks of presents"},
-    {"id": 5, "es": "Puerta con muérdago", "en": "an interior doorway framed with garland, satin bows and wreaths, with a strategically placed mistletoe cluster hanging overhead"},
-    {"id": 6, "es": "Cocina de galletas", "en": "a spotless retro kitchen with pastel appliances, cooling racks of Christmas cookies, frosted cupcakes, holiday tins and polished chrome details"},
-    {"id": 7, "es": "Escalera navideña", "en": "a dramatic staircase wrapped in red velvet ribbon, glass ornaments and evergreen garland, staged to holiday perfection"},
-    {"id": 8, "es": "Ventanal con nieve", "en": "a beautifully dressed living room with a large picture window, delicate snowfall outside and a perfectly staged view inward"},
-    {"id": 9, "es": "Salón-escaparate de juguetes", "en": "a living room arranged like a department-store toy display, with dolls, a tin toy train circling the floor, teddy bears and stacked gifts"},
-    {"id": 10, "es": "Fiesta del ponche", "en": "a Christmas cocktail party setup with a silver punch bowl, cut-glass cups, silver trays of tiny canapés and festive party décor"},
-    {"id": 11, "es": "Decorando el árbol", "en": "a room built around tree-trimming in progress, with open ornament boxes, tinsel, a wooden stepladder beside an overly glamorous flocked tree"},
-    {"id": 12, "es": "Mesa de felicitaciones", "en": "a polished dining table scattered with Christmas greeting cards, stamps, fountain pens, ribbon and holiday correspondence"},
-    {"id": 13, "es": "Salón de la anfitriona", "en": "a formal sitting room with velvet seating, lacquered tables, holiday candles and curated, glamorous domestic perfection"},
-    {"id": 14, "es": "Sofá de la mañana de Navidad", "en": "a pristine sofa surrounded by gifts, stockings, throws, ribbons and the cheerful aftermath of unwrapping"},
-    {"id": 15, "es": "Ventana pasaplatos de los bastones de caramelo", "en": "a playful mid-century kitchen pass-through filled with candy canes, striped treats, platters and exaggerated holiday food styling"},
-    {"id": 16, "es": "Porche con corona de bienvenida", "en": "a perfect snowy front porch with a wreath-covered door, lantern light, wrapped presents on the steps and staged arrival charm"},
-    {"id": 17, "es": "EXTRA · Tocadiscos de Nochebuena", "en": "a cozy living room centered on a polished wooden hi-fi console record player, a stack of Christmas LPs, a bowl of ribbon candy and twinkling bubble lights"},
-    {"id": 18, "es": "EXTRA · Árbol en el techo del coche", "en": "a snowy suburban driveway with a two-tone 1950s station wagon, a freshly cut fir tree tied to its roof rack, a picket fence and a decorated house behind"},
-    {"id": 19, "es": "EXTRA · Jardín nevado con muñeco de nieve", "en": "a snow-covered front yard of a tidy 1950s house with a half-built snowman wearing a scarf, a wooden sled, candy-cane lawn ornaments and a lit-up porch"},
-    {"id": 20, "es": "EXTRA · Comedor de la cena de Navidad", "en": "a formal dining room with a lavish Christmas dinner: glossy roast turkey, silver candelabras, fine china, cranberry molds and a towering centerpiece"},
-    {"id": 21, "es": "EXTRA · Escaparate de grandes almacenes", "en": "the inside of a glamorous 1950s department-store Christmas window display, with painted snowy backdrop, gigantic gift boxes, spotlights and shoppers' silhouettes blurred beyond the glass"},
-    {"id": 22, "es": "EXTRA · Árbol de aluminio con rueda de colores", "en": "a sleek atomic-age living room with a silver aluminum Christmas tree illuminated by a rotating color wheel, boomerang-patterned furniture and starburst wall clock"}
+    {
+      "id": 1,
+      "es": "Revelación del árbol perfecto",
+      "en": "a gleaming 1950s living room built around a towering, perfectly decorated Christmas tree, mountains of perfectly wrapped presents, polished side tables and pristine holiday staging"
+    },
+    {
+      "id": 2,
+      "es": "Postal de la chimenea",
+      "en": "a brick fireplace with neatly hung stockings, evergreen garland, tall candles and a perfectly balanced mantel arrangement of festive décor"
+    },
+    {
+      "id": 3,
+      "es": "Rincón del desayuno navideño",
+      "en": "a charming breakfast nook with gingham curtains, candy-colored dishes, frosted pastries, a percolator coffee service and Christmas-morning cheer"
+    },
+    {
+      "id": 4,
+      "es": "Mesa de envolver regalos",
+      "en": "a tidy-but-busy gift-wrapping table loaded with ribbon spools, scissors, bows, tape, patterned paper and stacks of presents"
+    },
+    {
+      "id": 5,
+      "es": "Puerta con muérdago",
+      "en": "an interior doorway framed with garland, satin bows and wreaths, with a strategically placed mistletoe cluster hanging overhead"
+    },
+    {
+      "id": 6,
+      "es": "Cocina de galletas",
+      "en": "a spotless retro kitchen with pastel appliances, cooling racks of Christmas cookies, frosted cupcakes, holiday tins and polished chrome details"
+    },
+    {
+      "id": 7,
+      "es": "Escalera navideña",
+      "en": "a dramatic staircase wrapped in red velvet ribbon, glass ornaments and evergreen garland, staged to holiday perfection"
+    },
+    {
+      "id": 8,
+      "es": "Ventanal con nieve",
+      "en": "a beautifully dressed living room with a large picture window, delicate snowfall outside and a perfectly staged view inward"
+    },
+    {
+      "id": 9,
+      "es": "Salón-escaparate de juguetes",
+      "en": "a living room arranged like a department-store toy display, with dolls, a tin toy train circling the floor, teddy bears and stacked gifts"
+    },
+    {
+      "id": 10,
+      "es": "Fiesta del ponche",
+      "en": "a Christmas cocktail party setup with a silver punch bowl, cut-glass cups, silver trays of tiny canapés and festive party décor"
+    },
+    {
+      "id": 11,
+      "es": "Decorando el árbol",
+      "en": "a room built around tree-trimming in progress, with open ornament boxes, tinsel, a wooden stepladder beside an overly glamorous flocked tree"
+    },
+    {
+      "id": 12,
+      "es": "Mesa de felicitaciones",
+      "en": "a polished dining table scattered with Christmas greeting cards, stamps, fountain pens, ribbon and holiday correspondence"
+    },
+    {
+      "id": 13,
+      "es": "Salón de la anfitriona",
+      "en": "a formal sitting room with velvet seating, lacquered tables, holiday candles and curated, glamorous domestic perfection"
+    },
+    {
+      "id": 14,
+      "es": "Sofá de la mañana de Navidad",
+      "en": "a pristine sofa surrounded by gifts, stockings, throws, ribbons and the cheerful aftermath of unwrapping"
+    },
+    {
+      "id": 15,
+      "es": "Ventana pasaplatos de los bastones de caramelo",
+      "en": "a playful mid-century kitchen pass-through filled with candy canes, striped treats, platters and exaggerated holiday food styling"
+    },
+    {
+      "id": 16,
+      "es": "Porche con corona de bienvenida",
+      "en": "a perfect snowy front porch with a wreath-covered door, lantern light, wrapped presents on the steps and staged arrival charm"
+    },
+    {
+      "id": 17,
+      "es": "EXTRA · Tocadiscos de Nochebuena",
+      "en": "a cozy living room centered on a polished wooden hi-fi console record player, a stack of Christmas LPs, a bowl of ribbon candy and twinkling bubble lights"
+    },
+    {
+      "id": 18,
+      "es": "EXTRA · Árbol en el techo del coche",
+      "en": "a snowy suburban driveway with a two-tone 1950s station wagon, a freshly cut fir tree tied to its roof rack, a picket fence and a decorated house behind"
+    },
+    {
+      "id": 19,
+      "es": "EXTRA · Jardín nevado con muñeco de nieve",
+      "en": "a snow-covered front yard of a tidy 1950s house with a half-built snowman wearing a scarf, a wooden sled, candy-cane lawn ornaments and a lit-up porch"
+    },
+    {
+      "id": 20,
+      "es": "EXTRA · Comedor de la cena de Navidad",
+      "en": "a formal dining room with a lavish Christmas dinner: glossy roast turkey, silver candelabras, fine china, cranberry molds and a towering centerpiece"
+    },
+    {
+      "id": 21,
+      "es": "EXTRA · Escaparate de grandes almacenes",
+      "en": "the inside of a glamorous 1950s department-store Christmas window display, with painted snowy backdrop, gigantic gift boxes, spotlights and shoppers' silhouettes blurred beyond the glass"
+    },
+    {
+      "id": 22,
+      "es": "EXTRA · Árbol de aluminio con rueda de colores",
+      "en": "a sleek atomic-age living room with a silver aluminum Christmas tree illuminated by a rotating color wheel, boomerang-patterned furniture and starburst wall clock"
+    }
   ],
-
   "camara": [
-    {"id": 1, "es": "Glamour a ras de suelo (24mm)", "en": "24mm wide-angle lens at floor level, presents and décor looming large in the foreground with the couple rising above"},
-    {"id": 2, "es": "Cenital caótico", "en": "direct overhead bird's-eye view looking straight down at the couple amid the festive clutter"},
-    {"id": 3, "es": "Observador desde la puerta", "en": "35mm lens shot through a doorway or archway, the door frame partially obscuring the edges of the composition"},
-    {"id": 4, "es": "Retrato publicitario cerrado (85mm)", "en": "85mm portrait lens, tight romantic framing, holiday lights melting into creamy bokeh behind them"},
-    {"id": 5, "es": "Punto de vista sobre la mesa", "en": "camera positioned just above the tabletop props, dishes or presents creating layered foreground depth", "solo_escenas": [1, 3, 4, 6, 9, 10, 12, 14, 15, 20]},
-    {"id": 6, "es": "Picado desde la escalera", "en": "high downward angle from the top of the staircase looking down at the couple", "solo_escenas": [7]},
-    {"id": 7, "es": "Robado con teleobjetivo (135mm)", "en": "135mm telephoto from across the room, compressed perspective through layers of festive décor"},
-    {"id": 8, "es": "Clásico a la altura de los ojos (50mm)", "en": "straight-on 50mm eye-level composition styled like a classic print advertisement"},
-    {"id": 9, "es": "A través del espumillón", "en": "shot through out-of-focus tinsel and garland in the foreground, layered holiday depth"},
-    {"id": 10, "es": "Junto a la ventana", "en": "camera placed beside the window, using exterior light and window-frame architecture", "solo_escenas": [8, 16, 21, 22, 13, 14]},
-    {"id": 11, "es": "Bajo, al lado del sofá", "en": "low camera tucked beside furniture at seated height, emphasizing body angles and room geometry"},
-    {"id": 12, "es": "Reflejo en cromo", "en": "the couple seen partly reflected in a polished chrome surface, silver tray or large glass ornament", "solo_escenas": [3, 6, 10, 15, 20, 13, 1, 11, 22]},
-    {"id": 13, "es": "Plano holandés kitsch", "en": "deliberately tilted Dutch angle emphasizing comedic perfection and staged holiday chaos"},
-    {"id": 14, "es": "Tres cuartos íntimo", "en": "medium-close three-quarter crop built around body language and romantic interaction"},
-    {"id": 15, "es": "Plano general de toda la estancia", "en": "wide environmental shot where architecture and décor are major co-stars, deep focus"},
-    {"id": 16, "es": "Perfil romántico", "en": "side-profile composition emphasizing silhouettes, expressions and physical closeness"},
-    {"id": 17, "es": "EXTRA · Contrapicado heroico", "en": "low upward-looking angle from waist height, making the couple feel larger than life against the ceiling décor"},
-    {"id": 18, "es": "EXTRA · Tres cuartos trasero", "en": "rear three-quarter view over one partner's shoulder, focus on the other partner's face"}
+    {
+      "id": 1,
+      "es": "Glamour a ras de suelo (24mm)",
+      "en": "24mm wide-angle lens at floor level, presents and décor looming large in the foreground with the couple rising above"
+    },
+    {
+      "id": 2,
+      "es": "Cenital caótico",
+      "en": "direct overhead bird's-eye view looking straight down at the couple amid the festive clutter"
+    },
+    {
+      "id": 3,
+      "es": "Observador desde la puerta",
+      "en": "35mm lens shot through a doorway or archway, the door frame partially obscuring the edges of the composition"
+    },
+    {
+      "id": 4,
+      "es": "Retrato publicitario cerrado (85mm)",
+      "en": "85mm portrait lens, tight romantic framing, holiday lights melting into creamy bokeh behind them"
+    },
+    {
+      "id": 5,
+      "es": "Punto de vista sobre la mesa",
+      "en": "camera positioned just above the tabletop props, dishes or presents creating layered foreground depth",
+      "solo_escenas": [
+        1,
+        3,
+        4,
+        6,
+        9,
+        10,
+        12,
+        14,
+        15,
+        20
+      ]
+    },
+    {
+      "id": 6,
+      "es": "Picado desde la escalera",
+      "en": "high downward angle from the top of the staircase looking down at the couple",
+      "solo_escenas": [
+        7
+      ]
+    },
+    {
+      "id": 7,
+      "es": "Robado con teleobjetivo (135mm)",
+      "en": "135mm telephoto from across the room, compressed perspective through layers of festive décor"
+    },
+    {
+      "id": 8,
+      "es": "Clásico a la altura de los ojos (50mm)",
+      "en": "straight-on 50mm eye-level composition styled like a classic print advertisement"
+    },
+    {
+      "id": 9,
+      "es": "A través del espumillón",
+      "en": "shot through out-of-focus tinsel and garland in the foreground, layered holiday depth"
+    },
+    {
+      "id": 10,
+      "es": "Junto a la ventana",
+      "en": "camera placed beside the window, using exterior light and window-frame architecture",
+      "solo_escenas": [
+        8,
+        16,
+        21,
+        22,
+        13,
+        14
+      ]
+    },
+    {
+      "id": 11,
+      "es": "Bajo, al lado del sofá",
+      "en": "low camera tucked beside furniture at seated height, emphasizing body angles and room geometry"
+    },
+    {
+      "id": 12,
+      "es": "Reflejo en cromo",
+      "en": "the couple seen partly reflected in a polished chrome surface, silver tray or large glass ornament",
+      "solo_escenas": [
+        3,
+        6,
+        10,
+        15,
+        20,
+        13,
+        1,
+        11,
+        22
+      ]
+    },
+    {
+      "id": 13,
+      "es": "Plano holandés kitsch",
+      "en": "deliberately tilted Dutch angle emphasizing comedic perfection and staged holiday chaos"
+    },
+    {
+      "id": 14,
+      "es": "Tres cuartos íntimo",
+      "en": "medium-close three-quarter crop built around body language and expression"
+    },
+    {
+      "id": 15,
+      "es": "Plano general de toda la estancia",
+      "en": "wide environmental shot where architecture and décor are major co-stars, deep focus"
+    },
+    {
+      "id": 16,
+      "es": "Perfil romántico",
+      "en": "side-profile composition emphasizing silhouette and expression"
+    },
+    {
+      "id": 17,
+      "es": "EXTRA · Contrapicado heroico",
+      "en": "low upward-looking angle from waist height, making the couple feel larger than life against the ceiling décor"
+    },
+    {
+      "id": 18,
+      "es": "EXTRA · Tres cuartos trasero",
+      "en": "rear three-quarter view over one partner's shoulder, focus on the other partner's face",
+      "solo_pareja": true
+    }
   ],
-
   "pose": [
-    {"id": 1, "es": "Beso bajo el muérdago", "en": "one partner gently dips the other backward for a staged but affectionate kiss under mistletoe"},
-    {"id": 2, "es": "Entrega de regalo coqueta", "en": "one partner offers a perfectly wrapped gift while the other reaches for it with delighted surprise"},
-    {"id": 3, "es": "Alcanzar la punta del árbol", "en": "one partner lifts or steadies the other while they place an ornament or star high on the tree", "solo_escenas": [1, 8, 9, 11, 14, 22]},
-    {"id": 4, "es": "Galleta de provocación", "en": "one partner feeds the other a Christmas cookie while both laugh"},
-    {"id": 5, "es": "En el regazo", "en": "one partner sits sideways on the other's lap in a polished living-room pose with playful intimacy", "solo_escenas": [1, 2, 8, 9, 13, 14, 17, 22]},
-    {"id": 6, "es": "Enredo de cinta", "en": "both are comically tangled in ribbon or gift wrap while laughing"},
-    {"id": 7, "es": "Tirón de mano en la escalera", "en": "one partner stands a step above, playfully tugging the other upward by the hand", "solo_escenas": [7]},
-    {"id": 8, "es": "Abrazo de anuncio en el sofá", "en": "both recline on a spotless sofa, bodies angled toward each other in staged domestic coziness", "solo_escenas": [1, 8, 9, 13, 14, 17, 22]},
-    {"id": 9, "es": "Baile lento navideño", "en": "the couple sways together in a slow dance, completely absorbed in one another"},
-    {"id": 10, "es": "Ajustar corbata o delantal", "en": "one partner adjusts the other's tie or apron while standing very close"},
-    {"id": 11, "es": "Beso arrodillado junto a la chimenea", "en": "one partner kneels in front of the other beside the fireplace for a soft kiss", "solo_escenas": [2]},
-    {"id": 12, "es": "Risa leyendo una felicitación", "en": "both read a Christmas card together and burst into laughter"},
-    {"id": 13, "es": "Secreto bajo el árbol", "en": "both crouch beside the tree sharing a close, private moment", "solo_escenas": [1, 8, 9, 11, 14, 22]},
-    {"id": 14, "es": "Abrazo de llegada en el porche", "en": "one partner greets the other at the door with a dramatic holiday embrace", "solo_escenas": [5, 16]},
-    {"id": 15, "es": "Intercambio de regalos escondidos", "en": "each hides a present behind their back while teasing the other"},
-    {"id": 16, "es": "Coqueteo en el brazo del sofá", "en": "one partner perches on the sofa arm while the other kneels nearby", "solo_escenas": [1, 8, 9, 13, 14, 17, 22]},
-    {"id": 17, "es": "Robo del bastón de caramelo", "en": "one partner playfully steals a candy cane or bite of dessert from the other"},
-    {"id": 18, "es": "Enredo de la mañana de Navidad", "en": "both seated on the floor among opened gifts, knees and arms overlapping naturally", "solo_escenas": [1, 9, 14, 11, 22]},
-    {"id": 19, "es": "Apoyados en la encimera", "en": "one partner leans back against the kitchen counter while the other steps in close", "solo_escenas": [3, 6, 15]},
-    {"id": 20, "es": "Acurrucados en el faldón del árbol", "en": "both seated low together at the base of the tree, wrapped into the scene", "solo_escenas": [1, 8, 9, 11, 14, 22]},
-    {"id": 21, "es": "Beso en la mejilla a cámara", "en": "one partner turns slightly toward the camera while the other kisses their cheek"},
-    {"id": 22, "es": "Desmayo teatral", "en": "one partner theatrically swoons into the other's arms like a cheesy print ad come to life"},
-    {"id": 23, "es": "Ataque del lazo gigante", "en": "one partner sticks a giant gift bow onto the other while laughing"},
-    {"id": 24, "es": "Susurro navideño", "en": "one partner leans in to whisper something that makes the other visibly laugh and blush"},
-    {"id": 25, "es": "Colgar los calcetines juntos", "en": "both reach upward together to hang the stockings on the mantel", "solo_escenas": [2]},
-    {"id": 26, "es": "Tazas a juego acurrucados", "en": "the couple nestles together holding matching hot-cocoa mugs, bodies overlapping comfortably"},
-    {"id": 27, "es": "Giro en la cocina", "en": "one partner spins the other in the kitchen, skirt flaring", "solo_escenas": [3, 6, 15]},
-    {"id": 28, "es": "Romance en el escritorio", "en": "one partner sits writing cards while the other leans over their shoulder affectionately", "solo_escenas": [4, 12]},
-    {"id": 29, "es": "Casi beso en la puerta", "en": "they pause mid-arrival with faces close and obvious anticipation", "solo_escenas": [5, 16]},
-    {"id": 30, "es": "Agotados y felices", "en": "both exhausted and happy, slouched together in romantic Christmas-morning aftermath", "solo_escenas": [1, 9, 13, 14, 17, 22]},
-    {"id": 31, "es": "EXTRA · Brindis con brazos entrelazados", "en": "a playful arm-in-arm toast with crossed punch glasses, faces close, eyes locked", "solo_escenas": [10, 13, 17, 20, 22]},
-    {"id": 32, "es": "EXTRA · Cargando el árbol juntos", "en": "both carry a freshly cut fir tree together, one at the trunk, one at the top, laughing as needles fall", "solo_escenas": [16, 18, 19]},
-    {"id": 33, "es": "EXTRA · Guerra de bolas de nieve", "en": "a mid-throw snowball fight, one partner ducking and laughing, snow bursting in the air", "solo_escenas": [18, 19]},
-    {"id": 34, "es": "EXTRA · Poniendo el disco", "en": "one partner lowers the needle onto a Christmas record while the other wraps their arms around them from behind", "solo_escenas": [17]},
-    {"id": 35, "es": "EXTRA · Trinchando el pavo", "en": "one partner proudly carves the turkey while the other presents it with a theatrical game-show gesture", "solo_escenas": [20]},
-    {"id": 36, "es": "EXTRA · Maniquíes que cobran vida", "en": "both hold stiff mannequin poses in the window display, but one sneaks a kiss and the other breaks into a grin", "solo_escenas": [21]},
-    {"id": 37, "es": "EXTRA · Llevarla en brazos", "en": "one partner carries the other bridal-style, the carried partner holding a stack of gifts that threatens to topple"},
-    {"id": 38, "es": "EXTRA · Ella tumbada boca abajo, él al lado", "en": "both lie on their stomachs on the rug, chins in hands, peeking at a present between them like children", "solo_escenas": [1, 9, 14, 22, 17]}
+    {
+      "id": 1,
+      "es": "Beso bajo el muérdago",
+      "en": "one partner gently dips the other backward for a staged but affectionate kiss under mistletoe"
+    },
+    {
+      "id": 2,
+      "es": "Entrega de regalo coqueta",
+      "en": "one partner offers a perfectly wrapped gift while the other reaches for it with delighted surprise"
+    },
+    {
+      "id": 3,
+      "es": "Alcanzar la punta del árbol",
+      "en": "one partner lifts or steadies the other while they place an ornament or star high on the tree",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        11,
+        14,
+        22
+      ]
+    },
+    {
+      "id": 4,
+      "es": "Galleta de provocación",
+      "en": "one partner feeds the other a Christmas cookie while both laugh"
+    },
+    {
+      "id": 5,
+      "es": "En el regazo",
+      "en": "one partner sits sideways on the other's lap in a polished living-room pose with playful intimacy",
+      "solo_escenas": [
+        1,
+        2,
+        8,
+        9,
+        13,
+        14,
+        17,
+        22
+      ]
+    },
+    {
+      "id": 6,
+      "es": "Enredo de cinta",
+      "en": "both are comically tangled in ribbon or gift wrap while laughing"
+    },
+    {
+      "id": 7,
+      "es": "Tirón de mano en la escalera",
+      "en": "one partner stands a step above, playfully tugging the other upward by the hand",
+      "solo_escenas": [
+        7
+      ]
+    },
+    {
+      "id": 8,
+      "es": "Abrazo de anuncio en el sofá",
+      "en": "both recline on a spotless sofa, bodies angled toward each other in staged domestic coziness",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        13,
+        14,
+        17,
+        22
+      ]
+    },
+    {
+      "id": 9,
+      "es": "Baile lento navideño",
+      "en": "the couple sways together in a slow dance, completely absorbed in one another"
+    },
+    {
+      "id": 10,
+      "es": "Ajustar corbata o delantal",
+      "en": "one partner adjusts the other's tie or apron while standing very close"
+    },
+    {
+      "id": 11,
+      "es": "Beso arrodillado junto a la chimenea",
+      "en": "one partner kneels in front of the other beside the fireplace for a soft kiss",
+      "solo_escenas": [
+        2
+      ]
+    },
+    {
+      "id": 12,
+      "es": "Risa leyendo una felicitación",
+      "en": "both read a Christmas card together and burst into laughter"
+    },
+    {
+      "id": 13,
+      "es": "Secreto bajo el árbol",
+      "en": "both crouch beside the tree sharing a close, private moment",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        11,
+        14,
+        22
+      ]
+    },
+    {
+      "id": 14,
+      "es": "Abrazo de llegada en el porche",
+      "en": "one partner greets the other at the door with a dramatic holiday embrace",
+      "solo_escenas": [
+        5,
+        16
+      ]
+    },
+    {
+      "id": 15,
+      "es": "Intercambio de regalos escondidos",
+      "en": "each hides a present behind their back while teasing the other"
+    },
+    {
+      "id": 16,
+      "es": "Coqueteo en el brazo del sofá",
+      "en": "one partner perches on the sofa arm while the other kneels nearby",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        13,
+        14,
+        17,
+        22
+      ]
+    },
+    {
+      "id": 17,
+      "es": "Robo del bastón de caramelo",
+      "en": "one partner playfully steals a candy cane or bite of dessert from the other"
+    },
+    {
+      "id": 18,
+      "es": "Enredo de la mañana de Navidad",
+      "en": "both seated on the floor among opened gifts, knees and arms overlapping naturally",
+      "solo_escenas": [
+        1,
+        9,
+        14,
+        11,
+        22
+      ]
+    },
+    {
+      "id": 19,
+      "es": "Apoyados en la encimera",
+      "en": "one partner leans back against the kitchen counter while the other steps in close",
+      "solo_escenas": [
+        3,
+        6,
+        15
+      ]
+    },
+    {
+      "id": 20,
+      "es": "Acurrucados en el faldón del árbol",
+      "en": "both seated low together at the base of the tree, wrapped into the scene",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        11,
+        14,
+        22
+      ]
+    },
+    {
+      "id": 21,
+      "es": "Beso en la mejilla a cámara",
+      "en": "one partner turns slightly toward the camera while the other kisses their cheek"
+    },
+    {
+      "id": 22,
+      "es": "Desmayo teatral",
+      "en": "one partner theatrically swoons into the other's arms like a cheesy print ad come to life"
+    },
+    {
+      "id": 23,
+      "es": "Ataque del lazo gigante",
+      "en": "one partner sticks a giant gift bow onto the other while laughing"
+    },
+    {
+      "id": 24,
+      "es": "Susurro navideño",
+      "en": "one partner leans in to whisper something that makes the other visibly laugh and blush"
+    },
+    {
+      "id": 25,
+      "es": "Colgar los calcetines juntos",
+      "en": "both reach upward together to hang the stockings on the mantel",
+      "solo_escenas": [
+        2
+      ]
+    },
+    {
+      "id": 26,
+      "es": "Tazas a juego acurrucados",
+      "en": "the couple nestles together holding matching hot-cocoa mugs, bodies overlapping comfortably"
+    },
+    {
+      "id": 27,
+      "es": "Giro en la cocina",
+      "en": "one partner spins the other in the kitchen, skirt flaring",
+      "solo_escenas": [
+        3,
+        6,
+        15
+      ]
+    },
+    {
+      "id": 28,
+      "es": "Romance en el escritorio",
+      "en": "one partner sits writing cards while the other leans over their shoulder affectionately",
+      "solo_escenas": [
+        4,
+        12
+      ]
+    },
+    {
+      "id": 29,
+      "es": "Casi beso en la puerta",
+      "en": "they pause mid-arrival with faces close and obvious anticipation",
+      "solo_escenas": [
+        5,
+        16
+      ]
+    },
+    {
+      "id": 30,
+      "es": "Agotados y felices",
+      "en": "both exhausted and happy, slouched together in romantic Christmas-morning aftermath",
+      "solo_escenas": [
+        1,
+        9,
+        13,
+        14,
+        17,
+        22
+      ]
+    },
+    {
+      "id": 31,
+      "es": "EXTRA · Brindis con brazos entrelazados",
+      "en": "a playful arm-in-arm toast with crossed punch glasses, faces close, eyes locked",
+      "solo_escenas": [
+        10,
+        13,
+        17,
+        20,
+        22
+      ]
+    },
+    {
+      "id": 32,
+      "es": "EXTRA · Cargando el árbol juntos",
+      "en": "both carry a freshly cut fir tree together, one at the trunk, one at the top, laughing as needles fall",
+      "solo_escenas": [
+        16,
+        18,
+        19
+      ]
+    },
+    {
+      "id": 33,
+      "es": "EXTRA · Guerra de bolas de nieve",
+      "en": "a mid-throw snowball fight, one partner ducking and laughing, snow bursting in the air",
+      "solo_escenas": [
+        18,
+        19
+      ]
+    },
+    {
+      "id": 34,
+      "es": "EXTRA · Poniendo el disco",
+      "en": "one partner lowers the needle onto a Christmas record while the other wraps their arms around them from behind",
+      "solo_escenas": [
+        17
+      ]
+    },
+    {
+      "id": 35,
+      "es": "EXTRA · Trinchando el pavo",
+      "en": "one partner proudly carves the turkey while the other presents it with a theatrical game-show gesture",
+      "solo_escenas": [
+        20
+      ]
+    },
+    {
+      "id": 36,
+      "es": "EXTRA · Maniquíes que cobran vida",
+      "en": "both hold stiff mannequin poses in the window display, but one sneaks a kiss and the other breaks into a grin",
+      "solo_escenas": [
+        21
+      ]
+    },
+    {
+      "id": 37,
+      "es": "EXTRA · Llevarla en brazos",
+      "en": "one partner carries the other bridal-style, the carried partner holding a stack of gifts that threatens to topple"
+    },
+    {
+      "id": 38,
+      "es": "EXTRA · Ella tumbada boca abajo, él al lado",
+      "en": "both lie on their stomachs on the rug, chins in hands, peeking at a present between them like children",
+      "solo_escenas": [
+        1,
+        9,
+        14,
+        22,
+        17
+      ]
+    }
   ],
-
   "moda": [
-    {"id": 1, "es": "Anfitriona perfecta", "en": "she wears a full-skirted holiday hostess dress with a petticoat; he wears tailored trousers, a crisp shirt and a cardigan"},
-    {"id": 2, "es": "Pijamas de mañana de Navidad", "en": "coordinated period-correct pajamas and quilted satin robes, soft domestic styling", "excluir_escenas": [16, 18, 19, 20, 21, 10]},
-    {"id": 3, "es": "Fiesta mid-century", "en": "she wears a satin cocktail dress; he wears a midnight-blue dinner jacket and bow tie"},
-    {"id": 4, "es": "Pareja de cocina", "en": "she wears a fitted blouse, apron and flared skirt; he wears rolled sleeves and tidy slacks"},
-    {"id": 5, "es": "Conjunto de punto romántico", "en": "she wears a fitted twinset sweater with a circle skirt; he wears a knit sweater vest over a shirt with tailored trousers"},
-    {"id": 6, "es": "Casual de decorar el árbol", "en": "she wears a tucked blouse and slim cigarette pants; he wears a button-down shirt with pleated slacks"},
-    {"id": 7, "es": "Pareja de rebecas", "en": "soft matching-but-distinct cardigans and polished loungewear, perfectly tidy domestic holiday dressing"},
-    {"id": 8, "es": "Pareja de anuncio glamurosa", "en": "she wears a jewel-toned fit-and-flare dress with gloves; he wears a polished suit with a festive tie"},
-    {"id": 9, "es": "Delantales coquetos", "en": "she wears a pretty domestic dress with a frilled holiday apron; he wears handsome casual home styling"},
-    {"id": 10, "es": "Elegancia de chimenea", "en": "she wears a refined velvet dress; he wears formal trousers and a dinner-ready shirt with suspenders"},
-    {"id": 11, "es": "Jerséis navideños a juego", "en": "coordinated but distinct vintage Christmas sweaters (reindeer and snowflake motifs) with period slacks or skirt"},
-    {"id": 12, "es": "Dúo doméstico de fin de semana", "en": "relaxed but polished 1950s homewear with soft textures and tidy silhouettes"},
-    {"id": 13, "es": "Falda lápiz", "en": "she wears a fitted blouse and pencil skirt; he wears a clean camp-collar sport shirt and trousers"},
-    {"id": 14, "es": "Anfitriones de fiesta", "en": "she wears a structured hostess ensemble with a wide belt; he wears a refined blazer with a pocket square"},
-    {"id": 15, "es": "Abrigos de llegada", "en": "period winter coats: she in a swing coat with fur collar, gloves and a small hat; he in a wool overcoat, scarf and fedora"},
-    {"id": 16, "es": "Después de la fiesta", "en": "slightly relaxed eveningwear: her heels kicked off, his bow tie undone, elegant but softened"},
-    {"id": 17, "es": "EXTRA · Ropa de nieve años 50", "en": "1950s winter wear: Fair Isle ski sweaters, wool trousers, mittens, earmuffs and knitted scarves"},
-    {"id": 18, "es": "EXTRA · Tartán escocés", "en": "she wears a red tartan taffeta dress with a velvet bow; he wears a tartan waistcoat with a white shirt and dark trousers"}
+    {
+      "id": 1,
+      "es": "Anfitriona perfecta",
+      "en": "she wears a full-skirted holiday hostess dress with a petticoat; he wears tailored trousers, a crisp shirt and a cardigan",
+      "ella": "a full-skirted holiday hostess dress with a petticoat",
+      "el": "tailored trousers, a crisp shirt and a cardigan"
+    },
+    {
+      "id": 2,
+      "es": "Pijamas de mañana de Navidad",
+      "en": "coordinated period-correct pajamas and quilted satin robes, soft domestic styling",
+      "excluir_escenas": [
+        16,
+        18,
+        19,
+        20,
+        21,
+        10
+      ],
+      "ella": "period-correct satin pajamas and a quilted robe",
+      "el": "period-correct striped pajamas and a quilted robe"
+    },
+    {
+      "id": 3,
+      "es": "Fiesta mid-century",
+      "en": "she wears a satin cocktail dress; he wears a midnight-blue dinner jacket and bow tie",
+      "ella": "a satin cocktail dress",
+      "el": "a midnight-blue dinner jacket and bow tie"
+    },
+    {
+      "id": 4,
+      "es": "Pareja de cocina",
+      "en": "she wears a fitted blouse, apron and flared skirt; he wears rolled sleeves and tidy slacks",
+      "ella": "a fitted blouse, apron and flared skirt",
+      "el": "a shirt with rolled sleeves and tidy slacks"
+    },
+    {
+      "id": 5,
+      "es": "Conjunto de punto romántico",
+      "en": "she wears a fitted twinset sweater with a circle skirt; he wears a knit sweater vest over a shirt with tailored trousers",
+      "ella": "a fitted twinset sweater with a circle skirt",
+      "el": "a knit sweater vest over a shirt with tailored trousers"
+    },
+    {
+      "id": 6,
+      "es": "Casual de decorar el árbol",
+      "en": "she wears a tucked blouse and slim cigarette pants; he wears a button-down shirt with pleated slacks",
+      "ella": "a tucked blouse and slim cigarette pants",
+      "el": "a button-down shirt with pleated slacks"
+    },
+    {
+      "id": 7,
+      "es": "Pareja de rebecas",
+      "en": "soft matching-but-distinct cardigans and polished loungewear, perfectly tidy domestic holiday dressing",
+      "ella": "a soft cardigan over polished loungewear",
+      "el": "a soft shawl-collar cardigan over polished loungewear"
+    },
+    {
+      "id": 8,
+      "es": "Pareja de anuncio glamurosa",
+      "en": "she wears a jewel-toned fit-and-flare dress with gloves; he wears a polished suit with a festive tie",
+      "ella": "a jewel-toned fit-and-flare dress with gloves",
+      "el": "a polished suit with a festive tie"
+    },
+    {
+      "id": 9,
+      "es": "Delantales coquetos",
+      "en": "she wears a pretty domestic dress with a frilled holiday apron; he wears handsome casual home styling",
+      "ella": "a pretty domestic dress with a frilled holiday apron",
+      "el": "handsome casual home styling: knit polo and slacks"
+    },
+    {
+      "id": 10,
+      "es": "Elegancia de chimenea",
+      "en": "she wears a refined velvet dress; he wears formal trousers and a dinner-ready shirt with suspenders",
+      "ella": "a refined velvet dress",
+      "el": "formal trousers and a dinner-ready shirt with suspenders"
+    },
+    {
+      "id": 11,
+      "es": "Jerséis navideños a juego",
+      "en": "coordinated but distinct vintage Christmas sweaters (reindeer and snowflake motifs) with period slacks or skirt",
+      "ella": "a vintage Christmas sweater with a snowflake motif and a skirt",
+      "el": "a vintage Christmas sweater with a reindeer motif and slacks"
+    },
+    {
+      "id": 12,
+      "es": "Dúo doméstico de fin de semana",
+      "en": "relaxed but polished 1950s homewear with soft textures and tidy silhouettes",
+      "ella": "relaxed but polished 1950s homewear with soft textures",
+      "el": "relaxed but polished 1950s homewear with soft textures"
+    },
+    {
+      "id": 13,
+      "es": "Falda lápiz",
+      "en": "she wears a fitted blouse and pencil skirt; he wears a clean camp-collar sport shirt and trousers",
+      "ella": "a fitted blouse and pencil skirt",
+      "el": "a clean camp-collar sport shirt and trousers"
+    },
+    {
+      "id": 14,
+      "es": "Anfitriones de fiesta",
+      "en": "she wears a structured hostess ensemble with a wide belt; he wears a refined blazer with a pocket square",
+      "ella": "a structured hostess ensemble with a wide belt",
+      "el": "a refined blazer with a pocket square"
+    },
+    {
+      "id": 15,
+      "es": "Abrigos de llegada",
+      "en": "period winter coats: she in a swing coat with fur collar, gloves and a small hat; he in a wool overcoat, scarf and fedora",
+      "ella": "a swing coat with fur collar, gloves and a small hat",
+      "el": "a wool overcoat, scarf and fedora"
+    },
+    {
+      "id": 16,
+      "es": "Después de la fiesta",
+      "en": "slightly relaxed eveningwear: her heels kicked off, his bow tie undone, elegant but softened",
+      "ella": "relaxed eveningwear with her heels kicked off",
+      "el": "relaxed eveningwear with his bow tie undone"
+    },
+    {
+      "id": 17,
+      "es": "EXTRA · Ropa de nieve años 50",
+      "en": "1950s winter wear: Fair Isle ski sweaters, wool trousers, mittens, earmuffs and knitted scarves",
+      "ella": "a Fair Isle ski sweater, wool trousers, mittens and earmuffs",
+      "el": "a Fair Isle ski sweater, wool trousers, mittens and a knitted scarf"
+    },
+    {
+      "id": 18,
+      "es": "EXTRA · Tartán escocés",
+      "en": "she wears a red tartan taffeta dress with a velvet bow; he wears a tartan waistcoat with a white shirt and dark trousers",
+      "ella": "a red tartan taffeta dress with a velvet bow",
+      "el": "a tartan waistcoat with a white shirt and dark trousers"
+    }
   ],
-
   "pelo_ella": [
-    {"id": 1, "es": "Bob rizado pulido", "en": "a polished curled bob with smooth volume"},
-    {"id": 2, "es": "Estilo paje rizado", "en": "a glamorous pageboy-inspired curled style"},
-    {"id": 3, "es": "Ondas tras la oreja", "en": "softly set waves tucked behind one ear"},
-    {"id": 4, "es": "Coleta vintage", "en": "a neatly styled ponytail with vintage bounce"},
-    {"id": 5, "es": "Recogido con pañuelo", "en": "a scarf-tied updo with curled tendrils"},
-    {"id": 6, "es": "Semirrecogido con lazo", "en": "a half-up style with a holiday ribbon and curled ends"},
-    {"id": 7, "es": "Rizos voluminosos", "en": "voluminous brushed curls with a polished crown"},
-    {"id": 8, "es": "Moño chignon", "en": "a tidy chignon with soft face-framing pieces"},
-    {"id": 9, "es": "Ondas retro con raya lateral", "en": "side-parted retro waves with glamorous structure"},
-    {"id": 10, "es": "Recogido enrollado", "en": "a softly rolled updo with feminine fullness"},
-    {"id": 11, "es": "Media melena con puntas hacia dentro", "en": "a smooth shoulder-length style with curled-under ends"},
-    {"id": 12, "es": "Recogido doméstico desenfadado", "en": "a playful domestic updo with realistic loose strands"}
+    {
+      "id": 1,
+      "es": "Bob rizado pulido",
+      "en": "a polished curled bob with smooth volume"
+    },
+    {
+      "id": 2,
+      "es": "Estilo paje rizado",
+      "en": "a glamorous pageboy-inspired curled style"
+    },
+    {
+      "id": 3,
+      "es": "Ondas tras la oreja",
+      "en": "softly set waves tucked behind one ear"
+    },
+    {
+      "id": 4,
+      "es": "Coleta vintage",
+      "en": "a neatly styled ponytail with vintage bounce"
+    },
+    {
+      "id": 5,
+      "es": "Recogido con pañuelo",
+      "en": "a scarf-tied updo with curled tendrils"
+    },
+    {
+      "id": 6,
+      "es": "Semirrecogido con lazo",
+      "en": "a half-up style with a holiday ribbon and curled ends"
+    },
+    {
+      "id": 7,
+      "es": "Rizos voluminosos",
+      "en": "voluminous brushed curls with a polished crown"
+    },
+    {
+      "id": 8,
+      "es": "Moño chignon",
+      "en": "a tidy chignon with soft face-framing pieces"
+    },
+    {
+      "id": 9,
+      "es": "Ondas retro con raya lateral",
+      "en": "side-parted retro waves with glamorous structure"
+    },
+    {
+      "id": 10,
+      "es": "Recogido enrollado",
+      "en": "a softly rolled updo with feminine fullness"
+    },
+    {
+      "id": 11,
+      "es": "Media melena con puntas hacia dentro",
+      "en": "a smooth shoulder-length style with curled-under ends"
+    },
+    {
+      "id": 12,
+      "es": "Recogido doméstico desenfadado",
+      "en": "a playful domestic updo with realistic loose strands"
+    }
   ],
-
   "pelo_el": [
-    {"id": 1, "es": "Raya al lado pulida", "en": "neatly side-parted and polished"},
-    {"id": 2, "es": "Ondulado clásico", "en": "softly waved classic mid-century grooming"},
-    {"id": 3, "es": "Algo despeinado", "en": "slightly tousled but still ad-presentable"},
-    {"id": 4, "es": "Corto y limpio", "en": "a clean, short, tidy holiday look"},
-    {"id": 5, "es": "Peinado hacia atrás con brillo", "en": "brushed back with subtle pomade shine"},
-    {"id": 6, "es": "Casual de casa", "en": "casual at-home styling with believable texture"}
+    {
+      "id": 1,
+      "es": "Raya al lado pulida",
+      "en": "neatly side-parted and polished"
+    },
+    {
+      "id": 2,
+      "es": "Ondulado clásico",
+      "en": "softly waved classic mid-century grooming"
+    },
+    {
+      "id": 3,
+      "es": "Algo despeinado",
+      "en": "slightly tousled but still ad-presentable"
+    },
+    {
+      "id": 4,
+      "es": "Corto y limpio",
+      "en": "a clean, short, tidy holiday look"
+    },
+    {
+      "id": 5,
+      "es": "Peinado hacia atrás con brillo",
+      "en": "brushed back with subtle pomade shine"
+    },
+    {
+      "id": 6,
+      "es": "Casual de casa",
+      "en": "casual at-home styling with believable texture"
+    }
   ],
-
   "maquillaje": [
-    {"id": 1, "es": "Labios rojos y eyeliner suave", "en": "classic red lipstick and soft eyeliner"},
-    {"id": 2, "es": "Mejillas sonrosadas", "en": "fresh rosy cheeks with softly defined lashes"},
-    {"id": 3, "es": "Mínimo y luminoso", "en": "minimal polished makeup with luminous skin"},
-    {"id": 4, "es": "Cat-eye glamuroso", "en": "a glamorous cat-eye with satin lipstick"},
-    {"id": 5, "es": "Colorete melocotón", "en": "soft peachy blush and gently defined eyes"},
-    {"id": 6, "es": "Perfección de anuncio", "en": "holiday-ad perfection with subtle lip emphasis"},
-    {"id": 7, "es": "Labio jugoso natural", "en": "a softly glossy lip and natural shaping"},
-    {"id": 8, "es": "Glamour de noche", "en": "slightly more dramatic evening glamour"},
-    {"id": 9, "es": "Postal con mejillas brillantes", "en": "wholesome Christmas-card polish with bright cheeks"},
-    {"id": 10, "es": "Elegancia discreta", "en": "clean domestic elegance with understated definition"}
+    {
+      "id": 1,
+      "es": "Labios rojos y eyeliner suave",
+      "en": "classic red lipstick and soft eyeliner"
+    },
+    {
+      "id": 2,
+      "es": "Mejillas sonrosadas",
+      "en": "fresh rosy cheeks with softly defined lashes"
+    },
+    {
+      "id": 3,
+      "es": "Mínimo y luminoso",
+      "en": "minimal polished makeup with luminous skin"
+    },
+    {
+      "id": 4,
+      "es": "Cat-eye glamuroso",
+      "en": "a glamorous cat-eye with satin lipstick"
+    },
+    {
+      "id": 5,
+      "es": "Colorete melocotón",
+      "en": "soft peachy blush and gently defined eyes"
+    },
+    {
+      "id": 6,
+      "es": "Perfección de anuncio",
+      "en": "holiday-ad perfection with subtle lip emphasis"
+    },
+    {
+      "id": 7,
+      "es": "Labio jugoso natural",
+      "en": "a softly glossy lip and natural shaping"
+    },
+    {
+      "id": 8,
+      "es": "Glamour de noche",
+      "en": "slightly more dramatic evening glamour"
+    },
+    {
+      "id": 9,
+      "es": "Postal con mejillas brillantes",
+      "en": "wholesome Christmas-card polish with bright cheeks"
+    },
+    {
+      "id": 10,
+      "es": "Elegancia discreta",
+      "en": "clean domestic elegance with understated definition"
+    }
   ],
-
   "accesorios": [
-    {"id": 1, "es": "Pendientes de perla y pulsera", "en": "pearl earrings and a delicate bracelet"},
-    {"id": 2, "es": "Lazos de satén en el pelo", "en": "satin holiday hair ribbons"},
-    {"id": 3, "es": "Guantes vintage", "en": "vintage gloves, worn or set aside nearby"},
-    {"id": 4, "es": "Bisutería brillante", "en": "sparkling costume-jewelry earrings"},
-    {"id": 5, "es": "Broche navideño", "en": "a delicate holiday-themed brooch"},
-    {"id": 6, "es": "Cinturón fino", "en": "a slim belt defining her silhouette"},
-    {"id": 7, "es": "Gemelos y pasador de corbata", "en": "period-correct cufflinks and tie bar for him"},
-    {"id": 8, "es": "Delantal como accesorio", "en": "a holiday apron styled as an accessory"},
-    {"id": 9, "es": "Racimo de lacitos", "en": "a tiny cluster of ribbon bows worked into the styling"},
-    {"id": 10, "es": "Joyería mínima", "en": "minimal jewelry for a cleaner advertisement feel"},
-    {"id": 11, "es": "EXTRA · Collar de perlas de una vuelta", "en": "a single-strand pearl necklace and a classic wristwatch for him"}
+    {
+      "id": 1,
+      "es": "Pendientes de perla y pulsera",
+      "en": "pearl earrings and a delicate bracelet",
+      "para": "ella"
+    },
+    {
+      "id": 2,
+      "es": "Lazos de satén en el pelo",
+      "en": "satin holiday hair ribbons",
+      "para": "ella"
+    },
+    {
+      "id": 3,
+      "es": "Guantes vintage",
+      "en": "vintage gloves, worn or set aside nearby",
+      "para": "ella"
+    },
+    {
+      "id": 4,
+      "es": "Bisutería brillante",
+      "en": "sparkling costume-jewelry earrings",
+      "para": "ella"
+    },
+    {
+      "id": 5,
+      "es": "Broche navideño",
+      "en": "a delicate holiday-themed brooch",
+      "para": "ella"
+    },
+    {
+      "id": 6,
+      "es": "Cinturón fino",
+      "en": "a slim belt defining her silhouette",
+      "para": "ella"
+    },
+    {
+      "id": 7,
+      "es": "Gemelos y pasador de corbata",
+      "en": "period-correct cufflinks and tie bar for him",
+      "para": "el"
+    },
+    {
+      "id": 8,
+      "es": "Delantal como accesorio",
+      "en": "a holiday apron styled as an accessory",
+      "para": "ambos"
+    },
+    {
+      "id": 9,
+      "es": "Racimo de lacitos",
+      "en": "a tiny cluster of ribbon bows worked into the styling",
+      "para": "ella"
+    },
+    {
+      "id": 10,
+      "es": "Joyería mínima",
+      "en": "minimal jewelry for a cleaner advertisement feel",
+      "para": "ambos"
+    },
+    {
+      "id": 11,
+      "es": "EXTRA · Collar de perlas de una vuelta",
+      "en": "a single-strand pearl necklace and a classic wristwatch for him",
+      "para": "ella"
+    },
+    {
+      "id": 12,
+      "es": "EXTRA · Reloj clásico y pañuelo de bolsillo",
+      "en": "a classic wristwatch and a festive pocket square",
+      "para": "el"
+    }
   ],
-
   "atrezo": [
-    {"id": 1, "es": "Regalo gigante", "en": "a giant wrapped present"},
-    {"id": 2, "es": "Caja de bolas de cristal", "en": "a glossy box of glass ornaments"},
-    {"id": 3, "es": "Bandeja de galletas glaseadas", "en": "a tray of frosted sugar cookies"},
-    {"id": 4, "es": "Ponchera de plata", "en": "a silver punch bowl or cocktail tray"},
-    {"id": 5, "es": "Montón de felicitaciones", "en": "a stack of greeting cards and envelopes"},
-    {"id": 6, "es": "Manojo de bastones de caramelo", "en": "a bundle of candy canes"},
-    {"id": 7, "es": "Bobina de cinta / lazo enorme", "en": "a ribbon spool or oversized bow"},
-    {"id": 8, "es": "Tira de espumillón", "en": "a long string of tinsel garland"},
-    {"id": 9, "es": "Tren de juguete retro", "en": "a tiny retro tin toy train"},
-    {"id": 10, "es": "Tazas navideñas", "en": "a festive set of holiday mugs"},
-    {"id": 11, "es": "Plato de jengibre", "en": "a plate of decorated gingerbread"},
-    {"id": 12, "es": "Calcetín o bola del árbol", "en": "a Christmas stocking or a single tree ornament"},
-    {"id": 13, "es": "Ramillete de muérdago", "en": "a mistletoe cluster"},
-    {"id": 14, "es": "Funda de disco navideño", "en": "a Christmas record sleeve"},
-    {"id": 15, "es": "Caja de pastelería atada", "en": "a perfectly tied bakery box"},
-    {"id": 16, "es": "Regalos abiertos y papel de seda", "en": "a pile of opened presents and tissue paper"},
-    {"id": 17, "es": "EXTRA · Bola de nieve de cristal", "en": "a vintage glass snow globe"},
-    {"id": 18, "es": "EXTRA · Cámara Kodak Brownie", "en": "a vintage Kodak Brownie camera with a flashbulb"}
+    {
+      "id": 1,
+      "es": "Regalo gigante",
+      "en": "a giant wrapped present"
+    },
+    {
+      "id": 2,
+      "es": "Caja de bolas de cristal",
+      "en": "a glossy box of glass ornaments"
+    },
+    {
+      "id": 3,
+      "es": "Bandeja de galletas glaseadas",
+      "en": "a tray of frosted sugar cookies"
+    },
+    {
+      "id": 4,
+      "es": "Ponchera de plata",
+      "en": "a silver punch bowl or cocktail tray"
+    },
+    {
+      "id": 5,
+      "es": "Montón de felicitaciones",
+      "en": "a stack of greeting cards and envelopes"
+    },
+    {
+      "id": 6,
+      "es": "Manojo de bastones de caramelo",
+      "en": "a bundle of candy canes"
+    },
+    {
+      "id": 7,
+      "es": "Bobina de cinta / lazo enorme",
+      "en": "a ribbon spool or oversized bow"
+    },
+    {
+      "id": 8,
+      "es": "Tira de espumillón",
+      "en": "a long string of tinsel garland"
+    },
+    {
+      "id": 9,
+      "es": "Tren de juguete retro",
+      "en": "a tiny retro tin toy train"
+    },
+    {
+      "id": 10,
+      "es": "Tazas navideñas",
+      "en": "a festive set of holiday mugs"
+    },
+    {
+      "id": 11,
+      "es": "Plato de jengibre",
+      "en": "a plate of decorated gingerbread"
+    },
+    {
+      "id": 12,
+      "es": "Calcetín o bola del árbol",
+      "en": "a Christmas stocking or a single tree ornament"
+    },
+    {
+      "id": 13,
+      "es": "Ramillete de muérdago",
+      "en": "a mistletoe cluster"
+    },
+    {
+      "id": 14,
+      "es": "Funda de disco navideño",
+      "en": "a Christmas record sleeve"
+    },
+    {
+      "id": 15,
+      "es": "Caja de pastelería atada",
+      "en": "a perfectly tied bakery box"
+    },
+    {
+      "id": 16,
+      "es": "Regalos abiertos y papel de seda",
+      "en": "a pile of opened presents and tissue paper"
+    },
+    {
+      "id": 17,
+      "es": "EXTRA · Bola de nieve de cristal",
+      "en": "a vintage glass snow globe"
+    },
+    {
+      "id": 18,
+      "es": "EXTRA · Cámara Kodak Brownie",
+      "en": "a vintage Kodak Brownie camera with a flashbulb"
+    }
   ],
-
   "iluminacion": [
-    {"id": 1, "es": "Luz cálida de lámpara", "en": "warm golden glow from practical household table lamps, realistic warmth and shadows", "excluir_escenas": [16, 18, 19, 21]},
-    {"id": 2, "es": "Luz de día de mañana de Navidad", "en": "bright winter daylight streaming through pristine windows"},
-    {"id": 3, "es": "Flash de anuncio vintage", "en": "crisp vintage print-ad flash with controlled shadows"},
-    {"id": 4, "es": "Fuego de chimenea", "en": "warm flickering firelight mixed with soft room lighting", "solo_escenas": [2, 13, 17]},
-    {"id": 5, "es": "Destellos de las luces del árbol", "en": "incandescent tree lights and bubble lights adding soft festive illumination"},
-    {"id": 6, "es": "Cocina luminosa", "en": "clean, cheerful, ad-perfect kitchen light", "solo_escenas": [3, 6, 15, 20]},
-    {"id": 7, "es": "Mezcla ventana y lámpara", "en": "cool window daylight blending naturally with warm interior lamps", "excluir_escenas": [18, 19]},
-    {"id": 8, "es": "Romance nocturno tenue", "en": "softer, low, intimate evening light"},
-    {"id": 9, "es": "Clave alta de alegría navideña", "en": "bright, polished, ad-ready high-key illumination"},
-    {"id": 10, "es": "Magia de reflejos en las bolas", "en": "light bouncing beautifully off metallic and glossy ornaments"},
-    {"id": 11, "es": "EXTRA · Hora azul nevada con farol", "en": "blue-hour twilight with falling snow, warm lantern and window glow contrasting the cool exterior", "solo_escenas": [5, 16, 18, 19, 21, 8]}
+    {
+      "id": 1,
+      "es": "Luz cálida de lámpara",
+      "en": "warm golden glow from practical household table lamps, realistic warmth and shadows",
+      "excluir_escenas": [
+        16,
+        18,
+        19,
+        21
+      ]
+    },
+    {
+      "id": 2,
+      "es": "Luz de día de mañana de Navidad",
+      "en": "bright winter daylight streaming through pristine windows"
+    },
+    {
+      "id": 3,
+      "es": "Flash de anuncio vintage",
+      "en": "crisp vintage print-ad flash with controlled shadows"
+    },
+    {
+      "id": 4,
+      "es": "Fuego de chimenea",
+      "en": "warm flickering firelight mixed with soft room lighting",
+      "solo_escenas": [
+        2,
+        13,
+        17
+      ]
+    },
+    {
+      "id": 5,
+      "es": "Destellos de las luces del árbol",
+      "en": "incandescent tree lights and bubble lights adding soft festive illumination"
+    },
+    {
+      "id": 6,
+      "es": "Cocina luminosa",
+      "en": "clean, cheerful, ad-perfect kitchen light",
+      "solo_escenas": [
+        3,
+        6,
+        15,
+        20
+      ]
+    },
+    {
+      "id": 7,
+      "es": "Mezcla ventana y lámpara",
+      "en": "cool window daylight blending naturally with warm interior lamps",
+      "excluir_escenas": [
+        18,
+        19
+      ]
+    },
+    {
+      "id": 8,
+      "es": "Romance nocturno tenue",
+      "en": "softer, low, intimate evening light"
+    },
+    {
+      "id": 9,
+      "es": "Clave alta de alegría navideña",
+      "en": "bright, polished, ad-ready high-key illumination"
+    },
+    {
+      "id": 10,
+      "es": "Magia de reflejos en las bolas",
+      "en": "light bouncing beautifully off metallic and glossy ornaments"
+    },
+    {
+      "id": 11,
+      "es": "EXTRA · Hora azul nevada con farol",
+      "en": "blue-hour twilight with falling snow, warm lantern and window glow contrasting the cool exterior",
+      "solo_escenas": [
+        5,
+        16,
+        18,
+        19,
+        21,
+        8
+      ]
+    }
   ],
-
   "expresion": [
-    {"id": 1, "es": "Alegría navideña imposible", "en": "impossibly cheerful holiday delight"},
-    {"id": 2, "es": "Bromas y sonrisas cómplices", "en": "playful teasing and inside-joke smiles"},
-    {"id": 3, "es": "Mirada tierna", "en": "soft, affectionate eye contact"},
-    {"id": 4, "es": "Anticipación del beso", "en": "breathless pre-kiss anticipation"},
-    {"id": 5, "es": "Emoción de mañana de Navidad", "en": "bright Christmas-morning excitement"},
-    {"id": 6, "es": "Perfección de anuncio irónica", "en": "tongue-in-cheek advertisement perfection, one eyebrow slightly raised"},
-    {"id": 7, "es": "Intimidad doméstica", "en": "cozy domestic intimacy"},
-    {"id": 8, "es": "Dulzura de postal exagerada", "en": "slightly exaggerated holiday-card sweetness"},
-    {"id": 9, "es": "Seguridad coqueta", "en": "flirtatious confidence"},
-    {"id": 10, "es": "Felices para siempre", "en": "relaxed happily-ever-after warmth"},
-    {"id": 11, "es": "Carcajada espontánea", "en": "spontaneous shared laughter"},
-    {"id": 12, "es": "Drama romántico cómico", "en": "comically polished romantic drama"}
+    {
+      "id": 1,
+      "es": "Alegría navideña imposible",
+      "en": "impossibly cheerful holiday delight"
+    },
+    {
+      "id": 2,
+      "es": "Bromas y sonrisas cómplices",
+      "en": "playful teasing and inside-joke smiles"
+    },
+    {
+      "id": 3,
+      "es": "Mirada tierna",
+      "en": "soft, affectionate eye contact",
+      "solo_pareja": true
+    },
+    {
+      "id": 4,
+      "es": "Anticipación del beso",
+      "en": "breathless pre-kiss anticipation",
+      "solo_pareja": true
+    },
+    {
+      "id": 5,
+      "es": "Emoción de mañana de Navidad",
+      "en": "bright Christmas-morning excitement"
+    },
+    {
+      "id": 6,
+      "es": "Perfección de anuncio irónica",
+      "en": "tongue-in-cheek advertisement perfection, one eyebrow slightly raised"
+    },
+    {
+      "id": 7,
+      "es": "Intimidad doméstica",
+      "en": "cozy domestic intimacy"
+    },
+    {
+      "id": 8,
+      "es": "Dulzura de postal exagerada",
+      "en": "slightly exaggerated holiday-card sweetness"
+    },
+    {
+      "id": 9,
+      "es": "Seguridad coqueta",
+      "en": "flirtatious confidence"
+    },
+    {
+      "id": 10,
+      "es": "Felices para siempre",
+      "en": "relaxed happily-ever-after warmth"
+    },
+    {
+      "id": 11,
+      "es": "Carcajada espontánea",
+      "en": "spontaneous shared laughter"
+    },
+    {
+      "id": 12,
+      "es": "Drama romántico cómico",
+      "en": "comically polished romantic drama",
+      "solo_pareja": true
+    },
+    {
+      "id": 13,
+      "es": "EXTRA · Guiño cómplice a cámara",
+      "en": "a knowing wink at the camera",
+      "solo_individual": true
+    },
+    {
+      "id": 14,
+      "es": "EXTRA · Pillado in fraganti",
+      "en": "caught red-handed, mock-guilty grin",
+      "solo_individual": true
+    }
   ],
-
   "composicion": [
-    {"id": 1, "es": "Simetría de anuncio con cuerpos asimétricos", "en": "polished ad-style symmetry with slightly asymmetrical body placement"},
-    {"id": 2, "es": "Recorte íntimo de manos y caras", "en": "close intimate crop emphasizing hands, faces and romantic interaction"},
-    {"id": 3, "es": "Cuerpo entero con toda la estancia", "en": "full-body environmental composition showcasing the entire room"},
-    {"id": 4, "es": "Primer plano tapado por adornos", "en": "foreground-obscured composition with ornaments, ribbons or dishes framing the couple"},
-    {"id": 5, "es": "Diagonal", "en": "strong diagonal composition guided by staircase lines, furniture or body angles"},
-    {"id": 6, "es": "Plano medio de postal", "en": "cozy medium shot structured like a printed holiday card"},
-    {"id": 7, "es": "Cuadro doméstico amplio", "en": "wide domestic tableau where the décor competes equally with the couple"},
-    {"id": 8, "es": "Basada en reflejos", "en": "reflection-based composition using chrome, glass or ornament surfaces"},
-    {"id": 9, "es": "Descentrada y dinámica", "en": "dynamic off-center composition emphasizing motion"},
-    {"id": 10, "es": "Vertical con alturas distintas", "en": "vertical composition focusing on their different body levels"},
-    {"id": 11, "es": "Capas de profundidad", "en": "layered room-depth composition with foreground props and background tree or fireplace"},
-    {"id": 12, "es": "Retrato de química facial", "en": "romantic portrait crop built around facial chemistry"}
+    {
+      "id": 1,
+      "es": "Simetría de anuncio con cuerpos asimétricos",
+      "en": "polished ad-style symmetry with slightly asymmetrical body placement"
+    },
+    {
+      "id": 2,
+      "es": "Recorte íntimo de manos y caras",
+      "en": "close intimate crop emphasizing hands, faces and romantic interaction",
+      "solo_pareja": true
+    },
+    {
+      "id": 3,
+      "es": "Cuerpo entero con toda la estancia",
+      "en": "full-body environmental composition showcasing the entire room"
+    },
+    {
+      "id": 4,
+      "es": "Primer plano tapado por adornos",
+      "en": "foreground-obscured composition with ornaments, ribbons or dishes framing the couple"
+    },
+    {
+      "id": 5,
+      "es": "Diagonal",
+      "en": "strong diagonal composition guided by staircase lines, furniture or body angles"
+    },
+    {
+      "id": 6,
+      "es": "Plano medio de postal",
+      "en": "cozy medium shot structured like a printed holiday card"
+    },
+    {
+      "id": 7,
+      "es": "Cuadro doméstico amplio",
+      "en": "wide domestic tableau where the décor competes equally with the couple"
+    },
+    {
+      "id": 8,
+      "es": "Basada en reflejos",
+      "en": "reflection-based composition using chrome, glass or ornament surfaces"
+    },
+    {
+      "id": 9,
+      "es": "Descentrada y dinámica",
+      "en": "dynamic off-center composition emphasizing motion"
+    },
+    {
+      "id": 10,
+      "es": "Vertical con alturas distintas",
+      "en": "vertical composition focusing on their different body levels",
+      "solo_pareja": true
+    },
+    {
+      "id": 11,
+      "es": "Capas de profundidad",
+      "en": "layered room-depth composition with foreground props and background tree or fireplace"
+    },
+    {
+      "id": 12,
+      "es": "Retrato de química facial",
+      "en": "romantic portrait crop built around facial chemistry",
+      "solo_pareja": true
+    },
+    {
+      "id": 13,
+      "es": "EXTRA · Retrato de una cara expresiva",
+      "en": "portrait crop built around one wonderfully expressive face",
+      "solo_individual": true
+    }
   ],
-
   "paleta": [
-    {"id": 1, "es": "EXTRA · Rojo y verde clásico", "en": "classic Christmas red and deep evergreen with gold accents"},
-    {"id": 2, "es": "EXTRA · Pastel atómico", "en": "1950s pastels: mint green, flamingo pink, butter yellow and baby blue with chrome"},
-    {"id": 3, "es": "EXTRA · Plata y azul hielo", "en": "silver, icy blue and white, like a frosted aluminum-tree Christmas"},
-    {"id": 4, "es": "EXTRA · Rosa y rojo caramelo", "en": "candy-cane red, peppermint white and bubblegum pink"},
-    {"id": 5, "es": "EXTRA · Tonos joya", "en": "rich jewel tones: emerald, ruby, sapphire and antique gold"},
-    {"id": 6, "es": "EXTRA · Turquesa y coral", "en": "turquoise and coral with cream, a playful mid-century kitchen palette"},
-    {"id": 7, "es": "EXTRA · Crema y burdeos", "en": "warm cream, burgundy and walnut wood tones, cozy and elegant"}
+    {
+      "id": 1,
+      "es": "EXTRA · Rojo y verde clásico",
+      "en": "classic Christmas red and deep evergreen with gold accents"
+    },
+    {
+      "id": 2,
+      "es": "EXTRA · Pastel atómico",
+      "en": "1950s pastels: mint green, flamingo pink, butter yellow and baby blue with chrome"
+    },
+    {
+      "id": 3,
+      "es": "EXTRA · Plata y azul hielo",
+      "en": "silver, icy blue and white, like a frosted aluminum-tree Christmas"
+    },
+    {
+      "id": 4,
+      "es": "EXTRA · Rosa y rojo caramelo",
+      "en": "candy-cane red, peppermint white and bubblegum pink"
+    },
+    {
+      "id": 5,
+      "es": "EXTRA · Tonos joya",
+      "en": "rich jewel tones: emerald, ruby, sapphire and antique gold"
+    },
+    {
+      "id": 6,
+      "es": "EXTRA · Turquesa y coral",
+      "en": "turquoise and coral with cream, a playful mid-century kitchen palette"
+    },
+    {
+      "id": 7,
+      "es": "EXTRA · Crema y burdeos",
+      "en": "warm cream, burgundy and walnut wood tones, cozy and elegant"
+    }
   ],
-
   "acabado": [
-    {"id": 1, "es": "EXTRA · Kodachrome saturado", "en": "rich saturated Kodachrome-inspired color science, with modern crisp detail"},
-    {"id": 2, "es": "EXTRA · Revista Life", "en": "glossy LIFE-magazine editorial look, clean whites and deep blacks"},
-    {"id": 3, "es": "EXTRA · Anuncio de grandes almacenes", "en": "bright, idealized department-store catalog polish"},
-    {"id": 4, "es": "EXTRA · Ektachrome cálido", "en": "slightly warm Ektachrome-inspired tones with very fine, subtle grain"},
-    {"id": 5, "es": "EXTRA · Fotografía moderna de época", "en": "neutral modern high-end digital capture of a period set, maximum clarity"}
+    {
+      "id": 1,
+      "es": "EXTRA · Kodachrome saturado",
+      "en": "rich saturated Kodachrome-inspired color science, with modern crisp detail"
+    },
+    {
+      "id": 2,
+      "es": "EXTRA · Revista Life",
+      "en": "glossy LIFE-magazine editorial look, clean whites and deep blacks"
+    },
+    {
+      "id": 3,
+      "es": "EXTRA · Anuncio de grandes almacenes",
+      "en": "bright, idealized department-store catalog polish"
+    },
+    {
+      "id": 4,
+      "es": "EXTRA · Ektachrome cálido",
+      "en": "slightly warm Ektachrome-inspired tones with very fine, subtle grain"
+    },
+    {
+      "id": 5,
+      "es": "EXTRA · Fotografía moderna de época",
+      "en": "neutral modern high-end digital capture of a period set, maximum clarity"
+    }
   ],
-
   "guino_kitsch": [
-    {"id": 1, "es": "EXTRA · Perro con astas de reno", "en": "a small dog wearing felt reindeer antlers watches them with a judging expression"},
-    {"id": 2, "es": "EXTRA · Gato dentro de un regalo", "en": "a cat peeks out of an open gift box, tangled in ribbon"},
-    {"id": 3, "es": "EXTRA · Nieve artificial derramada", "en": "a spilled box of fake snow flakes dusting the floor"},
-    {"id": 4, "es": "EXTRA · Santa de cerámica que los mira", "en": "a ceramic Santa figurine on a shelf appears to be watching them"},
-    {"id": 5, "es": "EXTRA · Cartel de anuncio", "en": "a small framed vintage advertisement poster in the background echoing their pose"},
-    {"id": 6, "es": "EXTRA · Torre de regalos imposible", "en": "an absurdly tall, perfectly balanced tower of presents in the background"},
-    {"id": 7, "es": "EXTRA · Ninguno", "en": ""}
+    {
+      "id": 1,
+      "es": "EXTRA · Perro con astas de reno",
+      "en": "a small dog wearing felt reindeer antlers watches them with a judging expression"
+    },
+    {
+      "id": 2,
+      "es": "EXTRA · Gato dentro de un regalo",
+      "en": "a cat peeks out of an open gift box, tangled in ribbon"
+    },
+    {
+      "id": 3,
+      "es": "EXTRA · Nieve artificial derramada",
+      "en": "a spilled box of fake snow flakes dusting the floor"
+    },
+    {
+      "id": 4,
+      "es": "EXTRA · Santa de cerámica que los mira",
+      "en": "a ceramic Santa figurine on a shelf appears to be watching them"
+    },
+    {
+      "id": 5,
+      "es": "EXTRA · Cartel de anuncio",
+      "en": "a small framed vintage advertisement poster in the background echoing their pose"
+    },
+    {
+      "id": 6,
+      "es": "EXTRA · Torre de regalos imposible",
+      "en": "an absurdly tall, perfectly balanced tower of presents in the background"
+    },
+    {
+      "id": 7,
+      "es": "EXTRA · Ninguno",
+      "en": ""
+    }
   ],
-
   "formato": [
-    {"id": 1, "es": "Vertical 4:5 (Instagram)", "en": "4:5 vertical"},
-    {"id": 2, "es": "Vertical 9:16 (stories)", "en": "9:16 vertical"},
-    {"id": 3, "es": "Horizontal 3:2 (foto clásica)", "en": "3:2 horizontal"},
-    {"id": 4, "es": "Cuadrado 1:1 (postal)", "en": "1:1 square"},
-    {"id": 5, "es": "Vertical 2:3 (póster)", "en": "2:3 vertical"}
+    {
+      "id": 1,
+      "es": "Vertical 4:5 (Instagram)",
+      "en": "4:5 vertical"
+    },
+    {
+      "id": 2,
+      "es": "Vertical 9:16 (stories)",
+      "en": "9:16 vertical"
+    },
+    {
+      "id": 3,
+      "es": "Horizontal 3:2 (foto clásica)",
+      "en": "3:2 horizontal"
+    },
+    {
+      "id": 4,
+      "es": "Cuadrado 1:1 (postal)",
+      "en": "1:1 square"
+    },
+    {
+      "id": 5,
+      "es": "Vertical 2:3 (póster)",
+      "en": "2:3 vertical"
+    }
+  ],
+  "pose_solo": [
+    {
+      "id": 1,
+      "es": "Guiño bajo el muérdago",
+      "en": "stands under the mistletoe, puckering up toward the camera with a playful wink"
+    },
+    {
+      "id": 2,
+      "es": "Poniendo la estrella desde la escalera",
+      "en": "balances on a stepladder placing the star on top of the tree",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        11,
+        14,
+        22
+      ]
+    },
+    {
+      "id": 3,
+      "es": "Pillado probando las galletas",
+      "en": "caught sneaking a cookie from the cooling rack, mid-bite",
+      "solo_escenas": [
+        3,
+        6,
+        15
+      ]
+    },
+    {
+      "id": 4,
+      "es": "Recostado en el sofá entre regalos",
+      "en": "lounges across the sofa surrounded by gifts, like a glamorous print ad",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        13,
+        14,
+        17,
+        22
+      ]
+    },
+    {
+      "id": 5,
+      "es": "Enredado en cinta",
+      "en": "is comically tangled in ribbon and wrapping paper, laughing"
+    },
+    {
+      "id": 6,
+      "es": "Bajando la escalera con un regalo",
+      "en": "descends the staircase dramatically, holding a beautifully wrapped gift",
+      "solo_escenas": [
+        7
+      ]
+    },
+    {
+      "id": 7,
+      "es": "De rodillas colgando un calcetín",
+      "en": "kneels by the fireplace hanging a stocking",
+      "solo_escenas": [
+        2
+      ]
+    },
+    {
+      "id": 8,
+      "es": "Agitando un regalo para adivinar",
+      "en": "shakes a wrapped gift next to one ear, trying to guess what's inside"
+    },
+    {
+      "id": 9,
+      "es": "Presentando el pavo como en un concurso",
+      "en": "presents a perfect roast turkey with a theatrical game-show gesture",
+      "solo_escenas": [
+        20,
+        3,
+        6
+      ]
+    },
+    {
+      "id": 10,
+      "es": "Girando con una bandeja de galletas",
+      "en": "twirls across the kitchen holding a tray of cookies",
+      "solo_escenas": [
+        3,
+        6,
+        15
+      ]
+    },
+    {
+      "id": 11,
+      "es": "Escribiendo felicitaciones, soñando despierto",
+      "en": "sits writing Christmas cards, pen to lips, daydreaming",
+      "solo_escenas": [
+        4,
+        12
+      ]
+    },
+    {
+      "id": 12,
+      "es": "Abriendo la puerta con los brazos llenos",
+      "en": "opens the front door with arms overflowing with presents",
+      "solo_escenas": [
+        5,
+        16
+      ]
+    },
+    {
+      "id": 13,
+      "es": "Sorpresa en el suelo entre regalos",
+      "en": "sits on the floor among opened gifts, gasping in delighted surprise",
+      "solo_escenas": [
+        1,
+        9,
+        11,
+        14,
+        22
+      ]
+    },
+    {
+      "id": 14,
+      "es": "Bailando solo con los discos",
+      "en": "dances alone to a Christmas record, eyes closed",
+      "solo_escenas": [
+        13,
+        17,
+        22
+      ]
+    },
+    {
+      "id": 15,
+      "es": "Bastón de caramelo como micrófono",
+      "en": "leans on the counter singing into a candy cane like a microphone",
+      "solo_escenas": [
+        3,
+        6,
+        15
+      ]
+    },
+    {
+      "id": 16,
+      "es": "Maniquí que rompe la pose",
+      "en": "holds a stiff mannequin pose in the shop window but breaks character with a wink",
+      "solo_escenas": [
+        21
+      ]
+    },
+    {
+      "id": 17,
+      "es": "Arrastrando el árbol por la nieve",
+      "en": "drags a freshly cut tree across the snowy driveway",
+      "solo_escenas": [
+        16,
+        18,
+        19
+      ]
+    },
+    {
+      "id": 18,
+      "es": "Terminando el muñeco de nieve",
+      "en": "wraps a scarf around a snowman's neck",
+      "solo_escenas": [
+        19
+      ]
+    },
+    {
+      "id": 19,
+      "es": "Atrapado en un lazo gigante",
+      "en": "is stuck halfway inside a giant gift bow, laughing",
+      "solo_escenas": [
+        1,
+        4,
+        14
+      ]
+    },
+    {
+      "id": 20,
+      "es": "Brindis a cámara con ponche",
+      "en": "raises a cup of punch toward the camera in a toast",
+      "solo_escenas": [
+        10,
+        13,
+        17,
+        20,
+        22
+      ]
+    },
+    {
+      "id": 21,
+      "es": "Asomándose entre las ramas",
+      "en": "peeks through the tree branches with a mischievous smile",
+      "solo_escenas": [
+        1,
+        8,
+        9,
+        11,
+        14,
+        22
+      ]
+    },
+    {
+      "id": 22,
+      "es": "Recostado en los escalones entre regalos",
+      "en": "reclines on the stairs with presents cascading down the steps",
+      "solo_escenas": [
+        7
+      ]
+    },
+    {
+      "id": 23,
+      "es": "Probándose un abrigo en el porche",
+      "en": "strikes a model pose on the snowy porch, holding a wreath like a handbag",
+      "solo_escenas": [
+        16,
+        5
+      ]
+    },
+    {
+      "id": 24,
+      "es": "Saltando de alegría",
+      "en": "jumps mid-air with joy, holding a gift box overhead"
+    }
   ]
 }

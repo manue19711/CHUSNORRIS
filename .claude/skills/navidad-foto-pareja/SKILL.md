@@ -1,54 +1,78 @@
 ---
 name: navidad-foto-pareja
-description: Genera prompts para Gemini que crean fotos navideñas ultrarrealistas de una pareja real en un anuncio de Navidad kitsch de los años 50, a partir de dos fotos de referencia (ella y él), con caras y pelo 100% idénticos. Elige al azar escena, pose, cámara, vestuario, luz, atrezo, paleta y más, sin repetir entre generaciones. Úsala cuando el usuario pida "navidad foto de pareja", una foto o postal navideña de pareja, un prompt navideño vintage o retro de los 50, o más variaciones de esa serie.
+description: Genera prompts para Gemini que crean fotos navideñas ultrarrealistas de personas reales (1 persona o pareja) a partir de sus fotos de referencia, con caras y pelo 100% idénticos. Dos estilos - "vintage" (anuncio navideño kitsch de los años 50) y "actual" (foto lifestyle navideña natural con ropa de diario, 9:16, más de 200 actividades). Elige todo al azar sin repetir entre generaciones. Úsala cuando el usuario pida "navidad foto de pareja", una foto o postal navideña (de pareja o de una sola persona), un prompt navideño vintage, retro o actual, o diga "NEXT" / "otra" para la siguiente de la serie.
 ---
 
-# Navidad foto de pareja: anuncio navideño años 50 para Gemini
+# Navidad foto de pareja: prompts navideños para Gemini
 
-Crea prompts listos para pegar en **Gemini** (generación de imágenes). El usuario adjunta dos fotos de referencia:
+Crea prompts listos para pegar en **Gemini** (generación de imágenes) a partir de fotos de referencia reales. **Lo más importante es que las caras y el pelo salgan idénticos.** Después de eso, que cada foto sea completamente distinta a la anterior.
 
-- **IMAGEN 1 = ella**
-- **IMAGEN 2 = él**
+## Paso 1: preguntar SIEMPRE antes del primer prompt
 
-El objetivo: una foto ultrarrealista de esa pareja exacta dentro de un anuncio navideño americano de los años 50, exagerado y con humor. **Cada prompt debe ser distinto al anterior.**
+Antes de generar el primer prompt de la conversación, pregunta con AskUserQuestion (las dos preguntas en una sola llamada):
 
-## Cómo generar
+1. **¿Cuántas personas?** Opciones:
+   - "Pareja (2 personas)": ella = IMAGEN 1, él = IMAGEN 2
+   - "Ella sola (1 persona)"
+   - "Él solo (1 persona)"
+2. **¿Qué estilo?** Opciones:
+   - "Actual": foto natural del día a día navideño, ropa normal, 9:16
+   - "Vintage años 50": anuncio navideño kitsch y exagerado
+   - "Sorpresa": elige tú al azar
 
-Ejecuta el script. Elige al azar una opción de cada categoría, respeta qué opciones encajan con cada escena y guarda un historial para no repetir:
+Si el usuario ya lo dijo en su mensaje ("solo yo", "estilo años 50"…), no lo vuelvas a preguntar. En los siguientes prompts de la misma conversación reutiliza la respuesta: si escribe **NEXT**, "otra" o "siguiente", genera otro al instante sin preguntar. Vuelve a preguntar solo si pide cambiar de personas o de estilo.
+
+## Paso 2: generar
 
 ```bash
-python3 .claude/skills/navidad-foto-pareja/scripts/generar_prompt.py
+python3 .claude/skills/navidad-foto-pareja/scripts/generar_prompt.py --estilo actual --quien pareja
 ```
 
-Opciones útiles:
-
-| Petición del usuario | Comando |
+| Opción | Valores |
 |---|---|
-| Varias de golpe | `--n 3` |
-| Peinado de los años 50 (el color de pelo se mantiene) | `--pelo epoca` (por defecto `identico`: mismo peinado que las fotos) |
-| Fijar algo concreto | `--escena 6 --pose 4 --camara 2 --moda 3 --iluminacion 11 ...` |
-| Ver qué opciones hay | `--listar escena` (también `pose`, `camara`, `moda`, `paleta`...) |
-| Repetir exactamente un resultado | `--semilla 42 --sin-historial` |
-| Empezar de cero | `--reset` |
+| `--estilo` | `actual` · `vintage` |
+| `--quien` | `pareja` (2 personas) · `ella` · `el` (1 persona) |
+| `--n 3` | varios prompts distintos de golpe |
+| `--pelo` | `identico` (por defecto: mismo peinado que la foto) · `variado` (otro peinado con el mismo color y largo: casual en "actual", de los años 50 en "vintage") |
+| `--sin-marca` | quita la marca de agua "Artificial Icon" (por defecto va puesta) |
+| `--actividad galletas` | (actual) fuerza una actividad por texto o número |
+| `--escena 6 --pose 4 --camara 2 ...` | (vintage) fuerza opciones concretas |
+| `--listar actividades` / `--listar escena` | ver opciones (con el `--estilo` que toque) |
+| `--reset` | borrar el historial antirrepetición |
 
-Si el usuario describe algo con palabras ("en la cocina", "con abrigos", "desde arriba"), busca la id con `--listar` y fuérzala.
+El script guarda un historial por estilo. Nunca repite actividad, categoría de actividad, escena, pose, cámara ni lugar entre prompts seguidos.
 
-Categorías: prioridad creativa, escena, cámara, pose, vestuario, pelo ella, pelo él, maquillaje, accesorios, atrezo, iluminación, expresión, composición, paleta, acabado fotográfico, guiño kitsch y formato. Las opciones marcadas **EXTRA** son añadidos al prompt original: escenas nuevas (tocadiscos, árbol en el coche, jardín nevado, cena con pavo, escaparate, árbol de aluminio), poses nuevas, paletas de color, acabado de película, guiño kitsch (perro con astas, gato en un regalo…) y formato de imagen.
+### Estilo "actual" (lifestyle navideño)
 
-## Qué entregar al usuario
+- **205 actividades** en 11 categorías: repostería, decorar, compras, envolver, nieve, salidas y viajes, casa acogedora, caos divertido, tradiciones, magia extra y **EXTRA** (Belén, roscón, polvorones, carta a los Reyes, castañas, uvas…).
+- Cada actividad lleva su tipo de lugar (cocina, casa, porche, tienda, mercadillo, nieve, pista de patinaje, colina, pueblo, coche, granja de árboles, cabaña, playa).
+- El script elige al azar el lugar concreto, el clima (si es exterior), una hora y una luz coherentes entre sí, y ropa de diario según el contexto: abrigo en la nieve, pijama en casa, delantal en la cocina. Cada persona lleva un color distinto.
+- También sortea la colocación o pose, la cámara, el ánimo, la expresión, el momento de la historia (justo antes de que algo salga mal, acaban de conseguirlo…), detalles navideños realistas y, a veces, un perro o un gato.
+- **Sin más personas** que las de las fotos: ni dependientes, ni gente de fondo, ni reflejos.
+- Formato fijo 9:16.
 
-1. Un resumen corto en español de lo que salió (escena, pose, cámara, vestuario, luz).
-2. **El prompt completo en inglés dentro de un bloque de código**, para copiarlo de una vez. Va en inglés porque Gemini sigue mejor las instrucciones de imagen en inglés.
-3. Antes de entregarlo, léelo: si dos elecciones chocan (por ejemplo, composición "cuerpo entero" con cámara de retrato cerrado de 85mm), corrige la frase que choca dejando la prioridad creativa intacta. No cambies el bloque de IDENTIDAD.
+### Estilo "vintage" (anuncio de los años 50)
 
-Si no se puede ejecutar Python, monta el prompt a mano con `opciones.json` siguiendo la misma plantilla de `scripts/generar_prompt.py` (función `construir_prompt`). Nunca quites estos bloques: IDENTITY, REALISM, PERIOD ACCURACY, TASTE y OUTPUT con la marca de agua "Artificial Icon".
+- **22 escenas.** Poses de pareja (38) o poses en solitario (24).
+- Vestuario de época separado para ella y para él, peinados, maquillaje (solo si sale ella), accesorios, atrezo, luz, paleta, acabado, guiño kitsch y formato.
+- Una **prioridad creativa** al azar: el elemento que debe destacar sobre todo lo demás.
 
-## Consejos para que las caras salgan idénticas en Gemini
+## Paso 3: qué entregar
+
+1. Un resumen corto en español de lo que salió.
+2. **El prompt completo en inglés dentro de un bloque de código.** Va en inglés porque Gemini sigue mejor las instrucciones de imagen en inglés.
+3. Una línea recordando qué fotos adjuntar: *IMAGEN 1 = ella, IMAGEN 2 = él*, o *IMAGEN 1 = tu foto*.
+
+Antes de entregar, léelo. Si dos elecciones chocan (por ejemplo, cámara cenital con "caminando a mitad de paso", o un detalle que no pinta nada en ese lugar), corrige solo esa frase. **No toques nunca** los bloques IDENTITY, HAIR, CAST, REALISM ni OUTPUT.
+
+Si el usuario pide algo que no está en la lista ("en un tren", "con mi perro"), genera el prompt con el script y cambia a mano la línea ACTIVITY, SCENE o ANIMAL. Si no se puede ejecutar Python, monta el prompt a mano con `opciones.json` u `opciones_actual.json` siguiendo las funciones `prompt_vintage` / `prompt_actual` del script.
+
+## Consejos para que las caras salgan idénticas
 
 Díselos al usuario la primera vez:
 
-- **Fotos de referencia**: de frente o casi, bien iluminadas, nítidas, sin gafas de sol ni filtros, cara grande en el encuadre. Cuanta más resolución, mejor; con una foto diminuta (100×100 píxeles) Gemini no tiene detalle para copiar la cara.
-- Sube **primero la foto de ella y después la de él**, en ese orden, en el mismo mensaje que el prompt.
-- Si una cara sale cambiada, responde en el mismo chat: *"Keep everything the same but make the woman's face exactly identical to IMAGE 1"* (o *the man's face… IMAGE 2*). Retocar suele funcionar mejor que regenerar desde cero.
-- Los planos muy lejanos (cenital, toda la estancia) dejan las caras pequeñas y son los que más fallan en parecido. Si el parecido es lo más importante, fuerza cámaras cercanas: `--camara 4`, `14`, `16` o `18`.
-- Gemini añade su propia marca invisible (SynthID); el texto "Artificial Icon" va aparte, como firma visible.
+- **Fotos de referencia**: de frente o casi, bien iluminadas, nítidas, sin gafas de sol ni filtros, con la cara grande en el encuadre y buena resolución. Con una foto diminuta (por ejemplo 100×100 píxeles) Gemini no tiene detalle para copiar la cara.
+- En pareja, sube **primero la foto de ella y después la de él**, en el mismo mensaje que el prompt.
+- Si una cara sale cambiada, responde en el mismo chat de Gemini: *"Keep everything the same but make the woman's face exactly identical to IMAGE 1"* (o *the man's face… IMAGE 2*). Retocar suele funcionar mejor que regenerar desde cero.
+- Los planos lejanos (cenital, plano general, teleobjetivo) dejan las caras pequeñas y son los que más fallan en parecido. Si el parecido es lo primordial, vuelve a generar o pide un plano más cercano.
+- Para seguir la serie en Gemini, se puede pegar un prompt nuevo en el mismo chat con las mismas fotos.
