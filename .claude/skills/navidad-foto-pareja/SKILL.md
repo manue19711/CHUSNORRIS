@@ -73,9 +73,10 @@ El script guarda un historial por estilo. Nunca repite actividad, categoría de 
 ## Paso 3: qué entregar
 
 1. Un resumen corto en español de lo que salió.
-2. **El prompt completo en inglés dentro de un bloque de código.** Va en inglés porque Gemini sigue mejor las instrucciones de imagen en inglés.
-3. Si hay texto, recuerda que Gemini a veces falla una letra. Si pasa, responde en su chat: *"Fix the text so it reads exactly: «…»"*.
-4. Una línea recordando qué fotos adjuntar: *IMAGEN 1 = ella, IMAGEN 2 = él*, o *IMAGEN 1 = tu foto*.
+2. **El prompt completo en inglés dentro de un bloque de código**, para pegarlo en Gemini (que sigue mejor las instrucciones de imagen en inglés).
+3. **El mismo prompt traducido al castellano**, en otro bloque de código y justo debajo, con el título "🇪🇸 Traducción (para leer, no hace falta pegarla)". El usuario lo pidió para entender de qué va cada prompt. Traduce la versión final, ya corregida, frase por frase y sin resumir.
+4. Si hay texto, recuerda que Gemini a veces falla una letra. Si pasa, responde en su chat: *"Fix the text so it reads exactly: «…»"*.
+5. Una línea recordando qué fotos adjuntar: *IMAGEN 1 = ella, IMAGEN 2 = él*, o *IMAGEN 1 = tu foto*.
 
 Antes de entregar, léelo. Si dos elecciones chocan (por ejemplo, cámara cenital con "caminando a mitad de paso", o un detalle que no pinta nada en ese lugar), corrige solo esa frase. **No toques nunca** los bloques IDENTITY, HAIR, CAST, REALISM ni OUTPUT.
 
