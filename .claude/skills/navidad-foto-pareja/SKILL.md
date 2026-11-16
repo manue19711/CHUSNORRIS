@@ -26,13 +26,10 @@ Si el usuario ya lo dijo en su mensaje ("solo yo", "estilo años 50"…), no lo 
 
 El usuario pidió que se le pregunte siempre, antes de hacer cada prompt, si quiere un texto en la foto. En el primer prompt, añádela como tercera pregunta en la misma llamada de AskUserQuestion. Con **NEXT**/"otra", hazla sola, justo antes de generar:
 
-- **¿Quieres texto en la foto?** Opciones:
-  - "Sin texto"
-  - "¡Feliz Navidad!"
-  - "Felices Fiestas"
-  - Si ya hubo texto en la anterior: "Mismo texto que la anterior: «…»"
-
-  El usuario puede escribir otro texto con "Other" (un nombre, "Feliz Navidad 2026, familia García"…). Si dice "sin texto", genera sin `--texto`. Si el usuario ya indica el texto en su mensaje, no preguntes.
+- **¿Quieres texto en la foto?** Solo dos opciones: "Sí" / "No". NO propongas textos: el usuario da siempre su propio texto.
+  - Si responde **Sí**: pídele en el chat que escriba el texto ("Escríbeme el texto que quieres en la foto") y espera su respuesta antes de generar.
+  - Si responde **No**: genera sin `--texto`.
+  - Si el usuario ya escribió el texto en su mensaje, no preguntes: úsalo.
 
 Pasa el texto con `--texto "…"`, copiado exactamente como lo escribió, con tildes y signos ¡ ¿. La forma de ponerlo se sortea según el lugar: rótulo caligráfico arriba o abajo, titular de anuncio de los 50, pizarra, luces navideñas, pancarta, escrito en la nieve, en el vaho de la ventana, con glaseado o en una etiqueta de regalo. Si el usuario prefiere una forma concreta, usa `--forma-texto N` (lista: `--listar formas-texto`).
 
