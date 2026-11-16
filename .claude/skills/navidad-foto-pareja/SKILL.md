@@ -22,6 +22,16 @@ Antes de generar el primer prompt de la conversación, pregunta con AskUserQuest
 
 Si el usuario ya lo dijo en su mensaje ("solo yo", "estilo años 50"…), no lo vuelvas a preguntar. En los siguientes prompts de la misma conversación reutiliza esas dos respuestas; vuelve a preguntarlas solo si pide cambiar de personas o de estilo.
 
+### Pregunta del pelo de ella: solo en estilo VINTAGE
+
+Cuando el estilo es **vintage** y sale ella (pareja o ella sola), pregunta antes de cada prompt, en la misma llamada que la del texto:
+
+- **¿El pelo de ella cómo lo quieres?** Opciones:
+  - "Original de la foto": genera con `--pelo identico`.
+  - "Peinado años 50 (mismo color)": genera con `--pelo ella-epoca`. Ella lleva un peinado de los 50 sorteado y él mantiene su pelo idéntico.
+
+En estilo "actual", o si sale él solo, no se pregunta: el pelo va idéntico a la foto.
+
 ### Pregunta del texto: ANTES DE CADA PROMPT (también con NEXT)
 
 El usuario pidió que se le pregunte siempre, antes de hacer cada prompt, si quiere un texto en la foto. En el primer prompt, añádela como tercera pregunta en la misma llamada de AskUserQuestion. Con **NEXT**/"otra", hazla sola, justo antes de generar:
@@ -44,7 +54,7 @@ python3 .claude/skills/navidad-foto-pareja/scripts/generar_prompt.py --estilo ac
 | `--estilo` | `actual` · `vintage` |
 | `--quien` | `pareja` (2 personas) · `ella` · `el` (1 persona) |
 | `--n 3` | varios prompts distintos de golpe |
-| `--pelo` | `identico` (por defecto: mismo peinado que la foto) · `variado` (otro peinado con el mismo color y largo: casual en "actual", de los años 50 en "vintage") |
+| `--pelo` | `identico` (por defecto: mismo peinado que la foto) · `ella-epoca` (vintage: ella con peinado de los 50, él idéntico) · `variado` (otro peinado con el mismo color y largo: casual en "actual", de los años 50 en "vintage") |
 | `--texto "Feliz Navidad"` | escribe ese texto en la foto (pregúntalo antes de cada prompt) |
 | `--forma-texto N` | cómo poner el texto (1–10); sin indicar, al azar según el lugar |
 | `--con-marca` | añade la marca de agua "Artificial Icon" (por defecto NO va: el usuario pidió quitarla) |

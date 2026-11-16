@@ -73,7 +73,15 @@ def bloque_identidad(quien, pelo, estilo, pelo_ella="", pelo_el=""):
         barba = ("He keeps his exact facial hair (or lack of it) from IMAGE 1." if quien == "el" else "")
         mezcla = ""
 
-    if pelo == "identico":
+    if pelo == "ella-epoca" and (estilo != "vintage" or quien == "el"):
+        pelo = "identico"
+    if pelo == "ella-epoca":
+        p = (f"Restyle the woman's hair as {pelo_ella}, a 1950s hairstyle, keeping her EXACT natural hair "
+             "color and texture from IMAGE 1.")
+        if quien == "pareja":
+            p += (" Keep the man's hair EXACTLY as in IMAGE 2: same color, length, cut, texture, parting "
+                  "and hairline, only neatly groomed.")
+    elif pelo == "identico":
         if quien == "pareja":
             p = ("Keep each person's hairstyle EXACTLY as in their reference photo: same color, length, "
                  "cut, texture, volume, parting and hairline, only neatly groomed.")
@@ -284,7 +292,15 @@ def resumen_vintage(sel, quien, pelo):
                "expresion": "Expresión", "composicion": "Composición", "paleta": "Paleta",
                "acabado": "Acabado", "guino_kitsch": "Guiño kitsch", "formato": "Formato"}
     out = []
+    if pelo == "ella-epoca" and quien == "el":
+        pelo = "identico"
     for cat in CAT_VINTAGE:
+        if pelo == "ella-epoca" and cat == "pelo_el":
+            out.append("- Pelo él: idéntico a su foto")
+            continue
+        if pelo == "ella-epoca" and cat == "pelo_ella":
+            out.append(f"- Pelo ella: años 50 · [{sel[cat]['id']}] {sel[cat]['es']} (mismo color)")
+            continue
         if cat == "pelo_ella" and pelo == "identico":
             out.append("- Pelo: idéntico a las fotos de referencia")
         if cat in ("pelo_ella", "pelo_el") and pelo == "identico":
@@ -463,7 +479,7 @@ def main():
     p.add_argument("--quien", choices=["pareja", "ella", "el"], default="pareja",
                    help="pareja = 2 personas; ella / el = 1 persona")
     p.add_argument("--n", type=int, default=1, help="número de prompts distintos")
-    p.add_argument("--pelo", choices=["identico", "variado", "epoca"], default="identico",
+    p.add_argument("--pelo", choices=["identico", "variado", "epoca", "ella-epoca"], default="identico",
                    help="identico = mismo peinado que las fotos (por defecto); variado/epoca = otro peinado, mismo color")
     p.add_argument("--con-marca", action="store_true", help="añadir la marca de agua 'Artificial Icon' (por defecto no va)")
     p.add_argument("--texto", help='texto a escribir en la foto, p. ej. "Feliz Navidad 2026"')
@@ -479,6 +495,8 @@ def main():
                        help=f"(vintage) forzar opción de {cat}")
     a = p.parse_args()
     pelo = "variado" if a.pelo == "epoca" else a.pelo
+    if a.estilo == "actual" and pelo == "ella-epoca":
+        pelo = "identico"
 
     if a.reset:
         for f in BASE.glob(".historial*.json"):
