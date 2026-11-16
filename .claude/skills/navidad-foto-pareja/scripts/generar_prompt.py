@@ -113,11 +113,42 @@ def bloque_reparto(quien):
             "naturally empty (a quiet moment, early before opening). Animals are allowed.")
 
 
-def bloque_salida(formato, marca):
-    texto = f"OUTPUT: One single unified photograph, {formato} aspect ratio. No collage, no split screen, no panels, no borders"
+# Formas de poner el texto que pida el usuario (felicitación, nombre, fecha...).
+# (es, en, contextos donde encaja, estilos)
+FORMAS_TEXTO = [
+    ("Rótulo superpuesto arriba, letra caligráfica", "as elegant festive script lettering overlaid across the top area of the photo, like a Christmas card caption", "todos", "ambos"),
+    ("Rótulo superpuesto abajo, letra caligráfica", "as elegant festive script lettering overlaid across the bottom area of the photo, like a Christmas card caption", "todos", "ambos"),
+    ("Titular de anuncio años 50", "as a bold retro 1950s advertisement headline in vintage hand-drawn typography at the top of the image", "todos", "vintage"),
+    ("Escrito en una pizarra de la escena", "hand-written in chalk on a small chalkboard sign that is part of the scene", "interior", "ambos"),
+    ("Formado con luces navideñas", "spelled out in glowing warm string lights hung in the scene", "todos", "ambos"),
+    ("En una pancarta en la guirnalda", "on a hand-lettered festive banner hanging from a garland in the scene", "interior", "ambos"),
+    ("Escrito en la nieve", "written in the snow in the foreground, as if traced with a finger or stick", "exterior", "ambos"),
+    ("Escrito en el vaho de una ventana", "traced by hand in the frost on a window pane in the scene", "interior", "ambos"),
+    ("Escrito con glaseado en una galleta o tarta", "piped in icing on a large cookie or cake in the scene", "cocina", "ambos"),
+    ("En una etiqueta de regalo grande", "hand-written on a large kraft-paper gift tag tied to a present in the scene", "interior", "ambos"),
+]
+
+
+def elegir_forma_texto(estilo, contexto, forzada=None):
+    if forzada:
+        return FORMAS_TEXTO[forzada - 1]
+    ok = [f for f in FORMAS_TEXTO if f[3] in ("ambos", estilo)
+          and (f[2] == "todos" or f[2] == contexto or (f[2] == "interior" and contexto == "cocina"))]
+    return random.choice(ok)
+
+
+def bloque_salida(formato, marca, texto_usuario=None, forma=None):
+    base = f"OUTPUT: One single unified photograph, {formato} aspect ratio. No collage, no split screen, no panels, no borders"
+    if texto_usuario:
+        linea = (f". TEXT: include ONLY this exact text, spelled exactly as written, letter by letter, with its "
+                 f"accents: \"{texto_usuario}\" — {forma[1]}. Crisp, legible and beautifully integrated, never "
+                 "covering the faces. No other text, captions, logos or watermarks")
+        if marca:
+            linea += f", except {MARCA}"
+        return base + linea + "."
     if marca:
-        return texto + f", no text — except {MARCA}."
-    return texto + ". ABSOLUTELY NO text, captions, signatures, logos or watermarks anywhere in the image."
+        return base + f", no text — except {MARCA}."
+    return base + ". ABSOLUTELY NO text, captions, signatures, logos or watermarks anywhere in the image."
 
 
 REALISMO = ("REALISM: Indistinguishable from a real photograph. Visible skin pores, peach fuzz, individual "
@@ -179,7 +210,7 @@ def generar_vintage(d, hist, forz, usados, quien):
     return sel
 
 
-def prompt_vintage(sel, quien, pelo, marca):
+def prompt_vintage(sel, quien, pelo, marca, texto=None, forma=None):
     g = lambda c: sel[c]["en"]
     exterior = sel["escena"]["id"] in (16, 18, 19)
 
@@ -241,7 +272,7 @@ def prompt_vintage(sel, quien, pelo, marca):
         "",
         f"TASTE: {taste}",
         "",
-        bloque_salida(g("formato"), marca),
+        bloque_salida(g("formato"), marca, texto, forma),
     ]
     return "\n".join(partes)
 
@@ -356,7 +387,7 @@ def generar_actual(d, hist, usados, quien, forz_act):
     return sel
 
 
-def prompt_actual(sel, quien, pelo, marca):
+def prompt_actual(sel, quien, pelo, marca, texto=None, forma=None):
     act = sel["_act"]
     exterior = "_clima" in sel
     if quien == "pareja":
@@ -396,7 +427,7 @@ def prompt_actual(sel, quien, pelo, marca):
     ]
     if animal:
         partes.append(f"ANIMAL: {animal}.")
-    partes += ["", REALISMO, "", bloque_salida("9:16 vertical", marca)]
+    partes += ["", REALISMO, "", bloque_salida("9:16 vertical", marca, texto, forma)]
     return "\n".join(partes)
 
 
@@ -435,6 +466,9 @@ def main():
     p.add_argument("--pelo", choices=["identico", "variado", "epoca"], default="identico",
                    help="identico = mismo peinado que las fotos (por defecto); variado/epoca = otro peinado, mismo color")
     p.add_argument("--con-marca", action="store_true", help="añadir la marca de agua 'Artificial Icon' (por defecto no va)")
+    p.add_argument("--texto", help='texto a escribir en la foto, p. ej. "Feliz Navidad 2026"')
+    p.add_argument("--forma-texto", type=int, metavar="N",
+                   help="cómo poner el texto (1-%d); sin indicar, al azar. --listar formas-texto" % len(FORMAS_TEXTO))
     p.add_argument("--semilla", type=int)
     p.add_argument("--sin-historial", action="store_true")
     p.add_argument("--reset", action="store_true", help="borrar historiales y salir")
@@ -450,6 +484,11 @@ def main():
         for f in BASE.glob(".historial*.json"):
             f.unlink()
         print("Historiales borrados.")
+        return
+
+    if a.listar and a.listar.replace("_", "-") == "formas-texto":
+        for i, f in enumerate(FORMAS_TEXTO, 1):
+            print(f"{i:>3}. {f[0]}  (encaja en: {f[2]}; estilo: {f[3]})")
         return
 
     fichero = "opciones.json" if a.estilo == "vintage" else "opciones_actual.json"
@@ -489,11 +528,17 @@ def main():
             forz = {c: getattr(a, c) for c in CAT_VINTAGE if getattr(a, c) is not None}
             sel = generar_vintage(d, hist, forz, usados, a.quien)
             reg = {c: o["id"] for c, o in sel.items()}
-            texto, res = prompt_vintage(sel, a.quien, pelo, a.con_marca), resumen_vintage(sel, a.quien, pelo)
+            eid = sel["escena"]["id"]
+            ctx = "exterior" if eid in d["exteriores"] else "cocina" if eid in (3, 6, 15) else "interior"
+            forma = elegir_forma_texto("vintage", ctx, a.forma_texto) if a.texto else None
+            texto, res = prompt_vintage(sel, a.quien, pelo, a.con_marca, a.texto, forma), resumen_vintage(sel, a.quien, pelo)
         else:
             sel = generar_actual(d, hist, usados, a.quien, a.actividad)
             reg = {k: v for k, v in sel.items() if not k.startswith("_")}
-            texto, res = prompt_actual(sel, a.quien, pelo, a.con_marca), resumen_actual(sel, d, a.quien, pelo)
+            grupo = sel["_act"][1]
+            ctx = "exterior" if grupo in d["exteriores"] else "cocina" if grupo == "cocina" else "interior"
+            forma = elegir_forma_texto("actual", ctx, a.forma_texto) if a.texto else None
+            texto, res = prompt_actual(sel, a.quien, pelo, a.con_marca, a.texto, forma), resumen_actual(sel, d, a.quien, pelo)
         for k, v in reg.items():
             usados.setdefault(k, set()).add(v)
         hist.append(reg)
@@ -503,6 +548,7 @@ def main():
         print(f"===== {titulo} · estilo {a.estilo} · {quien_txt} =====")
         print("Selección:")
         print(res)
+        print(f"- Texto: «{a.texto}» · {forma[0]}" if a.texto else "- Texto: ninguno")
         print(f"\n----- Copia esto en Gemini (adjunta {imgs}) -----\n")
         print(texto)
         print()

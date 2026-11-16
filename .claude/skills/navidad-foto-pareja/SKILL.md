@@ -20,7 +20,21 @@ Antes de generar el primer prompt de la conversación, pregunta con AskUserQuest
    - "Vintage años 50": anuncio navideño kitsch y exagerado
    - "Sorpresa": elige tú al azar
 
-Si el usuario ya lo dijo en su mensaje ("solo yo", "estilo años 50"…), no lo vuelvas a preguntar. En los siguientes prompts de la misma conversación reutiliza la respuesta: si escribe **NEXT**, "otra" o "siguiente", genera otro al instante sin preguntar. Vuelve a preguntar solo si pide cambiar de personas o de estilo.
+Si el usuario ya lo dijo en su mensaje ("solo yo", "estilo años 50"…), no lo vuelvas a preguntar. En los siguientes prompts de la misma conversación reutiliza esas dos respuestas; vuelve a preguntarlas solo si pide cambiar de personas o de estilo.
+
+### Pregunta del texto: ANTES DE CADA PROMPT (también con NEXT)
+
+El usuario pidió que se le pregunte siempre, antes de hacer cada prompt, si quiere un texto en la foto. En el primer prompt, añádela como tercera pregunta en la misma llamada de AskUserQuestion. Con **NEXT**/"otra", hazla sola, justo antes de generar:
+
+- **¿Quieres texto en la foto?** Opciones:
+  - "Sin texto"
+  - "¡Feliz Navidad!"
+  - "Felices Fiestas"
+  - Si ya hubo texto en la anterior: "Mismo texto que la anterior: «…»"
+
+  El usuario puede escribir otro texto con "Other" (un nombre, "Feliz Navidad 2026, familia García"…). Si dice "sin texto", genera sin `--texto`. Si el usuario ya indica el texto en su mensaje, no preguntes.
+
+Pasa el texto con `--texto "…"`, copiado exactamente como lo escribió, con tildes y signos ¡ ¿. La forma de ponerlo se sortea según el lugar: rótulo caligráfico arriba o abajo, titular de anuncio de los 50, pizarra, luces navideñas, pancarta, escrito en la nieve, en el vaho de la ventana, con glaseado o en una etiqueta de regalo. Si el usuario prefiere una forma concreta, usa `--forma-texto N` (lista: `--listar formas-texto`).
 
 ## Paso 2: generar
 
@@ -34,6 +48,8 @@ python3 .claude/skills/navidad-foto-pareja/scripts/generar_prompt.py --estilo ac
 | `--quien` | `pareja` (2 personas) · `ella` · `el` (1 persona) |
 | `--n 3` | varios prompts distintos de golpe |
 | `--pelo` | `identico` (por defecto: mismo peinado que la foto) · `variado` (otro peinado con el mismo color y largo: casual en "actual", de los años 50 en "vintage") |
+| `--texto "Feliz Navidad"` | escribe ese texto en la foto (pregúntalo antes de cada prompt) |
+| `--forma-texto N` | cómo poner el texto (1–10); sin indicar, al azar según el lugar |
 | `--con-marca` | añade la marca de agua "Artificial Icon" (por defecto NO va: el usuario pidió quitarla) |
 | `--actividad galletas` | (actual) fuerza una actividad por texto o número |
 | `--escena 6 --pose 4 --camara 2 ...` | (vintage) fuerza opciones concretas |
@@ -61,7 +77,8 @@ El script guarda un historial por estilo. Nunca repite actividad, categoría de 
 
 1. Un resumen corto en español de lo que salió.
 2. **El prompt completo en inglés dentro de un bloque de código.** Va en inglés porque Gemini sigue mejor las instrucciones de imagen en inglés.
-3. Una línea recordando qué fotos adjuntar: *IMAGEN 1 = ella, IMAGEN 2 = él*, o *IMAGEN 1 = tu foto*.
+3. Si hay texto, recuerda que Gemini a veces falla una letra. Si pasa, responde en su chat: *"Fix the text so it reads exactly: «…»"*.
+4. Una línea recordando qué fotos adjuntar: *IMAGEN 1 = ella, IMAGEN 2 = él*, o *IMAGEN 1 = tu foto*.
 
 Antes de entregar, léelo. Si dos elecciones chocan (por ejemplo, cámara cenital con "caminando a mitad de paso", o un detalle que no pinta nada en ese lugar), corrige solo esa frase. **No toques nunca** los bloques IDENTITY, HAIR, CAST, REALISM ni OUTPUT.
 
