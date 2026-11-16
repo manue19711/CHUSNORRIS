@@ -114,8 +114,10 @@ def bloque_reparto(quien):
 
 
 def bloque_salida(formato, marca):
-    texto = f"OUTPUT: One single unified photograph, {formato} aspect ratio. No collage, no split screen, no panels, no borders, no text"
-    return texto + (f" — except {MARCA}." if marca else ".")
+    texto = f"OUTPUT: One single unified photograph, {formato} aspect ratio. No collage, no split screen, no panels, no borders"
+    if marca:
+        return texto + f", no text — except {MARCA}."
+    return texto + ". ABSOLUTELY NO text, captions, signatures, logos or watermarks anywhere in the image."
 
 
 REALISMO = ("REALISM: Indistinguishable from a real photograph. Visible skin pores, peach fuzz, individual "
@@ -432,7 +434,7 @@ def main():
     p.add_argument("--n", type=int, default=1, help="número de prompts distintos")
     p.add_argument("--pelo", choices=["identico", "variado", "epoca"], default="identico",
                    help="identico = mismo peinado que las fotos (por defecto); variado/epoca = otro peinado, mismo color")
-    p.add_argument("--sin-marca", action="store_true", help="sin la marca de agua 'Artificial Icon'")
+    p.add_argument("--con-marca", action="store_true", help="añadir la marca de agua 'Artificial Icon' (por defecto no va)")
     p.add_argument("--semilla", type=int)
     p.add_argument("--sin-historial", action="store_true")
     p.add_argument("--reset", action="store_true", help="borrar historiales y salir")
@@ -487,11 +489,11 @@ def main():
             forz = {c: getattr(a, c) for c in CAT_VINTAGE if getattr(a, c) is not None}
             sel = generar_vintage(d, hist, forz, usados, a.quien)
             reg = {c: o["id"] for c, o in sel.items()}
-            texto, res = prompt_vintage(sel, a.quien, pelo, not a.sin_marca), resumen_vintage(sel, a.quien, pelo)
+            texto, res = prompt_vintage(sel, a.quien, pelo, a.con_marca), resumen_vintage(sel, a.quien, pelo)
         else:
             sel = generar_actual(d, hist, usados, a.quien, a.actividad)
             reg = {k: v for k, v in sel.items() if not k.startswith("_")}
-            texto, res = prompt_actual(sel, a.quien, pelo, not a.sin_marca), resumen_actual(sel, d, a.quien, pelo)
+            texto, res = prompt_actual(sel, a.quien, pelo, a.con_marca), resumen_actual(sel, d, a.quien, pelo)
         for k, v in reg.items():
             usados.setdefault(k, set()).add(v)
         hist.append(reg)

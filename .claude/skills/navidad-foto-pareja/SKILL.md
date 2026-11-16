@@ -34,7 +34,7 @@ python3 .claude/skills/navidad-foto-pareja/scripts/generar_prompt.py --estilo ac
 | `--quien` | `pareja` (2 personas) · `ella` · `el` (1 persona) |
 | `--n 3` | varios prompts distintos de golpe |
 | `--pelo` | `identico` (por defecto: mismo peinado que la foto) · `variado` (otro peinado con el mismo color y largo: casual en "actual", de los años 50 en "vintage") |
-| `--sin-marca` | quita la marca de agua "Artificial Icon" (por defecto va puesta) |
+| `--con-marca` | añade la marca de agua "Artificial Icon" (por defecto NO va: el usuario pidió quitarla) |
 | `--actividad galletas` | (actual) fuerza una actividad por texto o número |
 | `--escena 6 --pose 4 --camara 2 ...` | (vintage) fuerza opciones concretas |
 | `--listar actividades` / `--listar escena` | ver opciones (con el `--estilo` que toque) |
