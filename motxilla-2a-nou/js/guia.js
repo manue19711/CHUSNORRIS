@@ -6,130 +6,77 @@
 'use strict';
 
 const G = {
-/* ======================= MATEMÀTIQUES ======================= */
-m1: { idea: 'Que entienda que un número de dos cifras está hecho de decenas (grupos de 10) y unidades sueltas, y que sepa compararlos.',
-  pasos: ['Coged 10 objetos pequeños (macarrones, legos) y atadlos con una goma: eso es <b>una desena</b> (una decena).',
-    'Haced varios paquetes de 10 y dejad algunos sueltos. Contad: «3 paquetes y 4 sueltos son 34».',
-    'Escribid el número y señalad: la cifra de la izquierda dice cuántos paquetes (D) y la de la derecha cuántos sueltos (U).',
-    'Para comparar dos números, primero comparad los paquetes (decenas). Solo si son iguales, mirad los sueltos.',
-    'Los signos &gt; y &lt;: dibujadlos como una boca de cocodrilo que siempre quiere comerse el número más grande.'],
-  ej: '47 = 4 D + 7 U = 40 + 7. ¿Qué es mayor, 47 o 52? 5 decenas son más que 4, así que 52 &gt; 47.',
-  casa: 'Juego «Pienso un número»: «Estoy pensando en un número que tiene 6 decenas y 2 unidades». Luego cambiad los papeles.',
-  err: ['Leer 41 como 14 (confunde el orden de las cifras).', 'Comparar mirando solo las unidades: cree que 29 &gt; 31 porque 9 &gt; 1.', 'Girar el signo &gt; / &lt;.'],
-  preg: ['¿Cuántas decenas tiene el 63? ¿Y unidades?', '¿Qué número va justo antes del 50?', '¿Cuál es mayor, 38 o 83? ¿Por qué?'],
-  voc: [['desena (D)', 'decena'], ['unitat (U)', 'unidad'], ['anterior / posterior', 'anterior / posterior'], ['és major que / és menor que', 'es mayor que / es menor que']] },
+/* ======================= MATEMÀTIQUES (en valencià, senzill) ======================= */
+m1: { idea: 'Saber que un nombre de dues xifres té desenes i unitats, i comparar nombres.',
+  pasos: ['Una <b>desena</b> són 10 unitats juntes.', 'La xifra de l\'esquerra són les desenes. La de la dreta, les unitats.', 'Per a comparar, mira primer les desenes.'],
+  ej: ['47 → 4 desenes i 7 unitats', '47 = 40 + 7', '52 &gt; 47 (5 desenes és més que 4)', '30 &lt; 33'],
+  casa: 'Feu paquets de 10 macarrons amb una goma. 3 paquets i 4 solts = 34.',
+  err: ['Llegir 41 com 14.', 'Mirar només les unitats per a comparar.'],
+  preg: ['Quantes desenes té el 63?', 'Quin és més gran, 38 o 83?'] },
 
-m2: { idea: 'Que vea que 10 decenas forman una centena y que cada cifra vale distinto según su lugar.',
-  pasos: ['Recordad la decena (paquete de 10). Ahora juntad 10 paquetes: eso es <b>una centena</b> (100).',
-    'Usad billetes y monedas de juguete: 100 €, 10 € y 1 €. El 352 son 3 de 100, 5 de 10 y 2 de 1.',
-    'Dibujad una tabla con tres columnas C | D | U y colocad las cifras.',
-    'Para comparar números de tres cifras, mirad primero las centenas.',
-    'Practicad el «salto»: después del 399 viene el 400, después del 199 el 200.'],
-  ej: '352 = 3 C + 5 D + 2 U = 300 + 50 + 2. Se lee «tres-cents cinquanta-dos».',
-  casa: 'Mirad los números de las páginas de un libro o de los portales y decid cuántas centenas tienen.',
-  err: ['Escribir «tres-cents cinquanta-dos» como 30052.', 'No saber qué viene después del 399.', 'Pensar que el 5 de 352 vale 5 (vale 50).'],
-  preg: ['¿Cuánto vale el 4 en el 481?', '¿Qué número tiene 6 C, 0 D y 3 U?', '¿Qué va después del 299?'],
-  voc: [['centena (C)', 'centena'], ['xifra', 'cifra'], ['cent, dos-cents, tres-cents', 'cien, doscientos, trescientos']] },
+m2: { idea: 'Saber que 10 desenes fan una centena i què val cada xifra.',
+  pasos: ['Una <b>centena</b> són 100 (10 desenes).', 'En un nombre de tres xifres: centenes, desenes i unitats.', 'Per a comparar, mira primer les centenes.'],
+  ej: ['352 → 3 C, 5 D i 2 U', '352 = 300 + 50 + 2', 'Després del 399 ve el 400', '481: el 4 val 400'],
+  casa: 'Mireu els números dels portals o de les pàgines i digueu les centenes.',
+  err: ['Pensar que el 5 de 352 val 5 (val 50).', 'No saber què ve després del 399.'],
+  preg: ['Quant val el 4 en el 481?', 'Quin nombre té 6 C, 0 D i 3 U?'] },
 
-m3: { idea: 'Que sume números de dos cifras de dos maneras: por descomposición (decenas con decenas y unidades con unidades) y en columna, llevándose una cuando las unidades pasan de 9.',
-  pasos: ['<b>Suma por descomposición</b> (como en el libro): 26 + 12. Separad cada número: 26 = 2 D + 6 U y 12 = 1 D + 2 U.',
-    'Juntad las decenas: 20 + 10 = 30. Juntad las unidades: 6 + 2 = 8. Al final, 30 + 8 = 38.',
-    '<b>Suma en columna</b>: escribid un número debajo del otro, unidades debajo de unidades y decenas debajo de decenas.',
-    'Empezad siempre por las unidades (por la derecha).',
-    'Si las unidades suman 10 o más (8 + 5 = 13), se escribe el 3 y «me llevo una» decena, que se pone encima de las decenas.'],
-  ej: 'Por descomposición: 26 + 12 → 20 + 10 = 30, 6 + 2 = 8 → 38. En columna llevando: 38 + 25 → 8 + 5 = 13, escribo 3 y me llevo 1; 3 + 2 + 1 = 6 → 63.',
-  casa: 'Con paquetes de 10 macarrones y sueltos: haced 38 y 25, juntadlo todo y cuando haya 10 sueltos, atadlos en un paquete nuevo. Eso es «llevarse una».',
-  err: ['Empezar por la izquierda.', 'Olvidarse de sumar la que se lleva.', 'Escribir 513 en lugar de 63 (pone el 13 entero).', 'Colocar mal las columnas (unidades debajo de decenas).'],
-  preg: ['¿Cuántas decenas y unidades tiene el 34? ¿Y el 25? ¿Cuánto suman juntos?', '¿Por qué en 47 + 6 nos llevamos una?', '¿Por dónde empezamos a sumar en columna?'],
-  voc: [['sumar / suma', 'sumar / suma'], ['portar-ne una', 'llevarse una'], ['en columna / en línia', 'en columna / en fila'], ['descompondre', 'descomponer']] },
+m3: { idea: 'Sumar de dues maneres: per descomposició i en columna (portant-ne una).',
+  pasos: ['<b>Per descomposició:</b> separa desenes i unitats, suma-les a part i ajunta-ho.', '<b>En columna:</b> unitats davall d\'unitats. Comença per les unitats.', 'Si les unitats fan 10 o més, escrius les unitats i en portes una.'],
+  ej: ['26 + 12 → 20 + 10 = 30 · 6 + 2 = 8 → <b>38</b>', '34 + 25 → 30 + 20 = 50 · 4 + 5 = 9 → <b>59</b>', '38 + 25 → 8 + 5 = 13, escric 3 i en porte 1 → 3 + 2 + 1 = 6 → <b>63</b>', '47 + 6 → 7 + 6 = 13 → <b>53</b>'],
+  casa: 'Amb paquets de 10 macarrons: quan tens 10 solts, fes un paquet nou. Això és «portar-ne una».',
+  err: ['Començar per l\'esquerra.', 'Oblidar la que portes.'],
+  preg: ['Quant fa 23 + 14 per descomposició?', 'En 47 + 6, per què en portem una?'] },
 
-m4: { idea: 'Que reste en columna y entienda que, cuando arriba hay menos unidades que abajo, se «pide prestada» una decena.',
-  pasos: ['Escribid el número grande arriba y el pequeño debajo, unidades con unidades.',
-    'Empezad por las unidades.',
-    'Si arriba hay menos (2 − 7 no se puede), se rompe una decena: el 2 se convierte en 12, y en las decenas queda una menos.',
-    'Restad las unidades (12 − 7 = 5) y después las decenas que quedan (4 − 1 = 3).',
-    'Comprobad sumando: el resultado + el número de abajo = el de arriba.'],
-  ej: '52 − 17: 2 − 7 no se puede → 12 − 7 = 5; quedan 4 decenas: 4 − 1 = 3 → 35. Comprobación: 35 + 17 = 52.',
-  casa: 'Con monedas: tenéis 5 de 10 € y 2 de 1 €. Hay que pagar 17 €. Cambiad una moneda de 10 por diez de 1 para poder pagar los 7.',
-  err: ['Restar al revés (7 − 2 = 5) para no pedir prestado.', 'Pedir la decena y olvidarse de quitarla de arriba.', 'Poner el número pequeño arriba.'],
-  preg: ['En 43 − 18, ¿hace falta pedir una decena? ¿Por qué?', '¿Cómo compruebas que una resta está bien?'],
-  voc: [['restar / resta', 'restar / resta'], ['demanar una desena', 'pedir una decena (llevarse)'], ['quedar', 'quedar']] },
+m4: { idea: 'Restar en columna i demanar una desena quan dalt n\'hi ha menys.',
+  pasos: ['El més gran, dalt. Comença per les unitats.', 'Si dalt n\'hi ha menys, demana una desena: el 2 es fa 12.', 'A les desenes, ara n\'hi ha una menys.'],
+  ej: ['58 − 23 = <b>35</b> (sense demanar)', '52 − 17 → 12 − 7 = 5 · 4 − 1 = 3 → <b>35</b>', '40 − 6 → 10 − 6 = 4 · 3 − 0 = 3 → <b>34</b>', 'Comprova: 35 + 17 = 52 ✔'],
+  casa: 'Amb monedes: tens 5 de 10 € i 2 d\'1 €. Per a pagar 7 €, canvia una de 10 per deu d\'1.',
+  err: ['Fer 7 − 2 en lloc de demanar.', 'Demanar la desena i no llevar-la de dalt.'],
+  preg: ['En 43 − 18, cal demanar una desena?', 'Com comproves una resta?'] },
 
-m5: { idea: 'Que entienda que multiplicar es sumar grupos iguales, y que empiece a memorizar las tablas del 2, 3, 4, 5 y 10.',
-  pasos: ['Haced grupos iguales con objetos: 3 platos con 4 galletas cada uno.',
-    'Contad sumando: 4 + 4 + 4 = 12. Decid: «3 veces 4 son 12» y escribid 3 × 4 = 12.',
-    'Enseñad que el orden no importa: 3 grupos de 4 = 4 grupos de 3.',
-    'Las tablas con trucos: la del 2 es contar de 2 en 2 (dobles), la del 5 acaba en 0 o 5, la del 10 añade un 0.',
-    'Repasad una tabla cada día, cantándola o saltando en la escalera.'],
-  ej: '3 × 4 = 4 + 4 + 4 = 12. 5 × 2 = 10. 7 × 10 = 70.',
-  casa: 'Contad cosas que vienen en grupos: ruedas de 3 coches (3 × 4), dedos de 2 manos (2 × 5), huevos de cajas.',
-  err: ['Sumar los dos números (3 × 4 = 7).', 'Perder la cuenta al contar de 3 en 3 o de 4 en 4.'],
-  preg: ['¿Cuánto es 4 grupos de 5? ¿Cómo lo sabes?', '¿5 × 3 es lo mismo que 3 × 5?', '¿Cuánto es 6 × 10?'],
-  voc: [['multiplicar / multiplicació', 'multiplicar / multiplicación'], ['grups iguals', 'grupos iguales'], ['la taula del 2', 'la tabla del 2'], ['vegades', 'veces']] },
+m5: { idea: 'Multiplicar és sumar grups iguals.',
+  pasos: ['Fes grups iguals amb objectes.', 'Suma\'ls: és una multiplicació.', 'L\'ordre no importa: 3 × 4 = 4 × 3.'],
+  ej: ['3 plats amb 4 galetes → 4 + 4 + 4 = 12 → <b>3 × 4 = 12</b>', '2 mans amb 5 dits → <b>2 × 5 = 10</b>', 'Taula del 10: 6 × 10 = 60', 'Taula del 5: acaba en 0 o en 5'],
+  casa: 'Compteu coses en grups: rodes de 3 cotxes (3 × 4), dits de 2 mans (2 × 5).',
+  err: ['Sumar els dos nombres: 3 × 4 = 7.'],
+  preg: ['Quant fan 4 grups de 5?', '5 × 3 és igual que 3 × 5?'] },
 
-m6: { idea: 'Que sepa leer la hora en punto, y cuarto, y media y menos cuarto en el reloj de agujas y en el digital, que sepa cuántos minutos tiene una hora, media hora y un cuarto, y que lo diga en valenciano.',
-  pasos: ['<b>Las dos agujas</b>: la corta (gruesa) marca las horas; la larga marca los minutos. Que las señale con el dedo.',
-    '<b>En punto</b>: la larga mira al 12 → «les tres en punt». La corta dice qué hora es.',
-    '<b>Y media</b>: la larga mira al 6 (ha dado media vuelta) → «les tres i mitja». La corta está entre el 3 y el 4.',
-    '<b>Y cuarto</b>: la larga mira al 3 (un cuarto de vuelta) → «les tres i quart».',
-    '<b>Menos cuarto</b>: la larga mira al 9. ¡Ojo! Se dice la hora <u>siguiente</u>: 3:45 → «les quatre menys quart», porque faltan 15 minutos para las cuatro.',
-    '<b>Reloj digital</b>: el número antes de los dos puntos son las horas y el de después, los minutos. :00 en punto, :15 y cuarto, :30 y media, :45 menos cuarto (de la hora siguiente).',
-    '<b>Minutos</b>: 1 hora = 60 minutos. Media hora = 30. Un cuarto de hora = 15. Tres cuartos = 45.'],
-  ej: '11:00 «les onze en punt» · 11:15 «les onze i quart» · 11:30 «les onze i mitja» · 11:45 «les dotze menys quart» · 1:00 «la una en punt» (¡la una, en singular!).',
-  casa: 'Usad el reloj de abajo: mueve la hora con los botones y preguntadle qué hora es. Después, durante el día, preguntad: «¿Qué hora es? ¿Y dentro de media hora?». Si tenéis un reloj de agujas en casa, mejor.',
-  err: ['Confundir las agujas (lee la larga como horas).', 'Decir «les tres menys quart» para las 3:45 (es «les quatre menys quart»).', 'En el digital, leer 3:45 como «tres y cuarenta y cinco» y no saber que es menos cuarto.', 'Decir «les una» en lugar de «la una».', 'En y media, mirar dónde está la corta y decir la hora siguiente.'],
-  preg: ['Si la aguja larga mira al 6, ¿qué es: en punto, y cuarto, y media o menos cuarto?', '¿Cómo se dice 7:45? ¿Por qué se dice «les huit»?', '¿Cuántos minutos tiene media hora? ¿Y un cuarto?', 'Si son las 5 en punto, ¿qué hora será dentro de media hora?'],
-  voc: [['el rellotge', 'el reloj'], ['l\'agulla curta / llarga', 'la aguja corta / larga'], ['en punt', 'en punto'], ['i quart', 'y cuarto'], ['i mitja', 'y media'], ['menys quart', 'menos cuarto'], ['la una, les dues, les tres...', 'la una, las dos, las tres...'], ['huit', 'ocho'], ['el matí / el migdia / la vesprada / la nit', 'la mañana / el mediodía / la tarde / la noche'], ['minut / hora', 'minuto / hora']],
+m6: { idea: 'Llegir l\'hora en punt, i quart, i mitja i menys quart, en el rellotge d\'agulles i en el digital.',
+  pasos: ['L\'agulla <b>curta</b> diu l\'hora. La <b>llarga</b>, els minuts.', 'Llarga al 12: <b>en punt</b>. Al 3: <b>i quart</b>. Al 6: <b>i mitja</b>. Al 9: <b>menys quart</b>.', 'Menys quart: diem l\'hora <b>següent</b>.', 'Digital: abans dels punts, les hores; després, els minuts.'],
+  ej: ['3:00 → les tres en punt', '3:15 → les tres i quart', '3:30 → les tres i mitja', '3:45 → les <b>quatre</b> menys quart', '1:00 → <b>la</b> una en punt', '1 hora = 60 minuts · mitja hora = 30 · un quart = 15'],
+  casa: 'Moveu el rellotge de dalt i pregunteu-li: «Quina hora és?». Durant el dia: «I d\'ací a mitja hora?».',
+  err: ['Confondre les agulles.', 'Dir «les tres menys quart» per a les 3:45 (són les quatre menys quart).', 'Dir «les una» en lloc de «la una».'],
+  preg: ['Si la llarga mira el 6, quina hora és?', 'Com es diu 7:45?', 'Quants minuts té mitja hora?'],
   extra: 'clock' },
 
-m7: { idea: 'Que cuente dinero con monedas y billetes, empezando por lo que vale más, y que calcule la vuelta (el cambio).',
-  pasos: ['Enseñad las monedas de 1 € y 2 € y los billetes de 5 € y 10 €.',
-    'Para contar, ordenad de mayor a menor y sumad: 10 + 5 + 2 + 1 = 18 €.',
-    'La vuelta: si algo cuesta 7 € y pago con 10 €, me devuelven 10 − 7 = 3 €.',
-    'Truco para la vuelta: contar hacia arriba desde el precio: «7… 8, 9, 10: me devuelven 3».',
-    'Cuando esté seguro, introducid los céntimos: 1 € = 100 céntimos.'],
-  ej: 'Un billete de 5 €, una moneda de 2 € y una de 1 € son 8 €. Un libro de 6 € pagado con 10 € → vuelta de 4 €.',
-  casa: 'Jugad a la tienda con precios en papelitos. Mejor aún: que pague él el pan y compruebe la vuelta.',
-  err: ['Contar monedas sin mirar su valor (3 monedas = 3 €).', 'Restar al revés para la vuelta.'],
-  preg: ['¿Cuánto dinero es un billete de 10 € y dos monedas de 2 €?', 'Si algo cuesta 4 € y pagas con 5 €, ¿cuánto te devuelven?'],
-  voc: [['moneda / bitllet', 'moneda / billete'], ['cèntims', 'céntimos'], ['el canvi', 'la vuelta / el cambio'], ['costar / pagar', 'costar / pagar']] },
+m7: { idea: 'Comptar diners i calcular el canvi.',
+  pasos: ['Comença pel bitllet o la moneda que val més.', 'Ves sumant.', 'El canvi: el que pagues menys el que costa.'],
+  ej: ['10 € + 5 € + 2 € = <b>17 €</b>', '2 € + 2 € + 1 € = <b>5 €</b>', 'Costa 7 €, pague amb 10 € → em tornen <b>3 €</b>', '1 euro = 100 cèntims'],
+  casa: 'Jugueu a la botiga, o que pague ell el pa i revise el canvi.',
+  err: ['Comptar monedes sense mirar quant valen (3 monedes ≠ 3 €).'],
+  preg: ['Quant és un bitllet de 10 € i dues monedes de 2 €?', 'Costa 4 € i pagues amb 5 €: quant et tornen?'] },
 
-m8: { idea: 'Que reconozca los polígonos (figuras cerradas con lados rectos), cuente sus lados y vértices y los nombre: triángulo, cuadrilátero, pentágono y hexágono. Y que distinga figuras planas de cuerpos.',
-  pasos: ['Recordad la línea poligonal cerrada (tema «Línies i rectes»): trozos rectos que acaban donde empiezan.',
-    'Un <b>polígon</b> es esa línea cerrada más todo lo de dentro. Los <b>costats</b> son los trozos rectos y los <b>vèrtexs</b> son las puntas.',
-    'Que pase el dedo por cada lado contándolos, y que toque cada punta contando vértices. Siempre salen los mismos.',
-    'El nombre depende de los lados: 3 triángulo, 4 cuadrilátero (el cuadrado y el rectángulo son cuadriláteros), 5 pentágono, 6 hexágono.',
-    'El círculo no es un polígono: no tiene lados rectos.',
-    'Los cuerpos tienen volumen: cubo (dado), esfera (pelota), cilindro (lata), cono (cucurucho).'],
-  ej: 'Un hexágono tiene 6 lados y 6 vértices. Un rectángulo es un cuadrilátero porque tiene 4 lados.',
-  casa: 'Buscad figuras por casa: la puerta (rectángulo), una señal de tráfico (triángulo), una tuerca o las celdas de un panal (hexágono). Con palillos y plastilina, construid polígonos y contad vértices.',
-  err: ['Pensar que el cuadrado no es un cuadrilátero.', 'Contar dos veces el mismo vértice.', 'Llamar polígono a una figura abierta o con curvas.'],
-  preg: ['¿Cuántos vértices tiene un pentágono?', '¿El círculo es un polígono? ¿Por qué?', '¿Qué tienen en común el cuadrado y el rectángulo?'],
-  voc: [['polígon', 'polígono'], ['costat', 'lado'], ['vèrtex', 'vértice'], ['quadrilàter', 'cuadrilátero'], ['pentàgon / hexàgon', 'pentágono / hexágono'], ['cercle', 'círculo']] },
+m8: { idea: 'Conéixer els polígons i comptar costats i vèrtexs.',
+  pasos: ['Un <b>polígon</b> és una figura tancada amb costats rectes.', 'Els <b>costats</b> són les línies. Els <b>vèrtexs</b> són les puntes.', 'El nom depén dels costats.'],
+  ej: ['Triangle → 3 costats i 3 vèrtexs', 'Quadrilàter → 4 (el quadrat i el rectangle ho són)', 'Pentàgon → 5', 'Hexàgon → 6', 'El cercle <b>no</b> és un polígon: no té costats rectes'],
+  casa: 'Busqueu figures per casa: la porta (rectangle), un senyal (triangle). Feu polígons amb escuradents.',
+  err: ['Pensar que el quadrat no és un quadrilàter.', 'Comptar dues vegades el mateix vèrtex.'],
+  preg: ['Quants vèrtexs té un pentàgon?', 'El cercle és un polígon?'] },
 
-m10: { idea: 'Que distinga los tipos de líneas (recta, poligonal, curva y mixta; abierta o cerrada) y sepa si dos rectas son paralelas o secantes.',
-  pasos: ['<b>Recta</b>: va siempre en la misma dirección, sin girar. Usad una regla.',
-    '<b>Poligonal</b>: hecha de trozos rectos, como un zigzag. <b>Curva</b>: no tiene ningún trozo recto, como una ola. <b>Mixta</b>: tiene trozos rectos y trozos curvos.',
-    '<b>Abierta o cerrada</b>: que ponga el dedo al principio y siga la línea. Si vuelve al mismo sitio, es cerrada; si no, es abierta.',
-    '<b>Secantes</b>: dos rectas que se cortan en un punto, como una X.',
-    '<b>Paralelas</b>: dos rectas que nunca se cortan, aunque las alarguemos, como las vías del tren.'],
-  ej: 'Un zigzag es una línea poligonal abierta. Un triángulo dibujado es una línea poligonal cerrada. Un círculo es una línea curva cerrada.',
-  casa: 'Buscad líneas por la calle: las vías del tren y las rayas del paso de cebra son paralelas; dos calles que se cruzan son secantes. Que dibuje con el dedo en el aire cada tipo de línea.',
-  err: ['Confundir curva cerrada con poligonal cerrada.', 'Pensar que dos rectas que no se tocan en el dibujo pero se cortarían al alargarlas son paralelas.'],
-  preg: ['¿Por qué las vías del tren tienen que ser paralelas?', 'Dibuja una línea mixta abierta.', '¿Una letra O es una línea abierta o cerrada?'],
-  voc: [['línia recta', 'línea recta'], ['línia poligonal', 'línea poligonal'], ['línia corba', 'línea curva'], ['línia mixta', 'línea mixta'], ['oberta / tancada', 'abierta / cerrada'], ['paral·leles / secants', 'paralelas / secantes'], ['es tallen', 'se cortan']] },
+m10: { idea: 'Conéixer els tipus de línies i saber si dues rectes són paral·leles o secants.',
+  pasos: ['<b>Recta:</b> no gira. <b>Poligonal:</b> trossos rectes. <b>Corba:</b> sense trossos rectes. <b>Mixta:</b> rectes i corbes.', '<b>Tancada:</b> acaba on comença. <b>Oberta:</b> no.', '<b>Secants:</b> es tallen. <b>Paral·leles:</b> no es tallen mai.'],
+  ej: ['Un ziga-zaga → poligonal oberta', 'Un triangle dibuixat → poligonal tancada', 'Una O → corba tancada', 'Una X → rectes secants', 'Les vies del tren → rectes paral·leles'],
+  casa: 'Pel carrer: les vies del tren i les ratlles del pas de vianants són paral·leles; dos carrers que es creuen, secants.',
+  err: ['Confondre corba tancada i poligonal tancada.'],
+  preg: ['Una lletra O és oberta o tancada?', 'Per què les vies del tren són paral·leles?'] },
 
-m9: { idea: 'Que lea un problema con calma, encuentre los datos y la pregunta y decida si hay que sumar, restar o multiplicar.',
-  pasos: ['Leed el problema dos veces en voz alta, despacio.',
-    'Subrayad los números (los datos) y la pregunta.',
-    'Preguntad: «¿Al final habrá más o menos?». Si juntamos o nos dan, sumamos. Si perdemos, gastamos o se van, restamos. Si hay grupos iguales, multiplicamos.',
-    'Que lo dibuje si le cuesta: unos palitos o círculos ayudan mucho.',
-    'Resolved la operación y responded con una frase completa y la unidad: «Tiene 17 cromos».'],
-  ej: '«Marta tiene 12 cromos y le dan 5». Le dan → hay más → suma: 12 + 5 = 17. «Marta tiene 17 cromos».',
-  casa: 'Inventad problemas con cosas de casa: «En el frutero hay 8 naranjas y nos comemos 3, ¿cuántas quedan?». Después, que invente él uno para vosotros.',
-  err: ['Operar con los números sin leer la pregunta.', 'Sumar siempre, aunque el problema sea de quitar.', 'Responder solo con el número, sin la unidad.'],
-  preg: ['En este problema, ¿al final hay más o menos?', '¿Qué te pregunta el problema?', '¿Qué palabras te dicen que hay que restar?'],
-  voc: [['problema / dades / pregunta', 'problema / datos / pregunta'], ['en total', 'en total'], ['quants en queden?', '¿cuántos quedan?'], ['regalar / gastar / perdre', 'regalar / gastar / perder']] },
+m9: { idea: 'Llegir un problema i saber si cal sumar, restar o multiplicar.',
+  pasos: ['Llig-lo dues vegades.', 'Busca els nombres i la pregunta.', 'Al final, n\'hi ha més o menys? Més → suma. Menys → resta. Grups iguals → multiplica.'],
+  ej: ['«Té 12 cromos i li\'n donen 5» → més → 12 + 5 = <b>17 cromos</b>', '«Hi ha 20 persones i en baixen 8» → menys → 20 − 8 = <b>12</b>', '«3 caixes amb 5 ous» → grups → 3 × 5 = <b>15 ous</b>'],
+  casa: 'Inventeu problemes amb coses de casa: «Hi ha 8 taronges i en mengem 3. Quantes en queden?».',
+  err: ['Sumar sempre.', 'Respondre sense la unitat (17 què?).'],
+  preg: ['Al final, n\'hi ha més o menys?', 'Què et pregunta el problema?'] },
 
 /* ======================= VALENCIÀ ======================= */
 v1: { idea: 'Que lea un texto corto en valenciano, lo entienda y encuentre en él las respuestas.',
@@ -221,107 +168,69 @@ v8: { idea: 'Que distinga el nombre (qué es), el adjetivo (cómo es) y el verbo
   preg: ['En «La nena salta», ¿qué palabra es el verbo?', 'Dime un adjetivo para describir el mar.'],
   voc: [['nom', 'nombre / sustantivo'], ['adjectiu', 'adjetivo'], ['verb', 'verbo']] },
 
-/* ======================= CONEIXEMENT DEL MEDI ======================= */
-c1: { idea: 'Que conozca las partes del cuerpo y sepa para qué sirven los huesos, los músculos y las articulaciones.',
-  pasos: ['El cuerpo tiene tres partes: cap (cabeza), tronc (tronco) y extremitats (brazos y piernas).',
-    'Los huesos sostienen el cuerpo; el cráneo protege el cerebro.',
-    'Los músculos mueven los huesos: que note el bíceps al doblar el brazo.',
-    'Las articulaciones permiten doblarnos: coll, colze, canell, genoll, turmell. Que las toque.'],
-  ej: 'Para chutar un balón usamos los músculos de la pierna y doblamos el genoll (rodilla).',
-  casa: 'Juego «Simón dice»: toca el colze, el turmell, el canell…',
-  err: ['Confundir colze (codo) con genoll (rodilla) y canell (muñeca) con turmell (tobillo).'],
-  preg: ['¿Para qué sirven los huesos?', '¿Dónde está el turmell?'],
-  voc: [['cap / tronc / extremitats', 'cabeza / tronco / extremidades'], ['ossos / músculs', 'huesos / músculos'], ['coll', 'cuello'], ['colze', 'codo'], ['canell', 'muñeca'], ['genoll', 'rodilla'], ['turmell', 'tobillo'], ['crani', 'cráneo']] },
+/* ======================= CONEIXEMENT DEL MEDI (en valencià, senzill) ======================= */
+c1: { idea: 'Conéixer les parts del cos, els ossos, els músculs i les articulacions.',
+  pasos: ['El cos té tres parts: cap, tronc i extremitats.', 'Els <b>ossos</b> ens sostenen. Els <b>músculs</b> ens mouen.', 'Les <b>articulacions</b> ens deixen doblegar.'],
+  ej: ['El crani protegeix el cervell', 'Per a xutar: músculs de la cama i doblem el genoll', 'Articulacions: coll, colze, canell, genoll, turmell'],
+  casa: 'Jugueu a «Simó diu»: toca\'t el colze, el turmell, el canell…',
+  err: ['Confondre colze i genoll, o canell i turmell.'],
+  preg: ['Per a què serveixen els ossos?', 'On tens el turmell?'] },
 
-c2: { idea: 'Que conozca los cinco sentidos, el órgano de cada uno y cómo cuidarlos.',
-  pasos: ['Vista con los ojos, oído con las orejas, olfato con la nariz, gusto con la lengua, tacto con la piel.',
-    'Haced experimentos con los ojos cerrados: oler, tocar, probar.',
-    'Cómo cuidarlos: no mirar el sol, no poner la música muy alta, lavarse bien.'],
-  ej: 'Con los ojos cerrados, olemos una naranja (olfacte) y tocamos una esponja (tacte).',
-  casa: 'Con los ojos tapados, adivinad alimentos por el olor y por el tacto.',
-  err: ['Confundir olfacte (olfato) con gust (gusto).'],
-  preg: ['¿Con qué sentido notas que algo quema?', '¿Cómo cuidamos los oídos?'],
-  voc: [['vista / oïda / olfacte / gust / tacte', 'vista / oído / olfato / gusto / tacto'], ['ulls / orelles / nas / llengua / pell', 'ojos / orejas / nariz / lengua / piel']] },
+c2: { idea: 'Conéixer els cinc sentits i com cuidar-los.',
+  pasos: ['Tenim cinc sentits.', 'Cada sentit té un òrgan.', 'Els hem de cuidar.'],
+  ej: ['Vista → ulls', 'Oïda → orelles', 'Olfacte → nas', 'Gust → llengua', 'Tacte → pell', 'No mirar el sol · música no massa alta'],
+  casa: 'Amb els ulls tapats, endevineu aliments per l\'olor i pel tacte.',
+  err: ['Confondre olfacte i gust.'],
+  preg: ['Amb quin sentit notes que una cosa crema?', 'Com cuidem les orelles?'] },
 
-c3: { idea: 'Que sepa qué es una alimentación sana y unos buenos hábitos de higiene, descanso y ejercicio.',
-  pasos: ['Hay que comer de todo: fruita, verdura, llegums, peix, carn, llet i cereals.',
-    'Los dulces y las chuches, solo de vez en cuando.',
-    'Buenos hábitos: lavarse las manos, cepillarse los dientes después de comer, dormir unas 10 horas y hacer deporte.',
-    'Cuando tenemos sed, bebemos agua.'],
-  ej: 'Un buen almuerzo: un bocadillo y una pieza de fruta.',
-  casa: 'Preparad juntos un almuerzo sano y clasificad los alimentos.',
-  err: ['Pensar que el zumo envasado es igual que la fruta.'],
-  preg: ['¿Qué alimentos debemos comer todos los días?', '¿Cuándo nos cepillamos los dientes?'],
-  voc: [['fruita / verdura / llegums', 'fruta / verdura / legumbres'], ['peix / carn / llet', 'pescado / carne / leche'], ['llepolies', 'golosinas'], ['raspallar-se les dents', 'cepillarse los dientes']] },
+c3: { idea: 'Saber què és menjar sa i tindre bons hàbits.',
+  pasos: ['Cal menjar de tot.', 'Dolços, només de tant en tant.', 'Rentar-se, dormir i fer esport.'],
+  ej: ['Cada dia: fruita, verdura, llet, cereals', 'Algunes vegades: peix, carn, llegums', 'Poques vegades: llepolies', 'Dents → després de menjar', 'Dormir unes 10 hores', 'Si tens set → aigua'],
+  casa: 'Prepareu junts un esmorzar sa.',
+  err: ['Pensar que el suc de brick és igual que la fruita.'],
+  preg: ['Què hem de menjar cada dia?', 'Quan ens raspallem les dents?'] },
 
-c4: { idea: 'Que clasifique animales: vertebrados e invertebrados, cómo nacen y qué comen.',
-  pasos: ['Vertebrados (tienen huesos): mamíferos (pelo), aves (plumas), peces (escamas), reptiles y anfibios.',
-    'Invertebrados (sin huesos): caracol, hormiga, mariposa.',
-    'Ovíparos nacen de un huevo (gallina). Vivíparos nacen de la barriga de la madre (perro).',
-    'Herbívoros comen plantas, carnívoros comen carne, omnívoros comen de todo.'],
-  ej: 'El gato: mamífero, vivíparo y carnívoro. La gallina: ave, ovípara y omnívora.',
-  casa: 'Cuando veáis un animal, preguntad: ¿tiene pelo, plumas o escamas? ¿Qué come? ¿Nace de un huevo?',
-  err: ['Pensar que el delfín o la ballena son peces (son mamíferos).'],
-  preg: ['¿El caracol tiene huesos?', '¿Qué come un animal herbívoro?'],
-  voc: [['vertebrats / invertebrats', 'vertebrados / invertebrados'], ['mamífers / aus / peixos', 'mamíferos / aves / peces'], ['ovípars / vivípars', 'ovíparos / vivíparos'], ['pèl / plomes / escates', 'pelo / plumas / escamas']] },
+c4: { idea: 'Classificar els animals.',
+  pasos: ['Amb ossos (vertebrats) o sense (invertebrats).', 'Com naixen: d\'un ou o de la panxa de la mare.', 'Què mengen.'],
+  ej: ['Gos → mamífer, vivípar, carnívor', 'Gallina → au, ovípara, omnívora', 'Peix → escates', 'Caragol → invertebrat (no té ossos)', 'Vaca → herbívora', 'El dofí és un mamífer, no un peix'],
+  casa: 'Quan veieu un animal: té pèl, plomes o escates? Què menja?',
+  err: ['Pensar que el dofí i la balena són peixos.'],
+  preg: ['El caragol té ossos?', 'Què menja un herbívor?'] },
 
-c5: { idea: 'Que conozca las partes de una planta y lo que necesita para vivir.',
-  pasos: ['Partes: arrel (raíz), tija (tallo), fulles (hojas), flor y fruit (fruto).',
-    'La raíz está bajo tierra y toma el agua; el tallo la sube hasta las hojas.',
-    'Dentro del fruto están las semillas (llavors), que dan plantas nuevas.',
-    'Las plantas necesitan agua, luz y aire.',
-    'Tipos: árboles (tronco grueso), arbustos (como el romero) y hierbas.'],
-  ej: 'En una naranja, las pepitas son las semillas.',
-  casa: 'Plantad lentejas en algodón mojado y mirad cada día cómo crecen.',
-  err: ['Confundir tija (tallo) con arrel (raíz).'],
-  preg: ['¿Para qué sirve la raíz?', '¿Qué necesita una planta para vivir?'],
-  voc: [['arrel / tija / fulles', 'raíz / tallo / hojas'], ['fruit / llavors', 'fruto / semillas'], ['arbre / arbust / herba', 'árbol / arbusto / hierba']] },
+c5: { idea: 'Conéixer les parts de la planta i què necessita.',
+  pasos: ['Parts: arrel, tija, fulles, flor i fruit.', 'L\'arrel agafa l\'aigua. La tija la puja.', 'Les plantes necessiten aigua, llum i aire.'],
+  ej: ['Les pepites de la taronja → llavors', 'Arbre → tronc gros (taronger)', 'Arbust → romer', 'Herba → gespa'],
+  casa: 'Planteu llenties en cotó mullat i mireu cada dia com creixen.',
+  err: ['Confondre tija i arrel.'],
+  preg: ['Per a què serveix l\'arrel?', 'Què necessita una planta?'] },
 
-c6: { idea: 'Que conozca los estados del agua, el tiempo atmosférico y las estaciones.',
-  pasos: ['El agua puede ser sólida (hielo), líquida (la del grifo) o gas (vapor).',
-    'Experimento: hielo que se derrite; agua que hierve y hace vapor.',
-    'La lluvia cae de las nubes.',
-    'Estaciones: primavera, estiu, tardor, hivern.',
-    'El termómetro mide la temperatura. Hay que ahorrar agua.'],
-  ej: 'Un cubito de hielo (sòlid) se convierte en agua (líquid).',
-  casa: 'Cada mañana, mirad el cielo y apuntad si hace sol, nubes, lluvia o viento.',
-  err: ['Confundir tardor (otoño) con hivern (invierno).'],
-  preg: ['¿Qué le pasa al hielo si lo dejas fuera de la nevera?', '¿En qué estación hace más calor?'],
-  voc: [['sòlid / líquid / gas', 'sólido / líquido / gas'], ['gel / vapor', 'hielo / vapor'], ['primavera / estiu / tardor / hivern', 'primavera / verano / otoño / invierno'], ['núvol / pluja', 'nube / lluvia']] },
+c6: { idea: 'Conéixer els estats de l\'aigua, el temps i les estacions.',
+  pasos: ['L\'aigua pot ser sòlida, líquida o gas.', 'L\'any té quatre estacions.', 'Hem d\'estalviar aigua.'],
+  ej: ['Gel → sòlid', 'Aigua de l\'aixeta → líquid', 'Vapor de l\'olla → gas', 'Primavera, estiu, tardor, hivern', 'El termòmetre mesura la temperatura'],
+  casa: 'Cada matí, mireu el cel: fa sol, núvols, pluja o vent?',
+  err: ['Confondre tardor i hivern.'],
+  preg: ['Què li passa al gel fora del congelador?', 'En quina estació fa més calor?'] },
 
-c7: { idea: 'Que distinga paisaje de costa y de montaña y conozca su Comunidad: provincias, capital, ríos y la Albufera.',
-  pasos: ['Paisaje de costa: playa y mar. Paisaje de montaña: montañas, ríos y bosques.',
-    'La Comunidad Valenciana tiene tres provincias: Castelló, València y Alacant. La capital es València.',
-    'Nos baña el mar Mediterráneo. Ríos: Túria, Xúquer y Segura.',
-    'L\'Albufera es un lago muy grande cerca de València.'],
-  ej: 'Benicarló está en la provincia de Castelló, en la costa.',
-  casa: 'Buscad en un mapa dónde vivís y qué río o montaña tenéis cerca.',
-  err: ['Pensar que València es la única provincia.'],
-  preg: ['¿Cuáles son las tres provincias?', '¿Qué mar baña nuestras costas?'],
-  voc: [['paisatge de costa / muntanya', 'paisaje de costa / montaña'], ['província / capital', 'provincia / capital'], ['riu / llac', 'río / lago']] },
+c7: { idea: 'Conéixer el paisatge i la Comunitat Valenciana.',
+  pasos: ['Paisatge de costa o de muntanya.', 'La Comunitat té tres províncies.', 'Rius, mar i l\'Albufera.'],
+  ej: ['Costa → platja i mar', 'Muntanya → muntanyes, rius i boscos', 'Províncies: Castelló, València i Alacant', 'Capital: València', 'Mar Mediterrani', 'Rius: Túria, Xúquer i Segura'],
+  casa: 'Busqueu al mapa on viviu i quin riu teniu a prop.',
+  err: ['Pensar que València és l\'única província.'],
+  preg: ['Quines són les tres províncies?', 'Quin mar tenim?'] },
 
-c8: { idea: 'Que conozca los oficios del pueblo, el ayuntamiento, los transportes y las normas básicas de seguridad vial.',
-  pasos: ['En el pueblo hay muchas personas que trabajan para todos: médicas, panaderos, bomberos, maestros, carteros.',
-    'El ayuntamiento cuida del pueblo; lo gobierna el alcalde o la alcaldesa.',
-    'Transportes por tierra (coche, tren), por agua (barco) y por aire (avión).',
-    'Cruzamos por el paso de peatones y con el semáforo de peatones en verde.'],
-  ej: 'La bombera apaga fuegos; el cartero reparte cartas.',
-  casa: 'Por la calle, hablad de los oficios que veis y de las señales de tráfico.',
-  err: ['Cruzar mirando solo a un lado.'],
-  preg: ['¿Quién gobierna el pueblo?', '¿Por dónde cruzamos la calle?'],
-  voc: [['ofici', 'oficio'], ['ajuntament / alcalde', 'ayuntamiento / alcalde'], ['pas de vianants', 'paso de peatones'], ['semàfor', 'semáforo']] },
+c8: { idea: 'Conéixer els oficis, els transports i com creuar el carrer.',
+  pasos: ['Moltes persones treballen per a tots.', 'L\'ajuntament cuida del poble.', 'Creuem pel pas de vianants i amb el semàfor verd.'],
+  ej: ['Bombera → apaga focs', 'Forner → fa pa', 'Carter → porta cartes', 'Terra → cotxe, tren', 'Aigua → vaixell', 'Aire → avió'],
+  casa: 'Pel carrer, parleu dels oficis i dels senyals que veieu.',
+  err: ['Creuar mirant només a un costat.'],
+  preg: ['Qui governa el poble?', 'Per on creuem el carrer?'] },
 
-c9: { idea: 'Que sepa los días de la semana, los meses, use el calendario y entienda ayer, hoy, mañana y antes/ahora.',
-  pasos: ['La semana tiene 7 días: dilluns, dimarts, dimecres, dijous, divendres, dissabte, diumenge.',
-    'El año tiene 12 meses: gener, febrer, març, abril, maig, juny, juliol, agost, setembre, octubre, novembre, desembre.',
-    'Ahir (ayer) ya ha pasado; hui (hoy); demà (mañana) vendrá.',
-    'Antes se vivía distinto: lavar a mano, cartas, carros.'],
-  ej: 'Si hui és dimarts, ahir va ser dilluns i demà serà dimecres.',
-  casa: 'Marcad en el calendario los cumpleaños de la familia y contad cuántos días faltan.',
-  err: ['Confundir dimarts (martes) con dimecres (miércoles).'],
-  preg: ['¿Qué día va después del dijous?', '¿Cuántos meses tiene el año?'],
-  voc: [['dilluns … diumenge', 'lunes … domingo'], ['gener … desembre', 'enero … diciembre'], ['ahir / hui / demà', 'ayer / hoy / mañana'], ['abans / ara', 'antes / ahora']] },
-
+c9: { idea: 'Conéixer els dies, els mesos i ahir, hui i demà.',
+  pasos: ['La setmana té 7 dies.', 'L\'any té 12 mesos.', 'Ahir ja ha passat, demà vindrà.'],
+  ej: ['Dilluns, dimarts, dimecres, dijous, divendres, dissabte, diumenge', 'Gener, febrer, març… desembre', 'Si hui és dimarts → ahir dilluns, demà dimecres', 'Abans: rentar a mà · Ara: rentadora'],
+  casa: 'Marqueu al calendari els aniversaris i compteu quants dies falten.',
+  err: ['Confondre dimarts i dimecres.'],
+  preg: ['Quin dia ve després del dijous?', 'Quants mesos té l\'any?'] },
 /* ======================= LENGUA CASTELLANA ======================= */
 l1: { idea: 'Que lea un texto corto en castellano, lo entienda y busque las respuestas en él.',
   pasos: ['Leedlo juntos en voz alta y después que lo lea solo.', 'Que cuente con sus palabras de qué va.', 'Preguntas clave: ¿quién?, ¿dónde?, ¿cuándo?, ¿qué pasa?', 'Si no sabe, que vuelva al texto y señale la frase.'],
@@ -419,41 +328,49 @@ function clockBox() {
     <p class="gclock-say"></p>
     <div class="gclock-btns">
       <button class="btn btn-soft" data-gc="-15">− 15 min</button><button class="btn btn-soft" data-gc="15">+ 15 min</button>
-      <button class="btn btn-soft" data-gc="60">+ 1 hora</button><button class="btn btn-main" data-gc="rnd">Hora al azar</button>
+      <button class="btn btn-soft" data-gc="60">+ 1 hora</button><button class="btn btn-main" data-gc="rnd">Hora a l'atzar</button>
     </div>
-    <p class="gclock-tip">Truco: tapa la frase con la mano y pregúntale «Quina hora és?». Después destápala para comprobar.</p></div>`;
+    <p class="gclock-tip">Truc: tapa la frase amb la mà i pregunta-li «Quina hora és?».</p></div>`;
 }
 function paintClock(box) {
   const h = +box.dataset.h, m = +box.dataset.m, [ca, es] = frases(h, m);
   box.querySelector('.gclock-an').innerHTML = vClock(h, m);
   box.querySelector('.gclock-dg').innerHTML = vDigital(h, m);
-  box.querySelector('.gclock-say').innerHTML = `<b>${ca.charAt(0).toUpperCase() + ca.slice(1)}</b><small>(en castellano: ${es})</small>`;
+  box.querySelector('.gclock-say').innerHTML = `<b>${ca.charAt(0).toUpperCase() + ca.slice(1)}</b>`;
 }
-const quarts = `<div class="gtable"><table><thead><tr><th>Aguja larga</th><th>Digital</th><th>Se dice (valenciano)</th><th>Minutos</th></tr></thead><tbody>
+const quarts = `<div class="gtable"><table><thead><tr><th>Agulla llarga</th><th>Digital</th><th>Es diu</th><th>Minuts</th></tr></thead><tbody>
   <tr><td>al 12</td><td>3:00</td><td>les tres <b>en punt</b></td><td>0</td></tr>
   <tr><td>al 3</td><td>3:15</td><td>les tres <b>i quart</b></td><td>15</td></tr>
   <tr><td>al 6</td><td>3:30</td><td>les tres <b>i mitja</b></td><td>30</td></tr>
   <tr><td>al 9</td><td>3:45</td><td>les <u>quatre</u> <b>menys quart</b></td><td>45</td></tr></tbody></table></div>
-  <p class="gnote">Partes del día: <b>el matí</b> (la mañana), <b>el migdia</b> (el mediodía), <b>la vesprada</b> (la tarde) y <b>la nit</b> (la noche). Si en un reloj digital ve 13:00 o más, se resta 12: 15:30 son «les tres i mitja de la vesprada».</p>`;
+  <p class="gnote">Parts del dia: el matí, el migdia, la vesprada i la nit. Si veu 15:30, resta 12: les tres i mitja de la vesprada.</p>`;
 
 /* ---------- vista ---------- */
 const AREA_TXT = { mat: 'Matemàtiques', val: 'Valencià', med: 'Medi', cas: 'Castellano', eng: 'English' };
+/* títols: en valencià per a Matemàtiques i Medi; en castellà per a la resta */
+const TX = {
+  ca: { idea: 'Què ha d\'aprendre', pasos: 'Explica-ho així', clock: 'Rellotge per a explicar les hores', demo: 'Així ho veurà a l\'app', ej: 'Exemples', casa: 'A casa', err: 'Compte amb...', preg: 'Pregunta-li' },
+  es: { idea: 'Qué tiene que aprender', pasos: 'Cómo explicarlo, paso a paso', clock: 'Reloj para explicar las horas', demo: 'Cómo lo verá en la app', ej: 'Ejemplo', casa: 'Para hacer en casa', err: 'Errores típicos', preg: 'Pregúntale para comprobar' }
+};
+const langOf = area => (area === 'mat' || area === 'med') ? 'ca' : 'es';
 function card(id) {
   const t = SKILL[id], g = G[id]; if (!t || !g) return '';
+  const L = TX[langOf(t.area)];
   const li = a => (a || []).map(x => `<li>${x}</li>`).join('');
+  const ej = Array.isArray(g.ej) ? `<ul class="gexlist">${li(g.ej)}</ul>` : `<p>${g.ej}</p>`;
   return `<article class="gcard" style="${cvars(t.area)}" id="g-${id}">
     <header class="ghead"><img src="${t.img}" alt=""><div><div class="qtag"><i></i>${esc(AREA[t.area].name)}</div><h2>${esc(t.t)}</h2><p class="sub">${esc(t.s || '')}</p></div></header>
-    <section class="gsec gidea"><h3>Qué tiene que aprender</h3><p>${g.idea}</p></section>
-    <section class="gsec"><h3>Cómo explicarlo, paso a paso</h3><ol>${li(g.pasos)}</ol></section>
-    ${g.extra === 'clock' ? `<section class="gsec"><h3>Reloj para explicar las horas</h3>${clockBox()}${quarts}</section>` : ''}
-    ${t.demo ? `<section class="gsec"><h3>Cómo lo verá en la app</h3><div class="demo">${t.demo}</div></section>` : ''}
-    <section class="gsec gex"><h3>Ejemplo</h3><p>${g.ej}</p></section>
-    <section class="gsec"><h3>Para hacer en casa</h3><p>${g.casa}</p></section>
+    <section class="gsec gidea"><h3>${L.idea}</h3><p>${g.idea}</p></section>
+    <section class="gsec"><h3>${L.pasos}</h3><ol>${li(g.pasos)}</ol></section>
+    <section class="gsec gex"><h3>${L.ej}</h3>${ej}</section>
+    ${g.extra === 'clock' ? `<section class="gsec"><h3>${L.clock}</h3>${clockBox()}${quarts}</section>` : ''}
+    ${t.demo ? `<section class="gsec"><h3>${L.demo}</h3><div class="demo">${t.demo}</div></section>` : ''}
+    <section class="gsec"><h3>${L.casa}</h3><p>${g.casa}</p></section>
     <div class="gtwo">
-      <section class="gsec gwarn"><h3>Errores típicos</h3><ul>${li(g.err)}</ul></section>
-      <section class="gsec"><h3>Pregúntale para comprobar</h3><ul>${li(g.preg)}</ul></section>
+      <section class="gsec gwarn"><h3>${L.err}</h3><ul>${li(g.err)}</ul></section>
+      <section class="gsec"><h3>${L.preg}</h3><ul>${li(g.preg)}</ul></section>
     </div>
-    ${g.voc ? `<section class="gsec"><h3>Vocabulario</h3><div class="gtable"><table><thead><tr><th>${t.area === 'eng' ? 'Inglés' : t.area === 'cas' ? 'Valenciano' : 'Valenciano (app)'}</th><th>Castellano</th></tr></thead><tbody>${g.voc.map(v => `<tr><td>${v[0]}</td><td>${v[1]}</td></tr>`).join('')}</tbody></table></div></section>` : ''}
+    ${g.voc ? `<section class="gsec"><h3>Vocabulario</h3><div class="gtable"><table><thead><tr><th>${t.area === 'eng' ? 'Inglés' : 'Valenciano'}</th><th>Castellano</th></tr></thead><tbody>${g.voc.map(v => `<tr><td>${v[0]}</td><td>${v[1]}</td></tr>`).join('')}</tbody></table></div></section>` : ''}
   </article>`;
 }
 
@@ -464,12 +381,12 @@ window.vGuia = function () {
   const area = all ? null : SKILL[id] && SKILL[id].area;
   return shell(back === 'adults' ? '' : 'map', `
   <div class="gtop noprint">
-    <button class="btn btn-soft" data-gback="1">← Volver</button>
-    ${!all && P().settings.free !== false ? `<button class="btn btn-main" data-practice="${id}">Ya lo hemos explicado: ¡a los ejercicios!</button>` : ''}
-    <button class="btn btn-soft" data-gprint="1">Imprimir</button>
+    <button class="btn btn-soft" data-gback="1">← ${area && langOf(area) === 'ca' ? 'Torna' : 'Volver'}</button>
+    ${!all && P().settings.free !== false ? `<button class="btn btn-main" data-practice="${id}">${langOf(area) === 'ca' ? 'Ja ho hem explicat: als exercicis!' : 'Ya lo hemos explicado: ¡a los ejercicios!'}</button>` : ''}
+    <button class="btn btn-soft" data-gprint="1">${area && langOf(area) === 'ca' ? 'Imprimeix' : 'Imprimir'}</button>
   </div>
-  <header class="hello"><h1>${all ? 'Temario y guía para explicar' : 'Cómo explicarlo'}</h1>
-    <p>${all ? 'Todas las asignaturas y todos los temas. Para cada tema: qué tiene que aprender, cómo explicarlo paso a paso, un ejemplo, una actividad para casa, los errores típicos y preguntas para comprobar.' : 'Guía para el adulto. Leedla antes de hacer los ejercicios.'} <small>(Las palabras que ve el niño en la app están en valenciano.)</small></p></header>
+  <header class="hello"><h1>${all ? 'Temario y guía para explicar' : langOf(area) === 'ca' ? 'Com explicar-ho' : 'Cómo explicarlo'}</h1>
+    <p>${all ? 'Todas las asignaturas y todos los temas. Para cada tema: qué tiene que aprender, cómo explicarlo paso a paso, un ejemplo, una actividad para casa, los errores típicos y preguntas para comprobar.' : langOf(area) === 'ca' ? 'Llegiu-ho junts abans de fer els exercicis.' : 'Guía para el adulto. Leedla antes de hacer los ejercicios.'}</p></header>
   ${all ? `<nav class="gindex noprint">${AREAS.map(a => `<div style="${cvars(a.id)}"><b>${esc(a.name)}</b>${a.topics.map(t => `<a href="#g-${t.id}" data-gjump="${t.id}">${esc(t.t)}</a>`).join('')}</div>`).join('')}</nav>` : ''}
   ${ids.map(card).join('')}`);
 };

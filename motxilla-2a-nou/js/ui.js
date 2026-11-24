@@ -205,7 +205,7 @@ function vMap() {
       <p>${what}</p>
       ${st !== 'locked' ? `<ul class="learnlist">${(t.learn || []).slice(0, 4).map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-        <button class="btn btn-soft" data-guia="${sel}">Cómo explicarlo</button>
+        <button class="btn btn-soft" data-guia="${sel}">${t.area === 'mat' || t.area === 'med' ? 'Com explicar-ho' : 'Cómo explicarlo'}</button>
         ${canPractice ? `<button class="btn btn-main" data-practice="${sel}">Practica ara</button>` : ''}
         ${!p.diag[area] ? `<button class="btn btn-soft" data-diag="${area}">Prova de nivell</button>` : ''}
         <button class="btn btn-soft" data-sheet="${sel}">${ico('i-down')}Fitxa en PDF</button>
@@ -321,7 +321,7 @@ function learnView(st, t) {
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
           ${reveal < L.length ? `<button class="btn btn-main btn-big" data-act="step">Següent pas</button>` : `<button class="btn btn-main btn-big" data-act="next">Mira un exemple</button>`}
           <button class="speak" data-act="saylearn">${ico('i-sound')}Escolta</button>
-          <button class="btn btn-soft" data-guia="${t.id}" data-back="run">Guía para el adulto</button>
+          <button class="btn btn-soft" data-guia="${t.id}" data-back="run">${t.area === 'mat' || t.area === 'med' ? 'Com explicar-ho' : 'Guía para el adulto'}</button>
         </div>
       </div>
     </div></section>`;

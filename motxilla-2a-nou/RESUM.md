@@ -99,7 +99,7 @@ Els scripts de prova estaven a la carpeta temporal de la sessió i no es guarden
 
 ## Guia per a explicar (js/guia.js)
 
-- Una fitxa per a cada un dels 43 temes (totes les àrees), **en castellà** perquè és per a l'adult: què ha d'aprendre, com explicar-ho pas a pas, exemple, activitat a casa, errors típics, preguntes per a comprovar i vocabulari valencià ↔ castellà.
+- Una fitxa per a cada un dels 43 temes. **Matemàtiques i Medi: en valencià, curtes i amb molts exemples** (ho va demanar la família). Valencià, Castellano i English: en castellà. Cada fitxa: què ha d'aprendre, com explicar-ho pas a pas, exemple, activitat a casa, errors típics, preguntes per a comprovar i vocabulari valencià ↔ castellà.
 - Tema m6: rellotge interactiu (agulles + digital, botons ±15 min, +1 h, a l'atzar) i taula dels quarts.
 - On s'obri: botó «Cómo explicarlo» al mapa (abans de «Practica ara»), botó «Guía para el adulto» a la pantalla Aprenc, i «Temario y guía para explicar» a la zona de famílies (temari complet, imprimible).
 - Vista `guia` registrada a `render()` de `js/ui.js`; estil a `css/nou.css`.
