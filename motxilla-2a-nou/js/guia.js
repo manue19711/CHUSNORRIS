@@ -381,12 +381,12 @@ window.vGuia = function () {
   const area = all ? null : SKILL[id] && SKILL[id].area;
   return shell(back === 'adults' ? '' : 'map', `
   <div class="gtop noprint">
-    <button class="btn btn-soft" data-gback="1">← ${area && langOf(area) === 'ca' ? 'Torna' : 'Volver'}</button>
+    <button class="btn btn-soft" data-gback="1">← ${!area || langOf(area) === 'ca' ? 'Torna' : 'Volver'}</button>
     ${!all && P().settings.free !== false ? `<button class="btn btn-main" data-practice="${id}">${langOf(area) === 'ca' ? 'Ja ho hem explicat: als exercicis!' : 'Ya lo hemos explicado: ¡a los ejercicios!'}</button>` : ''}
-    <button class="btn btn-soft" data-gprint="1">${area && langOf(area) === 'ca' ? 'Imprimeix' : 'Imprimir'}</button>
+    <button class="btn btn-soft" data-gprint="1">${!area || langOf(area) === 'ca' ? 'Imprimeix' : 'Imprimir'}</button>
   </div>
-  <header class="hello"><h1>${all ? 'Temario y guía para explicar' : langOf(area) === 'ca' ? 'Com explicar-ho' : 'Cómo explicarlo'}</h1>
-    <p>${all ? 'Todas las asignaturas y todos los temas. Para cada tema: qué tiene que aprender, cómo explicarlo paso a paso, un ejemplo, una actividad para casa, los errores típicos y preguntas para comprobar.' : langOf(area) === 'ca' ? 'Llegiu-ho junts abans de fer els exercicis.' : 'Guía para el adulto. Leedla antes de hacer los ejercicios.'}</p></header>
+  <header class="hello"><h1>${all ? 'Temari i guia per a explicar' : langOf(area) === 'ca' ? 'Com explicar-ho' : 'Cómo explicarlo'}</h1>
+    <p>${all ? 'Totes les assignatures i tots els temes. Per a cada tema: què ha d\'aprendre, com explicar-ho, exemples, una activitat per a casa, errors típics i preguntes.' : langOf(area) === 'ca' ? 'Llegiu-ho junts abans de fer els exercicis.' : 'Guía para el adulto. Leedla antes de hacer los ejercicios.'}</p></header>
   ${all ? `<nav class="gindex noprint">${AREAS.map(a => `<div style="${cvars(a.id)}"><b>${esc(a.name)}</b>${a.topics.map(t => `<a href="#g-${t.id}" data-gjump="${t.id}">${esc(t.t)}</a>`).join('')}</div>`).join('')}</nav>` : ''}
   ${ids.map(card).join('')}`);
 };
