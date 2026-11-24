@@ -97,6 +97,13 @@ Els scripts de prova estaven a la carpeta temporal de la sessió i no es guarden
 - **m8:** polígons (triangle, quadrilàter, pentàgon, hexàgon), costats, vèrtexs i «forma un polígon?», a `js/mes.js`.
 - Dibuixos nous a `js/content.js`: `LINES`, `vLine`, `vPair`, `vDigital`, `vPoly`. Estil a `css/nou.css`.
 
+## Guia per a explicar (js/guia.js)
+
+- Una fitxa per a cada un dels 43 temes (totes les àrees), **en castellà** perquè és per a l'adult: què ha d'aprendre, com explicar-ho pas a pas, exemple, activitat a casa, errors típics, preguntes per a comprovar i vocabulari valencià ↔ castellà.
+- Tema m6: rellotge interactiu (agulles + digital, botons ±15 min, +1 h, a l'atzar) i taula dels quarts.
+- On s'obri: botó «Cómo explicarlo» al mapa (abans de «Practica ara»), botó «Guía para el adulto» a la pantalla Aprenc, i «Temario y guía para explicar» a la zona de famílies (temari complet, imprimible).
+- Vista `guia` registrada a `render()` de `js/ui.js`; estil a `css/nou.css`.
+
 ## Pendent o per decidir
 
 - **Escriure la paraula sencera** a mà en els exercicis de valencià (ara només es respon amb cifres o triant opció).

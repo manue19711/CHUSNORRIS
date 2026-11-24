@@ -205,6 +205,7 @@ function vMap() {
       <p>${what}</p>
       ${st !== 'locked' ? `<ul class="learnlist">${(t.learn || []).slice(0, 4).map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+        <button class="btn btn-soft" data-guia="${sel}">Cómo explicarlo</button>
         ${canPractice ? `<button class="btn btn-main" data-practice="${sel}">Practica ara</button>` : ''}
         ${!p.diag[area] ? `<button class="btn btn-soft" data-diag="${area}">Prova de nivell</button>` : ''}
         <button class="btn btn-soft" data-sheet="${sel}">${ico('i-down')}Fitxa en PDF</button>
@@ -320,6 +321,7 @@ function learnView(st, t) {
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
           ${reveal < L.length ? `<button class="btn btn-main btn-big" data-act="step">Següent pas</button>` : `<button class="btn btn-main btn-big" data-act="next">Mira un exemple</button>`}
           <button class="speak" data-act="saylearn">${ico('i-sound')}Escolta</button>
+          <button class="btn btn-soft" data-guia="${t.id}" data-back="run">Guía para el adulto</button>
         </div>
       </div>
     </div></section>`;
@@ -553,6 +555,9 @@ function vAdults() {
   </div>
   <p class="note" style="margin-top:10px">La correspondència amb els blocs de sabers bàsics és orientativa (RD 157/2022 i Decret 106/2022 de la Comunitat Valenciana).</p>
 
+  <section style="margin-top:40px" aria-labelledby="ad-guia"><h2 id="ad-guia" style="font-family:var(--serif);font-weight:400;font-size:2rem;margin-bottom:10px">Temario y guía para explicar</h2>
+    <p>Antes de hacer los ejercicios, leed la guía del tema: qué tiene que aprender, cómo explicarlo paso a paso, ejemplos, actividades para casa, errores típicos y preguntas. Todas las asignaturas.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-main" data-guia="all" data-back="adults">Abrir el temario completo</button></div></section>
   <section style="margin-top:40px" aria-labelledby="ad-set"><h2 id="ad-set" style="font-family:var(--serif);font-weight:400;font-size:2rem;margin-bottom:10px">Opcions</h2>
     <div class="setrow"><div><h3>Durada de la sessió</h3><p>La sessió s'acaba sola; no hi ha «una més».</p></div>
       <div class="seg" role="group" aria-label="Durada">${[[10, 'Uns 10 minuts'], [15, 'Uns 15 minuts']].map(([v, l]) => `<button data-len="${v}" aria-pressed="${(p.settings.len >= 15 ? 15 : 10) === v}" style="--c:var(--accent)">${l}</button>`).join('')}</div></div>
@@ -576,7 +581,7 @@ function vAdults() {
 /* ======================= render i esdeveniments ======================= */
 function render() {
   if (V.name !== 'profiles' && V.name !== 'new' && V.name !== 'intro' && V.name !== 'gate' && V.name !== 'adults' && !P()) V = { name: 'profiles' };
-  const views = { profiles: vProfiles, new: vNew, home: vHome, map: vMap, carnet: vCarnet, run: vRun, diag: vDiag, gate: vGate, adults: vAdults, games: vGames, play: vPlay, intro: vIntro, sheet: vSheet, report: vReport };
+  const views = { profiles: vProfiles, new: vNew, home: vHome, map: vMap, carnet: vCarnet, run: vRun, diag: vDiag, gate: vGate, adults: vAdults, games: vGames, play: vPlay, intro: vIntro, sheet: vSheet, report: vReport, guia: () => window.vGuia() };
   if (V.name === 'play' && !V.J) V = { name: 'games' };
   app.innerHTML = (views[V.name] || vHome)();
   document.title = { home: 'Avui', map: 'El mapa', carnet: 'El meu carnet', run: 'Sessió', diag: 'Prova de nivell', adults: 'Famílies', games: 'Jocs', play: 'Jocs', sheet: 'Fitxa' }[V.name] ? `${{ home: 'Avui', map: 'El mapa', carnet: 'El meu carnet', run: 'Sessió', diag: 'Prova de nivell', adults: 'Famílies', games: 'Jocs', play: 'Jocs', sheet: 'Fitxa' }[V.name]} · Motxilla 2A` : 'Motxilla 2A';

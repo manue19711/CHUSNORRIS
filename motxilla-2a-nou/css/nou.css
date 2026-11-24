@@ -167,3 +167,37 @@ a{text-underline-offset:.22em;text-decoration-thickness:.09em}
 .lcd{display:inline-flex;align-items:baseline;gap:2px;padding:6px 26px;border:8px solid var(--text);border-radius:16px;background:var(--raised);
   font-family:"Courier New",ui-monospace,monospace;font-weight:700;font-size:clamp(2.6rem,10vw,3.6rem);line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:2px}
 .lcd .h{color:var(--val)} .lcd .m{color:var(--mat)} .lcd .pt{color:var(--text)}
+
+/* ===== Guia per a explicar (js/guia.js) ===== */
+.gtop{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.gindex{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:0 0 28px}
+.gindex>div{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:18px;background:var(--raised);border-top:6px solid var(--c)}
+.gindex b{font-family:var(--serif);font-size:1.1rem;margin-bottom:4px}
+.gindex a{color:var(--text);text-decoration:none;padding:3px 0;border-bottom:1px dashed var(--surface-2)}
+.gindex a:hover{color:var(--c)}
+.gcard{background:var(--raised);border-radius:26px;padding:clamp(18px,3vw,30px);margin:0 0 28px;border-top:8px solid var(--c);scroll-margin-top:16px}
+.ghead{display:flex;gap:18px;align-items:center;margin-bottom:10px}
+.ghead img{width:120px;aspect-ratio:4/3;object-fit:cover;border-radius:16px;flex:none}
+.ghead h2{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.2rem);margin:6px 0 2px}
+.gsec{margin-top:18px;min-width:0}
+.gsec h3{font-family:var(--serif);font-size:1.2rem;color:var(--c);margin:0 0 8px}
+.gsec ol,.gsec ul{margin:0;padding-left:1.4em;display:grid;gap:8px;line-height:1.5}
+.gsec p{margin:0;line-height:1.55}
+.gidea p{font-size:1.15rem}
+.gex p{background:var(--surface-2);border-radius:14px;padding:12px 16px;font-weight:600}
+.gtwo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.gwarn h3{color:var(--warning)}
+.gtable{overflow-x:auto}
+.gtable table{border-collapse:collapse;width:100%;min-width:280px}
+.gtable th,.gtable td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--surface-2)}
+.gtable th{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--c)}
+.gnote{margin-top:12px!important;font-size:.95rem}
+.gclock{display:grid;gap:12px;justify-items:center;padding:16px;border-radius:20px;background:var(--surface-2);margin-bottom:14px}
+.gclock-faces{display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap}
+.gclock-an .clock{width:min(200px,60vw);height:auto}
+.gclock-say{text-align:center;font-family:var(--serif);font-size:1.6rem;margin:0;display:grid;gap:4px}
+.gclock-say small{font-family:inherit;font-size:.95rem;opacity:.75}
+.gclock-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.gclock-tip{font-size:.9rem;opacity:.8;text-align:center}
+@media (max-width:560px){.ghead{flex-direction:column;align-items:flex-start}.ghead img{width:100%}}
+@media print{.noprint,.side,.tabbar,nav{display:none!important}.gcard{break-inside:avoid-page;box-shadow:none;border:1px solid #ccc}.gclock-btns,.gclock-tip{display:none}}
