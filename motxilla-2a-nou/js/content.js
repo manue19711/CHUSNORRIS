@@ -74,6 +74,42 @@ const SHAPES = {
   'hexàgon': {sides:6, svg:'<polygon points="50,20 130,20 170,90 130,160 50,160 10,90"/>'}
 };
 const vShape = name => `<svg class="shape" viewBox="0 0 180 180" role="img" aria-label="Una figura"><g fill="var(--mat-soft)" stroke="var(--mat)" stroke-width="6" stroke-linejoin="round">${SHAPES[name].svg}</g></svg>`;
+/* línies (tema m10): cada tipus dibuixa una variant a l'atzar dins d'un requadre de 320 × 180 */
+const LINES = {
+  'línia recta': () => `<line x1="40" y1="${R(30,150)}" x2="280" y2="${R(30,150)}"/>`,
+  'línia poligonal oberta': () => { const n=R(3,5), p=[]; for(let k=0;k<=n;k++) p.push(`${40+k*240/n},${k%2?R(30,70):R(110,150)}`); return `<polyline points="${p.join(' ')}"/>`; },
+  'línia poligonal tancada': () => { const n=R(4,7), p=[]; for(let k=0;k<n;k++){ const a=k/n*2*Math.PI, r=R(45,75)*(k%2&&n>5?0.55:1); p.push(`${(160+Math.cos(a)*r*1.3).toFixed(1)},${(90+Math.sin(a)*r).toFixed(1)}`);} return `<polygon points="${p.join(' ')}"/>`; },
+  'línia corba oberta': () => { const a=R(20,55); return `<path d="M30 90 C 70 ${90-a*2}, 100 ${90-a*2}, 120 90 S 170 ${90+a*2}, 200 90 S 260 ${90-a*2}, 290 ${R(60,120)}"/>`; },
+  'línia corba tancada': () => pick([
+    `<path d="M100 60 C 100 20, 160 40, 160 70 C 160 40, 230 20, 230 70 C 230 120, 180 110, 160 110 C 140 110, 100 140, 100 60 Z"/>`,
+    `<ellipse cx="160" cy="90" rx="${R(80,120)}" ry="${R(40,65)}"/>`,
+    `<path d="M90 90 C 90 30, 150 50, 160 90 C 170 130, 230 150, 230 90 C 230 30, 170 50, 160 90 C 150 130, 90 150, 90 90 Z"/>`]),
+  'línia mixta': () => pick([
+    `<path d="M40 40 L 120 140 L 170 70 C 220 0, 300 60, 260 110 C 240 135, 210 120, 220 100"/>`,
+    `<path d="M40 140 C 40 60, 120 60, 130 110 L 190 40 L 280 140"/>`,
+    `<path d="M40 90 L 100 40 L 160 90 C 180 150, 260 150, 270 90"/>`])
+};
+const vLine = (d, sm) => `<svg class="shape lines${sm?' sm':''}" viewBox="0 0 320 180" role="img" aria-label="Una línia"><g fill="none" stroke="var(--mat)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">${d}</g></svg>`;
+/* dues rectes: paral·leles (mateixa inclinació) o secants (es tallen dins del dibuix) */
+function vPair(parallel){
+  const seg = (cx, cy, a, l) => [cx-Math.cos(a)*l, cy-Math.sin(a)*l, cx+Math.cos(a)*l, cy+Math.sin(a)*l].map(v=>v.toFixed(1));
+  const a = R(-55,55)*Math.PI/180; let L1, L2, dot='';
+  if(parallel){ const off=R(30,55), nx=-Math.sin(a)*off/2, ny=Math.cos(a)*off/2;
+    L1=seg(160-nx, 90-ny, a, R(95,125)); L2=seg(160+nx, 90+ny, a, R(95,125)); }
+  else { let b; do{ b=R(-80,80)*Math.PI/180; }while(Math.abs(b-a)<0.5);
+    const cx=R(130,190), cy=R(75,105); L1=seg(cx,cy,a,R(90,120)); L2=seg(cx,cy,b,R(90,120)); }
+  const ln = (p, c) => `<line x1="${p[0]}" y1="${p[1]}" x2="${p[2]}" y2="${p[3]}" stroke="${c}" stroke-width="6" stroke-linecap="round"/>`;
+  return `<svg class="shape lines" viewBox="0 0 320 180" role="img" aria-label="Dues rectes">${ln(L1,'var(--val)')}${ln(L2,'var(--mat)')}</svg>`;
+}
+/* rellotge digital: hores en roig, minuts en blau, com al llibre */
+const vDigital = (h, m) => `<div class="lcd" role="img" aria-label="Rellotge digital: ${h}:${String(m).padStart(2,'0')}"><span class="h">${h}</span><span class="pt">:</span><span class="m">${String(m).padStart(2,'0')}</span></div>`;
+/* polígon a l'atzar amb els vèrtexs marcats */
+function vPoly(n, irregular, dots=true){
+  const rot = Math.random()*Math.PI*2, p=[];
+  for(let k=0;k<n;k++){ const a=rot+k/n*2*Math.PI+(irregular?(Math.random()-.5)*.5:0), r=irregular?R(55,78):72; p.push([90+Math.cos(a)*r, 90+Math.sin(a)*r].map(v=>v.toFixed(1))); }
+  return `<svg class="shape" viewBox="0 0 180 180" role="img" aria-label="Un polígon"><polygon points="${p.map(x=>x.join(',')).join(' ')}" fill="var(--mat-soft)" stroke="var(--mat)" stroke-width="6" stroke-linejoin="round"/>`
+    + (dots ? p.map(x=>`<circle cx="${x[0]}" cy="${x[1]}" r="7" fill="var(--val)"/>`).join('') : '') + `</svg>`;
+}
 
 /* banc d'exercicis d'opcions: [pregunta, correcta, [errònies], pista, explicació, nivell, dibuix] */
 function fromBank(bank){
@@ -118,7 +154,7 @@ const MAT = [
     const n=R(101,999);
     return choice(`Com s'escriu el ${n} amb lletres?`, words(n), [words(n>=200?n-100:n+100), words(n%10===9?n-1:n+1), words((n+10)%1000||110)], {hint:'Primer les centenes, després la resta.', explain:`${n} s'escriu "${words(n)}".`});
   }},
- {id:'m3', t:'Sumes portant-ne', s:'Sumar en columna i portar una desena', learn:['Escriu els nombres en columna: unitats davall d\'unitats, desenes davall de desenes.','Comença sempre per les unitats.','Si les unitats sumen 10 o més, escrius les unitats i "en portes una" a les desenes.','Exemple: 38 + 25 → 8 + 5 = 13: escric 3 i en porte 1. 3 + 2 + 1 = 6. Total: 63.','La mateixa suma es pot escriure en línia o en columna. El resultat és el mateix!'],
+ {id:'m3', t:'Sumes portant-ne', s:'Sumar en columna i portar una desena', learn:['Escriu els nombres en columna: unitats davall d\'unitats, desenes davall de desenes.','Comença sempre per les unitats.','Si les unitats sumen 10 o més, escrius les unitats i "en portes una" a les desenes.','Exemple: 38 + 25 → 8 + 5 = 13: escric 3 i en porte 1. 3 + 2 + 1 = 6. Total: 63.','La mateixa suma es pot escriure en línia o en columna. El resultat és el mateix!','Suma per descomposició: 26 + 12 → 26 = 2 D + 6 U i 12 = 1 D + 2 U. Desenes: 20 + 10 = 30. Unitats: 6 + 2 = 8. Total: 38.'],
   ex:'38 + 25 = 63',
   demo:`<div class="demo-row">${solvedVis(vRow(38,25,'+'),'63')}<span class="eq">és igual que</span>${solvedVis(vColumns(38,25,'+'),'63')}</div>`,
   gen: lv => {
@@ -146,7 +182,7 @@ const MAT = [
     const t = lv===2 ? pick([2,5,10]) : pick([2,3,4,5,10]); const k=R(1,10);
     return num(`Quant fa ${k} × ${t}?`, k*t, {visual:vColumns(k,t,'×'), hint:`Compta de ${t} en ${t}, ${k} vegades.`, explain:`${k} × ${t} = ${k*t}.`});
   }},
- {id:'m6', t:'El rellotge', s:'En punt, i mitja, i quart i menys quart', learn:['L\'agulla curta marca les hores. L\'agulla llarga marca els minuts.','Si la llarga mira el 12, és en punt: "les tres en punt".','Si la llarga mira el 6, és i mitja: "les tres i mitja".','Si mira el 3 és i quart; si mira el 9 és menys quart de l\'hora següent.'],
+ {id:'m6', t:'El rellotge', s:'En punt, i mitja, i quart i menys quart', learn:['L\'agulla curta marca les hores. L\'agulla llarga marca els minuts.','Si la llarga mira el 12, és en punt: "les tres en punt".','Si la llarga mira el 6, és i mitja: "les tres i mitja".','Si mira el 3 és i quart; si mira el 9 és menys quart de l\'hora següent.','En el rellotge digital, el nombre abans dels punts són les hores i el de després, els minuts: 11:00 en punt, 11:15 i quart, 11:30 i mitja, 11:45 les dotze menys quart.','1 hora té 60 minuts. Mitja hora té 30 minuts. Un quart d\'hora té 15 minuts.'],
   ex:'3:00 les tres en punt · 3:30 les tres i mitja · 3:15 les tres i quart · 3:45 les quatre menys quart',
   gen: lv => {
     const HH=['dotze','una','dues','tres','quatre','cinc','sis','set','huit','nou','deu','onze','dotze'];
@@ -165,13 +201,32 @@ const MAT = [
     const thing=pick([['un llibre',R(3,8)],['una pilota',R(4,9)],['un gelat',R(2,4)],['uns colors',R(3,7)]]); const pay = thing[1]<5?5:10;
     return num(`Compres ${thing[0]} que costa ${thing[1]} €. Pagues amb un bitllet de ${pay} €. Quant et tornen?`, pay-thing[1], {rtl:true, visual:`<div class="money">${vCoin(pay)}</div>`, hint:`Fes una resta: ${pay} − ${thing[1]}.`, explain:`${pay} − ${thing[1]} = ${pay-thing[1]} €.`});
   }},
- {id:'m8', t:'Figures i cossos', s:'Triangle, quadrat, rectangle, cercle; costats i vèrtexs', learn:['Les figures planes són planes com un paper: triangle, quadrat, rectangle, cercle.','El triangle té 3 costats. El quadrat i el rectangle en tenen 4. El cercle no en té cap.','Els cossos geomètrics tenen volum: el cub (com un dau), l\'esfera (com una pilota), el cilindre (com una llauna) i el con (com un gelat).'],
+ {id:'m8', t:'Figures i cossos', s:'Polígons, costats i vèrtexs; triangle, quadrilàter, pentàgon, hexàgon', learn:['Les figures planes són planes com un paper: triangle, quadrat, rectangle, cercle.','El triangle té 3 costats. El quadrat i el rectangle en tenen 4. El cercle no en té cap.','Un polígon està format per una línia poligonal tancada i el seu interior. Els costats i els vèrtexs (les puntes) són elements del polígon.','Triangle: 3 costats i 3 vèrtexs. Quadrilàter: 4. Pentàgon: 5. Hexàgon: 6. El quadrat i el rectangle són quadrilàters.','Els cossos geomètrics tenen volum: el cub (com un dau), l\'esfera (com una pilota), el cilindre (com una llauna) i el con (com un gelat).'],
   ex:'Triangle: 3 costats i 3 vèrtexs',
   gen: lv => {
     const t = pick(lv===1?['name','sides']:['name','sides','body']);
     if(t==='name'){ const pool = lv===1?['triangle','quadrat','rectangle','cercle']:Object.keys(SHAPES); const n=pick(pool); return choice('Com es diu aquesta figura?', n, shuffle(Object.keys(SHAPES).filter(x=>x!==n)), {visual:vShape(n), hint:'Compta els costats.', explain:`És un ${n}${SHAPES[n].sides?`: té ${SHAPES[n].sides} costats`:': és rodó i no té costats'}.`}); }
     if(t==='sides'){ const n=pick(['triangle','quadrat','rectangle','pentàgon','hexàgon'].slice(0,lv===1?3:5)); return num(`Quants costats té un ${n}?`, SHAPES[n].sides, {visual:vShape(n), hint:'Passa el dit per cada costat i compta.', explain:`El ${n} té ${SHAPES[n].sides} costats.`}); }
     const b=pick([['🎲','cub'],['⚽','esfera'],['🥫','cilindre'],['🍦','con']]); return choice('A quin cos geomètric s\'assembla?', b[1], ['cub','esfera','cilindre','con'], {pic:b[0], hint:'Pensa en la forma: té cares planes o és rodó?', explain:`S'assembla a un ${b[1]}.`});
+  }},
+ {id:'m10', t:'Línies i rectes', s:'Rectes, poligonals, corbes i mixtes; paral·leles i secants',
+  learn:['Una línia recta va sempre en la mateixa direcció, sense girar.','Una línia poligonal està feta de trossos rectes. Una línia corba no té cap tros recte. Una línia mixta té trossos rectes i trossos corbs.','Una línia és tancada si acaba on comença. Si no, és oberta.','Dues rectes són secants si es tallen en un punt. Són paral·leles si no es tallen mai, com les vies del tren.'],
+  ex:'Les vies del tren són rectes paral·leles',
+  demo:`<div class="demo-row">${vLine(LINES['línia poligonal oberta'](),1)}${vLine(LINES['línia corba tancada'](),1)}${vPair(true).replace('class="shape lines"','class="shape lines sm"')}</div>`,
+  gen: lv => {
+    const t = pick(lv===1?['tipus','tipus','rectes']:['tipus','tipus','rectes','oberta','rectes']);
+    if(t==='rectes'){ const par = Math.random()<.5;
+      return choice('Com són aquestes dues rectes?', par?'paral·leles':'secants', [par?'secants':'paral·leles'], {visual:vPair(par),
+        hint:'Es tallen en algun punt o no es tallen mai?', explain: par ? 'No es tallen mai: són rectes paral·leles.' : 'Es tallen en un punt: són rectes secants.'}); }
+    if(t==='oberta'){ const k = pick(['línia poligonal oberta','línia poligonal tancada','línia corba oberta','línia corba tancada']), tanc = /tancada/.test(k);
+      return choice('Aquesta línia és oberta o tancada?', tanc?'tancada':'oberta', [tanc?'oberta':'tancada'], {visual:vLine(LINES[k]()),
+        hint:'Posa el dit al principi i segueix la línia. Tornes al mateix lloc?', explain: tanc ? 'Acaba on comença: és tancada.' : 'No acaba on comença: és oberta.'}); }
+    const names = lv===1 ? ['línia recta','línia poligonal oberta','línia corba oberta','línia corba tancada'] : Object.keys(LINES);
+    const k = pick(names);
+    const why = {'línia recta':'Va sempre en la mateixa direcció.','línia poligonal oberta':'Té trossos rectes i no acaba on comença.','línia poligonal tancada':'Té trossos rectes i acaba on comença.',
+      'línia corba oberta':'No té trossos rectes i no acaba on comença.','línia corba tancada':'No té trossos rectes i acaba on comença.','línia mixta':'Té trossos rectes i trossos corbs.'};
+    return choice('Quin tipus de línia és?', k, shuffle(names.filter(x=>x!==k)), {visual:vLine(LINES[k]()),
+      hint:'Té trossos rectes, corbs o de les dues classes? Acaba on comença?', explain:`És una ${k}. ${why[k]}`});
   }},
  {id:'m9', t:'Problemes', s:'Llegir bé, triar l\'operació i resoldre', learn:['Llig el problema a poc a poc, dues vegades.','Busca les dades (els nombres) i la pregunta.','Si ajuntem o ens donen més, sumem. Si perdem, gastem o en queden menys, restem.','Si hi ha grups iguals, multipliquem.'],
   ex:'Tinc 12 cromos i me\'n donen 5. 12 + 5 = 17 cromos.',

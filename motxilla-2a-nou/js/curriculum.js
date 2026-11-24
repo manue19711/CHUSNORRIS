@@ -2,10 +2,12 @@
    Correspondència orientativa amb l'Annex II del RD 157/2022 i el Decret 106/2022 (currículum de Primària de la Comunitat Valenciana).
    L'ordre de cada llista és l'ordre del camí al mapa. */
 
+IMG.m10 = 'img/art/m10.svg';   /* tema nou: Línies i rectes */
+
 const AREAS = [
   { id:'mat', name:'Matemàtiques', short:'Mates', lang:'ca-ES', topics:MAT,
     blocks:{ m1:'A. Sentit numèric', m2:'A. Sentit numèric', m3:'A. Sentit numèric', m4:'A. Sentit numèric', m5:'A. Sentit numèric',
-             m6:'B. Sentit de la mesura', m7:'B. Sentit de la mesura', m8:'C. Sentit espacial', m9:'A. Sentit numèric i F. Sentit socioafectiu' } },
+             m6:'B. Sentit de la mesura', m7:'B. Sentit de la mesura', m8:'C. Sentit espacial', m10:'C. Sentit espacial', m9:'A. Sentit numèric i F. Sentit socioafectiu' } },
   { id:'val', name:'Valencià: llengua i literatura', short:'Valencià', lang:'ca-ES', topics:VAL,
     blocks:{ v1:'B. Comunicació: comprensió lectora', v2:'D. Reflexió sobre la llengua', v3:'D. Reflexió sobre la llengua', v4:'D. Reflexió sobre la llengua: ortografia',
              v5:'D. Reflexió sobre la llengua: ortografia', v6:'D. Reflexió sobre la llengua: gramàtica', v7:'D. Reflexió sobre la llengua: lèxic', v8:'D. Reflexió sobre la llengua: gramàtica' } },
@@ -30,6 +32,7 @@ const TIPS = {
   m6:'Pregunteu l\'hora en un rellotge d\'agulles: «quina hora és? i d\'ací a mitja hora?».',
   m7:'Deixeu-li pagar el pa amb monedes i comprovar el canvi.',
   m8:'Busqueu figures per casa: rectangles a les portes, cercles als plats.',
+  m10:'Busqueu línies pel carrer: les vies del tren o les ratlles d\'un pas de vianants són paral·leles; dos carrers que es creuen són secants.',
   m9:'Inventeu problemes curts amb coses de casa i que vos diga si cal sumar o restar.',
   v1:'Després de llegir un conte, feu-li tres preguntes: qui?, on?, què ha passat?',
   v2:'Ordeneu alfabèticament els noms de la família o dels amics.',

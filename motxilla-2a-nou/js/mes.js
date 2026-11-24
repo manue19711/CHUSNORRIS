@@ -256,4 +256,46 @@ extend('m1', .4, [
   /* 8. el 100 */
   { min: 2, f: () => choice('Quin és el nombre que va just després del noranta-nou?', 'cent', ['cent-deu', 'noranta-deu', 'cent-u'], { say: 'Quin és el nombre que va just després del noranta-nou?', lang: 'ca-ES', hint: 'Després del 99 ve el 100, que és ben rodó: cent.', explain: '99 + 1 = 100: «cent».' }) },
 ]);
+/* ======================= SUMA PER DESCOMPOSICIÓ (llibre, tema 3) ======================= */
+/* dues xifres sense portar-ne: 26 + 12 → 2 D + 6 U i 1 D + 2 U */
+function decoPair() { let a, b; do { a = R(11, 68); b = R(11, 58); } while ((a % 10) + (b % 10) > 9 || a + b > 99); return [a, b]; }
+const DU = n => [Math.floor(n / 10), n % 10];
+const decoVis = (a, b) => `<div class="demo-row">${vBlocks(...DU(a), { sm: 1 })}<b class="eq">+</b>${vBlocks(...DU(b), { sm: 1 })}</div>`;
+extend('m3', .3, [
+  { f: () => { const n = R(11, 99), [d, u] = DU(n); return num(`Descompon el ${n}: quantes desenes (D) té?`, d, { rtl: false, visual: sl(`${n} = ? D + ${u} U`) + vBlocks(d, u, { sm: 1 }), hint: 'Les desenes són les barres: la xifra de l\'esquerra.', explain: `${n} = ${d} D + ${u} U.` }); } },
+  { f: () => { const n = R(11, 99), [d, u] = DU(n); return num(`Descompon el ${n}: quantes unitats (U) té?`, u, { rtl: false, visual: sl(`${n} = ${d} D + ? U`) + vBlocks(d, u, { sm: 1 }), hint: 'Les unitats són els quadradets solts: la xifra de la dreta.', explain: `${n} = ${d} D + ${u} U.` }); } },
+  { f: () => { const [a, b] = decoPair(), [ad, au] = DU(a), [bd, bu] = DU(b); return num(`Suma ${a} + ${b} per descomposició. Primer, les desenes: ${ad * 10} + ${bd * 10} = ?`, (ad + bd) * 10, { rtl: false, visual: decoVis(a, b), hint: `Compta totes les barres: ${ad} + ${bd} desenes.`, explain: `${ad * 10} + ${bd * 10} = ${(ad + bd) * 10}.` }); } },
+  { f: () => { const [a, b] = decoPair(), [, au] = DU(a), [, bu] = DU(b); return num(`Suma ${a} + ${b} per descomposició. Ara, les unitats: ${au} + ${bu} = ?`, au + bu, { rtl: false, visual: decoVis(a, b), hint: 'Compta tots els quadradets solts.', explain: `${au} + ${bu} = ${au + bu}.` }); } },
+  { f: () => { const [a, b] = decoPair(), [ad, au] = DU(a), [bd, bu] = DU(b); return num(`Suma ${a} + ${b} per descomposició.`, a + b, { rtl: true, visual: decoVis(a, b), hint: `Desenes: ${ad * 10} + ${bd * 10}. Unitats: ${au} + ${bu}. Després ajunta-ho.`, explain: `${a} = ${ad} D + ${au} U i ${b} = ${bd} D + ${bu} U. Desenes: ${ad * 10} + ${bd * 10} = ${(ad + bd) * 10}. Unitats: ${au} + ${bu} = ${au + bu}. Total: ${a + b}.` }); } },
+  { f: () => { const [a, b] = decoPair(), [ad, au] = DU(a), [bd, bu] = DU(b), s = a + b; return num(`Ja tenim ${(ad + bd) * 10} (desenes) i ${au + bu} (unitats). Quant fa ${a} + ${b}?`, s, { rtl: false, visual: sl(`${(ad + bd) * 10} + ${au + bu} = ?`), hint: 'Ajunta les desenes i les unitats.', explain: `${(ad + bd) * 10} + ${au + bu} = ${s}.` }); } }
+]);
+
+/* ======================= RELLOTGE DIGITAL (llibre, tema 6) ======================= */
+const HD = ['dotze', 'una', 'dues', 'tres', 'quatre', 'cinc', 'sis', 'set', 'huit', 'nou', 'deu', 'onze', 'dotze'];
+const artD = h => (h === 1 ? 'la ' : 'les ') + HD[h];
+const lblD = (h, m) => m === 0 ? artD(h) + ' en punt' : m === 30 ? artD(h) + ' i mitja' : m === 15 ? artD(h) + ' i quart' : artD(h % 12 + 1) + ' menys quart';
+const hhmm = (h, m) => `${h}:${String(m).padStart(2, '0')}`;
+extend('m6', .45, [
+  { f: lv => { const h = R(1, 12), m = pick(lv === 1 ? [0, 30] : [0, 15, 30, 45]), ok = lblD(h, m);
+      const w = new Set([0, 15, 30, 45].map(x => lblD(h, x))); w.add(artD(h) + ' menys quart'); w.delete(ok);
+      return choice('Quina hora marca el rellotge digital?', ok, shuffle([...w]), { visual: vDigital(h, m), hint: 'Els minuts són el nombre de després dels punts. 00 en punt, 15 i quart, 30 i mitja, 45 menys quart.', explain: `${hhmm(h, m)}: són ${ok}.` }); } },
+  { f: lv => { const h = R(1, 12), m = pick(lv === 1 ? [0, 30] : [0, 15, 30, 45]), ok = hhmm(h, m);
+      const w = new Set(); let g = 0; while (w.size < 3 && g++ < 50) { const x = hhmm(pick([h, h, h % 12 + 1, h === 1 ? 12 : h - 1]), pick([0, 15, 30, 45])); if (x !== ok) w.add(x); }
+      return choice(`Quin rellotge marca ${lblD(h, m)}?`, ok, [...w], { hint: m === 45 ? 'Menys quart: falten 15 minuts per a l\'hora. Els minuts són 45 i l\'hora és una menys.' : 'Primer les hores, després els minuts.', explain: `${cap(lblD(h, m))} s'escriu ${ok}.` }); } },
+  { f: () => { const h = R(1, 12), m = pick([0, 15, 30, 45]); return num('Quants minuts marca el rellotge?', m, { rtl: false, visual: vDigital(h, m), hint: 'Els minuts són el nombre de després dels punts.', explain: `En ${hhmm(h, m)} les hores són ${h} i els minuts, ${m}.` }); } },
+  { f: () => { const h = R(1, 12), m = pick([0, 15, 30, 45]); return num('Quina hora marca? Escriu només les hores.', h, { rtl: false, visual: vDigital(h, m), hint: 'Les hores són el nombre d\'abans dels punts.', explain: `En ${hhmm(h, m)} les hores són ${h}.` }); } },
+  { min: 2, f: () => { const q = pick([['Quants minuts té 1 hora?', 60], ['Quants minuts té mitja hora?', 30], ['Quants minuts té un quart d\'hora?', 15], ['Quants minuts són tres quarts d\'hora?', 45]]); return num(q[0], q[1], { rtl: false, pic: '⏱️', hint: '1 hora són 60 minuts; la meitat són 30 i un quart, 15.', explain: `${q[0].replace('Quants minuts ', '').replace('?', '')}: ${q[1]} minuts.` }); } }
+]);
+
+/* ======================= POLÍGONS (llibre, tema 7) ======================= */
+const POLY = { 3: 'triangle', 4: 'quadrilàter', 5: 'pentàgon', 6: 'hexàgon' };
+extend('m8', .45, [
+  { f: lv => { const n = R(3, 6); return choice('Com es diu aquest polígon?', POLY[n], Object.values(POLY), { visual: vPoly(n, lv > 1), hint: 'Compta els costats.', explain: `Té ${n} costats i ${n} vèrtexs: és un ${POLY[n]}.` }); } },
+  { f: () => { const n = R(3, 6); return num('Quants vèrtexs (punts roigs) té aquest polígon?', n, { rtl: false, visual: vPoly(n, true), hint: 'Els vèrtexs són les puntes on s\'ajunten dos costats. Compta els punts.', explain: `Té ${n} vèrtexs: és un ${POLY[n]}.` }); } },
+  { f: () => { const n = R(3, 6); return num('Quants costats té aquest polígon?', n, { rtl: false, visual: vPoly(n, true, false), hint: 'Passa el dit per cada costat i compta.', explain: `Té ${n} costats: és un ${POLY[n]}.` }); } },
+  { f: () => { const n = R(3, 6); return num(`Quants vèrtexs té un ${POLY[n]}?`, n, { rtl: false, hint: 'Un polígon té tants vèrtexs com costats.', explain: `El ${POLY[n]} té ${n} costats i ${n} vèrtexs.` }); } },
+  { min: 2, f: () => { const poly = Math.random() < .5; const k = poly ? 'línia poligonal tancada' : pick(['línia poligonal oberta', 'línia corba tancada']);
+      return choice('Aquesta línia forma un polígon?', poly ? 'Sí' : 'No', [poly ? 'No' : 'Sí'], { visual: vLine(LINES[k]()), hint: 'Un polígon necessita una línia poligonal (trossos rectes) i tancada.', explain: poly ? 'És una línia poligonal tancada: forma un polígon.' : k === 'línia poligonal oberta' ? 'És oberta: no forma un polígon.' : 'És corba: no forma un polígon.' }); } },
+  { min: 2, f: () => choice('Quin d\'aquests és un quadrilàter?', 'el rectangle', ['el triangle', 'el pentàgon', 'el cercle'], { hint: 'Un quadrilàter té 4 costats.', explain: 'El rectangle té 4 costats: és un quadrilàter. El quadrat també ho és.' }) }
+]);
 })();

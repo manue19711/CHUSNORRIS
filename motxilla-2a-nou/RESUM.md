@@ -89,6 +89,14 @@ https://github.com/manue19711/CHUSNORRIS/raw/claude/peaceful-gates-52j8yz/Motxil
 
 Els scripts de prova estaven a la carpeta temporal de la sessió i no es guarden al repositori; si cal repetir-los, es poden tornar a escriure amb Playwright.
 
+## Exercicis del llibre afegits (novembre 2026)
+
+- **Tema nou m10 «Línies i rectes»** (mates, sentit espacial): tipus de línies (recta, poligonal oberta/tancada, corba oberta/tancada, mixta), oberta o tancada, i rectes paral·leles o secants. Dibuix del tema: `img/art/m10.svg`.
+- **m3:** suma per descomposició (D + U), a `js/mes.js`.
+- **m6:** rellotge digital (llegir l'hora, triar el rellotge, hores i minuts, minuts d'una hora/mitja/quart), a `js/mes.js`.
+- **m8:** polígons (triangle, quadrilàter, pentàgon, hexàgon), costats, vèrtexs i «forma un polígon?», a `js/mes.js`.
+- Dibuixos nous a `js/content.js`: `LINES`, `vLine`, `vPair`, `vDigital`, `vPoly`. Estil a `css/nou.css`.
+
 ## Pendent o per decidir
 
 - **Escriure la paraula sencera** a mà en els exercicis de valencià (ara només es respon amb cifres o triant opció).

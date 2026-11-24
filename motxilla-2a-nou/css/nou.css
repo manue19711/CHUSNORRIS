@@ -160,3 +160,10 @@ a{text-underline-offset:.22em;text-decoration-thickness:.09em}
 }
 @keyframes colorshift{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(28deg) saturate(1.1)}}
 @keyframes ringpop{0%,100%{box-shadow:0 0 0 4px var(--mat),0 0 0 0 transparent}50%{box-shadow:0 0 0 7px var(--cas),0 0 0 14px transparent}}
+
+/* ===== Exercicis del llibre: línies, rellotge digital ===== */
+.shape.lines{width:min(320px,80vw)}
+.shape.lines.sm{width:min(150px,40vw)}
+.lcd{display:inline-flex;align-items:baseline;gap:2px;padding:6px 26px;border:8px solid var(--text);border-radius:16px;background:var(--raised);
+  font-family:"Courier New",ui-monospace,monospace;font-weight:700;font-size:clamp(2.6rem,10vw,3.6rem);line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.lcd .h{color:var(--val)} .lcd .m{color:var(--mat)} .lcd .pt{color:var(--text)}
