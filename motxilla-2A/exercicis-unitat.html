@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motxilla 2n · Exercicis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#d7263d; --red-soft:#fde7ea; --green:#a4c639; --green-soft:#eef5d6; --green-line:#b5cc4a;
+    --blue:#2563b8; --blue-sq:#1f6fc5; --bar:#cf2a2a; --ink:#2b2b2b; --muted:#6b6b6b;
+    --paper:#fffdf8; --card:#ffffff; --ok:#2e9e4f; --ok-soft:#e3f6e8; --ko:#d23c3c; --ko-soft:#fde4e4;
+    --yellow:#f6d55c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Quicksand",system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:18px;line-height:1.45}
+  header{padding:18px 16px 8px;text-align:center}
+  header h1{margin:0;font-size:1.6rem;color:var(--red)}
+  header p{margin:4px 0 0;color:var(--muted)}
+  nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px 16px;position:sticky;top:0;background:var(--paper);z-index:5;border-bottom:3px dashed var(--yellow)}
+  nav button{font:inherit;font-weight:700;border:2px solid var(--green-line);background:var(--card);border-radius:999px;padding:8px 14px;cursor:pointer;color:var(--ink)}
+  nav button[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff}
+  main{max-width:880px;margin:0 auto;padding:16px}
+  section{display:none}
+  section.active{display:block}
+  .title{display:flex;align-items:center;gap:12px;margin:8px 0 14px}
+  .num{width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:700;font-size:1.5rem;flex:none}
+  .title h2{margin:0;color:var(--red);font-size:1.5rem}
+  .theory{background:var(--green-soft);border-radius:22px;padding:14px}
+  .theory-inner{background:var(--card);border:3px solid var(--green-line);border-radius:18px;padding:14px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .theory-inner figure{margin:0;text-align:center}
+  .theory-inner figcaption{font-size:.95rem}
+  .theory-inner svg{width:100%;max-width:150px;height:80px}
+  details{margin:0 0 14px}
+  summary{cursor:pointer;font-weight:700;color:var(--blue);padding:6px 0}
+  .ex{background:var(--card);border:3px solid var(--green-line);border-radius:22px;padding:18px;margin-top:14px}
+  .ex-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .ex-head h3{margin:0;font-size:1.15rem}
+  .ex-head h3 b{color:var(--red)}
+  .progress{display:flex;gap:6px}
+  .dot{width:16px;height:16px;border-radius:50%;background:#e6e6e6;border:2px solid #d0d0d0}
+  .dot.ok{background:var(--ok);border-color:var(--ok)}
+  .dot.ko{background:var(--ko);border-color:var(--ko)}
+  .dot.now{border-color:var(--red)}
+  .stage{display:grid;place-items:center;min-height:170px;margin:6px 0 12px}
+  .stage svg{width:100%;max-width:320px;height:180px}
+  .options{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .options button{font:inherit;font-weight:700;padding:10px 16px;border-radius:14px;border:2px solid #cfd8e3;background:#f6f9fd;cursor:pointer;min-width:120px}
+  .options button:hover{border-color:var(--blue)}
+  .options button.right{background:var(--ok-soft);border-color:var(--ok);color:#1d6b35}
+  .options button.wrong{background:var(--ko-soft);border-color:var(--ko);color:#8f1f1f}
+  .options button:disabled{cursor:default}
+  .feedback{min-height:1.6em;text-align:center;font-weight:700;margin-top:10px}
+  .feedback.ok{color:var(--ok)} .feedback.ko{color:var(--ko)}
+  .actions{display:flex;justify-content:center;gap:10px;margin-top:10px}
+  .btn{font:inherit;font-weight:700;border:none;border-radius:14px;padding:10px 20px;cursor:pointer;background:var(--red);color:#fff}
+  .btn.alt{background:var(--blue)}
+  .btn[hidden]{display:none}
+  input.n{font:inherit;font-weight:700;width:3.2em;text-align:center;padding:6px;border:2px solid #cfd8e3;border-radius:10px;background:#fff}
+  input.n.right{border-color:var(--ok);background:var(--ok-soft)}
+  input.n.wrong{border-color:var(--ko);background:var(--ko-soft)}
+  .D{color:var(--bar);font-weight:700} .U{color:var(--blue);font-weight:700}
+  .sum-grid{display:grid;gap:12px;justify-items:center}
+  .sum-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+  .blocks{display:flex;align-items:flex-end;gap:5px;min-height:90px}
+  .bar{width:12px;height:84px;background:var(--bar);border-radius:2px}
+  .cubes{display:grid;grid-template-columns:repeat(3,14px);gap:3px}
+  .cube{width:14px;height:14px;background:var(--blue-sq)}
+  .pair{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
+  .pair>div{text-align:center}
+  .pill{display:inline-block;background:var(--green-soft);border-radius:10px;padding:2px 12px;font-weight:700}
+  .lcd{display:inline-block;background:#d9e3c8;border:8px solid #555;border-radius:14px;padding:6px 26px;font-family:"Courier New",monospace;font-weight:700;font-size:3.2rem;letter-spacing:4px;color:#222;box-shadow:inset 0 2px 6px rgba(0,0,0,.25)}
+  .lcd .h{color:var(--red)} .lcd .m{color:var(--blue)}
+  .lcd.small{font-size:1.6rem;border-width:5px;padding:4px 14px}
+  .counts{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .done{text-align:center;padding:10px}
+  .done .stars{font-size:2.4rem;letter-spacing:4px}
+  .note{background:var(--red-soft);border-radius:14px;padding:10px 14px;margin-top:12px;text-align:center}
+  @media (max-width:520px){ .lcd{font-size:2.4rem;padding:6px 14px} .options button{min-width:100px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎒 Motxilla 2n · Practiquem!</h1>
+  <p>Tria un tema i fes els exercicis. Cada ronda té 6 preguntes.</p>
+</header>
+<nav role="tablist">
+  <button role="tab" data-tab="linies" aria-selected="true">Tipus de línies</button>
+  <button role="tab" data-tab="rectes">Paral·leles i secants</button>
+  <button role="tab" data-tab="suma">Suma per descomposició</button>
+  <button role="tab" data-tab="rellotge">Rellotge digital</button>
+  <button role="tab" data-tab="poligons">Polígons</button>
+</nav>
+<main>
+
+<!-- 1. TIPUS DE LÍNIES -->
+<section id="linies" class="active">
+  <div class="title"><span class="num">7</span><h2>Tipus de línies</h2></div>
+  <details open><summary>📘 Recorda</summary>
+    <div class="theory"><div class="theory-inner" id="linies-theory"></div></div>
+  </details>
+  <div class="ex" id="linies-ex"></div>
+</section>
+
+<!-- 2. RECTES -->
+<section id="rectes">
+  <div class="title"><span class="num">7</span><h2>Rectes paral·leles i secants</h2></div>
+  <details open><summary>📘 Recorda</summary>
+    <div class="theory"><div class="theory-inner">
+      <figure><svg viewBox="0 0 160 90"><line x1="20" y1="10" x2="140" y2="80" stroke="#7a1f3d" stroke-width="3"/><line x1="40" y1="85" x2="120" y2="5" stroke="#2563b8" stroke-width="3"/><circle cx="80" cy="45" r="4" fill="#d7263d"/></svg>
+        <figcaption><b>Rectes secants</b><br>Es tallen en un punt.</figcaption></figure>
+      <figure><svg viewBox="0 0 160 90"><line x1="20" y1="20" x2="140" y2="60" stroke="#7a1f3d" stroke-width="3"/><line x1="20" y1="40" x2="140" y2="80" stroke="#2563b8" stroke-width="3"/></svg>
+        <figcaption><b>Rectes paral·leles</b><br>No es tallen mai.</figcaption></figure>
+    </div></div>
+  </details>
+  <div class="ex" id="rectes-ex"></div>
+</section>
+
+<!-- 3. SUMA -->
+<section id="suma">
+  <div class="title"><span class="num">3</span><h2>Suma per descomposició</h2></div>
+  <details open><summary>📘 Recorda</summary>
+    <div class="theory"><div class="theory-inner" style="grid-template-columns:1fr">
+      <div><b>1.</b> Descompon cada sumand en <span class="D">desenes (D)</span> i <span class="U">unitats (U)</span>:
+        &nbsp;26 = <span class="D">2 D</span> + <span class="U">6 U</span> &nbsp;·&nbsp; 12 = <span class="D">1 D</span> + <span class="U">2 U</span></div>
+      <div><b>2.</b> Agrupa les desenes i les unitats i suma:
+        &nbsp;<span class="D">20 + 10 = 30</span> &nbsp;·&nbsp; <span class="U">6 + 2 = 8</span> &nbsp;→&nbsp; <b>26 + 12 = 38</b></div>
+    </div></div>
+  </details>
+  <div class="ex" id="suma-ex"></div>
+</section>
+
+<!-- 4. RELLOTGE -->
+<section id="rellotge">
+  <div class="title"><span class="num">6</span><h2>Rellotge digital</h2></div>
+  <details open><summary>📘 Recorda</summary>
+    <div class="theory"><div class="theory-inner">
+      <div style="grid-column:1/-1;text-align:center"><span class="lcd small"><span class="h">10</span>:<span class="m">22</span></span><br>
+        El nombre <b>abans</b> dels punts indica les <b class="D">hores</b>. El nombre <b>després</b> indica els <b class="U">minuts</b>.</div>
+      <figure><span class="lcd small">11:00</span><figcaption>:00 → <b>en punt</b><br>Són les 11 en punt.</figcaption></figure>
+      <figure><span class="lcd small">11:15</span><figcaption>:15 → <b>i quart</b><br>Són les 11 i quart.</figcaption></figure>
+      <figure><span class="lcd small">11:30</span><figcaption>:30 → <b>i mitja</b><br>Són les 11 i mitja.</figcaption></figure>
+      <figure><span class="lcd small">11:45</span><figcaption>:45 → <b>menys quart</b><br>Són les 12 menys quart.</figcaption></figure>
+      <div style="grid-column:1/-1;text-align:center">1 hora té 60 minuts · Mitja hora té 30 minuts · Un quart d'hora té 15 minuts.</div>
+    </div></div>
+  </details>
+  <div class="ex" id="rellotge-ex"></div>
+</section>
+
+<!-- 5. POLÍGONS -->
+<section id="poligons">
+  <div class="title"><span class="num">7</span><h2>Polígons</h2></div>
+  <details open><summary>📘 Recorda</summary>
+    <div class="theory"><div class="theory-inner">
+      <div style="grid-column:1/-1">Un <b>polígon</b> està format per una <b>línia poligonal tancada</b> i l'interior d'aquesta. Els <b>costats</b> i els <b>vèrtexs</b> són elements d'un polígon.</div>
+      <figure><svg viewBox="0 0 100 90"><polygon points="50,8 92,82 8,82" fill="#5e9c76" stroke="#2f5e3f" stroke-width="3"/></svg><figcaption><b>Triangle</b><br>3 costats i 3 vèrtexs</figcaption></figure>
+      <figure><svg viewBox="0 0 100 90"><rect x="18" y="12" width="64" height="66" fill="#5a5da8" stroke="#2c2f6e" stroke-width="3"/></svg><figcaption><b>Quadrilàter</b><br>4 costats i 4 vèrtexs</figcaption></figure>
+      <figure><svg viewBox="0 0 100 90"><polygon points="50,6 92,37 76,86 24,86 8,37" fill="#e8c53a" stroke="#9c7f12" stroke-width="3"/></svg><figcaption><b>Pentàgon</b><br>5 costats i 5 vèrtexs</figcaption></figure>
+      <figure><svg viewBox="0 0 100 90"><polygon points="28,8 72,8 94,45 72,82 28,82 6,45" fill="#5b6e1f" stroke="#2e3a0c" stroke-width="3"/></svg><figcaption><b>Hexàgon</b><br>6 costats i 6 vèrtexs</figcaption></figure>
+    </div></div>
+  </details>
+  <div class="ex" id="poligons-ex"></div>
+</section>
+
+</main>
+
+<script>
+/* ---------- utilitats ---------- */
+const R = (a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick = a => a[R(0,a.length-1)];
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];} return a; };
+const svg = (inner, vb="0 0 320 180") => `<svg viewBox="${vb}" role="img">${inner}</svg>`;
+const ROUND = 6;
+
+/* Motor genèric d'exercicis: cada tema dona make() -> {title, html, check|options} */
+function Exercise(rootId, topic){
+  const root = document.getElementById(rootId);
+  let i, results, cur;
+  function start(){ i=0; results=[]; next(); }
+  function dots(){ return Array.from({length:ROUND},(_,k)=>`<span class="dot ${results[k]===true?'ok':results[k]===false?'ko':''} ${k===i?'now':''}"></span>`).join(''); }
+  function next(){
+    if(i>=ROUND) return finish();
+    cur = topic.make();
+    root.innerHTML = `
+      <div class="ex-head"><h3><b>Pregunta ${i+1}/${ROUND}.</b> ${cur.title}</h3><div class="progress">${dots()}</div></div>
+      <div class="stage">${cur.html}</div>
+      ${cur.options ? `<div class="options">${shuffle(cur.options).map(o=>`<button data-v="${o}">${o}</button>`).join('')}</div>` : ''}
+      <div class="feedback" aria-live="polite"></div>
+      <div class="actions">
+        ${cur.check ? `<button class="btn alt" data-act="check">Comprova</button>` : ''}
+        <button class="btn" data-act="next" hidden>Següent ➜</button>
+      </div>`;
+    const fb = root.querySelector('.feedback'), nextBtn = root.querySelector('[data-act=next]');
+    const resolve = (ok, msg) => {
+      results[i] = ok;
+      fb.className = 'feedback ' + (ok?'ok':'ko');
+      fb.textContent = ok ? pick(['Molt bé! 🎉','Correcte! ⭐','Genial! 👏','Perfecte! 🙌']) : (msg || 'Ups! No és correcte.');
+      root.querySelector('.progress').innerHTML = dots();
+      const c = root.querySelector('[data-act=check]'); if(c) c.hidden = true;
+      nextBtn.hidden = false; nextBtn.focus();
+    };
+    if(cur.options){
+      root.querySelectorAll('.options button').forEach(b=>b.onclick=()=>{
+        const ok = b.dataset.v === cur.answer;
+        root.querySelectorAll('.options button').forEach(x=>{ x.disabled=true; if(x.dataset.v===cur.answer) x.classList.add('right'); });
+        if(!ok) b.classList.add('wrong');
+        resolve(ok, `La resposta correcta és: ${cur.answer}.`);
+      });
+    }
+    if(cur.check){
+      const c = root.querySelector('[data-act=check]');
+      c.onclick = ()=>{
+        const inputs=[...root.querySelectorAll('input.n')];
+        if(inputs.some(x=>x.value.trim()==='')){ fb.className='feedback ko'; fb.textContent='Omple totes les caselles.'; return; }
+        let ok=true;
+        inputs.forEach(x=>{ const good = Number(x.value)===Number(x.dataset.a); x.classList.add(good?'right':'wrong'); if(!good){ok=false; x.title='Correcte: '+x.dataset.a;} x.disabled=true; });
+        resolve(ok, cur.explain ? 'Mira-ho bé: ' + cur.explain : 'Hi ha alguna casella malament (en vermell).');
+      };
+      root.querySelectorAll('input.n').forEach(x=>x.addEventListener('keydown',e=>{ if(e.key==='Enter') c.click(); }));
+    }
+    nextBtn.onclick = ()=>{ i++; next(); };
+  }
+  function finish(){
+    const n = results.filter(Boolean).length;
+    const stars = n===ROUND?3: n>=ROUND-2?2: n>=2?1:0;
+    root.innerHTML = `<div class="done">
+      <div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+      <h3>Has encertat ${n} de ${ROUND}!</h3>
+      <p>${n===ROUND?'Ets un crac! 🏆':n>=ROUND-2?'Molt bona feina! 💪':'Torna-ho a provar, ho faràs millor! 🙂'}</p>
+      <button class="btn">Tornar a començar</button></div>`;
+    root.querySelector('button').onclick = start;
+  }
+  start();
+}
+
+/* ---------- 1. TIPUS DE LÍNIES ---------- */
+const LINE_TYPES = {
+  'línia recta': () => { const y1=R(30,150), y2=R(30,150); return `<line x1="40" y1="${y1}" x2="280" y2="${y2}"/>`; },
+  'línia poligonal oberta': () => { const n=R(3,5); let pts=[]; for(let k=0;k<=n;k++) pts.push(`${40+k*240/n},${k%2?R(30,70):R(110,150)}`); return `<polyline points="${pts.join(' ')}"/>`; },
+  'línia poligonal tancada': () => { const n=R(4,7); let pts=[]; for(let k=0;k<n;k++){ const a=k/n*2*Math.PI, r=R(45,80)*(k%2&&n>5?0.55:1); pts.push(`${160+Math.cos(a)*r*1.3},${90+Math.sin(a)*r}`);} return `<polygon points="${pts.join(' ')}"/>`; },
+  'línia corba oberta': () => { const a=R(20,60); return `<path d="M30 90 C 70 ${90-a*2}, 100 ${90-a*2}, 120 90 S 170 ${90+a*2}, 200 90 S 260 ${90-a*2}, 290 ${R(60,120)}"/>`; },
+  'línia corba tancada': () => pick([
+      `<path d="M100 60 C 100 20, 160 40, 160 70 C 160 40, 230 20, 230 70 C 230 120, 180 110, 160 110 C 140 110, 100 140, 100 60 Z"/>`,
+      `<ellipse cx="160" cy="90" rx="${R(80,120)}" ry="${R(40,65)}"/>`,
+      `<path d="M90 90 C 90 30, 150 50, 160 90 C 170 130, 230 150, 230 90 C 230 30, 170 50, 160 90 C 150 130, 90 150, 90 90 Z"/>`]),
+  'línia mixta': () => pick([
+      `<path d="M40 40 L 120 140 L 170 70 C 220 0, 300 60, 260 110 C 240 135, 210 120, 220 100"/>`,
+      `<path d="M40 140 C 40 60, 120 60, 130 110 L 190 40 L 280 140"/>`,
+      `<path d="M40 90 L 100 40 L 160 90 C 180 150, 260 150, 270 90"/>`]),
+};
+const lineSvg = d => svg(`<g fill="none" stroke="#2563b8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${d}</g>`);
+document.getElementById('linies-theory').innerHTML = Object.entries(LINE_TYPES)
+  .map(([n,f])=>`<figure>${lineSvg(f())}<figcaption>${n}</figcaption></figure>`).join('');
+Exercise('linies-ex', { make(){
+  const names = Object.keys(LINE_TYPES), answer = pick(names);
+  return { title:'Quin tipus de línia és?', html: lineSvg(LINE_TYPES[answer]()), options: names, answer };
+}});
+
+/* ---------- 2. RECTES PARAL·LELES I SECANTS ---------- */
+function linePts(cx, cy, ang, len=170){ const dx=Math.cos(ang)*len, dy=Math.sin(ang)*len; return [cx-dx,cy-dy,cx+dx,cy+dy]; }
+Exercise('rectes-ex', { make(){
+  const parallel = Math.random()<0.5, a = R(-60,60)*Math.PI/180;
+  let L1, L2;
+  if(parallel){ const off=R(28,55), nx=-Math.sin(a)*off, ny=Math.cos(a)*off;
+    L1=linePts(160-nx/2+R(-30,30)*Math.cos(a),90-ny/2+R(-30,30)*Math.sin(a),a,R(90,130));
+    L2=linePts(160+nx/2+R(-30,30)*Math.cos(a),90+ny/2+R(-30,30)*Math.sin(a),a,R(90,130));
+  } else { let b; do{ b=R(-80,80)*Math.PI/180; }while(Math.abs(b-a)<0.45);
+    const cx=R(120,200), cy=R(70,110); L1=linePts(cx,cy,a,R(90,130)); L2=linePts(cx,cy,b,R(90,130)); }
+  const ln=(p,c)=>`<line x1="${p[0]}" y1="${p[1]}" x2="${p[2]}" y2="${p[3]}" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`;
+  return { title:'Aquestes rectes són…', html: svg(ln(L1,'#7a1f3d')+ln(L2,'#2563b8')),
+    options:['paral·leles','secants'], answer: parallel?'paral·leles':'secants' };
+}});
+
+/* ---------- 3. SUMA PER DESCOMPOSICIÓ ---------- */
+const blocks = n => `<div class="blocks">${'<div class="bar"></div>'.repeat(Math.floor(n/10))}<div class="cubes">${'<div class="cube"></div>'.repeat(n%10)}</div></div>`;
+const inp = a => `<input class="n" inputmode="numeric" maxlength="3" data-a="${a}" aria-label="resposta">`;
+Exercise('suma-ex', { make(){
+  let a,b; do{ a=R(11,68); b=R(11,58); }while((a%10)+(b%10)>9 || a+b>99 || a%10===0 && b%10===0);
+  const [ad,au,bd,bu]=[Math.floor(a/10),a%10,Math.floor(b/10),b%10];
+  return { title:`Suma <b>${a} + ${b}</b> per descomposició.`,
+    html:`<div class="sum-grid">
+      <div class="pair">
+        <div><span class="pill">${a}</span>${blocks(a)}<div class="sum-row">${inp(ad)} <span class="D">D</span> + ${inp(au)} <span class="U">U</span></div></div>
+        <div><span class="pill">${b}</span>${blocks(b)}<div class="sum-row">${inp(bd)} <span class="D">D</span> + ${inp(bu)} <span class="U">U</span></div></div>
+      </div>
+      <div class="sum-row"><span class="D">Desenes:</span> ${ad*10} + ${bd*10} = ${inp(ad*10+bd*10)}</div>
+      <div class="sum-row"><span class="U">Unitats:</span> ${au} + ${bu} = ${inp(au+bu)}</div>
+      <div class="sum-row"><b>${a} + ${b} =</b> ${inp(a+b)}</div></div>`,
+    check:true,
+    explain:`${a} = ${ad} D + ${au} U · ${b} = ${bd} D + ${bu} U · ${ad*10} + ${bd*10} = ${ad*10+bd*10} · ${au} + ${bu} = ${au+bu} → ${a} + ${b} = ${a+b}.` };
+}});
+
+/* ---------- 4. RELLOTGE DIGITAL ---------- */
+function frase(h, m){
+  const les = x => x===1 ? 'És la 1' : `Són les ${x}`;
+  if(m===0)  return `${les(h)} en punt`;
+  if(m===15) return `${les(h)} i quart`;
+  if(m===30) return `${les(h)} i mitja`;
+  const n = h===12?1:h+1; return `${les(n)} menys quart`;
+}
+const lcd = (h,m) => `<span class="lcd"><span class="h">${h}</span>:<span class="m">${String(m).padStart(2,'0')}</span></span>`;
+Exercise('rellotge-ex', { make(){
+  const h=R(1,12), m=pick([0,15,30,45]);
+  const kind = R(0,2);
+  if(kind===0){ // llegir el rellotge
+    const answer=frase(h,m);
+    const cands=new Set([0,15,30,45].map(x=>frase(h,x)));
+    cands.add(`${h===1?'És la 1':'Són les '+h} menys quart`); // error típic amb :45
+    cands.delete(answer);
+    const options=shuffle([...cands]).slice(0,3).concat(answer);
+    return { title:'Quina hora marca el rellotge?', html: lcd(h,m), options, answer };
+  }
+  if(kind===1){ // de la frase al rellotge
+    const answer=`${h}:${String(m).padStart(2,'0')}`;
+    const opts=new Set([answer]);
+    while(opts.size<4){ const mm=pick([0,15,30,45]), hh=pick([h,h,h===12?1:h+1,h===1?12:h-1]); opts.add(`${hh}:${String(mm).padStart(2,'0')}`); }
+    return { title:`On posa: <b>«${frase(h,m)}»</b>?`, html:'<span style="font-size:3rem">⏰</span>', options:[...opts], answer };
+  }
+  // minuts
+  const q = pick([['Quants minuts té 1 hora?',60],['Quants minuts té mitja hora?',30],['Quants minuts té un quart d\'hora?',15],['Quants minuts són 3 quarts d\'hora?',45]]);
+  return { title:q[0], html:'<span style="font-size:3rem">⏱️</span>', options:['15','30','45','60'], answer:String(q[1]) };
+}});
+
+/* ---------- 5. POLÍGONS ---------- */
+const POLY = {3:'Triangle',4:'Quadrilàter',5:'Pentàgon',6:'Hexàgon'};
+const COLORS = ['#5e9c76','#5a5da8','#e08a3c','#e8c53a','#5b6e1f','#c4466b','#3a8fb7'];
+function polySvg(n, irregular){
+  const rot=Math.random()*Math.PI*2, pts=[];
+  for(let k=0;k<n;k++){ const a=rot+k/n*2*Math.PI+(irregular?(Math.random()-.5)*0.5:0), r=irregular?R(55,80):72;
+    pts.push(`${(160+Math.cos(a)*r*1.25).toFixed(1)},${(90+Math.sin(a)*r).toFixed(1)}`); }
+  const c=pick(COLORS);
+  return svg(`<polygon points="${pts.join(' ')}" fill="${c}" stroke="#333" stroke-width="3" stroke-linejoin="round"/>`+
+    pts.map(p=>{const [x,y]=p.split(',');return `<circle cx="${x}" cy="${y}" r="5" fill="#d7263d"/>`;}).join(''));
+}
+Exercise('poligons-ex', { make(){
+  const n=R(3,6), kind=R(0,2);
+  if(kind===0) return { title:'Com es diu aquest polígon?', html: polySvg(n, Math.random()<.5), options:Object.values(POLY), answer:POLY[n] };
+  if(kind===1) return { title:'Compta els costats i els vèrtexs (punts vermells).',
+    html: polySvg(n, true) + `<div class="counts"><label>Costats: ${inp(n)}</label><label>Vèrtexs: ${inp(n)}</label></div>`,
+    check:true, explain:`aquest polígon té ${n} costats i ${n} vèrtexs (és un ${POLY[n].toLowerCase()}).` };
+  // és un polígon?
+  const isPoly=Math.random()<.5;
+  let html;
+  if(isPoly) html=polySvg(n, true);
+  else { const m=R(3,5), pts=[]; for(let k=0;k<=m;k++) pts.push(`${50+k*220/m},${k%2?R(30,70):R(110,150)}`);
+    html=svg(`<polyline points="${pts.join(' ')}" fill="none" stroke="#333" stroke-width="4" stroke-linejoin="round"/>`); }
+  return { title:'És un polígon?', html, options:['Sí, és un polígon','No, és una línia oberta'],
+    answer: isPoly?'Sí, és un polígon':'No, és una línia oberta' };
+}});
+
+/* ---------- pestanyes ---------- */
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected', x===b));
+  document.querySelectorAll('main section').forEach(s=>s.classList.toggle('active', s.id===b.dataset.tab));
+  history.replaceState(null,'','#'+b.dataset.tab);
+});
+const h0=location.hash.slice(1); const t0=document.querySelector(`nav button[data-tab="${h0}"]`); if(t0) t0.click();
+</script>
+</body>
+</html>
